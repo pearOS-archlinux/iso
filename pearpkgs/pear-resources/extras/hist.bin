@@ -1,0 +1,161 @@
+    1  exit
+    2  mkdir yaml && cd yam;
+    3  mkdir yaml && cd yaml
+    4  cd yaml
+    5  clear
+    6  unzip kwin-effects-yet-another-magic-lamp-master.zip 
+    7  clear
+    8  ls
+    9  rm -Rf *.zip
+   10  rm -Rf kwin-effects-yet-another-magic-lamp-master/
+   11  clear
+   12  dpkg -i yaml.deb 
+   13  clear
+   14  ls | grep deb
+   15  rm -Rf xyz.pearos.system-overview_11.1_amd64.deb 
+   16  clear
+   17  cd /etc/skel
+   18  cd .local/share/plasma/plasmoids/
+   19  ls
+   20  rm -Rf com.github.adhec.DynamicTheme/ com.github.configurable_button/ org.kde.plasma.dittomenu/
+   21  clear
+   22  ls
+   23  cd launchpadPlasma/
+   24  ls
+   25  nano metadata.desktop 
+   26  cd contents/
+   27  ls
+   28  cd ui
+   29  s
+   30  ls
+   31  nano main.qml 
+   32  nano ActionMenu.qml 
+   33  nano ConfigGeneral.qml 
+   34  nano ItemGridView.qml 
+   35  nano MenuRepresentation.qml 
+   36  cd ..
+   37  ls
+   38  cd config/
+   39  ls
+   40  nano config.qml 
+   41  nano main.xml 
+   42  clear
+   43  l
+   44  nano config.qml 
+   45  cd ..
+   46  ls
+   47  cd ui
+   48  clear
+   49  ls
+   50  nano ActionMenu.qml 
+   51  nano *
+   52  clear
+   53  cd ..
+   54  ls
+   55  cd code
+   56  l
+   57  nano tools.js 
+   58  clearls
+   59  clear
+   60  ls
+   61  cd ..
+   62  cd 
+   63  cd /etc/skel/.local/share/plasma/plasmoids/
+   64  nano launchpadPlasma/contents/ui/MenuRepresentation.qml 
+   65  clear
+   66  cd .
+   67  cd ..
+   68  cd .
+   69  cd ..
+   70  cd .config
+   71  clear
+   72  l
+   73  clear
+   74  l
+   75  srm -Rf CppEditorrc Dharkael/ Empathy/ FreetuxTV/ GIMP/ MonoDevelop/ Power\ Software\ Ltd/ Qt* Unknown\ Organization/ akonadi* ark* autostart/picom.desktop autostart-scripts/ baloofile binwalk/ bluedevilglobalrc cairo-dock/ contactthemeeditorrc debreate/ discover* dolphinrc email* epiphany/ evolution/ flameshotrc gambas3/ gedit/ glade* gnome-builder/ graviton/ inkscape/ kaddressbookrc kactivitymanagerd kate* kdeconnect/ kdeveloprc kmail* kwalletrc ktimezonedrc ksmserverrc log.txt micro/ nemo/ okularpartrc phishingurlrc picom.conf plank/ plasma-localerc pulse/ vlc/ spec*
+   76  rm -Rf CppEditorrc Dharkael/ Empathy/ FreetuxTV/ GIMP/ MonoDevelop/ Power\ Software\ Ltd/ Qt* Unknown\ Organization/ akonadi* ark* autostart/picom.desktop autostart-scripts/ baloofile binwalk/ bluedevilglobalrc cairo-dock/ contactthemeeditorrc debreate/ discover* dolphinrc email* epiphany/ evolution/ flameshotrc gambas3/ gedit/ glade* gnome-builder/ graviton/ inkscape/ kaddressbookrc kactivitymanagerd kate* kdeconnect/ kdeveloprc kmail* kwalletrc ktimezonedrc ksmserverrc log.txt micro/ nemo/ okularpartrc phishingurlrc picom.conf plank/ plasma-localerc pulse/ vlc/ spec*
+   77  ls
+   78  rm -Rf CppEditorrc Dharkael/ Empathy/ FreetuxTV/ GIMP/ MonoDevelop/ Power\ Software\ Ltd/ Qt* Unknown\ Organization/ akonadi* ark* autostart/picom.desktop autostart-scripts/ baloofile binwalk/ bluedevilglobalrc cairo-dock/ contactthemeeditorrc debreate/ discover* dolphinrc email* epiphany/ evolution/ flameshotrc gambas3/ gedit/ glade* gnome-builder/ graviton/ inkscape/ kaddressbookrc kactivitymanagerd kate* kdeconnect/ kdeveloprc kmail* kwalletrc ktimezonedrc ksmserverrc log.txt micro/ nemo/ okularpartrc phishingurlrc picom.conf plank/ plasma-localerc pulse/ vlc/ spec* gwenviewrc drkonqirc enchant/ 
+   79  clear
+   80  ls
+   81  rm -Rf CppEditorrc Dharkael/ Empathy/ FreetuxTV/ GIMP/ MonoDevelop/ Power\ Software\ Ltd/ Qt* Unknown\ Organization/ akonadi* ark* autostart/picom.desktop autostart-scripts/ baloofile binwalk/ bluedevilglobalrc cairo-dock/ contactthemeeditorrc debreate/ discover* dolphinrc email* epiphany/ evolution/ flameshotrc gambas3/ gedit/ glade* gnome-builder/ graviton/ inkscape/ kaddressbookrc kactivitymanagerd kate* kdeconnect/ kdeveloprc kmail* kwalletrc ktimezonedrc ksmserverrc log.txt micro/ nemo/ okularpartrc phishingurlrc picom.conf plank/ plasma-localerc pulse/ vlc/ spec* gwenviewrc drkonqirc enchant/  trashrc user-dirs*
+   82  clear
+   83  du -h
+   84  cd ..
+   85  du -h
+   86  find . | grep cache
+   87  sync; echo 1 > /proc/sys/vm/drop_caches
+   88  sync; echo 2 > /proc/sys/vm/drop_caches
+   89  /dev/random
+   90  cat /dev/random
+   91  random
+   92  clear
+   93  rand
+   94  random
+   95  clear
+   96  latte-dock
+   97  clear
+   98  ls
+   99  rm -Rf 
+  100  rm -Rf yaml/
+  101  rm -Rf .cache/
+  102  clea
+  103  rclear
+  104  clea
+  105  clear
+  106  clea
+  107  clear
+  108  nano -i
+  109  nano --help
+  110  clear
+  111  dpkg -i latte-dock.deb 
+  112  clear
+  113  mkdir yaml && cd yaml
+  114  lear
+  115  clear
+  116  sudo apt install cmake extra-cmake-modules kwin-dev     libkf5config-dev libkf5configwidgets-dev libkf5coreaddons-dev     libkf5windowsystem-dev qtbase5-dev
+  117  git clone https://github.com/zzag/kwin-effects-yet-another-magic-lamp.git
+  118  sudo apt install git
+  119  git clone https://github.com/zzag/kwin-effects-yet-another-magic-lamp.git
+  120  cd kwin-effects-yet-another-magic-lamp/
+  121  mkdir buid && cd build
+  122  cd build
+  123  rmdir buid/
+  124  mkdir build && cd build
+  125  cmake ..     -DCMAKE_BUILD_TYPE=Release     -DCMAKE_INSTALL_PREFIX=/usr
+  126  make
+  127  make install 
+  128  clear
+  129  cd ..
+  130  rm -Rf yaml
+  131  clear
+  132  cd /usr/bin
+  133  clear
+  134  ls
+  135  clear
+  136  update-mgr
+  137  clear
+  138  cd /usr/share/icons
+  139  clear
+  140  cd /etc/skel/.config/autostart/
+  141  ls
+  142  cat xyz.pearos.software-update.desktop
+  143  clear
+  144  apt-get purge thunderbird 
+  145  clear
+  146  apt-get autoremove
+  147  clear
+  148  ls
+  149  rm -Rf latte-dock.deb 
+  150  clear
+  151  nano /usr/share/applications/xyz.pearos.pext-installer.desktop 
+  152  nano /usr/share/pext-installer/pext-installer
+  153  nano /usr/share/applications/xyz.pearos.pext-installer.desktop 
+  154  clear
+  155  ls /usr/share/icons/
+  156  nano /usr/share/applications/xyz.pearos.pext-installer.desktop 
+  157  dpkg -l | grep pext
+  158  apt-get --purge remove pext-installer
+  159  clear
+  160  apt-get autoremove
+  161  history > /usr/share/extras/hist.bin

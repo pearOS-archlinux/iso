@@ -1,0 +1,15 @@
+[0;1;31m●[0m bootsound.service - Boot Sound
+     Loaded: loaded (/etc/systemd/system/bootsound.service; enabled; vendor preset: enabled)
+     Active: [0;1;31mfailed[0m (Result: exit-code) since Fri 2021-02-19 20:20:33 EET; 1min 27s ago
+   Main PID: 544 (code=exited, status=1/FAILURE)
+
+feb 19 20:20:32 PearBook-Air aplay[544]: ALSA lib confmisc.c:392:(snd_func_concat) error evaluating strings
+feb 19 20:20:32 PearBook-Air aplay[544]: ALSA lib conf.c:4732:(_snd_config_evaluate) function snd_func_concat returned error: No such file or directory
+feb 19 20:20:32 PearBook-Air aplay[544]: ALSA lib confmisc.c:1246:(snd_func_refer) error evaluating name
+feb 19 20:20:32 PearBook-Air aplay[544]: ALSA lib conf.c:4732:(_snd_config_evaluate) function snd_func_refer returned error: No such file or directory
+feb 19 20:20:32 PearBook-Air aplay[544]: ALSA lib conf.c:5220:(snd_config_expand) Evaluate error: No such file or directory
+feb 19 20:20:32 PearBook-Air aplay[544]: ALSA lib pcm.c:2642:(snd_pcm_open_noupdate) Unknown PCM default
+feb 19 20:20:32 PearBook-Air aplay[544]: aplay: main:830: audio open error: No such file or directory
+feb 19 20:20:33 PearBook-Air systemd[1]: [0;1;39m[0;1;31m[0;1;39mbootsound.service: Main process exited, code=exited, status=1/FAILURE[0m
+feb 19 20:20:33 PearBook-Air systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mbootsound.service: Failed with result 'exit-code'.[0m
+feb 19 20:20:33 PearBook-Air systemd[1]: [0;1;31m[0;1;39m[0;1;31mFailed to start Boot Sound.[0m

@@ -1,0 +1,134 @@
+# Translation of tiledmenu in LANGUAGE
+# Copyright (C) Kpple 2020
+# This file is distributed under the same license as the Kpple Menu package.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: KppleMenu \n"
+"Report-Msgid-Bugs-To: https://github.com/kppleos/org.kpple.kppleMenu\n"
+"POT-Creation-Date: 2020-05-19\n"
+"PO-Revision-Date: 2020-05-20\n"
+"Last-Translator: Borgniet Rudy <borgniet.rudy@hotmail.com>\n"
+"Language: uk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../contents/ui/main.qml
+msgid "About This Computer"
+msgstr "Про цей комп’ютер" 
+
+#: ../contents/ui/main.qml
+msgid "System Preferences..."
+msgstr "Налаштування системи..." 
+
+#: ../contents/ui/main.qml
+msgid "App Store..."
+msgstr "App Store..." 
+
+#: ../contents/ui/main.qml
+msgid "Force Quit..."
+msgstr "Сила кинути..." 
+
+#: ../contents/ui/main.qml
+msgid "Sleep"
+msgstr "Пауза активність"
+
+#: ../contents/ui/main.qml
+msgid "Restart..."
+msgstr "Щоб перезапустити..."
+
+#: ../contents/ui/main.qml
+msgid "Shut Down..."
+msgstr "Вимкнути..."
+
+#: ../contents/ui/main.qml
+msgid "Lock Screen"
+msgstr "Екран блокування"
+
+#: ../contents/ui/main.qml
+msgid "Log Out"
+msgstr "Вийти"
+
+#: ../contents/config/config.qml
+msgid "Advanced"
+msgstr "Розширений"
+
+#: ../contents/config/config.qml
+msgid "Help"
+msgstr "Довідка"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Adapt the links with your own command lines"
+msgstr "Адаптуйте посилання за допомогою власних командних рядків"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "( Warning : This is the expert mode, do not change anything if the application is working properly. )"
+msgstr "( Попередження : це експертний режим, не змінюйте нічого, якщо програма працює належним чином. )"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Show advanced mode"
+msgstr "Показати розширений режим"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "About This Computer :"
+msgstr "Про цей комп’ютер :" 
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "System Preferences :"
+msgstr "Налаштування системи :" 
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "App Store :"
+msgstr "App Store :" 
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Force Quit :"
+msgstr "Сила кинути :" 
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Sleep :"
+msgstr "Пауза активність :"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Restart :"
+msgstr "Щоб перезапустити :"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Shut Down :"
+msgstr "Вимкнути :"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Lock Screen :"
+msgstr "Екран блокування :"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Log Out :"
+msgstr "Вийти :"
+
+#: ../contents/ui/config/configHelp.qml
+msgid "Do you need help ?"
+msgstr "Вам потрібна допомога ?"
+
+#: ../contents/ui/config/configHelp.qml
+msgid "About Kpple"
+msgstr "Про Kpple"
+
+#: ../contents/ui/config/configHelp.qml
+msgid "Consult the user's guide"
+msgstr "Зверніться до посібника користувача"
+
+#: ../contents/ui/config/configHelp.qml
+msgid "Repport a bug"
+msgstr "Повідомити про помилку"
+
+#: ../contents/ui/config/configHelp.qml
+msgid "Donate for the project"
+msgstr "Пожертвуйте на проект"
+
+#: ../contents/ui/config/configHelp.qml
+msgid "Couldn't find help ? Contact us at : info.kpple@gmail.com"
+msgstr "Не знайшли допомогу ? Звертайтесь до нас за наступною адресою : info.kpple@gmail.com"
+
+ 

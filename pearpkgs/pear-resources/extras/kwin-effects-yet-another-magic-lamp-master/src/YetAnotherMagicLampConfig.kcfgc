@@ -1,0 +1,4 @@
+File=options.kcfg
+ClassName=YetAnotherMagicLampConfig
+Singleton=true
+Mutators=true

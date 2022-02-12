@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+      http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
+  <kcfgfile name=""/>
+
+  <group name="General">
+      <entry name="iconSource" type="String">
+        <label>icon used, empty string means default icon</label>
+     </entry>
+     <entry name="maximumIconSize" type="Int">
+         <default>48</default>
+         <label>maximum icon size</label>
+    </entry>     
+     <entry name="screenEdge" type="Int">
+         <default>5</default>
+         <label>in which screen edge the latte sidebar is found, it is required</label>
+    </entry>
+    <entry name="layoutName" type="String">
+        <label>in which latte layout the sidebar is found, it is optional</label>
+    </entry>
+    <entry name="screenName" type="String">
+        <label>in which screen the latte sidebar if found, it is optional</label>
+    </entry>
+  </group>
+</kcfg>

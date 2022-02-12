@@ -1,0 +1,18 @@
+# Maintainer: Matt C <matt@xhec.us>
+pkgname=pear-resources
+pkgver=2.5
+pkgrel=1
+epoch=
+pkgdesc="Icons and scripts for Pear KDE and updater"
+arch=('any')
+url="https://github.com/phoenix277yt/PearOS-arch"
+license=('GPL')
+source=("resources.tar.gz")
+noextract=("resources.tar.gz")
+md5sums=('91f61145f3dade0217d0563761748fe4')
+
+package() {
+	mkdir -p $pkgdir/usr/share/
+	tar -xvf resources.tar.gz -C $pkgdir/usr/share/.
+	rm resources.tar.gz
+}

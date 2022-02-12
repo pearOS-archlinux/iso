@@ -1,0 +1,44 @@
+<svg width="54" height="32" version="1.1" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <style id="current-color-scheme" type="text/css">.ColorScheme-Text { color:#363636; }</style>
+ </defs>
+ <g id="22-22-applications-other" transform="translate(-420.72 -516.79)">
+  <rect transform="translate(420.71 524.79)" x="-7.1557e-8" y="2" width="22" height="22" opacity="0"/>
+  <path class="ColorScheme-Text" d="m423.71 529.79v7h7v-7h-7zm9 0v7h7v-7h-7zm-8 1h5v5h-5v-5zm9 0h5v5h-5v-5zm-10 8v7h7v-7h-7zm9 0v7h7v-7h-7zm-8 1h5v5h-5v-5zm9 0h5v5h-5v-5z" fill="currentColor"/>
+ </g>
+ <g id="applications-other">
+  <rect x="22" width="32" height="32" opacity="0"/>
+  <path class="ColorScheme-Text" d="m37.887 1a15 15 0 0 0-14.887 15 15 15 0 0 0 15 15 15 15 0 0 0 15-15 15 15 0 0 0-15-15 15 15 0 0 0-0.11328 0zm0.11328 1a14 14 0 0 1 14 14 14 14 0 0 1-14 14 14 14 0 0 1-14-14 14 14 0 0 1 14-14z" fill="currentColor"/>
+  <g class="ColorScheme-Text" fill="currentColor">
+   <path d="m37.98 6a10 10 0 0 0-9.9805 10 10 10 0 0 0 10 10 10 10 0 0 0 10-10 10 10 0 0 0-10-10 10 10 0 0 0-0.019531 0zm0.009765 1a9 9 0 0 1 0.009766 0 9 9 0 0 1 9 9 9 9 0 0 1-9 9 9 9 0 0 1-9-9 9 9 0 0 1 8.9902-9z"/>
+   <path d="m37.949 13a3 3 0 0 0-2.9492 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-0.050781 0zm0.001953 1a2 2 0 0 1 0.048828 0 2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 1.9512-2z"/>
+   <rect transform="rotate(-15)" x="34.564" y="24.79" width="8" height="1" rx=".5" ry=".5"/>
+   <rect transform="rotate(-75)" x="-15.62" y="40.346" width="8" height="1" rx=".5" ry=".5"/>
+   <rect transform="rotate(225)" x="-36.184" y="15.056" width="8" height="1" rx=".5" ry=".5"/>
+   <rect transform="rotate(15)" x="40.346" y="-6.3803" width="1" height="3" rx=".5" ry="0"/>
+   <rect transform="rotate(15)" x="40.346" y="14.62" width="1" height="3" rx=".5" ry="0"/>
+   <rect transform="rotate(30)" x="40.409" y="-17.144" width="1" height="3" rx=".5" ry="0"/>
+   <rect transform="rotate(30)" x="40.409" y="3.8564" width="1" height="3" rx=".5" ry="0"/>
+   <rect transform="rotate(45)" x="37.684" y="-27.556" width="1" height="3" rx=".5" ry="0"/>
+   <rect transform="rotate(45)" x="37.684" y="-6.5563" width="1" height="3" rx=".5" ry="0"/>
+   <rect transform="rotate(60)" x="32.356" y="-36.909" width="1" height="3" rx=".5" ry="0"/>
+   <rect transform="rotate(60)" x="32.356" y="-15.909" width="1" height="3" rx=".5" ry="0"/>
+   <rect transform="rotate(75)" x="24.79" y="-44.564" width="1" height="3" rx=".5" ry="0"/>
+   <rect transform="rotate(75)" x="24.79" y="-23.564" width="1" height="3" rx=".5" ry="0"/>
+   <rect transform="rotate(90)" x="15.5" y="-50" width="1" height="3" rx=".5" ry="0"/>
+   <rect transform="rotate(90)" x="15.5" y="-29" width="1" height="3" rx=".5" ry="0"/>
+   <rect transform="rotate(105)" x="5.1197" y="-52.846" width="1" height="3" rx=".5" ry="0"/>
+   <rect transform="rotate(105)" x="5.1197" y="-31.846" width="1" height="3" rx=".5" ry="0"/>
+   <rect transform="rotate(120)" x="-5.6436" y="-52.909" width="1" height="3" rx=".5" ry="0"/>
+   <rect transform="rotate(120)" x="-5.6436" y="-31.909" width="1" height="3" rx=".5" ry="0"/>
+   <rect transform="rotate(135)" x="-16.056" y="-50.184" width="1" height="3" rx=".5" ry="0"/>
+   <rect transform="rotate(135)" x="-16.056" y="-29.184" width="1" height="3" rx=".5" ry="0"/>
+   <rect transform="rotate(150)" x="-25.409" y="-44.856" width="1" height="3" rx=".5" ry="0"/>
+   <rect transform="rotate(150)" x="-25.409" y="-23.856" width="1" height="3" rx=".5" ry="0"/>
+   <rect transform="rotate(165)" x="-33.064" y="-37.29" width="1" height="3" rx=".5" ry="0"/>
+   <rect transform="rotate(165)" x="-33.064" y="-16.29" width="1" height="3" rx=".5" ry="0"/>
+   <rect transform="scale(-1)" x="-38.5" y="-28" width="1" height="3" rx=".5" ry="0"/>
+   <rect transform="scale(-1)" x="-38.5" y="-7" width="1" height="3" rx=".5" ry="0"/>
+  </g>
+ </g>
+</svg>

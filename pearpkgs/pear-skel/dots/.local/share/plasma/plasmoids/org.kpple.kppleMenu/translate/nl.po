@@ -1,0 +1,134 @@
+# Translation of tiledmenu in LANGUAGE
+# Copyright (C) Kpple 2020
+# This file is distributed under the same license as the Kpple Menu package.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: KppleMenu \n"
+"Report-Msgid-Bugs-To: https://github.com/kppleos/org.kpple.kppleMenu\n"
+"POT-Creation-Date: 2020-05-19\n"
+"PO-Revision-Date: 2020-05-20\n"
+"Last-Translator: Borgniet Rudy <borgniet.rudy@hotmail.com>\n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../contents/ui/main.qml
+msgid "About This Computer"
+msgstr "Over deze computer" 
+
+#: ../contents/ui/main.qml
+msgid "System Preferences..."
+msgstr "Systeem voorkeuren..." 
+
+#: ../contents/ui/main.qml
+msgid "App Store..."
+msgstr "App Winkel..." 
+
+#: ../contents/ui/main.qml
+msgid "Force Quit..."
+msgstr "Geforceerd beëindigen..." 
+
+#: ../contents/ui/main.qml
+msgid "Sleep"
+msgstr "Activiteit onderbreken"
+
+#: ../contents/ui/main.qml
+msgid "Restart..."
+msgstr "Herstarten..."
+
+#: ../contents/ui/main.qml
+msgid "Shut Down..."
+msgstr "Uitzetten..."
+
+#: ../contents/ui/main.qml
+msgid "Lock Screen"
+msgstr "Vergrendel scherm"
+
+#: ../contents/ui/main.qml
+msgid "Log Out"
+msgstr "Uitloggen"
+
+#: ../contents/config/config.qml
+msgid "Advanced"
+msgstr "Geavanceerd"
+
+#: ../contents/config/config.qml
+msgid "Help"
+msgstr "Helpen"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Adapt the links with your own command lines"
+msgstr "Pas links aan met uw eigen opdrachtregels"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "( Warning : This is the expert mode, do not change anything if the application is working properly. )"
+msgstr "( Waarschuwing : dit is de expertmodus, verander niets als de applicatie goed werkt. )"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Show advanced mode"
+msgstr "Toon geavanceerde modus"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "About This Computer :"
+msgstr "Over deze computer :" 
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "System Preferences :"
+msgstr "Systeem voorkeuren :" 
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "App Store :"
+msgstr "App Winkel :" 
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Force Quit :"
+msgstr "Geforceerd beëindigen :" 
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Sleep :"
+msgstr "Activiteit onderbreken :"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Restart :"
+msgstr "Herstarten :"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Shut Down :"
+msgstr "Uitzetten :"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Lock Screen :"
+msgstr "Vergrendel scherm :"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Log Out :"
+msgstr "Uitloggen :"
+
+#: ../contents/ui/config/configHelp.qml
+msgid "Do you need help ?"
+msgstr "Heeft u hulp nodig?"
+
+#: ../contents/ui/config/configHelp.qml
+msgid "About Kpple"
+msgstr "Over Kpple"
+
+#: ../contents/ui/config/configHelp.qml
+msgid "Consult the user's guide"
+msgstr "Raadpleeg de gebruikershandleiding"
+
+#: ../contents/ui/config/configHelp.qml
+msgid "Repport a bug"
+msgstr "Meld een bug"
+
+#: ../contents/ui/config/configHelp.qml
+msgid "Donate for the project"
+msgstr "Doneer voor het project"
+
+#: ../contents/ui/config/configHelp.qml
+msgid "Couldn't find help ? Contact us at : info.kpple@gmail.com"
+msgstr "Hulp niet gevonden? Neem contact met ons op op het volgende adres : info.kpple@gmail.com"
+
+ 

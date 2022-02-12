@@ -1,0 +1,134 @@
+# Translation of tiledmenu in LANGUAGE
+# Copyright (C) Kpple 2020
+# This file is distributed under the same license as the Kpple Menu package.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: KppleMenu \n"
+"Report-Msgid-Bugs-To: https://github.com/kppleos/org.kpple.kppleMenu\n"
+"POT-Creation-Date: 2020-05-19\n"
+"PO-Revision-Date: 2020-05-20\n"
+"Last-Translator: Borgniet Rudy <borgniet.rudy@hotmail.com>\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../contents/ui/main.qml
+msgid "About This Computer"
+msgstr "このコンピュータについて" 
+
+#: ../contents/ui/main.qml
+msgid "System Preferences..."
+msgstr "システム環境設定..." 
+
+#: ../contents/ui/main.qml
+msgid "App Store..."
+msgstr "アプリストア..." 
+
+#: ../contents/ui/main.qml
+msgid "Force Quit..."
+msgstr "強制終了..." 
+
+#: ../contents/ui/main.qml
+msgid "Sleep"
+msgstr "アクティビティを一時停止"
+
+#: ../contents/ui/main.qml
+msgid "Restart..."
+msgstr "再起動します..."
+
+#: ../contents/ui/main.qml
+msgid "Shut Down..."
+msgstr "スイッチを切る..."
+
+#: ../contents/ui/main.qml
+msgid "Lock Screen"
+msgstr "ロック画面"
+
+#: ../contents/ui/main.qml
+msgid "Log Out"
+msgstr "ログアウト"
+
+#: ../contents/config/config.qml
+msgid "Advanced"
+msgstr "上級"
+
+#: ../contents/config/config.qml
+msgid "Help"
+msgstr "助けて"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Adapt the links with your own command lines"
+msgstr "独自のコマンドラインでリンクを適合させる"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "( Warning : This is the expert mode, do not change anything if the application is working properly. )"
+msgstr "( 警告：これはエキスパートモードです。アプリケーションが正常に動作している場合は、何も変更しないでください。 )"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Show advanced mode"
+msgstr "詳細モードを表示"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "About This Computer :"
+msgstr "このコンピュータについて :" 
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "System Preferences :"
+msgstr "システム環境設定 :" 
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "App Store :"
+msgstr "アプリストア :" 
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Force Quit :"
+msgstr "強制終了 :" 
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Sleep :"
+msgstr "アクティビティを一時停止 :"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Restart :"
+msgstr "再起動します :"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Shut Down :"
+msgstr "スイッチを切る :"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Lock Screen :"
+msgstr "ロック画面 :"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Log Out :"
+msgstr "ログアウト :"
+
+#: ../contents/ui/config/configHelp.qml
+msgid "Do you need help ?"
+msgstr "あなたは助けが必要ですか？"
+
+#: ../contents/ui/config/configHelp.qml
+msgid "About Kpple"
+msgstr "Kppleについて"
+
+#: ../contents/ui/config/configHelp.qml
+msgid "Consult the user's guide"
+msgstr "ユーザーガイドを参照してください"
+
+#: ../contents/ui/config/configHelp.qml
+msgid "Repport a bug"
+msgstr "バグを報告"
+
+#: ../contents/ui/config/configHelp.qml
+msgid "Donate for the project"
+msgstr "プロジェクトに寄付する"
+
+#: ../contents/ui/config/configHelp.qml
+msgid "Couldn't find help ? Contact us at : info.kpple@gmail.com"
+msgstr "ヘルプが見つかりませんでしたか？次のアドレスまでご連絡ください : info.kpple@gmail.com"
+
+ 

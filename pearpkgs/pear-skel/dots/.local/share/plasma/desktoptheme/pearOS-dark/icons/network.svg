@@ -1,0 +1,4004 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   sodipodi:docname="network.svg"
+   id="svg1384"
+   viewBox="0 0 22 22"
+   version="1.1"
+   height="22"
+   width="22">
+  <sodipodi:namedview
+     inkscape:current-layer="svg1384"
+     inkscape:window-maximized="1"
+     inkscape:window-y="32"
+     inkscape:window-x="0"
+     inkscape:cy="-229.05499"
+     inkscape:cx="-43.189024"
+     inkscape:zoom="1.3017193"
+     showgrid="false"
+     id="namedview267"
+     inkscape:window-height="1022"
+     inkscape:window-width="1920"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0"
+     guidetolerance="10"
+     gridtolerance="10"
+     objecttolerance="10"
+     borderopacity="1"
+     bordercolor="#666666"
+     pagecolor="#ffffff" />
+  <metadata
+     id="metadata1386">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs5">
+    <style
+       type="text/css"
+       id="current-color-scheme">.ColorScheme-Text {
+        color:#363636;
+      }
+      .ColorScheme-Background {
+        color:#efefef;
+      }
+      .ColorScheme-Highlight {
+        color:#3498db;
+      }
+      .ColorScheme-ViewText {
+        color:#363636;
+      }
+      .ColorScheme-ViewBackground {
+        color:#fcfcfc;
+      }
+      .ColorScheme-ViewHover {
+        color:#93cee9;
+      }
+      .ColorScheme-ViewFocus{
+        color:#3daee9;
+      }
+      .ColorScheme-ButtonText {
+        color:#363636;
+      }
+      .ColorScheme-ButtonBackground {
+        color:#efefef;
+      }
+      .ColorScheme-ButtonHover {
+        color:#93cee9;
+      }
+      .ColorScheme-ButtonFocus{
+        color:#3daee9;
+      }
+      .ColorScheme-NegativeText{
+        color:#e74c3c;
+      }</style>
+  </defs>
+  <g
+     transform="translate(20.5 -146.5)"
+     id="showinfo">
+    <rect
+       id="rect7"
+       fill="none"
+       height="22"
+       width="22"
+       y="109"
+       x="-22" />
+    <g
+       id="g15"
+       fill="currentColor"
+       transform="translate(-22 -921.36)"
+       class="ColorScheme-Text">
+      <rect
+         id="rect9"
+         height="2"
+         width="2"
+         y="1036.4"
+         x="10"
+         class="ColorScheme-Text" />
+      <rect
+         id="rect11"
+         height="7"
+         width="2"
+         y="1039.4"
+         x="10"
+         class="ColorScheme-Text" />
+      <path
+         id="path13"
+         d="m11 3c-4.432 0-8 3.568-8 8s3.568 8 8 8 8-3.568 8-8-3.568-8-8-8zm0 1c3.878 0 7 3.122 7 7s-3.122 7-7 7-7-3.122-7-7 3.122-7 7-7z"
+         transform="translate(0 1030.4)"
+         class="ColorScheme-Text" />
+    </g>
+  </g>
+  <g
+     transform="translate(42.5 -146.5)"
+     id="showinfo-hover">
+    <rect
+       id="rect18"
+       fill="none"
+       height="22"
+       width="22"
+       y="109"
+       x="-22" />
+    <g
+       id="g26"
+       fill="currentColor"
+       transform="translate(-22 -921.36)"
+       class="ColorScheme-Highlight">
+      <rect
+         id="rect20"
+         height="2"
+         width="2"
+         y="1036.4"
+         x="10"
+         class="ColorScheme-Highlight" />
+      <rect
+         id="rect22"
+         height="7"
+         width="2"
+         y="1039.4"
+         x="10"
+         class="ColorScheme-Highlight" />
+      <path
+         id="path24"
+         d="m11 3c-4.432 0-8 3.568-8 8s3.568 8 8 8 8-3.568 8-8-3.568-8-8-8zm0 1c3.878 0 7 3.122 7 7s-3.122 7-7 7-7-3.122-7-7 3.122-7 7-7z"
+         transform="translate(0 1030.4)"
+         class="ColorScheme-Highlight" />
+    </g>
+  </g>
+  <g
+     fill="currentColor"
+     transform="translate(-85 -139.5)"
+     class="ColorScheme-Text"
+     id="network-bluetooth">
+    <rect
+       id="rect29"
+       fill="none"
+       height="22"
+       width="22"
+       x="66" />
+    <path
+       id="path31"
+       d="m76.998 3v7.041l-3.293-3.293-2e-3 0.00195c-0.35575-0.35595-0.99605-0.99609-0.99605-0.99609l-0.70703 0.70703 4.5449 4.541-4.5449 4.541 0.70703 0.70703s0.64035-0.64009 0.99609-0.99609h2e-3l3.2949-3.293v7.0391h1l4-4-4-4 4-4-4-4zm1.002 1.416 2.5859 2.5859-2.5859 2.5859zm0 8 2.5859 2.5859-2.5859 2.5859z"
+       class="ColorScheme-Text" />
+  </g>
+  <g
+     fill="currentColor"
+     transform="translate(-63 -139.5)"
+     class="ColorScheme-Text"
+     id="network-bluetooth-activated">
+    <rect
+       id="rect34"
+       fill="none"
+       height="22"
+       width="22"
+       x="66" />
+    <path
+       id="path36"
+       d="m76.998 3v7.041l-3.293-3.293-2e-3 0.00195c-0.35575-0.35595-0.99605-0.99609-0.99605-0.99609l-0.70703 0.70703 4.5449 4.541-4.5449 4.541 0.70703 0.70703s0.64035-0.64009 0.99609-0.99609h2e-3l3.2949-3.293v7.0391h1l4-4-4-4 4-4-4-4zm1.002 1.416 2.5859 2.5859-2.5859 2.5859zm-11 5.584a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1zm4 0a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1zm12 0a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1zm4 0a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1zm-9 2.416 2.5859 2.5859-2.5859 2.5859z"
+       class="ColorScheme-Text" />
+  </g>
+  <g
+     transform="translate(20.5 -166.5)"
+     id="network-vpn">
+    <rect
+       id="rect922"
+       fill="none"
+       height="22"
+       width="22"
+       y="128"
+       x="22" />
+    <path
+       id="path924"
+       fill="currentColor"
+       d="m33 131s-2 2.6575-8 3.3242c0 0 0 9.3339 8 12.676 8-3.3419 8-12.676 8-12.676-6-0.6667-8-3.3242-8-3.3242zm0 1.377c1.587 1.3447 3.8772 2.2418 6.8457 2.6934-0.16126 1.4452-0.31587 2.5328-0.68945 3.584-0.78509 2.2091-1.7005 3.553-2.5215 4.5195-1.2722 1.4977-2.4276 2.1038-3.6348 2.707-1.2072-0.6032-2.3625-1.2093-3.6348-2.707-0.821-0.9665-1.7364-2.3104-2.5215-4.5195-0.37358-1.0512-0.52819-2.1388-0.68945-3.584 2.9685-0.5516 5.2587-1.3487 6.8457-2.6934zm0 1.1992c-1.7435 1.2103-3.7022 1.8232-5.668 2.2402 0.93085 5.282 2.9361 7.5407 5.668 8.9551 2.7319-1.4144 4.7371-3.6731 5.668-8.9551-1.9658-0.417-3.9245-1.0299-5.668-2.2402z"
+       class="ColorScheme-Text" />
+  </g>
+  <g
+     transform="translate(-36.998 -138.96)"
+     id="network-bluetooth-activated-locked">
+    <rect
+       id="rect932"
+       fill="none"
+       height="22"
+       width="22"
+       x="66" />
+    <path
+       id="path934"
+       fill="currentColor"
+       d="m143 3v7.041l-3.293-3.293-0.00196 0.0019531c-0.35574-0.35595-0.99609-0.99609-0.99609-0.99609l-0.70703 0.70703 4.5449 4.541-4.5449 4.541 0.70703 0.70703s0.64035-0.64009 0.99609-0.99609h2e-3l3.2949-3.293v7.0391h1l4-4-4-4 4-4-4-4zm1.002 1.416 2.5859 2.5859-2.5859 2.5859zm-11 5.584c-0.55228 0-1 0.44772-1 1s0.44772 1 1 1 1-0.44772 1-1-0.44772-1-1-1zm4 0c-0.55228 0-1 0.44772-1 1s0.44772 1 1 1 1-0.44772 1-1-0.44772-1-1-1zm14 2c-1.108 0-2 0.892-2 2v2h-1v3h6v-3h-1v-2c0-1.108-0.892-2-2-2zm-7 0.41602 2.5859 2.5859-2.5859 2.5859zm7 0.58398c0.554 0 1 0.446 1 1v2h-2v-2c0-0.554 0.446-1 1-1z"
+       transform="translate(-66)"
+       class="ColorScheme-Text" />
+  </g>
+  <g
+     transform="translate(14.697 5.5059)"
+     id="edit">
+    <rect
+       id="rect944"
+       fill="none"
+       height="22"
+       width="22"
+       y="-66"
+       x="3.5" />
+    <path
+       id="path946"
+       fill="currentColor"
+       d="m13.5-63c-0.1969 0-0.36577 0.85692-0.49414 2.1934a6 6 0 0 0-1.5508 0.64453c-1.037-0.85553-1.7649-1.3405-1.9043-1.2012l-1.4141 1.4141c-0.1393 0.1393 0.34632 0.86604 1.2012 1.9023a6 6 0 0 0-0.64062 1.5527c-1.3389 0.12842-2.1973 0.29703-2.1973 0.49414v2c0 0.1969 0.85692 0.36577 2.1934 0.49414a6 6 0 0 0 0.64453 1.5508c-0.85553 1.037-1.3405 1.7649-1.2012 1.9043l1.4141 1.4141c0.1393 0.1393 0.86604-0.34632 1.9023-1.2012a6 6 0 0 0 1.5527 0.64062c0.12842 1.3389 0.29703 2.1973 0.49414 2.1973h2c0.1969 0 0.36577-0.85692 0.49414-2.1934a6 6 0 0 0 1.5508-0.64453c1.037 0.85553 1.7649 1.3405 1.9043 1.2012l1.4141-1.4141c0.1393-0.1393-0.34632-0.86604-1.2012-1.9023a6 6 0 0 0 0.64062-1.5527c1.3389-0.12842 2.1973-0.29703 2.1973-0.49414v-2c0-0.1969-0.85692-0.36577-2.1934-0.49414a6 6 0 0 0-0.64453-1.5508c0.85553-1.037 1.3405-1.7649 1.2012-1.9043l-1.4141-1.4141c-0.1393-0.1393-0.86604 0.34632-1.9023 1.2012a6 6 0 0 0-1.5527-0.64062c-0.12842-1.3389-0.29703-2.1973-0.49414-2.1973zm1 4.75a3.25 3.25 0 0 1 3.25 3.25 3.25 3.25 0 0 1-3.25 3.25 3.25 3.25 0 0 1-3.25-3.25 3.25 3.25 0 0 1 3.25-3.25z"
+       class="ColorScheme-Text" />
+  </g>
+  <g
+     transform="translate(39.697 5.5059)"
+     id="edit-hover">
+    <rect
+       id="rect949"
+       fill="none"
+       height="22"
+       width="22"
+       y="-66"
+       x="3.5" />
+    <path
+       id="path951"
+       fill="#3498db"
+       d="m13.5-63c-0.1969 0-0.36577 0.85692-0.49414 2.1934a6 6 0 0 0-1.5508 0.64453c-1.037-0.85553-1.7649-1.3405-1.9043-1.2012l-1.4141 1.4141c-0.1393 0.1393 0.34632 0.86604 1.2012 1.9023a6 6 0 0 0-0.64062 1.5527c-1.3389 0.12842-2.1973 0.29703-2.1973 0.49414v2c0 0.1969 0.85692 0.36577 2.1934 0.49414a6 6 0 0 0 0.64453 1.5508c-0.85553 1.037-1.3405 1.7649-1.2012 1.9043l1.4141 1.4141c0.1393 0.1393 0.86604-0.34632 1.9023-1.2012a6 6 0 0 0 1.5527 0.64062c0.12842 1.3389 0.29703 2.1973 0.49414 2.1973h2c0.1969 0 0.36577-0.85692 0.49414-2.1934a6 6 0 0 0 1.5508-0.64453c1.037 0.85553 1.7649 1.3405 1.9043 1.2012l1.4141-1.4141c0.1393-0.1393-0.34632-0.86604-1.2012-1.9023a6 6 0 0 0 0.64062-1.5527c1.3389-0.12842 2.1973-0.29703 2.1973-0.49414v-2c0-0.1969-0.85692-0.36577-2.1934-0.49414a6 6 0 0 0-0.64453-1.5508c0.85553-1.037 1.3405-1.7649 1.2012-1.9043l-1.4141-1.4141c-0.1393-0.1393-0.86604 0.34632-1.9023 1.2012a6 6 0 0 0-1.5527-0.64062c-0.12842-1.3389-0.29703-2.1973-0.49414-2.1973zm1 4.75a3.25 3.25 0 0 1 3.25 3.25 3.25 3.25 0 0 1-3.25 3.25 3.25 3.25 0 0 1-3.25-3.25 3.25 3.25 0 0 1 3.25-3.25z" />
+  </g>
+  <rect
+     id="rect954"
+     opacity=".35"
+     fill="currentColor"
+     rx="1.2766"
+     height="60"
+     width="48.169"
+     y="-1393"
+     x="1110"
+     class="ColorScheme-Text" />
+  <g
+     transform="translate(-4.2197 -29)"
+     id="flightmode-on">
+    <rect
+       id="rect956"
+       opacity="0"
+       height="22"
+       width="22"
+       y="-112"
+       x="-45.78" />
+    <path
+       id="path958"
+       stroke-width=".023301"
+       fill="currentColor"
+       d="m-39.502-110.5 2.5527 8.002h-5.0547l-1.4141-2.123c-0.17475-0.26331-0.58203-0.13881-0.58203 0.17578v6.8906c0 0.31459 0.40728 0.43909 0.58203 0.17578l1.4141-2.123h5.0547l-2.5527 8.002h1.5918l5.9004-8.0039h5.8574c0.74797 0 1.4449-0.50589 1.5684-1.2422 0.01441-0.0863 0.01372-0.17021 0.01367-0.25391 5.2e-5 -0.0837 7.4e-4 -0.16765-0.01367-0.25391-0.1235-0.73629-0.82039-1.2422-1.5684-1.2422h-5.8574l-5.9004-8.0039z"
+       class="ColorScheme-Text" />
+  </g>
+  <g
+     transform="translate(-2.8683 -55)"
+     id="flightmode-off">
+    <rect
+       id="rect961"
+       opacity="0"
+       height="22"
+       width="22"
+       y="-86"
+       x="-74.132" />
+    <path
+       id="path963"
+       stroke-width=".023301"
+       opacity=".35"
+       fill="currentColor"
+       d="m-67.854-84.5 1.2441 3.8984 7.0977 7.0977h5.0078c0.74797 0 1.4449-0.5059 1.5684-1.2422 0.01441-0.0863 0.01372-0.17021 0.01367-0.25391 5.2e-5 -0.0837 7.39e-4 -0.16765-0.01367-0.25391-0.1235-0.73629-0.82039-1.2422-1.5684-1.2422h-5.8574l-5.9004-8.0039zm-4.2715 5.75c-0.12366 0.0375-0.22656 0.14739-0.22656 0.30469v6.8906c0 0.31459 0.40728 0.43909 0.58203 0.17578l1.4141-2.123h5.0547l-2.5527 8.002h1.5918l4.4609-6.0508-4.9473-4.9473h-3.6074l-1.4141-2.123c-0.08737-0.13166-0.2318-0.16645-0.35547-0.12891z"
+       class="ColorScheme-Text" />
+    <rect
+       id="rect965"
+       opacity=".35"
+       fill="currentColor"
+       height="22"
+       width="1"
+       y="-108.67"
+       x="7.8921"
+       transform="rotate(-45)"
+       class="ColorScheme-Text" />
+  </g>
+  <use
+     xlink:href="#flightmode-on"
+     height="100%"
+     width="100%"
+     transform="translate(-55)"
+     id="network-flightmode-on" />
+  <use
+     xlink:href="#flightmode-off"
+     height="100%"
+     width="100%"
+     transform="translate(-55)"
+     id="network-flightmode-off" />
+  <g
+     transform="translate(-70,-7)"
+     id="32-32-network-wired-activated">
+    <rect
+       id="rect970"
+       opacity="0"
+       height="32"
+       width="32"
+       y="-145"
+       x="225" />
+    <g
+       id="g980"
+       fill="currentColor"
+       class="ColorScheme-Text">
+      <rect
+         id="rect972"
+         ry="1"
+         height="6"
+         width="2"
+         y="-129"
+         x="244" />
+      <path
+         id="path974"
+         d="m231-139c-1.662 0-3 1.338-3 3v10c0 1.662 1.338 3 3 3h1v1c0 1.662 1.338 3 3 3h12c1.662 0 3-1.338 3-3v-1h1c1.662 0 3-1.338 3-3v-10c0-1.662-1.338-3-3-3zm0 2h20c0.554 0 1 0.446 1 1v10c0 0.554-0.446 1-1 1h-3v3c0 0.554-0.446 1-1 1h-12c-0.554 0-1-0.446-1-1v-3h-3c-0.554 0-1-0.446-1-1v-10c0-0.554 0.446-1 1-1z" />
+      <rect
+         id="rect976"
+         ry="1"
+         height="6"
+         width="2"
+         y="-129"
+         x="240" />
+      <rect
+         id="rect978"
+         ry="1"
+         height="6"
+         width="2"
+         y="-129"
+         x="236" />
+    </g>
+  </g>
+  <g
+     transform="translate(37.01 -1)"
+     id="network-wireless">
+    <rect
+       id="rect983"
+       opacity="0"
+       ry="0"
+       height="22"
+       width="22"
+       y="1"
+       x="-64" />
+    <g
+       id="g991"
+       fill="currentColor"
+       transform="translate(-1)"
+       class="ColorScheme-Text">
+      <path
+         id="path985"
+         d="m-52.01 10a9 9 0 0 0-6.3535 2.6367l1.4141 1.4141a7 7 0 0 1 4.8555-2.0508 7 7 0 0 1 0.09375 0 7 7 0 0 1 4.9492 2.0508l1.4141-1.4141a9 9 0 0 0-6.3633-2.6367 9 9 0 0 0-0.0098 0z" />
+      <path
+         id="path987"
+         d="m-52 5a14 14 0 0 0-9.9004 4.0996l1.416 1.416a12 12 0 0 1 8.4844-3.5156 12 12 0 0 1 8.4844 3.5156l1.416-1.416a14 14 0 0 0-9.9004-4.0996z" />
+      <path
+         id="path989"
+         d="m-52.061 15a4 4 0 0 0-2.7676 1.1719l2.8281 2.8281 2.8281-2.8281a4 4 0 0 0-2.8281-1.1719 4 4 0 0 0-0.06055 0z" />
+    </g>
+  </g>
+  <use
+     xlink:href="#network-wireless"
+     height="100%"
+     width="100%"
+     transform="translate(26.99)"
+     id="network-wireless-on" />
+  <g
+     id="network-wireless-100"
+     transform="translate(138.1 -.90039)">
+    <rect
+       id="rect995"
+       opacity="0"
+       ry="0"
+       height="22"
+       width="22"
+       y="1"
+       x="-64" />
+    <g
+       id="g1003"
+       fill="currentColor"
+       transform="translate(-1)"
+       class="ColorScheme-Text">
+      <path
+         id="path997"
+         d="m-52.01 10a9 9 0 0 0-6.3535 2.6367l1.4141 1.4141a7 7 0 0 1 4.8555-2.0508 7 7 0 0 1 0.09375 0 7 7 0 0 1 4.9492 2.0508l1.4141-1.4141a9 9 0 0 0-6.3633-2.6367 9 9 0 0 0-0.0098 0z" />
+      <path
+         id="path999"
+         d="m-52 5a14 14 0 0 0-9.9004 4.0996l1.416 1.416a12 12 0 0 1 8.4844-3.5156 12 12 0 0 1 8.4844 3.5156l1.416-1.416a14 14 0 0 0-9.9004-4.0996z" />
+      <path
+         id="path1001"
+         d="m-52.061 15a4 4 0 0 0-2.7676 1.1719l2.8281 2.8281 2.8281-2.8281a4 4 0 0 0-2.8281-1.1719 4 4 0 0 0-0.06055 0z" />
+    </g>
+  </g>
+  <g
+     id="network-wireless-80"
+     transform="translate(162.1 -.90039)">
+    <rect
+       id="rect1007"
+       opacity="0"
+       ry="0"
+       height="22"
+       width="22"
+       y="1"
+       x="-64" />
+    <g
+       id="g1015"
+       fill="currentColor"
+       transform="translate(-1)"
+       class="ColorScheme-Text">
+      <path
+         id="path1009"
+         d="m-52.01 10a9 9 0 0 0-6.3535 2.6367l1.4141 1.4141a7 7 0 0 1 4.8555-2.0508 7 7 0 0 1 0.09375 0 7 7 0 0 1 4.9492 2.0508l1.4141-1.4141a9 9 0 0 0-6.3633-2.6367 9 9 0 0 0-0.0098 0z" />
+      <path
+         id="path1011"
+         opacity=".35"
+         d="m-52 5a14 14 0 0 0-9.9004 4.0996l1.416 1.416a12 12 0 0 1 8.4844-3.5156 12 12 0 0 1 8.4844 3.5156l1.416-1.416a14 14 0 0 0-9.9004-4.0996z" />
+      <path
+         id="path1013"
+         d="m-52.061 15a4 4 0 0 0-2.7676 1.1719l2.8281 2.8281 2.8281-2.8281a4 4 0 0 0-2.8281-1.1719 4 4 0 0 0-0.06055 0z" />
+    </g>
+  </g>
+  <g
+     id="network-wireless-60"
+     transform="translate(186.1 -.90039)">
+    <rect
+       id="rect1019"
+       opacity="0"
+       ry="0"
+       height="22"
+       width="22"
+       y="1"
+       x="-64" />
+    <g
+       id="g1027"
+       fill="currentColor"
+       transform="translate(-1)"
+       class="ColorScheme-Text">
+      <path
+         id="path1021"
+         opacity=".65"
+         d="m-52.01 10a9 9 0 0 0-6.3535 2.6367l1.4141 1.4141a7 7 0 0 1 4.8555-2.0508 7 7 0 0 1 0.09375 0 7 7 0 0 1 4.9492 2.0508l1.4141-1.4141a9 9 0 0 0-6.3633-2.6367 9 9 0 0 0-0.0098 0z" />
+      <path
+         id="path1023"
+         opacity=".35"
+         d="m-52 5a14 14 0 0 0-9.9004 4.0996l1.416 1.416a12 12 0 0 1 8.4844-3.5156 12 12 0 0 1 8.4844 3.5156l1.416-1.416a14 14 0 0 0-9.9004-4.0996z" />
+      <path
+         id="path1025"
+         d="m-52.061 15a4 4 0 0 0-2.7676 1.1719l2.8281 2.8281 2.8281-2.8281a4 4 0 0 0-2.8281-1.1719 4 4 0 0 0-0.06055 0z" />
+    </g>
+  </g>
+  <g
+     id="network-wireless-40"
+     transform="translate(210.1 -.90039)">
+    <rect
+       id="rect1031"
+       opacity="0"
+       ry="0"
+       height="22"
+       width="22"
+       y="1"
+       x="-64" />
+    <g
+       id="g1039"
+       fill="currentColor"
+       transform="translate(-1)"
+       class="ColorScheme-Text">
+      <path
+         id="path1033"
+         opacity=".35"
+         d="m-52.01 10a9 9 0 0 0-6.3535 2.6367l1.4141 1.4141a7 7 0 0 1 4.8555-2.0508 7 7 0 0 1 0.09375 0 7 7 0 0 1 4.9492 2.0508l1.4141-1.4141a9 9 0 0 0-6.3633-2.6367 9 9 0 0 0-0.0098 0z" />
+      <path
+         id="path1035"
+         opacity=".35"
+         d="m-52 5a14 14 0 0 0-9.9004 4.0996l1.416 1.416a12 12 0 0 1 8.4844-3.5156 12 12 0 0 1 8.4844 3.5156l1.416-1.416a14 14 0 0 0-9.9004-4.0996z" />
+      <path
+         id="path1037"
+         d="m-52.061 15a4 4 0 0 0-2.7676 1.1719l2.8281 2.8281 2.8281-2.8281a4 4 0 0 0-2.8281-1.1719 4 4 0 0 0-0.06055 0z" />
+    </g>
+  </g>
+  <g
+     id="network-wireless-20"
+     transform="translate(234.1 -.90039)">
+    <rect
+       id="rect1043"
+       opacity="0"
+       ry="0"
+       height="22"
+       width="22"
+       y="1"
+       x="-64" />
+    <g
+       id="g1051"
+       fill="currentColor"
+       transform="translate(-1)"
+       class="ColorScheme-Text">
+      <path
+         id="path1045"
+         opacity=".35"
+         d="m-52.01 10a9 9 0 0 0-6.3535 2.6367l1.4141 1.4141a7 7 0 0 1 4.8555-2.0508 7 7 0 0 1 0.09375 0 7 7 0 0 1 4.9492 2.0508l1.4141-1.4141a9 9 0 0 0-6.3633-2.6367 9 9 0 0 0-0.0098 0z" />
+      <path
+         id="path1047"
+         opacity=".35"
+         d="m-52 5a14 14 0 0 0-9.9004 4.0996l1.416 1.416a12 12 0 0 1 8.4844-3.5156 12 12 0 0 1 8.4844 3.5156l1.416-1.416a14 14 0 0 0-9.9004-4.0996z" />
+      <path
+         id="path1049"
+         opacity=".65"
+         d="m-52.061 15a4 4 0 0 0-2.7676 1.1719l2.8281 2.8281 2.8281-2.8281a4 4 0 0 0-2.8281-1.1719 4 4 0 0 0-0.06055 0z" />
+    </g>
+  </g>
+  <g
+     id="network-wireless-0"
+     transform="translate(258.1 -.90039)">
+    <rect
+       id="rect1055"
+       opacity="0"
+       ry="0"
+       height="22"
+       width="22"
+       y="1"
+       x="-64" />
+    <g
+       id="g1063"
+       fill="currentColor"
+       transform="translate(-1)"
+       class="ColorScheme-Text">
+      <path
+         id="path1057"
+         opacity=".35"
+         d="m-52.01 10a9 9 0 0 0-6.3535 2.6367l1.4141 1.4141a7 7 0 0 1 4.8555-2.0508 7 7 0 0 1 0.09375 0 7 7 0 0 1 4.9492 2.0508l1.4141-1.4141a9 9 0 0 0-6.3633-2.6367 9 9 0 0 0-0.0098 0z" />
+      <path
+         id="path1059"
+         opacity=".35"
+         d="m-52 5a14 14 0 0 0-9.9004 4.0996l1.416 1.416a12 12 0 0 1 8.4844-3.5156 12 12 0 0 1 8.4844 3.5156l1.416-1.416a14 14 0 0 0-9.9004-4.0996z" />
+      <path
+         id="path1061"
+         opacity=".35"
+         d="m-52.061 15a4 4 0 0 0-2.7676 1.1719l2.8281 2.8281 2.8281-2.8281a4 4 0 0 0-2.8281-1.1719 4 4 0 0 0-0.06055 0z" />
+    </g>
+  </g>
+  <g
+     id="network-wireless-connected-100"
+     transform="translate(138.1 24.1)">
+    <rect
+       id="rect1067"
+       opacity="0"
+       ry="0"
+       height="22"
+       width="22"
+       y="1"
+       x="-64" />
+    <g
+       id="g1075"
+       fill="currentColor"
+       transform="translate(-1)"
+       class="ColorScheme-Text">
+      <path
+         id="path1069"
+         d="m-52.01 10a9 9 0 0 0-6.3535 2.6367l1.4141 1.4141a7 7 0 0 1 4.8555-2.0508 7 7 0 0 1 0.09375 0 7 7 0 0 1 4.9492 2.0508l1.4141-1.4141a9 9 0 0 0-6.3633-2.6367 9 9 0 0 0-0.0098 0z" />
+      <path
+         id="path1071"
+         d="m-52 5a14 14 0 0 0-9.9004 4.0996l1.416 1.416a12 12 0 0 1 8.4844-3.5156 12 12 0 0 1 8.4844 3.5156l1.416-1.416a14 14 0 0 0-9.9004-4.0996z" />
+      <path
+         id="path1073"
+         d="m-52.061 15a4 4 0 0 0-2.7676 1.1719l2.8281 2.8281 2.8281-2.8281a4 4 0 0 0-2.8281-1.1719 4 4 0 0 0-0.06055 0z" />
+    </g>
+  </g>
+  <g
+     id="network-wireless-connected-80"
+     transform="translate(162.1 24.1)">
+    <rect
+       id="rect1079"
+       opacity="0"
+       ry="0"
+       height="22"
+       width="22"
+       y="1"
+       x="-64" />
+    <g
+       id="g1087"
+       fill="currentColor"
+       transform="translate(-1)"
+       class="ColorScheme-Text">
+      <path
+         id="path1081"
+         d="m-52.01 10a9 9 0 0 0-6.3535 2.6367l1.4141 1.4141a7 7 0 0 1 4.8555-2.0508 7 7 0 0 1 0.09375 0 7 7 0 0 1 4.9492 2.0508l1.4141-1.4141a9 9 0 0 0-6.3633-2.6367 9 9 0 0 0-0.0098 0z" />
+      <path
+         id="path1083"
+         opacity=".35"
+         d="m-52 5a14 14 0 0 0-9.9004 4.0996l1.416 1.416a12 12 0 0 1 8.4844-3.5156 12 12 0 0 1 8.4844 3.5156l1.416-1.416a14 14 0 0 0-9.9004-4.0996z" />
+      <path
+         id="path1085"
+         d="m-52.061 15a4 4 0 0 0-2.7676 1.1719l2.8281 2.8281 2.8281-2.8281a4 4 0 0 0-2.8281-1.1719 4 4 0 0 0-0.06055 0z" />
+    </g>
+  </g>
+  <g
+     id="network-wireless-connected-60"
+     transform="translate(186.1 24.1)">
+    <rect
+       id="rect1091"
+       opacity="0"
+       ry="0"
+       height="22"
+       width="22"
+       y="1"
+       x="-64" />
+    <g
+       id="g1099"
+       fill="currentColor"
+       transform="translate(-1)"
+       class="ColorScheme-Text">
+      <path
+         id="path1093"
+         opacity=".65"
+         d="m-52.01 10a9 9 0 0 0-6.3535 2.6367l1.4141 1.4141a7 7 0 0 1 4.8555-2.0508 7 7 0 0 1 0.09375 0 7 7 0 0 1 4.9492 2.0508l1.4141-1.4141a9 9 0 0 0-6.3633-2.6367 9 9 0 0 0-0.0098 0z" />
+      <path
+         id="path1095"
+         opacity=".35"
+         d="m-52 5a14 14 0 0 0-9.9004 4.0996l1.416 1.416a12 12 0 0 1 8.4844-3.5156 12 12 0 0 1 8.4844 3.5156l1.416-1.416a14 14 0 0 0-9.9004-4.0996z" />
+      <path
+         id="path1097"
+         d="m-52.061 15a4 4 0 0 0-2.7676 1.1719l2.8281 2.8281 2.8281-2.8281a4 4 0 0 0-2.8281-1.1719 4 4 0 0 0-0.06055 0z" />
+    </g>
+  </g>
+  <g
+     id="network-wireless-connected-40"
+     transform="translate(210.1 24.1)">
+    <rect
+       id="rect1103"
+       opacity="0"
+       ry="0"
+       height="22"
+       width="22"
+       y="1"
+       x="-64" />
+    <g
+       id="g1111"
+       fill="currentColor"
+       transform="translate(-1)"
+       class="ColorScheme-Text">
+      <path
+         id="path1105"
+         opacity=".35"
+         d="m-52.01 10a9 9 0 0 0-6.3535 2.6367l1.4141 1.4141a7 7 0 0 1 4.8555-2.0508 7 7 0 0 1 0.09375 0 7 7 0 0 1 4.9492 2.0508l1.4141-1.4141a9 9 0 0 0-6.3633-2.6367 9 9 0 0 0-0.0098 0z" />
+      <path
+         id="path1107"
+         opacity=".35"
+         d="m-52 5a14 14 0 0 0-9.9004 4.0996l1.416 1.416a12 12 0 0 1 8.4844-3.5156 12 12 0 0 1 8.4844 3.5156l1.416-1.416a14 14 0 0 0-9.9004-4.0996z" />
+      <path
+         id="path1109"
+         d="m-52.061 15a4 4 0 0 0-2.7676 1.1719l2.8281 2.8281 2.8281-2.8281a4 4 0 0 0-2.8281-1.1719 4 4 0 0 0-0.06055 0z" />
+    </g>
+  </g>
+  <g
+     id="network-wireless-connected-20"
+     transform="translate(234.1 24.1)">
+    <rect
+       id="rect1115"
+       opacity="0"
+       ry="0"
+       height="22"
+       width="22"
+       y="1"
+       x="-64" />
+    <g
+       id="g1123"
+       fill="currentColor"
+       transform="translate(-1)"
+       class="ColorScheme-Text">
+      <path
+         id="path1117"
+         opacity=".35"
+         d="m-52.01 10a9 9 0 0 0-6.3535 2.6367l1.4141 1.4141a7 7 0 0 1 4.8555-2.0508 7 7 0 0 1 0.09375 0 7 7 0 0 1 4.9492 2.0508l1.4141-1.4141a9 9 0 0 0-6.3633-2.6367 9 9 0 0 0-0.0098 0z" />
+      <path
+         id="path1119"
+         opacity=".35"
+         d="m-52 5a14 14 0 0 0-9.9004 4.0996l1.416 1.416a12 12 0 0 1 8.4844-3.5156 12 12 0 0 1 8.4844 3.5156l1.416-1.416a14 14 0 0 0-9.9004-4.0996z" />
+      <path
+         id="path1121"
+         opacity=".65"
+         d="m-52.061 15a4 4 0 0 0-2.7676 1.1719l2.8281 2.8281 2.8281-2.8281a4 4 0 0 0-2.8281-1.1719 4 4 0 0 0-0.06055 0z" />
+    </g>
+  </g>
+  <g
+     id="network-wireless-connected-00"
+     transform="translate(258.1 24.1)">
+    <rect
+       id="rect1127"
+       opacity="0"
+       ry="0"
+       height="22"
+       width="22"
+       y="1"
+       x="-64" />
+    <g
+       id="g1135"
+       fill="currentColor"
+       transform="translate(-1)"
+       class="ColorScheme-Text">
+      <path
+         id="path1129"
+         opacity=".35"
+         d="m-52.01 10a9 9 0 0 0-6.3535 2.6367l1.4141 1.4141a7 7 0 0 1 4.8555-2.0508 7 7 0 0 1 0.09375 0 7 7 0 0 1 4.9492 2.0508l1.4141-1.4141a9 9 0 0 0-6.3633-2.6367 9 9 0 0 0-0.0098 0z" />
+      <path
+         id="path1131"
+         opacity=".35"
+         d="m-52 5a14 14 0 0 0-9.9004 4.0996l1.416 1.416a12 12 0 0 1 8.4844-3.5156 12 12 0 0 1 8.4844 3.5156l1.416-1.416a14 14 0 0 0-9.9004-4.0996z" />
+      <path
+         id="path1133"
+         opacity=".35"
+         d="m-52.061 15a4 4 0 0 0-2.7676 1.1719l2.8281 2.8281 2.8281-2.8281a4 4 0 0 0-2.8281-1.1719 4 4 0 0 0-0.06055 0z" />
+    </g>
+  </g>
+  <g
+     transform="translate(-213.9 .099611)"
+     id="network-wireless-100-locked">
+    <g
+       id="g1149"
+       transform="translate(352,49)">
+      <rect
+         id="rect1139"
+         opacity="0"
+         ry="0"
+         height="22"
+         width="22"
+         y="1"
+         x="-64" />
+      <g
+         id="g1147"
+         fill="currentColor"
+         transform="translate(-1)"
+         class="ColorScheme-Text">
+        <path
+           id="path1141"
+           d="m298.99 59a9 9 0 0 0-6.3535 2.6367l1.4141 1.4141a7 7 0 0 1 4.8555-2.0508 7 7 0 0 1 0.09375 0 7 7 0 0 1 4.9492 2.0508l0.05078-0.050781c0-0.73835 0.28257-1.4103 0.73242-1.9355a9 9 0 0 0-5.7324-2.0645 9 9 0 0 0-0.01 0z"
+           transform="translate(-351,-49)" />
+        <path
+           id="path1143"
+           d="m-52 5a14 14 0 0 0-9.9004 4.0996l1.416 1.416a12 12 0 0 1 8.4844-3.5156 12 12 0 0 1 8.4844 3.5156l1.416-1.416a14 14 0 0 0-9.9004-4.0996z" />
+        <path
+           id="path1145"
+           d="m-52.061 15a4 4 0 0 0-2.7676 1.1719l2.8281 2.8281 2.8281-2.8281a4 4 0 0 0-2.8281-1.1719 4 4 0 0 0-0.06055 0z" />
+      </g>
+    </g>
+    <path
+       id="path1151"
+       fill="currentColor"
+       d="m307 61c-1.108 0-2 0.892-2 2v2h-1v3h6v-3h-1v-2c0-1.108-0.892-2-2-2zm0 1c0.554 0 1 0.446 1 1v2h-2v-2c0-0.554 0.446-1 1-1z"
+       class="ColorScheme-Text" />
+  </g>
+  <g
+     transform="translate(-213.9 .099611)"
+     id="network-wireless-80-locked">
+    <g
+       id="g1164"
+       transform="translate(376,49)">
+      <rect
+         id="rect1154"
+         opacity="0"
+         ry="0"
+         height="22"
+         width="22"
+         y="1"
+         x="-64" />
+      <g
+         id="g1162"
+         fill="currentColor"
+         transform="translate(-1)"
+         class="ColorScheme-Text">
+        <path
+           id="path1156"
+           d="m322.99 59a9 9 0 0 0-6.3535 2.6367l1.4141 1.4141a7 7 0 0 1 4.8555-2.0508 7 7 0 0 1 0.09375 0 7 7 0 0 1 4.9492 2.0508l0.05078-0.050781c0-0.73835 0.28257-1.4103 0.73242-1.9355a9 9 0 0 0-5.7324-2.0645 9 9 0 0 0-0.01 0z"
+           transform="translate(-375,-49)" />
+        <path
+           id="path1158"
+           opacity=".35"
+           d="m-52 5a14 14 0 0 0-9.9004 4.0996l1.416 1.416a12 12 0 0 1 8.4844-3.5156 12 12 0 0 1 8.4844 3.5156l1.416-1.416a14 14 0 0 0-9.9004-4.0996z" />
+        <path
+           id="path1160"
+           d="m-52.061 15a4 4 0 0 0-2.7676 1.1719l2.8281 2.8281 2.8281-2.8281a4 4 0 0 0-2.8281-1.1719 4 4 0 0 0-0.06055 0z" />
+      </g>
+    </g>
+    <path
+       id="path1166"
+       fill="currentColor"
+       d="m331 61c-1.108 0-2 0.892-2 2v2h-1v3h6v-3h-1v-2c0-1.108-0.892-2-2-2zm0 1c0.554 0 1 0.446 1 1v2h-2v-2c0-0.554 0.446-1 1-1z"
+       class="ColorScheme-Text" />
+  </g>
+  <g
+     transform="translate(-213.9 .099611)"
+     id="network-wireless-60-locked">
+    <g
+       id="g1179"
+       transform="translate(400,49)">
+      <rect
+         id="rect1169"
+         opacity="0"
+         ry="0"
+         height="22"
+         width="22"
+         y="1"
+         x="-64" />
+      <g
+         id="g1177"
+         fill="currentColor"
+         transform="translate(-1)"
+         class="ColorScheme-Text"><path
+   id="path1171"
+   opacity=".65"
+   d="m346.99 59a9 9 0 0 0-6.3535 2.6367l1.4141 1.4141a7 7 0 0 1 4.8555-2.0508 7 7 0 0 1 0.09375 0 7 7 0 0 1 4.9492 2.0508l0.05078-0.050781c0-0.73835 0.28257-1.4103 0.73242-1.9355a9 9 0 0 0-5.7324-2.0645 9 9 0 0 0-0.01 0z"
+   transform="translate(-399,-49)" />
+<path
+   id="path1173"
+   opacity=".35"
+   d="m-52 5a14 14 0 0 0-9.9004 4.0996l1.416 1.416a12 12 0 0 1 8.4844-3.5156 12 12 0 0 1 8.4844 3.5156l1.416-1.416a14 14 0 0 0-9.9004-4.0996z" />
+<path
+   id="path1175"
+   d="m-52.061 15a4 4 0 0 0-2.7676 1.1719l2.8281 2.8281 2.8281-2.8281a4 4 0 0 0-2.8281-1.1719 4 4 0 0 0-0.06055 0z" />
+
+
+class=&quot;ColorScheme-Text&quot; fill=&quot;currentColor&quot;/&gt;
+   </g>
+    </g>
+    <path
+       id="path1181"
+       fill="currentColor"
+       d="m355 61c-1.108 0-2 0.892-2 2v2h-1v3h6v-3h-1v-2c0-1.108-0.892-2-2-2zm0 1c0.554 0 1 0.446 1 1v2h-2v-2c0-0.554 0.446-1 1-1z"
+       class="ColorScheme-Text" />
+  </g>
+  <g
+     transform="translate(-213.9 .099611)"
+     id="network-wireless-40-locked">
+    <g
+       id="g1194"
+       transform="translate(424,49)">
+      <rect
+         id="rect1184"
+         opacity="0"
+         ry="0"
+         height="22"
+         width="22"
+         y="1"
+         x="-64" />
+      <g
+         id="g1192"
+         fill="currentColor"
+         transform="translate(-1)"
+         class="ColorScheme-Text"><path
+   id="path1186"
+   opacity=".35"
+   d="m370.99 59a9 9 0 0 0-6.3535 2.6367l1.4141 1.4141a7 7 0 0 1 4.8555-2.0508 7 7 0 0 1 0.09375 0 7 7 0 0 1 4.9492 2.0508l0.05078-0.050781c0-0.73835 0.28257-1.4103 0.73242-1.9355a9 9 0 0 0-5.7324-2.0645 9 9 0 0 0-0.01 0z"
+   transform="translate(-423,-49)" />
+<path
+   id="path1188"
+   opacity=".35"
+   d="m-52 5a14 14 0 0 0-9.9004 4.0996l1.416 1.416a12 12 0 0 1 8.4844-3.5156 12 12 0 0 1 8.4844 3.5156l1.416-1.416a14 14 0 0 0-9.9004-4.0996z" />
+<path
+   id="path1190"
+   d="m-52.061 15a4 4 0 0 0-2.7676 1.1719l2.8281 2.8281 2.8281-2.8281a4 4 0 0 0-2.8281-1.1719 4 4 0 0 0-0.06055 0z" />
+
+
+class=&quot;ColorScheme-Text&quot; fill=&quot;currentColor&quot;/&gt;
+   </g>
+    </g>
+    <path
+       id="path1196"
+       fill="currentColor"
+       d="m379 61c-1.108 0-2 0.892-2 2v2h-1v3h6v-3h-1v-2c0-1.108-0.892-2-2-2zm0 1c0.554 0 1 0.446 1 1v2h-2v-2c0-0.554 0.446-1 1-1z"
+       class="ColorScheme-Text" />
+  </g>
+  <g
+     transform="translate(-213.9 .099611)"
+     id="network-wireless-20-locked">
+    <g
+       id="g1209"
+       transform="translate(448,49)">
+      <rect
+         id="rect1199"
+         opacity="0"
+         ry="0"
+         height="22"
+         width="22"
+         y="1"
+         x="-64" />
+      <g
+         id="g1207"
+         fill="currentColor"
+         transform="translate(-1)"
+         class="ColorScheme-Text">
+        <path
+           id="path1201"
+           opacity=".35"
+           d="m394.99 59a9 9 0 0 0-6.3535 2.6367l1.4141 1.4141a7 7 0 0 1 4.8555-2.0508 7 7 0 0 1 0.09375 0 7 7 0 0 1 4.9492 2.0508l0.05078-0.050781c0-0.73835 0.28257-1.4103 0.73242-1.9355a9 9 0 0 0-5.7324-2.0645 9 9 0 0 0-0.01 0z"
+           transform="translate(-447,-49)" />
+        <path
+           id="path1203"
+           opacity=".35"
+           d="m-52 5a14 14 0 0 0-9.9004 4.0996l1.416 1.416a12 12 0 0 1 8.4844-3.5156 12 12 0 0 1 8.4844 3.5156l1.416-1.416a14 14 0 0 0-9.9004-4.0996z" />
+        <path
+           id="path1205"
+           opacity=".65"
+           d="m-52.061 15a4 4 0 0 0-2.7676 1.1719l2.8281 2.8281 2.8281-2.8281a4 4 0 0 0-2.8281-1.1719 4 4 0 0 0-0.06055 0z" />
+      </g>
+    </g>
+    <path
+       id="path1211"
+       fill="currentColor"
+       d="m403 61c-1.108 0-2 0.892-2 2v2h-1v3h6v-3h-1v-2c0-1.108-0.892-2-2-2zm0 1c0.554 0 1 0.446 1 1v2h-2v-2c0-0.554 0.446-1 1-1z"
+       class="ColorScheme-Text" />
+  </g>
+  <g
+     transform="translate(-213.9 .099611)"
+     id="network-wireless-0-locked">
+    <g
+       id="g1224"
+       transform="translate(472,49)">
+      <rect
+         id="rect1214"
+         opacity="0"
+         ry="0"
+         height="22"
+         width="22"
+         y="1"
+         x="-64" />
+      <g
+         id="g1222"
+         fill="currentColor"
+         transform="translate(-1)"
+         class="ColorScheme-Text">
+        <path
+           id="path1216"
+           opacity=".35"
+           d="m418.99 59a9 9 0 0 0-6.3535 2.6367l1.4141 1.4141a7 7 0 0 1 4.8555-2.0508 7 7 0 0 1 0.09375 0 7 7 0 0 1 4.9492 2.0508l0.05078-0.050781c0-0.73835 0.28257-1.4103 0.73242-1.9355a9 9 0 0 0-5.7324-2.0645 9 9 0 0 0-0.01 0z"
+           transform="translate(-471,-49)" />
+        <path
+           id="path1218"
+           opacity=".35"
+           d="m-52 5a14 14 0 0 0-9.9004 4.0996l1.416 1.416a12 12 0 0 1 8.4844-3.5156 12 12 0 0 1 8.4844 3.5156l1.416-1.416a14 14 0 0 0-9.9004-4.0996z" />
+        <path
+           id="path1220"
+           opacity=".35"
+           d="m-52.061 15a4 4 0 0 0-2.7676 1.1719l2.8281 2.8281 2.8281-2.8281a4 4 0 0 0-2.8281-1.1719 4 4 0 0 0-0.06055 0z" />
+      </g>
+    </g>
+    <path
+       id="path1226"
+       fill="currentColor"
+       d="m427 61c-1.108 0-2 0.892-2 2v2h-1v3h6v-3h-1v-2c0-1.108-0.892-2-2-2zm0 1c0.554 0 1 0.446 1 1v2h-2v-2c0-0.554 0.446-1 1-1z"
+       class="ColorScheme-Text" />
+  </g>
+  <g
+     transform="translate(-213.9 .099611)"
+     id="network-wireless-100-limited">
+    <g
+       id="g1239"
+       transform="translate(352,74)">
+      <rect
+         id="rect1229"
+         opacity="0"
+         ry="0"
+         height="22"
+         width="22"
+         y="1"
+         x="-64" />
+      <g
+         id="g1237"
+         fill="currentColor"
+         transform="translate(-1)"
+         class="ColorScheme-Text">
+        <path
+           id="path1231"
+           d="m298.99 84a9 9 0 0 0-6.3535 2.6367l1.4141 1.4141a7 7 0 0 1 4.8555-2.0508 7 7 0 0 1 0.09375 0 7 7 0 0 1 4.9492 2.0508l0.05078-0.050781v-2.4824a9 9 0 0 0-5-1.5176 9 9 0 0 0-0.01 0z"
+           transform="translate(-351,-74)" />
+        <path
+           id="path1233"
+           d="m299 79a14 14 0 0 0-9.9004 4.0996l1.416 1.416a12 12 0 0 1 8.4844-3.5156 12 12 0 0 1 7.9336 3h0.06641a1.0001 1.0001 0 0 1 0.70703 0.29297l1.1934-1.1934a14 14 0 0 0-9.9004-4.0996z"
+           transform="translate(-351,-74)" />
+        <path
+           id="path1235"
+           d="m-52.061 15a4 4 0 0 0-2.7676 1.1719l2.8281 2.8281 2.8281-2.8281a4 4 0 0 0-2.8281-1.1719 4 4 0 0 0-0.06055 0z" />
+      </g>
+    </g>
+    <path
+       id="path1241"
+       fill="#fdbc4b"
+       d="m305 85v5h2v-5zm1 6c-0.55228 0-1 0.44772-1 1s0.44772 1 1 1 1-0.44772 1-1-0.44772-1-1-1z" />
+  </g>
+  <g
+     transform="translate(-213.9 .099611)"
+     id="network-wireless-80-limited">
+    <g
+       id="g1254"
+       transform="translate(376,74)">
+      <rect
+         id="rect1244"
+         opacity="0"
+         ry="0"
+         height="22"
+         width="22"
+         y="1"
+         x="-64" />
+      <g
+         id="g1252"
+         fill="currentColor"
+         transform="translate(-1)"
+         class="ColorScheme-Text">
+        <path
+           id="path1246"
+           d="m322.99 84a9 9 0 0 0-6.3535 2.6367l1.4141 1.4141a7 7 0 0 1 4.8555-2.0508 7 7 0 0 1 0.09375 0 7 7 0 0 1 4.9492 2.0508l0.05078-0.050781v-2.4824a9 9 0 0 0-5-1.5176 9 9 0 0 0-0.01 0z"
+           transform="translate(-375,-74)" />
+        <path
+           id="path1248"
+           opacity=".35"
+           d="m323 79a14 14 0 0 0-9.9004 4.0996l1.416 1.416a12 12 0 0 1 8.4844-3.5156 12 12 0 0 1 7.9336 3h0.06641a1.0001 1.0001 0 0 1 0.70703 0.29297l1.1934-1.1934a14 14 0 0 0-9.9004-4.0996z"
+           transform="translate(-375,-74)" />
+        <path
+           id="path1250"
+           d="m-52.061 15a4 4 0 0 0-2.7676 1.1719l2.8281 2.8281 2.8281-2.8281a4 4 0 0 0-2.8281-1.1719 4 4 0 0 0-0.06055 0z" />
+      </g>
+    </g>
+    <path
+       id="path1256"
+       fill="#fdbc4b"
+       d="m329 85v5h2v-5zm1 6c-0.55228 0-1 0.44772-1 1s0.44772 1 1 1 1-0.44772 1-1-0.44772-1-1-1z" />
+  </g>
+  <g
+     transform="translate(-213.9 .099611)"
+     id="network-wireless-60-limited">
+    <g
+       id="g1269"
+       transform="translate(400,74)">
+      <rect
+         id="rect1259"
+         opacity="0"
+         ry="0"
+         height="22"
+         width="22"
+         y="1"
+         x="-64" />
+      <g
+         id="g1267"
+         fill="currentColor"
+         transform="translate(-1)"
+         class="ColorScheme-Text">
+        <path
+           id="path1261"
+           opacity=".65"
+           d="m346.99 84a9 9 0 0 0-6.3535 2.6367l1.4141 1.4141a7 7 0 0 1 4.8555-2.0508 7 7 0 0 1 0.09375 0 7 7 0 0 1 4.9492 2.0508l0.05078-0.050781v-2.4824a9 9 0 0 0-5-1.5176 9 9 0 0 0-0.01 0z"
+           transform="translate(-399,-74)" />
+        <path
+           id="path1263"
+           opacity=".35"
+           d="m347 79a14 14 0 0 0-9.9004 4.0996l1.416 1.416a12 12 0 0 1 8.4844-3.5156 12 12 0 0 1 7.9336 3h0.06641a1.0001 1.0001 0 0 1 0.70703 0.29297l1.1934-1.1934a14 14 0 0 0-9.9004-4.0996z"
+           transform="translate(-399,-74)" />
+        <path
+           id="path1265"
+           d="m-52.061 15a4 4 0 0 0-2.7676 1.1719l2.8281 2.8281 2.8281-2.8281a4 4 0 0 0-2.8281-1.1719 4 4 0 0 0-0.06055 0z" />
+      </g>
+    </g>
+    <path
+       id="path1271"
+       fill="#fdbc4b"
+       d="m353 85v5h2v-5zm1 6c-0.55228 0-1 0.44772-1 1s0.44772 1 1 1 1-0.44772 1-1-0.44772-1-1-1z" />
+  </g>
+  <g
+     transform="translate(-213.9 .099611)"
+     id="network-wireless-40-limited">
+    <g
+       id="g1284"
+       transform="translate(424,74)">
+      <rect
+         id="rect1274"
+         opacity="0"
+         ry="0"
+         height="22"
+         width="22"
+         y="1"
+         x="-64" />
+      <g
+         id="g1282"
+         fill="currentColor"
+         transform="translate(-1)"
+         class="ColorScheme-Text">
+        <path
+           id="path1276"
+           opacity=".35"
+           d="m370.99 84a9 9 0 0 0-6.3535 2.6367l1.4141 1.4141a7 7 0 0 1 4.8555-2.0508 7 7 0 0 1 0.09375 0 7 7 0 0 1 4.9492 2.0508l0.05078-0.050781v-2.4824a9 9 0 0 0-5-1.5176 9 9 0 0 0-0.01 0z"
+           transform="translate(-423,-74)" />
+        <path
+           id="path1278"
+           opacity=".35"
+           d="m371 79a14 14 0 0 0-9.9004 4.0996l1.416 1.416a12 12 0 0 1 8.4844-3.5156 12 12 0 0 1 7.9336 3h0.06641a1.0001 1.0001 0 0 1 0.70703 0.29297l1.1934-1.1934a14 14 0 0 0-9.9004-4.0996z"
+           transform="translate(-423,-74)" />
+        <path
+           id="path1280"
+           d="m-52.061 15a4 4 0 0 0-2.7676 1.1719l2.8281 2.8281 2.8281-2.8281a4 4 0 0 0-2.8281-1.1719 4 4 0 0 0-0.06055 0z" />
+      </g>
+    </g>
+    <path
+       id="path1286"
+       fill="#fdbc4b"
+       d="m377 85v5h2v-5zm1 6c-0.55228 0-1 0.44772-1 1s0.44772 1 1 1 1-0.44772 1-1-0.44772-1-1-1z" />
+  </g>
+  <g
+     transform="translate(-213.9 .099611)"
+     id="network-wireless-20-limited">
+    <g
+       id="g1299"
+       transform="translate(448,74)">
+      <rect
+         id="rect1289"
+         opacity="0"
+         ry="0"
+         height="22"
+         width="22"
+         y="1"
+         x="-64" />
+      <g
+         id="g1297"
+         fill="currentColor"
+         transform="translate(-1)"
+         class="ColorScheme-Text">
+        <path
+           id="path1291"
+           opacity=".35"
+           d="m394.99 84a9 9 0 0 0-6.3535 2.6367l1.4141 1.4141a7 7 0 0 1 4.8555-2.0508 7 7 0 0 1 0.09375 0 7 7 0 0 1 4.9492 2.0508l0.05078-0.050781v-2.4824a9 9 0 0 0-5-1.5176 9 9 0 0 0-0.01 0z"
+           transform="translate(-447,-74)" />
+        <path
+           id="path1293"
+           opacity=".35"
+           d="m395 79a14 14 0 0 0-9.9004 4.0996l1.416 1.416a12 12 0 0 1 8.4844-3.5156 12 12 0 0 1 7.9336 3h0.06641a1.0001 1.0001 0 0 1 0.70703 0.29297l1.1934-1.1934a14 14 0 0 0-9.9004-4.0996z"
+           transform="translate(-447,-74)" />
+        <path
+           id="path1295"
+           opacity=".65"
+           d="m-52.061 15a4 4 0 0 0-2.7676 1.1719l2.8281 2.8281 2.8281-2.8281a4 4 0 0 0-2.8281-1.1719 4 4 0 0 0-0.06055 0z" />
+      </g>
+    </g>
+    <path
+       id="path1301"
+       fill="#fdbc4b"
+       d="m401 85v5h2v-5zm1 6c-0.55228 0-1 0.44772-1 1s0.44772 1 1 1 1-0.44772 1-1-0.44772-1-1-1z" />
+  </g>
+  <g
+     transform="translate(-213.9 .099611)"
+     id="network-wireless-0-limited">
+    <g
+       id="g1314"
+       transform="translate(472,74)">
+      <rect
+         id="rect1304"
+         opacity="0"
+         ry="0"
+         height="22"
+         width="22"
+         y="1"
+         x="-64" />
+      <g
+         id="g1312"
+         fill="currentColor"
+         transform="translate(-1)"
+         class="ColorScheme-Text">
+        <path
+           id="path1306"
+           opacity=".35"
+           d="m418.99 84a9 9 0 0 0-6.3535 2.6367l1.4141 1.4141a7 7 0 0 1 4.8555-2.0508 7 7 0 0 1 0.09375 0 7 7 0 0 1 4.9492 2.0508l0.05078-0.050781v-2.4824a9 9 0 0 0-5-1.5176 9 9 0 0 0-0.01 0z"
+           transform="translate(-471,-74)" />
+        <path
+           id="path1308"
+           opacity=".35"
+           d="m419 79a14 14 0 0 0-9.9004 4.0996l1.416 1.416a12 12 0 0 1 8.4844-3.5156 12 12 0 0 1 7.9336 3h0.06641a1.0001 1.0001 0 0 1 0.70703 0.29297l1.1934-1.1934a14 14 0 0 0-9.9004-4.0996z"
+           transform="translate(-471,-74)" />
+        <path
+           id="path1310"
+           opacity=".35"
+           d="m-52.061 15a4 4 0 0 0-2.7676 1.1719l2.8281 2.8281 2.8281-2.8281a4 4 0 0 0-2.8281-1.1719 4 4 0 0 0-0.06055 0z" />
+      </g>
+    </g>
+    <path
+       id="path1316"
+       fill="#fdbc4b"
+       d="m425 85v5h2v-5zm1 6c-0.55228 0-1 0.44772-1 1s0.44772 1 1 1 1-0.44772 1-1-0.44772-1-1-1z" />
+  </g>
+  <g
+     transform="translate(-213.9 .099611)"
+     id="network-wireless-off">
+    <rect
+       id="rect1319"
+       opacity="0"
+       ry="0"
+       height="22"
+       width="22"
+       y="25.1"
+       x="264" />
+    <path
+       id="path1321"
+       opacity=".35"
+       fill="currentColor"
+       d="m275 29.1a14 14 0 0 0-4.1523 0.62891l1.6387 1.6387a12 12 0 0 1 2.5137-0.26758 12 12 0 0 1 8.4844 3.5156l1.416-1.416a14 14 0 0 0-9.9004-4.0996zm-7.0938 1.9297a14 14 0 0 0-2.8066 2.1699l1.416 1.416a12 12 0 0 1 2.8613-2.1152zm7.3164 3.0742 2.584 2.584a7 7 0 0 1 4e-3 2e-3 7 7 0 0 1 2.1387 1.4609l1.4141-1.4141a9 9 0 0 0-6.1406-2.6328zm-3.5918 0.65039a9 9 0 0 0-2.9941 1.9824l1.4141 1.4141a7 7 0 0 1 3.1582-1.8184zm3.3086 4.3457a4 4 0 0 0-2.7676 1.1719l2.8281 2.8281 2.4883-2.4883-1.3438-1.3438a4 4 0 0 0-1.1445-0.16797 4 4 0 0 0-0.0605 0z"
+       class="ColorScheme-Text" />
+    <path
+       id="path1323"
+       opacity=".35"
+       fill="currentColor"
+       d="m266.87 28.575 0.7071-0.70711 15.556 15.556-0.70711 0.70711z"
+       class="ColorScheme-Text" />
+  </g>
+  <g
+     transform="translate(-213.9 .099611)"
+     id="network-wireless-disconnected">
+    <rect
+       id="rect1326"
+       opacity="0"
+       ry="0"
+       height="22"
+       width="22"
+       x="264" />
+    <g
+       id="g1334"
+       fill="currentColor"
+       transform="translate(327,-1)"
+       class="ColorScheme-Text">
+      <path
+         id="path1328"
+         opacity=".35"
+         d="m274.99 9a9 9 0 0 0-6.3535 2.6367l1.4141 1.4141a7 7 0 0 1 4.8555-2.0508 7 7 0 0 1 0.09375 0 7 7 0 0 1 3.4824 0.92969l0.63867-0.63867a1.0001 1.0001 0 0 1 0.65235-0.29102 1.0001 1.0001 0 0 1 0.76172 0.29102l0.58593 0.58789 0.24219-0.24219a9 9 0 0 0-6.3633-2.6367 9 9 0 0 0-0.01 0z"
+         transform="translate(-327,1)" />
+      <path
+         id="path1330"
+         opacity=".35"
+         d="m-52 5a14 14 0 0 0-9.9004 4.0996l1.416 1.416a12 12 0 0 1 8.4844-3.5156 12 12 0 0 1 8.4844 3.5156l1.416-1.416a14 14 0 0 0-9.9004-4.0996z" />
+      <path
+         id="path1332"
+         opacity=".35"
+         d="m-52.061 15a4 4 0 0 0-2.7676 1.1719l2.8281 2.8281 2.8281-2.8281a4 4 0 0 0-2.8281-1.1719 4 4 0 0 0-0.06055 0z" />
+    </g>
+    <path
+       id="path1336"
+       fill="currentColor"
+       d="m279.83 11.999-0.83 0.83 2.172 2.172-2.171 2.169 0.83 0.83 2.169-2.172 2.171 2.171 0.83-0.83-2.17-2.168 2.17-2.172-0.83-0.83-2.171 2.17z"
+       class="ColorScheme-NegativeText" />
+  </g>
+  <g
+     transform="translate(-213.9 .099611)"
+     id="network-wireless-available">
+    <rect
+       id="rect1339"
+       opacity="0"
+       ry="0"
+       height="22"
+       width="22"
+       y="-.099611"
+       x="239.9" />
+    <g
+       id="g1347"
+       fill="currentColor"
+       transform="translate(302.9 -1.0996)"
+       class="ColorScheme-Text">
+      <path
+         id="path1341"
+         opacity=".35"
+         d="m250.89 8.9004a9 9 0 0 0-6.3535 2.6367l1.4141 1.4141a7 7 0 0 1 4.8555-2.0508 7 7 0 0 1 0.0937 0 7 7 0 0 1 4.9492 2.0508l0.16211-0.16211c0.0472-0.66037 0.3115-1.2635 0.72266-1.7402a9 9 0 0 0-5.834-2.1484 9 9 0 0 0-0.01 0z"
+         transform="translate(-302.9 1.0996)" />
+      <path
+         id="path1343"
+         opacity=".35"
+         d="m-52 5a14 14 0 0 0-9.9004 4.0996l1.416 1.416a12 12 0 0 1 8.4844-3.5156 12 12 0 0 1 8.4844 3.5156l1.416-1.416a14 14 0 0 0-9.9004-4.0996z" />
+      <path
+         id="path1345"
+         opacity=".35"
+         d="m-52.061 15a4 4 0 0 0-2.7676 1.1719l2.8281 2.8281 2.8281-2.8281a4 4 0 0 0-2.8281-1.1719 4 4 0 0 0-0.06055 0z" />
+    </g>
+    <path
+       id="path1349"
+       fill="#fdbc4b"
+       d="m258.77 11.014c-0.97461 0.1128-1.7235 0.9159-1.768 1.896-6.8e-4 0.03-6.8e-4 0.06 0 0.09h1c-4.4e-4 -0.50736 0.37913-0.93464 0.883-0.994h0.115v-0.992zm0.232 2e-3v1c0.50702-5e-4 0.93417 0.37852 0.994 0.882v0.116h6e-3c4.4e-4 0.50736-0.37913 0.93464-0.883 0.994h-0.115v-8e-3c-0.0667-0.0027-0.13341-2e-3 -0.2 2e-3 -0.27904 0.01629-0.55157 0.0909-0.8 0.219v-0.207h-2e-3v2h1v-1.014h0.232c0.97461-0.1128 1.7235-0.9159 1.768-1.896 6.8e-4 -0.03 6.8e-4 -0.06 0-0.09h-0.014v-0.23c-0.1128-0.97461-0.9159-1.7235-1.896-1.768-0.03-6.75e-4 -0.06-6.75e-4 -0.09 0zm-0.998 5.984v1h1v-1z" />
+  </g>
+  <g
+     transform="translate(-30,44)"
+     id="network-wired">
+    <rect
+       id="rect1352"
+       opacity="0"
+       ry="0"
+       height="22"
+       width="22"
+       y="-158"
+       x="158" />
+    <path
+       id="path1354"
+       fill="currentColor"
+       d="m163-154c-1.662 0-3 1.338-3 3v6c0 1.662 1.338 3 3 3h0.18164c0.41156 1.1647 1.5093 2 2.8184 2h6c1.3091 0 2.4068-0.83531 2.8184-2h0.18164c1.662 0 3-1.338 3-3v-6c0-1.662-1.338-3-3-3zm0 2h12c0.554 0 1 0.446 1 1v6c0 0.554-0.446 1-1 1h-2v1c0 0.554-0.446 1-1 1h-6c-0.554 0-1-0.446-1-1v-1h-2c-0.554 0-1-0.446-1-1v-6c0-0.554 0.446-1 1-1z"
+       class="ColorScheme-Text" />
+  </g>
+  <use
+     xlink:href="#network-wired"
+     height="100%"
+     width="100%"
+     transform="translate(27)"
+     id="network-wired-activated" />
+  <use
+     xlink:href="#network-wired"
+     height="100%"
+     width="100%"
+     transform="translate(27,24)"
+     id="22-22-network-wired-activated" />
+  <use
+     xlink:href="#network-wired"
+     opacity=".35"
+     height="100%"
+     width="100%"
+     transform="translate(-28)"
+     id="network-unavailable" />
+  <use
+     y="0"
+     x="0"
+     xlink:href="#network-wired"
+     height="100%"
+     width="100%"
+     transform="translate(-0.63923297,24.87736)"
+     id="22-22-network-wired" />
+  <g
+     transform="translate(30,24)"
+     id="network-wired-available">
+    <rect
+       id="rect1361"
+       fill="#3498db"
+       ry="1"
+       height="5"
+       width="2"
+       y="-129"
+       x="193" />
+    <rect
+       id="rect1363"
+       fill="#3498db"
+       ry="1"
+       height="5"
+       width="2"
+       y="-129"
+       x="197" />
+    <rect
+       id="rect1365"
+       opacity="0"
+       ry="0"
+       height="22"
+       width="22"
+       y="-139"
+       x="185" />
+    <path
+       id="path1367"
+       fill="currentColor"
+       d="m190-135c-1.662 0-3 1.338-3 3v6c0 1.662 1.338 3 3 3h0.18164c0.41156 1.1647 1.5093 2 2.8184 2h6c1.3091 0 2.4068-0.83531 2.8184-2h0.18164c1.662 0 3-1.338 3-3v-6c0-1.662-1.338-3-3-3zm0 2h12c0.554 0 1 0.446 1 1v6c0 0.554-0.446 1-1 1h-2v1c0 0.554-0.446 1-1 1h-6c-0.554 0-1-0.446-1-1v-1h-2c-0.554 0-1-0.446-1-1v-6c0-0.554 0.446-1 1-1z"
+       class="ColorScheme-Text" />
+  </g>
+  <g
+     transform="translate(28,24)"
+     id="network-wired-activated-limited">
+    <path
+       id="path1370"
+       fill="#fdbc4b"
+       d="m226-132a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1zm-1 3v5h2v-5z" />
+    <rect
+       id="rect1372"
+       opacity="0"
+       ry="0"
+       height="22"
+       width="22"
+       y="-139"
+       x="215" />
+    <path
+       id="path1374"
+       fill="currentColor"
+       d="m220-135c-1.662 0-3 1.338-3 3v6c0 1.662 1.338 3 3 3h0.18164c0.41156 1.1647 1.5093 2 2.8184 2h6c1.3091 0 2.4068-0.83531 2.8184-2h0.18164c1.662 0 3-1.338 3-3v-6c0-1.662-1.338-3-3-3zm0 2h12c0.554 0 1 0.446 1 1v6c0 0.554-0.446 1-1 1h-2v1c0 0.554-0.446 1-1 1h-6c-0.554 0-1-0.446-1-1v-1h-2c-0.554 0-1-0.446-1-1v-6c0-0.554 0.446-1 1-1z"
+       class="ColorScheme-Text" />
+  </g>
+  <g
+     transform="translate(-35.182 23)"
+     id="network-wired-activated-locked">
+    <path
+       id="path1377"
+       opacity="0"
+       d="m305-139h22v22h-22z" />
+    <path
+       id="path1379"
+       fill="currentColor"
+       d="m310-135c-1.662 0-3 1.338-3 3v6c0 1.662 1.338 3 3 3h0.18164c0.41156 1.1647 1.5093 2 2.8184 2h5v-2h-5c-0.554 0-1-0.446-1-1v-1h-2c-0.554 0-1-0.446-1-1v-6c0-0.554 0.446-1 1-1h12c0.554 0 1 0.446 1 1v3.1875c1.1573 0.41743 2 1.5196 2 2.8125v-6c0-1.662-1.338-3-3-3z"
+       class="ColorScheme-Text" />
+    <path
+       id="path1381"
+       fill="currentColor"
+       d="m322-128c-1.108 0-2 0.892-2 2v2h-1v3h6v-3h-1v-2c0-1.108-0.892-2-2-2zm0 1c0.554 0 1 0.446 1 1v2h-2v-2c0-0.554 0.446-1 1-1z"
+       class="ColorScheme-Text" />
+  </g>
+  <use
+     height="100%"
+     width="100%"
+     transform="translate(-38.38963)"
+     id="32-32-network-wired"
+     xlink:href="#32-32-network-wired-activated"
+     y="0"
+     x="0" />
+  <g
+     transform="translate(-2.4615047,-186.22887)"
+     id="network-mobile-available">
+    <rect
+       y="-22"
+       x="-22"
+       height="22"
+       width="22"
+       id="rect4662"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-ButtonFocus"
+       id="path4664"
+       d="M -19,-3 -3,-19 V -3 Z"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-100">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4198"
+       width="22"
+       height="22"
+       x="-22"
+       y="-22" />
+    <path
+       class="ColorScheme-Text"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M -19,-3 -3,-19 V -3 Z"
+       id="path4220" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-80">
+    <rect
+       y="-22"
+       x="0"
+       height="22"
+       width="22"
+       id="rect4196"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 3,-3 19,-19 V -3 Z"
+       id="path4227" />
+    <path
+       class="ColorScheme-Text"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 17,-17 3,-3 h 14 z"
+       id="path4222" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-60">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4200"
+       width="22"
+       height="22"
+       x="22"
+       y="-22" />
+    <path
+       class="ColorScheme-Text"
+       id="path4229"
+       d="M 25,-3 41,-19 V -3 Z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 37,-15 25,-3 h 12 z"
+       id="path4231" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-40">
+    <rect
+       y="-22"
+       x="44"
+       height="22"
+       width="22"
+       id="rect4202"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 47,-3 63,-19 V -3 Z"
+       id="path4233" />
+    <path
+       class="ColorScheme-Text"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 57,-13 47,-3 h 10 z"
+       id="path4235" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-20">
+    <rect
+       y="-22"
+       x="66"
+       height="22"
+       width="22"
+       id="rect4293"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       id="path4315"
+       d="M 69,-3 85,-19 V -3 Z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 76,-10 -7,7 h 7 z"
+       id="path4317" />
+  </g>
+  <g
+     transform="translate(-2.4615047,-186.22887)"
+     id="network-mobile-0">
+    <rect
+       y="-22"
+       x="110"
+       height="22"
+       width="22"
+       id="rect4295"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       id="path4330"
+       d="m 113,-3 16,-16 v 16 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-100-locked">
+    <rect
+       y="-44"
+       x="-22"
+       height="22"
+       width="22"
+       id="rect4230"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m -3,-41 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       id="path4238" />
+    <path
+       class="ColorScheme-Text"
+       id="path4340-4"
+       d="m -4,-32 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-80-locked">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4760"
+       width="22"
+       height="22"
+       x="0"
+       y="-44" />
+    <path
+       class="ColorScheme-Text"
+       id="path4762"
+       d="M 19,-41 3,-25 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 18,-32 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       id="path4764" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 17,-39 3,-25 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 z"
+       id="path4790" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-60-locked">
+    <rect
+       y="-44"
+       x="22"
+       height="22"
+       width="22"
+       id="rect4766"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 41,-41 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       id="path4768" />
+    <path
+       class="ColorScheme-Text"
+       id="path4770"
+       d="m 40,-32 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 37,-37 -12,12 h 11 v -3 l 1,-1 v -2 z"
+       id="path4792" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-40-locked">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4772"
+       width="22"
+       height="22"
+       x="44"
+       y="-44" />
+    <path
+       class="ColorScheme-Text"
+       id="path4774"
+       d="m 63,-41 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 62,-32 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       id="path4776" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 57,-35 47,-25 H 57 Z"
+       id="path4794" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-20-locked">
+    <rect
+       y="-44"
+       x="66"
+       height="22"
+       width="22"
+       id="rect4778"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 85,-41 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       id="path4780" />
+    <path
+       class="ColorScheme-Text"
+       id="path4782"
+       d="m 84,-32 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 76,-32 -7,7 h 7 z"
+       id="path4796" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-0-locked">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4784"
+       width="22"
+       height="22"
+       x="88"
+       y="-44" />
+    <path
+       class="ColorScheme-Text"
+       id="path4786"
+       d="m 107,-41 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 106,-32 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       id="path4788" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-100-gprs">
+    <rect
+       y="-66"
+       x="-22"
+       height="22"
+       width="22"
+       id="rect4814"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       id="path4816"
+       d="m -19,-47 16,-16 v 16 z"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       class="ColorScheme-Text" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m -19,-63 v 4 1 h 4 v -1 -1 -1 h -2 v 1 h 1 v 1 h -2 v -3 h 3 v -1 h -3 z"
+       id="rect4976-4" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-80-gprs">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4820"
+       width="22"
+       height="22"
+       x="0"
+       y="-66" />
+    <path
+       id="path4822"
+       d="m 3,-47 16,-16 v 16 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       class="ColorScheme-Text" />
+    <path
+       id="path4824"
+       d="M 17,-61 3,-47 h 14 z"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       class="ColorScheme-Text" />
+    <path
+       class="ColorScheme-Text"
+       id="path5058"
+       d="m 3,-63 v 4 1 h 4 v -1 -1 -1 H 5 v 1 h 1 v 1 H 4 v -3 h 3 v -1 H 4 Z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-60-gprs">
+    <rect
+       y="-66"
+       x="22"
+       height="22"
+       width="22"
+       id="rect4828"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 25,-47 16,-16 v 16 z"
+       id="path4830"
+       class="ColorScheme-Text" />
+    <path
+       id="path4832"
+       d="M 37,-59 25,-47 H 37 Z"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       class="ColorScheme-Text" />
+    <path
+       class="ColorScheme-Text"
+       id="path5060"
+       d="m 25,-63 v 4 1 h 4 v -1 -1 -1 h -2 v 1 h 1 v 1 h -2 v -3 h 3 v -1 h -3 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-40-gprs">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4836"
+       width="22"
+       height="22"
+       x="44"
+       y="-66" />
+    <path
+       id="path4838"
+       d="m 47,-47 16,-16 v 16 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       class="ColorScheme-Text" />
+    <path
+       id="path4840"
+       d="M 57,-57 47,-47 H 57 Z"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       class="ColorScheme-Text" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m 47,-63 v 4 1 h 4 v -1 -1 -1 h -2 v 1 h 1 v 1 h -2 v -3 h 3 v -1 h -3 z"
+       id="path5062" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-20-gprs">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4844"
+       width="22"
+       height="22"
+       x="66"
+       y="-66" />
+    <path
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 69,-47 16,-16 v 16 z"
+       id="path4846"
+       class="ColorScheme-Text" />
+    <path
+       id="path4848"
+       d="m 76,-54 -7,7 h 7 z"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       class="ColorScheme-Text" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m 69,-63 v 4 1 h 4 v -1 -1 -1 h -2 v 1 h 1 v 1 h -2 v -3 h 3 v -1 h -3 z"
+       id="path5064" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-0-gprs">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4852"
+       width="22"
+       height="22"
+       x="88"
+       y="-66" />
+    <path
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 91,-47 16,-16 v 16 z"
+       id="path4854"
+       class="ColorScheme-Text" />
+    <path
+       class="ColorScheme-Text"
+       id="path5066"
+       d="m 91,-63 v 4 1 h 4 v -1 -1 -1 h -2 v 1 h 1 v 1 h -2 v -3 h 3 v -1 h -3 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-100-gprs-locked">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4856"
+       width="22"
+       height="22"
+       x="-22"
+       y="-88" />
+    <path
+       class="ColorScheme-Text"
+       id="path4858"
+       d="m -3,-85 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m -4,-76 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       id="path4860" />
+    <path
+       class="ColorScheme-Text"
+       id="path5068"
+       d="m -19,-85 v 4 1 h 4 v -1 -1 -1 h -2 v 1 h 1 v 1 h -2 v -3 h 3 v -1 h -3 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-80-gprs-locked">
+    <rect
+       y="-88"
+       x="0"
+       height="22"
+       width="22"
+       id="rect4862"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 19,-85 3,-69 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       id="path4864" />
+    <path
+       class="ColorScheme-Text"
+       id="path4866"
+       d="m 18,-76 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       id="path4892"
+       d="M 17,-83 3,-69 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m 3,-85 v 4 1 h 4 v -1 -1 -1 H 5 v 1 h 1 v 1 H 4 v -3 h 3 v -1 H 4 Z"
+       id="path5070" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-60-gprs-locked">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4868"
+       width="22"
+       height="22"
+       x="22"
+       y="-88" />
+    <path
+       class="ColorScheme-Text"
+       id="path4870"
+       d="m 41,-85 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 40,-76 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       id="path4872" />
+    <path
+       class="ColorScheme-Text"
+       id="path4894"
+       d="m 37,-81 -12,12 h 11 v -3 l 1,-1 v -2 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m 25,-85 v 4 1 h 4 v -1 -1 -1 h -2 v 1 h 1 v 1 h -2 v -3 h 3 v -1 h -3 z"
+       id="path5072" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-40-gprs-locked">
+    <rect
+       y="-88"
+       x="44"
+       height="22"
+       width="22"
+       id="rect4874"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 63,-85 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       id="path4876" />
+    <path
+       class="ColorScheme-Text"
+       id="path4878"
+       d="m 62,-76 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       id="path4896"
+       d="M 57,-79 47,-69 H 57 Z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       id="path5074"
+       d="m 47,-85 v 4 1 h 4 v -1 -1 -1 h -2 v 1 h 1 v 1 h -2 v -3 h 3 v -1 h -3 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-20-gprs-locked">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4880"
+       width="22"
+       height="22"
+       x="66"
+       y="-88" />
+    <path
+       class="ColorScheme-Text"
+       id="path4882"
+       d="m 85,-85 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 84,-76 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       id="path4884" />
+    <path
+       class="ColorScheme-Text"
+       id="path4898"
+       d="m 76,-76 -7,7 h 7 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       id="path5076"
+       d="m 69,-85 v 4 1 h 4 v -1 -1 -1 h -2 v 1 h 1 v 1 h -2 v -3 h 3 v -1 h -3 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-0-gprs-locked">
+    <rect
+       y="-88"
+       x="88"
+       height="22"
+       width="22"
+       id="rect4886"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 107,-85 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       id="path4888" />
+    <path
+       class="ColorScheme-Text"
+       id="path4890"
+       d="m 106,-76 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m 91,-85 v 4 1 h 4 v -1 -1 -1 h -2 v 1 h 1 v 1 h -2 v -3 h 3 v -1 h -3 z"
+       id="path5078" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-100-edge">
+    <rect
+       y="-110"
+       x="-22"
+       height="22"
+       width="22"
+       id="rect5082"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       id="path5084"
+       d="m -19,-91 16,-16 v 16 z"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       class="ColorScheme-Text" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m -19,-107 v 4 1 h 4 v -1 h -3 v -1 h 2 v -1 h -2 v -1 h 3 v -1 h -3 z"
+       id="rect5000" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-80-edge">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5088"
+       width="22"
+       height="22"
+       x="0"
+       y="-110" />
+    <path
+       id="path5090"
+       d="m 3,-91 16,-16 v 16 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       class="ColorScheme-Text" />
+    <path
+       id="path5092"
+       d="M 17,-105 3,-91 h 14 z"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       class="ColorScheme-Text" />
+    <path
+       class="ColorScheme-Text"
+       id="path5196"
+       d="m 3,-107 v 4 1 h 4 v -1 H 4 v -1 h 2 v -1 H 4 v -1 h 3 v -1 H 4 Z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-60-edge">
+    <rect
+       y="-110"
+       x="22"
+       height="22"
+       width="22"
+       id="rect5096"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 25,-91 16,-16 v 16 z"
+       id="path5098"
+       class="ColorScheme-Text" />
+    <path
+       id="path5100"
+       d="M 37,-103 25,-91 H 37 Z"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       class="ColorScheme-Text" />
+    <path
+       class="ColorScheme-Text"
+       id="path5198"
+       d="m 25,-107 v 4 1 h 4 v -1 h -3 v -1 h 2 v -1 h -2 v -1 h 3 v -1 h -3 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-40-edge">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5104"
+       width="22"
+       height="22"
+       x="44"
+       y="-110" />
+    <path
+       id="path5106"
+       d="m 47,-91 16,-16 v 16 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       class="ColorScheme-Text" />
+    <path
+       id="path5108"
+       d="M 57,-101 47,-91 H 57 Z"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       class="ColorScheme-Text" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m 47,-107 v 4 1 h 4 v -1 h -3 v -1 h 2 v -1 h -2 v -1 h 3 v -1 h -3 z"
+       id="path5200" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-20-edge">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5112"
+       width="22"
+       height="22"
+       x="66"
+       y="-110" />
+    <path
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 69,-91 16,-16 v 16 z"
+       id="path5114"
+       class="ColorScheme-Text" />
+    <path
+       id="path5116"
+       d="m 76,-98 -7,7 h 7 z"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       class="ColorScheme-Text" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m 69,-107 v 4 1 h 4 v -1 h -3 v -1 h 2 v -1 h -2 v -1 h 3 v -1 h -3 z"
+       id="path5202" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-0-edge">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5120"
+       width="22"
+       height="22"
+       x="88"
+       y="-110" />
+    <path
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 91,-91 16,-16 v 16 z"
+       id="path5122"
+       class="ColorScheme-Text" />
+    <path
+       class="ColorScheme-Text"
+       id="path5204"
+       d="m 91,-107 v 4 1 h 4 v -1 h -3 v -1 h 2 v -1 h -2 v -1 h 3 v -1 h -3 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-100-edge-locked">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5124"
+       width="22"
+       height="22"
+       x="-22"
+       y="-132" />
+    <path
+       class="ColorScheme-Text"
+       id="path5126"
+       d="m -3,-129 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m -4,-120 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       id="path5128" />
+    <path
+       class="ColorScheme-Text"
+       id="path5206"
+       d="m -19,-129 v 4 1 h 4 v -1 h -3 v -1 h 2 v -1 h -2 v -1 h 3 v -1 h -3 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-80-edge-locked">
+    <rect
+       y="-132"
+       x="0"
+       height="22"
+       width="22"
+       id="rect5130"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 19,-129 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       id="path5132" />
+    <path
+       class="ColorScheme-Text"
+       id="path5134"
+       d="m 18,-120 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       id="path5160"
+       d="m 17,-127 -14,14 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m 3,-129 v 4 1 h 4 v -1 H 4 v -1 h 2 v -1 H 4 v -1 h 3 v -1 H 4 Z"
+       id="path5208" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-60-edge-locked">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5136"
+       width="22"
+       height="22"
+       x="22"
+       y="-132" />
+    <path
+       class="ColorScheme-Text"
+       id="path5138"
+       d="m 41,-129 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 40,-120 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       id="path5140" />
+    <path
+       class="ColorScheme-Text"
+       id="path5162"
+       d="m 37,-125 -12,12 h 11 v -3 l 1,-1 v -2 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m 25,-129 v 4 1 h 4 v -1 h -3 v -1 h 2 v -1 h -2 v -1 h 3 v -1 h -3 z"
+       id="path5210" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-40-edge-locked">
+    <rect
+       y="-132"
+       x="44"
+       height="22"
+       width="22"
+       id="rect5142"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 63,-129 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       id="path5144" />
+    <path
+       class="ColorScheme-Text"
+       id="path5146"
+       d="m 62,-120 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       id="path5164"
+       d="m 57,-123 -10,10 h 10 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       id="path5212"
+       d="m 47,-129 v 4 1 h 4 v -1 h -3 v -1 h 2 v -1 h -2 v -1 h 3 v -1 h -3 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-20-edge-locked">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5148"
+       width="22"
+       height="22"
+       x="66"
+       y="-132" />
+    <path
+       class="ColorScheme-Text"
+       id="path5150"
+       d="m 85,-129 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 84,-120 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       id="path5152" />
+    <path
+       class="ColorScheme-Text"
+       id="path5166"
+       d="m 76,-120 -7,7 h 7 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       id="path5214"
+       d="m 69,-129 v 4 1 h 4 v -1 h -3 v -1 h 2 v -1 h -2 v -1 h 3 v -1 h -3 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-0-edge-locked">
+    <rect
+       y="-132"
+       x="88"
+       height="22"
+       width="22"
+       id="rect5154"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 107,-129 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       id="path5156" />
+    <path
+       class="ColorScheme-Text"
+       id="path5158"
+       d="m 106,-120 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m 91,-129 v 4 1 h 4 v -1 h -3 v -1 h 2 v -1 h -2 v -1 h 3 v -1 h -3 z"
+       id="path5216" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-100-umts">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5218"
+       width="22"
+       height="22"
+       x="-22"
+       y="-154" />
+    <path
+       class="ColorScheme-Text"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m -19,-135 16,-16 v 16 z"
+       id="path5220" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m -19,-151 v 4 1 h 4 v -1 -4 h -1 v 4 h -2 v -4 z"
+       id="rect4990" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-80-umts">
+    <rect
+       y="-154"
+       x="0"
+       height="22"
+       width="22"
+       id="rect5222"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 3,-135 16,-16 v 16 z"
+       id="path5224" />
+    <path
+       class="ColorScheme-Text"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 17,-149 3,-135 H 17 Z"
+       id="path5226" />
+    <path
+       class="ColorScheme-Text"
+       id="path5335"
+       d="m 3,-151 v 4 1 h 4 v -1 -4 H 6 v 4 H 4 v -4 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-60-umts">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5230"
+       width="22"
+       height="22"
+       x="22"
+       y="-154" />
+    <path
+       class="ColorScheme-Text"
+       id="path5232"
+       d="m 25,-135 16,-16 v 16 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 37,-147 -12,12 h 12 z"
+       id="path5234" />
+    <path
+       class="ColorScheme-Text"
+       id="path5351"
+       d="m 25,-151 v 4 1 h 4 v -1 -4 h -1 v 4 h -2 v -4 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-40-umts">
+    <rect
+       y="-154"
+       x="44"
+       height="22"
+       width="22"
+       id="rect5236"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 47,-135 16,-16 v 16 z"
+       id="path5238" />
+    <path
+       class="ColorScheme-Text"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 57,-145 -10,10 h 10 z"
+       id="path5240" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m 47,-151 v 4 1 h 4 v -1 -4 h -1 v 4 h -2 v -4 z"
+       id="path5353" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-20-umts">
+    <rect
+       y="-154"
+       x="66"
+       height="22"
+       width="22"
+       id="rect5242"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       id="path5244"
+       d="m 69,-135 16,-16 v 16 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 76,-142 -7,7 h 7 z"
+       id="path5246" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m 69,-151 v 4 1 h 4 v -1 -4 h -1 v 4 h -2 v -4 z"
+       id="path5359" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-0-umts">
+    <rect
+       y="-154"
+       x="88"
+       height="22"
+       width="22"
+       id="rect5248"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       id="path5250"
+       d="m 91,-135 16,-16 v 16 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       id="path5361"
+       d="m 91,-151 v 4 1 h 4 v -1 -4 h -1 v 4 h -2 v -4 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-100-umts-locked">
+    <rect
+       y="-176"
+       x="-22"
+       height="22"
+       width="22"
+       id="rect5252"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m -3,-173 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       id="path5254" />
+    <path
+       class="ColorScheme-Text"
+       id="path5256"
+       d="m -4,-164 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       id="path5347"
+       d="m -19,-173 v 4 1 h 4 v -1 -4 h -1 v 4 h -2 v -4 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-80-umts-locked">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5258"
+       width="22"
+       height="22"
+       x="0"
+       y="-176" />
+    <path
+       class="ColorScheme-Text"
+       id="path5260"
+       d="m 19,-173 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 18,-164 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       id="path5262" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 17,-171 -14,14 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 z"
+       id="path5288" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m 3,-173 v 4 1 h 4 v -1 -4 H 6 v 4 H 4 v -4 z"
+       id="path5349" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-60-umts-locked">
+    <rect
+       y="-176"
+       x="22"
+       height="22"
+       width="22"
+       id="rect5264"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 41,-173 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       id="path5266" />
+    <path
+       class="ColorScheme-Text"
+       id="path5268"
+       d="m 40,-164 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 37,-169 -12,12 h 11 v -3 l 1,-1 v -2 z"
+       id="path5290" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m 25,-173 v 4 1 h 4 v -1 -4 h -1 v 4 h -2 v -4 z"
+       id="path5355" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-40-umts-locked">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5270"
+       width="22"
+       height="22"
+       x="44"
+       y="-176" />
+    <path
+       class="ColorScheme-Text"
+       id="path5272"
+       d="m 63,-173 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 62,-164 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       id="path5274" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 57,-167 -10,10 h 10 z"
+       id="path5292" />
+    <path
+       class="ColorScheme-Text"
+       id="path5357"
+       d="m 47,-173 v 4 1 h 4 v -1 -4 h -1 v 4 h -2 v -4 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-20-umts-locked">
+    <rect
+       y="-176"
+       x="66"
+       height="22"
+       width="22"
+       id="rect5276"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 85,-173 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       id="path5278" />
+    <path
+       class="ColorScheme-Text"
+       id="path5280"
+       d="m 84,-164 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 76,-164 -7,7 h 7 z"
+       id="path5294" />
+    <path
+       class="ColorScheme-Text"
+       id="path5363"
+       d="m 69,-173 v 4 1 h 4 v -1 -4 h -1 v 4 h -2 v -4 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-0-umts-locked">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5282"
+       width="22"
+       height="22"
+       x="88"
+       y="-176" />
+    <path
+       class="ColorScheme-Text"
+       id="path5284"
+       d="m 107,-173 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 106,-164 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       id="path5286" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m 91,-173 v 4 1 h 4 v -1 -4 h -1 v 4 h -2 v -4 z"
+       id="path5365" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-100-hspa">
+    <rect
+       y="-198"
+       x="-22"
+       height="22"
+       width="22"
+       id="rect5369"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       id="path5371"
+       d="m -19,-179 16,-16 v 16 z"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       class="ColorScheme-Text" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m -19,-195 v 5 h 1 v -2 h 2 v 2 h 1 v -5 h -1 v 2 h -2 v -2 z"
+       id="rect5018" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-80-hspa">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5375"
+       width="22"
+       height="22"
+       x="0"
+       y="-198" />
+    <path
+       id="path5377"
+       d="m 3,-179 16,-16 v 16 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       class="ColorScheme-Text" />
+    <path
+       id="path5379"
+       d="M 17,-193 3,-179 H 17 Z"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       class="ColorScheme-Text" />
+    <path
+       class="ColorScheme-Text"
+       id="path5495"
+       d="m 3,-195 v 5 h 1 v -2 h 2 v 2 h 1 v -5 H 6 v 2 H 4 v -2 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-60-hspa">
+    <rect
+       y="-198"
+       x="22"
+       height="22"
+       width="22"
+       id="rect5383"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 25,-179 16,-16 v 16 z"
+       id="path5385"
+       class="ColorScheme-Text" />
+    <path
+       id="path5387"
+       d="m 37,-191 -12,12 h 12 z"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       class="ColorScheme-Text" />
+    <path
+       class="ColorScheme-Text"
+       id="path5501"
+       d="m 25,-195 v 5 h 1 v -2 h 2 v 2 h 1 v -5 h -1 v 2 h -2 v -2 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-40-hspa">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5391"
+       width="22"
+       height="22"
+       x="44"
+       y="-198" />
+    <path
+       id="path5393"
+       d="m 47,-179 16,-16 v 16 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       class="ColorScheme-Text" />
+    <path
+       id="path5395"
+       d="m 57,-189 -10,10 h 10 z"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       class="ColorScheme-Text" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m 47,-195 v 5 h 1 v -2 h 2 v 2 h 1 v -5 h -1 v 2 h -2 v -2 z"
+       id="path5503" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-20-hspa">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5399"
+       width="22"
+       height="22"
+       x="66"
+       y="-198" />
+    <path
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 69,-179 16,-16 v 16 z"
+       id="path5401"
+       class="ColorScheme-Text" />
+    <path
+       id="path5403"
+       d="m 76,-186 -7,7 h 7 z"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       class="ColorScheme-Text" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m 69,-195 v 5 h 1 v -2 h 2 v 2 h 1 v -5 h -1 v 2 h -2 v -2 z"
+       id="path5509" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-0-hspa">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5407"
+       width="22"
+       height="22"
+       x="88"
+       y="-198" />
+    <path
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 91,-179 16,-16 v 16 z"
+       id="path5409"
+       class="ColorScheme-Text" />
+    <path
+       class="ColorScheme-Text"
+       id="path5511"
+       d="m 91,-195 v 5 h 1 v -2 h 2 v 2 h 1 v -5 h -1 v 2 h -2 v -2 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-100-hspa-locked">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5411"
+       width="22"
+       height="22"
+       x="-22"
+       y="-220" />
+    <path
+       class="ColorScheme-Text"
+       id="path5413"
+       d="m -3,-217 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m -4,-208 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       id="path5415" />
+    <path
+       class="ColorScheme-Text"
+       id="path5497"
+       d="m -19,-217 v 5 h 1 v -2 h 2 v 2 h 1 v -5 h -1 v 2 h -2 v -2 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-80-hspa-locked">
+    <rect
+       y="-220"
+       x="0"
+       height="22"
+       width="22"
+       id="rect5417"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 19,-217 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       id="path5419" />
+    <path
+       class="ColorScheme-Text"
+       id="path5421"
+       d="m 18,-208 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       id="path5447"
+       d="m 17,-215 -14,14 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m 3,-217 v 5 h 1 v -2 h 2 v 2 h 1 v -5 H 6 v 2 H 4 v -2 z"
+       id="path5499" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-60-hspa-locked">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5423"
+       width="22"
+       height="22"
+       x="22"
+       y="-220" />
+    <path
+       class="ColorScheme-Text"
+       id="path5425"
+       d="m 41,-217 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 40,-208 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       id="path5427" />
+    <path
+       class="ColorScheme-Text"
+       id="path5449"
+       d="m 37,-213 -12,12 h 11 v -3 l 1,-1 v -2 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m 25,-217 v 5 h 1 v -2 h 2 v 2 h 1 v -5 h -1 v 2 h -2 v -2 z"
+       id="path5505" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-40-hspa-locked">
+    <rect
+       y="-220"
+       x="44"
+       height="22"
+       width="22"
+       id="rect5429"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 63,-217 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       id="path5431" />
+    <path
+       class="ColorScheme-Text"
+       id="path5433"
+       d="m 62,-208 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       id="path5451"
+       d="m 57,-211 -10,10 h 10 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       id="path5507"
+       d="m 47,-217 v 5 h 1 v -2 h 2 v 2 h 1 v -5 h -1 v 2 h -2 v -2 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-20-hspa-locked">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5435"
+       width="22"
+       height="22"
+       x="66"
+       y="-220" />
+    <path
+       class="ColorScheme-Text"
+       id="path5437"
+       d="m 85,-217 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 84,-208 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       id="path5439" />
+    <path
+       class="ColorScheme-Text"
+       id="path5453"
+       d="m 76,-208 -7,7 h 7 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       id="path5513"
+       d="m 69,-217 v 5 h 1 v -2 h 2 v 2 h 1 v -5 h -1 v 2 h -2 v -2 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-0-hspa-locked">
+    <rect
+       y="-220"
+       x="88"
+       height="22"
+       width="22"
+       id="rect5441"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 107,-217 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       id="path5443" />
+    <path
+       class="ColorScheme-Text"
+       id="path5445"
+       d="m 106,-208 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m 91,-217 v 5 h 1 v -2 h 2 v 2 h 1 v -5 h -1 v 2 h -2 v -2 z"
+       id="path5515" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-100-hsupa">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5517"
+       width="22"
+       height="22"
+       x="-22"
+       y="-242" />
+    <path
+       class="ColorScheme-Text"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m -19,-223 16,-16 v 16 z"
+       id="path5519" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m -19,-239 v 5 h 1 v -2 h 2 v 2 h 1 v -5 h -1 v 2 h -2 v -2 z m 6,0 -1,2 h 2 z"
+       id="path5033" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-80-hsupa">
+    <rect
+       y="-242"
+       x="0"
+       height="22"
+       width="22"
+       id="rect5521"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 3,-223 16,-16 v 16 z"
+       id="path5523" />
+    <path
+       class="ColorScheme-Text"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 17,-237 3,-223 H 17 Z"
+       id="path5525" />
+    <path
+       class="ColorScheme-Text"
+       id="path5641"
+       d="m 3,-239 v 5 h 1 v -2 h 2 v 2 h 1 v -5 H 6 v 2 H 4 v -2 z m 6,0 -1,2 h 2 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-60-hsupa">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5527"
+       width="22"
+       height="22"
+       x="22"
+       y="-242" />
+    <path
+       class="ColorScheme-Text"
+       id="path5529"
+       d="m 25,-223 16,-16 v 16 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 37,-235 -12,12 h 12 z"
+       id="path5531" />
+    <path
+       class="ColorScheme-Text"
+       id="path5645"
+       d="m 25,-239 v 5 h 1 v -2 h 2 v 2 h 1 v -5 h -1 v 2 h -2 v -2 z m 6,0 -1,2 h 2 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-40-hsupa">
+    <rect
+       y="-242"
+       x="44"
+       height="22"
+       width="22"
+       id="rect5533"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 47,-223 16,-16 v 16 z"
+       id="path5535" />
+    <path
+       class="ColorScheme-Text"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 57,-233 -10,10 h 10 z"
+       id="path5537" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m 47,-239 v 5 h 1 v -2 h 2 v 2 h 1 v -5 h -1 v 2 h -2 v -2 z m 6,0 -1,2 h 2 z"
+       id="path5649" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-20-hsupa">
+    <rect
+       y="-242"
+       x="66"
+       height="22"
+       width="22"
+       id="rect5539"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       id="path5541"
+       d="m 69,-223 16,-16 v 16 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 76,-230 -7,7 h 7 z"
+       id="path5543" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m 69,-239 v 5 h 1 v -2 h 2 v 2 h 1 v -5 h -1 v 2 h -2 v -2 z m 6,0 -1,2 h 2 z"
+       id="path5653" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-0-hsupa">
+    <rect
+       y="-242"
+       x="88"
+       height="22"
+       width="22"
+       id="rect5545"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       id="path5547"
+       d="m 91,-223 16,-16 v 16 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       id="path5657"
+       d="m 91,-239 v 5 h 1 v -2 h 2 v 2 h 1 v -5 h -1 v 2 h -2 v -2 z m 6,0 -1,2 h 2 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-100-hsupa-locked">
+    <rect
+       y="-264"
+       x="-22"
+       height="22"
+       width="22"
+       id="rect5549"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m -3,-261 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       id="path5551" />
+    <path
+       class="ColorScheme-Text"
+       id="path5553"
+       d="m -4,-252 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       id="path5639"
+       d="m -19,-261 v 5 h 1 v -2 h 2 v 2 h 1 v -5 h -1 v 2 h -2 v -2 z m 6,0 -1,2 h 2 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-80-hsupa-locked">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5555"
+       width="22"
+       height="22"
+       x="0"
+       y="-264" />
+    <path
+       class="ColorScheme-Text"
+       id="path5557"
+       d="m 19,-261 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 18,-252 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       id="path5559" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 17,-259 -14,14 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 z"
+       id="path5585" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m 3,-261 v 5 h 1 v -2 h 2 v 2 h 1 v -5 H 6 v 2 H 4 v -2 z m 6,0 -1,2 h 2 z"
+       id="path5643" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-60-hsupa-locked">
+    <rect
+       y="-264"
+       x="22"
+       height="22"
+       width="22"
+       id="rect5561"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 41,-261 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       id="path5563" />
+    <path
+       class="ColorScheme-Text"
+       id="path5565"
+       d="m 40,-252 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 37,-257 -12,12 h 11 v -3 l 1,-1 v -2 z"
+       id="path5587" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m 25,-261 v 5 h 1 v -2 h 2 v 2 h 1 v -5 h -1 v 2 h -2 v -2 z m 6,0 -1,2 h 2 z"
+       id="path5647" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-40-hsupa-locked">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5567"
+       width="22"
+       height="22"
+       x="44"
+       y="-264" />
+    <path
+       class="ColorScheme-Text"
+       id="path5569"
+       d="m 63,-261 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 62,-252 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       id="path5571" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 57,-255 -10,10 h 10 z"
+       id="path5589" />
+    <path
+       class="ColorScheme-Text"
+       id="path5651"
+       d="m 47,-261 v 5 h 1 v -2 h 2 v 2 h 1 v -5 h -1 v 2 h -2 v -2 z m 6,0 -1,2 h 2 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-20-hsupa-locked">
+    <rect
+       y="-264"
+       x="66"
+       height="22"
+       width="22"
+       id="rect5573"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 85,-261 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       id="path5575" />
+    <path
+       class="ColorScheme-Text"
+       id="path5577"
+       d="m 84,-252 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 76,-252 -7,7 h 7 z"
+       id="path5591" />
+    <path
+       class="ColorScheme-Text"
+       id="path5655"
+       d="m 69,-261 v 5 h 1 v -2 h 2 v 2 h 1 v -5 h -1 v 2 h -2 v -2 z m 6,0 -1,2 h 2 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-0-hsupa-locked">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5579"
+       width="22"
+       height="22"
+       x="88"
+       y="-264" />
+    <path
+       class="ColorScheme-Text"
+       id="path5581"
+       d="m 107,-261 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 106,-252 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       id="path5583" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m 91,-261 v 5 h 1 v -2 h 2 v 2 h 1 v -5 h -1 v 2 h -2 v -2 z m 6,0 -1,2 h 2 z"
+       id="path5659" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-100-hsdpa">
+    <rect
+       y="-286"
+       x="-22"
+       height="22"
+       width="22"
+       id="rect5661"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       id="path5663"
+       d="m -19,-267 16,-16 v 16 z"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       class="ColorScheme-Text" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m -19,-283 v 5 h 1 v -2 h 2 v 2 h 1 v -5 h -1 v 2 h -2 v -2 z m 5,0 1,2 1,-2 z"
+       id="path5037" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-80-hsdpa">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5665"
+       width="22"
+       height="22"
+       x="0"
+       y="-286" />
+    <path
+       id="path5667"
+       d="m 3,-267 16,-16 v 16 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       class="ColorScheme-Text" />
+    <path
+       id="path5669"
+       d="M 17,-281 3,-267 H 17 Z"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       class="ColorScheme-Text" />
+    <path
+       class="ColorScheme-Text"
+       id="path5936"
+       d="m 6.5,-283 v 5 h 1 v -2 h 2 v 2 h 1 v -5 h -1 v 2 h -2 v -2 z m 5,0 1,2 1,-2 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-60-hsdpa">
+    <rect
+       y="-286"
+       x="22"
+       height="22"
+       width="22"
+       id="rect5671"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 25,-267 16,-16 v 16 z"
+       id="path5673"
+       class="ColorScheme-Text" />
+    <path
+       id="path5675"
+       d="m 37,-279 -12,12 h 12 z"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       class="ColorScheme-Text" />
+    <path
+       class="ColorScheme-Text"
+       id="path5940"
+       d="m 25,-283 v 5 h 1 v -2 h 2 v 2 h 1 v -5 h -1 v 2 h -2 v -2 z m 5,0 1,2 1,-2 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-40-hsdpa">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5677"
+       width="22"
+       height="22"
+       x="44"
+       y="-286" />
+    <path
+       id="path5679"
+       d="m 47,-267 16,-16 v 16 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       class="ColorScheme-Text" />
+    <path
+       id="path5681"
+       d="m 57,-277 -10,10 h 10 z"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       class="ColorScheme-Text" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m 50.5,-283 v 5 h 1 v -2 h 2 v 2 h 1 v -5 h -1 v 2 h -2 v -2 z m 5,0 1,2 1,-2 z"
+       id="path5944" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-20-hsdpa">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5683"
+       width="22"
+       height="22"
+       x="66"
+       y="-286" />
+    <path
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 69,-267 16,-16 v 16 z"
+       id="path5685"
+       class="ColorScheme-Text" />
+    <path
+       id="path5687"
+       d="m 76,-274 -7,7 h 7 z"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       class="ColorScheme-Text" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m 69,-283 v 5 h 1 v -2 h 2 v 2 h 1 v -5 h -1 v 2 h -2 v -2 z m 5,0 1,2 1,-2 z"
+       id="path5948" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-0-hsdpa">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5689"
+       width="22"
+       height="22"
+       x="88"
+       y="-286" />
+    <path
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 91,-267 16,-16 v 16 z"
+       id="path5691"
+       class="ColorScheme-Text" />
+    <path
+       class="ColorScheme-Text"
+       id="path5952"
+       d="m 94.5,-283 v 5 h 1 v -2 h 2 v 2 h 1 v -5 h -1 v 2 h -2 v -2 z m 5,0 1,2 1,-2 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-100-hsdpa-locked">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5693"
+       width="22"
+       height="22"
+       x="-22"
+       y="-308" />
+    <path
+       class="ColorScheme-Text"
+       id="path5695"
+       d="m -3,-305 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m -4,-296 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       id="path5697" />
+    <path
+       class="ColorScheme-Text"
+       id="path5934"
+       d="m -19,-305 v 5 h 1 v -2 h 2 v 2 h 1 v -5 h -1 v 2 h -2 v -2 z m 5,0 1,2 1,-2 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-80-hsdpa-locked">
+    <rect
+       y="-308"
+       x="0"
+       height="22"
+       width="22"
+       id="rect5699"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 19,-305 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       id="path5701" />
+    <path
+       class="ColorScheme-Text"
+       id="path5703"
+       d="m 18,-296 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       id="path5729"
+       d="m 17,-303 -14,14 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m 6.5,-305 v 5 h 1 v -2 h 2 v 2 h 1 v -5 h -1 v 2 h -2 v -2 z m 5,0 1,2 1,-2 z"
+       id="path5938" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-60-hsdpa-locked">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5705"
+       width="22"
+       height="22"
+       x="22"
+       y="-308" />
+    <path
+       class="ColorScheme-Text"
+       id="path5707"
+       d="m 41,-305 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 40,-296 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       id="path5709" />
+    <path
+       class="ColorScheme-Text"
+       id="path5731"
+       d="m 37,-301 -12,12 h 11 v -3 l 1,-1 v -2 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m 25,-305 v 5 h 1 v -2 h 2 v 2 h 1 v -5 h -1 v 2 h -2 v -2 z m 5,0 1,2 1,-2 z"
+       id="path5942" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-40-hsdpa-locked">
+    <rect
+       y="-308"
+       x="44"
+       height="22"
+       width="22"
+       id="rect5711"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 63,-305 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       id="path5713" />
+    <path
+       class="ColorScheme-Text"
+       id="path5715"
+       d="m 62,-296 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       id="path5733"
+       d="m 57,-299 -10,10 h 10 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       id="path5946"
+       d="m 50.5,-305 v 5 h 1 v -2 h 2 v 2 h 1 v -5 h -1 v 2 h -2 v -2 z m 5,0 1,2 1,-2 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-20-hsdpa-locked">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5717"
+       width="22"
+       height="22"
+       x="66"
+       y="-308" />
+    <path
+       class="ColorScheme-Text"
+       id="path5719"
+       d="m 85,-305 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 84,-296 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       id="path5721" />
+    <path
+       class="ColorScheme-Text"
+       id="path5735"
+       d="m 76,-296 -7,7 h 7 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       id="path5950"
+       d="m 69,-305 v 5 h 1 v -2 h 2 v 2 h 1 v -5 h -1 v 2 h -2 v -2 z m 5,0 1,2 1,-2 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-186.22887)"
+     id="network-mobile-0-hsdpa-locked">
+    <rect
+       y="-308"
+       x="88"
+       height="22"
+       width="22"
+       id="rect5723"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 107,-305 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       id="path5725" />
+    <path
+       class="ColorScheme-Text"
+       id="path5727"
+       d="m 106,-296 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m 94.5,-305 v 5 h 1 v -2 h 2 v 2 h 1 v -5 h -1 v 2 h -2 v -2 z m 5,0 1,2 1,-2 z"
+       id="path5954" />
+  </g>
+  <g
+     transform="translate(19.538495,-142.22887)"
+     id="network-mobile-100-lte">
+    <rect
+       y="-374"
+       x="-22"
+       height="22"
+       width="22"
+       id="rect5858"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       id="path5860"
+       d="m -19,-355 16,-16 v 16 z"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       class="ColorScheme-Text" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m -19,-371 v 4 1 h 4 v -1 h -3 v -4 z"
+       id="rect5010" />
+  </g>
+  <g
+     transform="translate(19.538495,-142.22887)"
+     id="network-mobile-80-lte">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5862"
+       width="22"
+       height="22"
+       x="0"
+       y="-374" />
+    <path
+       id="path5864"
+       d="m 3,-355 16,-16 v 16 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       class="ColorScheme-Text" />
+    <path
+       id="path5866"
+       d="M 17,-369 3,-355 H 17 Z"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       class="ColorScheme-Text" />
+    <path
+       class="ColorScheme-Text"
+       id="path6017"
+       d="m 3,-371 v 4 1 h 4 v -1 H 4 v -4 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-142.22887)"
+     id="network-mobile-60-lte">
+    <rect
+       y="-374"
+       x="22"
+       height="22"
+       width="22"
+       id="rect5868"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 25,-355 16,-16 v 16 z"
+       id="path5870"
+       class="ColorScheme-Text" />
+    <path
+       id="path5872"
+       d="m 37,-367 -12,12 h 12 z"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       class="ColorScheme-Text" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m 25,-371 v 4 1 h 4 v -1 h -3 v -4 z"
+       id="path6019" />
+  </g>
+  <g
+     transform="translate(19.538495,-142.22887)"
+     id="network-mobile-40-lte">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5874"
+       width="22"
+       height="22"
+       x="44"
+       y="-374" />
+    <path
+       id="path5876"
+       d="m 47,-355 16,-16 v 16 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       class="ColorScheme-Text" />
+    <path
+       id="path5878"
+       d="m 57,-365 -10,10 h 10 z"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       class="ColorScheme-Text" />
+    <path
+       class="ColorScheme-Text"
+       id="path6021"
+       d="m 47,-371 v 4 1 h 4 v -1 h -3 v -4 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-142.22887)"
+     id="network-mobile-20-lte">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5880"
+       width="22"
+       height="22"
+       x="66"
+       y="-374" />
+    <path
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 69,-355 16,-16 v 16 z"
+       id="path5882"
+       class="ColorScheme-Text" />
+    <path
+       id="path5884"
+       d="m 76,-362 -7,7 h 7 z"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       class="ColorScheme-Text" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m 69,-371 v 4 1 h 4 v -1 h -3 v -4 z"
+       id="path6023" />
+  </g>
+  <g
+     transform="translate(19.538495,-142.22887)"
+     id="network-mobile-0-lte">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5886"
+       width="22"
+       height="22"
+       x="88"
+       y="-374" />
+    <path
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 91,-355 16,-16 v 16 z"
+       id="path5888"
+       class="ColorScheme-Text" />
+    <path
+       class="ColorScheme-Text"
+       id="path6025"
+       d="m 91,-371 v 4 1 h 4 v -1 h -3 v -4 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-142.22887)"
+     id="network-mobile-100-lte-locked">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5890"
+       width="22"
+       height="22"
+       x="-22"
+       y="-396" />
+    <path
+       class="ColorScheme-Text"
+       id="path5892"
+       d="m -3,-393 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m -4,-384 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       id="path5894" />
+    <path
+       class="ColorScheme-Text"
+       id="path6027"
+       d="m -19,-393 v 4 1 h 4 v -1 h -3 v -4 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-142.22887)"
+     id="network-mobile-80-lte-locked">
+    <rect
+       y="-396"
+       x="0"
+       height="22"
+       width="22"
+       id="rect5896"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 19,-393 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       id="path5898" />
+    <path
+       class="ColorScheme-Text"
+       id="path5900"
+       d="m 18,-384 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       id="path5926"
+       d="m 17,-391 -14,14 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m 3,-393 v 4 1 h 4 v -1 H 4 v -4 z"
+       id="path6029" />
+  </g>
+  <g
+     transform="translate(19.538495,-142.22887)"
+     id="network-mobile-60-lte-locked">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5902"
+       width="22"
+       height="22"
+       x="22"
+       y="-396" />
+    <path
+       class="ColorScheme-Text"
+       id="path5904"
+       d="m 41,-393 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 40,-384 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       id="path5906" />
+    <path
+       class="ColorScheme-Text"
+       id="path5928"
+       d="m 37,-389 -12,12 h 11 v -3 l 1,-1 v -2 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       id="path6031"
+       d="m 25,-393 v 4 1 h 4 v -1 h -3 v -4 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-142.22887)"
+     id="network-mobile-40-lte-locked">
+    <rect
+       y="-396"
+       x="44"
+       height="22"
+       width="22"
+       id="rect5908"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 63,-393 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       id="path5910" />
+    <path
+       class="ColorScheme-Text"
+       id="path5912"
+       d="m 62,-384 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       id="path5930"
+       d="m 57,-387 -10,10 h 10 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m 47,-393 v 4 1 h 4 v -1 h -3 v -4 z"
+       id="path6033" />
+  </g>
+  <g
+     transform="translate(19.538495,-142.22887)"
+     id="network-mobile-20-lte-locked">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5914"
+       width="22"
+       height="22"
+       x="66"
+       y="-396" />
+    <path
+       class="ColorScheme-Text"
+       id="path5916"
+       d="m 85,-393 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 84,-384 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       id="path5918" />
+    <path
+       class="ColorScheme-Text"
+       id="path5932"
+       d="m 76,-384 -7,7 h 7 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       id="path6035"
+       d="m 69,-393 v 4 1 h 4 v -1 h -3 v -4 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     transform="translate(19.538495,-142.22887)"
+     id="network-mobile-0-lte-locked">
+    <rect
+       y="-396"
+       x="88"
+       height="22"
+       width="22"
+       id="rect5920"
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 107,-393 -16,16 h 11 v -3 l 1,-1 v -2 l 1,-1 1,-1 h 2 z"
+       id="path5922" />
+    <path
+       class="ColorScheme-Text"
+       id="path5924"
+       d="m 106,-384 c -1.108,0 -2,0.892 -2,2 v 2 h -1 v 3 h 6 v -3 h -1 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,1 c 0.554,0 1,0.446 1,1 v 2 h -2 v -2 c 0,-0.554 0.446,-1 1,-1 z"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       class="ColorScheme-Text"
+       style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none"
+       d="m 91,-393 v 4 1 h 4 v -1 h -3 v -4 z"
+       id="path6037" />
+  </g>
+  <g
+     transform="translate(-24.461505,-186.22887)"
+     id="network-mobile-on">
+    <rect
+       style="opacity:0.55;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4198-0"
+       width="22"
+       height="22"
+       x="-22"
+       y="-22" />
+    <path
+       class="ColorScheme-Text"
+       style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M -19,-3 -3,-19 V -3 Z"
+       id="path4220-4" />
+  </g>
+  <g
+     id="network-mobile-off"
+     transform="translate(-16.461505,-260.22887)">
+    <rect
+       style="opacity:0.2;fill:none;fill-opacity:1;stroke:none;stroke-width:3.56737px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4437-6"
+       width="22"
+       height="22"
+       x="146"
+       y="52" />
+    <path
+       id="path4439-7"
+       d="m 165,55 -16,16 h 12.90234 l -0.85351,-0.853516 2.15234,-2.15039 -2.15234,-2.152344 1.30859,-1.306641 0.45899,-0.460937 2.15234,2.152344 0.0312,-0.03125 z"
+       style="opacity:0.5;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccccccccc"
+       class="ColorScheme-Text" />
+    <path
+       id="path6"
+       d="m 162.81706,64.99585 -0.84844,0.848437 2.15156,2.151563 -2.15156,2.151563 0.84844,0.848437 2.15156,-2.151564 2.15156,2.151564 0.84844,-0.848437 -2.15156,-2.151563 2.15156,-2.151563 -0.84844,-0.848437 -2.15156,2.151563 z"
+       class="ColorScheme-NegativeText"
+       style="fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1.2"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>

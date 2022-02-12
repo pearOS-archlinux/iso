@@ -1,0 +1,133 @@
+# Translation of tiledmenu in LANGUAGE
+# Copyright (C) Kpple 2020
+# This file is distributed under the same license as the Kpple Menu package.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: KppleMenu \n"
+"Report-Msgid-Bugs-To: https://github.com/kppleos/org.kpple.kppleMenu\n"
+"POT-Creation-Date: 2020-05-19\n"
+"PO-Revision-Date: 2020-05-20\n"
+"Last-Translator: Borgniet Rudy <borgniet.rudy@hotmail.com>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../contents/ui/main.qml
+msgid "About This Computer"
+msgstr "O tym komputerze" 
+
+#: ../contents/ui/main.qml
+msgid "System Preferences..."
+msgstr "Preferencje systemowe..." 
+
+#: ../contents/ui/main.qml
+msgid "App Store..."
+msgstr "App Store..." 
+
+#: ../contents/ui/main.qml
+msgid "Force Quit..."
+msgstr "Zmuszanie do wyjazdu..." 
+
+#: ../contents/ui/main.qml
+msgid "Sleep"
+msgstr "Zawieszenie działalności"
+
+#: ../contents/ui/main.qml
+msgid "Restart..."
+msgstr "Restart..."
+
+#: ../contents/ui/main.qml
+msgid "Shut Down..."
+msgstr "Wyłączyć..."
+
+#: ../contents/ui/main.qml
+msgid "Lock Screen"
+msgstr "Ekran blokujący"
+
+#: ../contents/ui/main.qml
+msgid "Log Out"
+msgstr "Wyloguj się"
+
+#: ../contents/config/config.qml
+msgid "Advanced"
+msgstr "Zaawansowane"
+
+#: ../contents/config/config.qml
+msgid "Help"
+msgstr "Pomoc"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Adapt the links with your own command lines"
+msgstr "Dostosuj łącza do własnych linii poleceń"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "( Warning : This is the expert mode, do not change anything if the application is working properly. )"
+msgstr "( Ostrzeżenie : To jest tryb ekspercki, nie zmieniaj niczego, jeśli aplikacja działa poprawnie. )"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Show advanced mode"
+msgstr "Pokaż tryb zaawansowany"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "About This Computer :"
+msgstr "O tym komputerze :" 
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "System Preferences :"
+msgstr "Preferencje systemowe :" 
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "App Store :"
+msgstr "App Store :" 
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Force Quit :"
+msgstr "Zmuszanie do wyjazdu :" 
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Sleep :"
+msgstr "Zawieszenie działalności :"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Restart :"
+msgstr "Restart :"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Shut Down :"
+msgstr "Wyłączyć :"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Lock Screen :"
+msgstr "Ekran blokujący :"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Log Out :"
+msgstr "Wyloguj się :"
+
+#: ../contents/ui/config/configHelp.qml
+msgid "Do you need help ?"
+msgstr "Potrzebujesz pomocy ?"
+
+#: ../contents/ui/config/configHelp.qml
+msgid "About Kpple"
+msgstr "O Kpple'u"
+
+#: ../contents/ui/config/configHelp.qml
+msgid "Consult the user's guide"
+msgstr "Zapoznaj się z instrukcją obsługi"
+
+#: ../contents/ui/config/configHelp.qml
+msgid "Repport a bug"
+msgstr "Zgłosić błąd"
+
+#: ../contents/ui/config/configHelp.qml
+msgid "Donate for the project"
+msgstr "Przekazać na rzecz projektu"
+
+#: ../contents/ui/config/configHelp.qml
+msgid "Couldn't find help ? Contact us at : info.kpple@gmail.com"
+msgstr "Nie mogłeś znaleźć żadnej pomocy ? Skontaktuj się z nami pod następującym adresem : info.kpple@gmail.com"
+

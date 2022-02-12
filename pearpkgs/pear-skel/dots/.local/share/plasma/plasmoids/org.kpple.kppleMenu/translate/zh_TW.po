@@ -1,0 +1,134 @@
+# Translation of tiledmenu in LANGUAGE
+# Copyright (C) Kpple 2020
+# This file is distributed under the same license as the Kpple Menu package.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: KppleMenu \n"
+"Report-Msgid-Bugs-To: https://github.com/kppleos/org.kpple.kppleMenu\n"
+"POT-Creation-Date: 2020-05-19\n"
+"PO-Revision-Date: 2020-05-20\n"
+"Last-Translator: Borgniet Rudy <borgniet.rudy@hotmail.com>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../contents/ui/main.qml
+msgid "About This Computer"
+msgstr "關於這台電腦" 
+
+#: ../contents/ui/main.qml
+msgid "System Preferences..."
+msgstr "系統偏好設定..." 
+
+#: ../contents/ui/main.qml
+msgid "App Store..."
+msgstr "應用商店..." 
+
+#: ../contents/ui/main.qml
+msgid "Force Quit..."
+msgstr "強制退出..." 
+
+#: ../contents/ui/main.qml
+msgid "Sleep"
+msgstr "暫停活動"
+
+#: ../contents/ui/main.qml
+msgid "Restart..."
+msgstr "重新啟動..."
+
+#: ../contents/ui/main.qml
+msgid "Shut Down..."
+msgstr "關掉..."
+
+#: ../contents/ui/main.qml
+msgid "Lock Screen"
+msgstr "鎖屏"
+
+#: ../contents/ui/main.qml
+msgid "Log Out"
+msgstr "登出"
+
+#: ../contents/config/config.qml
+msgid "Advanced"
+msgstr "高級"
+
+#: ../contents/config/config.qml
+msgid "Help"
+msgstr "幫幫我"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Adapt the links with your own command lines"
+msgstr "使用您自己的命令行修改鏈接"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "( Warning : This is the expert mode, do not change anything if the application is working properly. )"
+msgstr "( 警告：這是專家模式，如果應用程序正常運行，請不要進行任何更改。 )"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Show advanced mode"
+msgstr "顯示高級模式"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "About This Computer :"
+msgstr "關於這台電腦 :" 
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "System Preferences :"
+msgstr "系統偏好設定 :" 
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "App Store :"
+msgstr "應用商店 :" 
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Force Quit :"
+msgstr "強制退出 :" 
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Sleep :"
+msgstr "暫停活動 :"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Restart :"
+msgstr "重新啟動 :"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Shut Down :"
+msgstr "關掉 :"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Lock Screen :"
+msgstr "鎖屏 :"
+
+#: ../contents/ui/config/configGeneral.qml
+msgid "Log Out :"
+msgstr "登出 :"
+
+#: ../contents/ui/config/configHelp.qml
+msgid "Do you need help ?"
+msgstr "你需要幫助 ？"
+
+#: ../contents/ui/config/configHelp.qml
+msgid "About Kpple"
+msgstr "關於Kpple"
+
+#: ../contents/ui/config/configHelp.qml
+msgid "Consult the user's guide"
+msgstr "查閱用戶指南"
+
+#: ../contents/ui/config/configHelp.qml
+msgid "Repport a bug"
+msgstr "報告錯誤"
+
+#: ../contents/ui/config/configHelp.qml
+msgid "Donate for the project"
+msgstr "為項目捐款"
+
+#: ../contents/ui/config/configHelp.qml
+msgid "Couldn't find help ? Contact us at : info.kpple@gmail.com"
+msgstr "沒有找到幫助？請通過以下地址聯繫我們 : info.kpple@gmail.com"
+
+ 

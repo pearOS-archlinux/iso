@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+      http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
+  <kcfgfile name=""/>
+
+  <group name="General">
+    <entry name="showBatteryIcon" type="bool">
+      <default>true</default>
+    </entry>
+    <entry name="iconWidth" type="int">
+      <default>26</default>
+    </entry>
+    <entry name="iconHeight" type="int">
+      <default>15</default>
+    </entry>
+    <entry name="showPercentage" type="bool">
+      <default>true</default>
+    </entry>
+    <entry name="showTimeLeft" type="bool">
+      <default>true</default>
+    </entry>
+    <entry name="normalColor" type="string">
+      <default></default>
+    </entry>
+    <entry name="chargingColor" type="string">
+      <default></default>
+    </entry>
+    <entry name="lowBatteryColor" type="string">
+      <default></default>
+    </entry>
+    <entry name="lowBatteryPercent" type="int">
+      <default>20</default>
+    </entry>
+    <entry name="timeLeftFormat" type="string">
+      <label>Empty string means using the default locale (eg: "1:09"). "69m" is hardcoded to not carry over into the hour digit.</label>
+      <default></default>
+    </entry>
+    <entry name="alignLeft" type="bool">
+      <default>true</default>
+    </entry>
+    <entry name="padding" type="int">
+      <default>8</default>
+    </entry>
+    <entry name="fontSize" type="int">
+      <default>16</default>
+    </entry>
+  </group>
+
+</kcfg>

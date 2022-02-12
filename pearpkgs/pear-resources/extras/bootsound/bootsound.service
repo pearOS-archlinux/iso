@@ -1,0 +1,12 @@
+[Unit]
+Description=Boot Sound
+Wants=sound.target
+After=sound.target
+   
+[Service]
+Type=oneshot
+RemainAfterExit=no
+ExecStart=/usr/bin/aplay /boot/boot-sound.wav 2>&1 >/dev/null &
+    
+[Install]
+WantedBy=multi-user.target

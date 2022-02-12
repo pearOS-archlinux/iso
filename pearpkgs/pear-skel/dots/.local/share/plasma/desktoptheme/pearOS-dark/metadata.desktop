@@ -1,0 +1,17 @@
+[Desktop Entry]
+Name=pearOS-dark
+X-KDE-PluginInfo-Author=alxb421, fork of Vinceliuice's theme
+X-KDE-PluginInfo-Category=
+X-KDE-PluginInfo-Depends=
+X-KDE-PluginInfo-Email=alxb421@gmail.com
+X-KDE-PluginInfo-EnabledByDefault=true
+X-KDE-PluginInfo-License=GPL3.0
+X-KDE-PluginInfo-Name=pearOS-dark
+X-KDE-PluginInfo-Version=11
+X-KDE-PluginInfo-Website=https://pearos.xyz
+
+[Wallpaper]
+defaultWallpaperTheme=pearOS-dark
+defaultFileSuffix=.png
+defaultHeight=1440
+defaultWidth=2560
