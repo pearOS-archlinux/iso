@@ -16,9 +16,7 @@ fn_bye() { echo "Program terminated: [user_quit]"; exit 0; }
 fn_fail() { echo "Program terminated: [wrong_option]"; exit 1; }
 fn_noroot() { echo "Program terminated: [user_notroot]"; exit 1; }
 
-TEMPFILE=$(mktemp -u)
-OUT="./$TMPFILE"
-
+OUT="./build_$RANDOM"
 
 # the ISO building script
 actual_build() {
