@@ -28,6 +28,7 @@ actual_build() {
 	cp -r packages/pacman.out pear/pacman.conf
 	cp -r pear/pacman.conf pear/airootfs/etc/.
 	cp packages/packages.x86_64 pear/airootfs/etc/packages.x86_64
+	cp packages/packages.x86_64 pear/packages.x86_64
 	cp /etc/pacman.d/mirrorlist pear/airootfs/etc/pacman.d/.
 
 	# makes iso
