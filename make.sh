@@ -16,20 +16,9 @@ fn_bye() { echo "Program terminated: [user_quit]"; exit 0; }
 fn_fail() { echo "Program terminated: [wrong_option]"; exit 1; }
 fn_noroot() { echo "Program terminated: [user_notroot]"; exit 1; }
 
-OUT=$(mktemp -d)
+TEMPFILE=$(mktemp -u)
+OUT="./$TMPFILE"
 
-create_out() {
-	echo "Creating out directory..."
-	mkdir -p out
-	echo "Directory created."
-}
-
-# clean the project files (i.e. when want to push to gh)
-clean_out() {
-	echo "Cleaning the project folder..."
-	rm -ri out
-	echo "Project folder is clean."
-}
 
 # the ISO building script
 actual_build() {
@@ -37,7 +26,7 @@ actual_build() {
 	start=`date +%s`
 
 	# creates randomly named dir. This tool uses it as cache so it needs to be removed many time by hand.
-	mkdir -p "$OUT"
+	mkdir -p $OUT
 
 	# copy files from packages dir to where arch needs them
 	cp -r packages/pacman.out pear/pacman.conf
@@ -53,9 +42,6 @@ actual_build() {
 	runtime=$((end-start))
 	echo "The command was completed in $runtime s"
 
-	# removes working direcory
-	sudo rm -rf "$OUT"
-
 	# make current user the owner of the iso file
 	sudo chown $USER:$USER *.iso
 }
@@ -70,7 +56,7 @@ Choose an option:  "
     read -r ans
     case $ans in
     1)
-        create_out; actual_build
+        actual_build
         ;;
     2)  clean_out
 	;;
