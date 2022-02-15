@@ -1,0 +1,14 @@
+#!/bin/bash
+
+chmod 750 /etc/sudoers.d
+chmod 750 /etc/polkit-1/rules.d
+chgrp polkitd /etc/polkit-1/rules.d
+chmod -v 750 /root
+
+rm -vf /etc/sudoers.d/g_wheel
+rm -vf /etc/sddm.conf.d/autologin.conf
+rm -vf /etc/polkit-1/rules.d/49-nopasswd_global.rules
+rm -vr /etc/systemd/system/etc-pacman.d-gnupg.mount
+rm -vf /root/{.automated_script.sh,.zlogin}
+
+rm /usr/local/bin/{alg-finalisation,livecd-sound,Installation_guide}
