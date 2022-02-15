@@ -23,8 +23,6 @@ actual_build() {
 
 	mkdir work
 	export OUT=$(mktemp -d --tmpdir=work)
-
-	OUT=$(mktemp -d)
 	mkdir -p "$OUT"
 	# copy files from packages dir to where arch needs them
 	cp -r packages/pacman.out pear/pacman.conf
