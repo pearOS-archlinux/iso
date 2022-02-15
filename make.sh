@@ -16,16 +16,16 @@ fn_bye() { echo "Program terminated: [user_quit]"; exit 0; }
 fn_fail() { echo "Program terminated: [wrong_option]"; exit 1; }
 fn_noroot() { echo "Program terminated: [user_notroot]"; exit 1; }
 
-OUT="./build_$RANDOM"
-
 # the ISO building script
 actual_build() {
 	# start a simple timer
 	start=`date +%s`
 
-	# creates randomly named dir. This tool uses it as cache so it needs to be removed many time by hand.
-	mkdir -p $OUT
+	mkdir work
+	export OUT=$(mktemp -d --tmpdir=work)
 
+	OUT=$(mktemp -d)
+	mkdir -p "$OUT"
 	# copy files from packages dir to where arch needs them
 	cp -r packages/pacman.out pear/pacman.conf
 	cp -r pear/pacman.conf pear/airootfs/etc/.
