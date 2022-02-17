@@ -1390,13 +1390,53 @@ clean_out() {
         sudo rm -rf ./work
 }
 
+printUSBDevices() {
+  typeset -a usbDevices
+  typeset -a devices
+  getDeviceType() {
+    typeset deviceName=/sys/block/${1#/dev/}
+    typeset deviceType=$(udevadm info --query=property --path="$deviceName" | grep -Po 'ID_BUS=\K\w+')
+    echo "$deviceType"
+  }
+  mapfile -t devices < <(lsblk -o NAME,TYPE | grep --color=never -oP '^\K\w+(?=\s+disk$)')
+  for device in "${devices[0]}" ; do
+    if [ "$(getDeviceType "/dev/$device")" == "usb" ]; then
+      usbDevices+=("/dev/$device")
+    fi
+  done
+ set +u
+ USB=$usbDevices
+}
+
+writetousb() {
+printUSBDevices
+if [ -z "$USB" ]
+then
+      echo -e "[ \e[91m%\e[0m ] : No USB device found. Make sure there is ONE device inserted and try again. Abort"
+else
+    echo -e "[ \e[92m%\e[0m ] : USB Device detected: [ \e[92m$USB\e[0m ]"
+    if [ -f *.iso ]; then
+    pwd
+    echo -e "[ \e[92m%\e[0m ] : ISO File found: [ \e[92m$(find . 2>/dev/null| grep pearOS-NiceC0re )\e[0m ]"
+    echo -e "[ \e[92m%\e[0m ] : Making pearOS Arch Base Bootable USB . . ."
+    sudo dd if=$(find . 2>/dev/null| grep pearOS-NiceC0re) of=$USB bs=4M status='progress' conv='sync'; sync
+    echo -e "[ \e[92m%\e[0m ] : Your bootable USB is ready!"
+else
+    echo -e "[ \e[91m%\e[0m ] : No pearOS ISO file found. Abort"
+fi
+fi
+set -u
+}
+
+
 mainmenu() {
     echo -ne "
 $(magentaprint 'Choose an option:')
-
-$(greenprint '1)') Build ISO file
+$(magentaprint '1)') Build ISO file
 $(magentaprint '2)') Clean the Project Directory
+$(magentaprint '3')  Write ISO file to USB
 $(redprint '0)') Exit
+
 [ \e[93m% \e[0m] : "
     read -r ans
     case $ans in
@@ -1405,6 +1445,8 @@ $(redprint '0)') Exit
         ;;
     2)  clean_out
         ;;
+    3)  writetousb
+	;;
     0)
         fn_bye
         ;;
@@ -1413,6 +1455,7 @@ $(redprint '0)') Exit
         ;;
     esac
 }
+
 ################################################## CUSTOM SCRIPTS ENDS ##############################################
 if [ "$(id -u)" -ne 0 ]; then
         echo -e '[\e[91m%\e[0m] : This build binary must be run as root (sudo)' >&2
