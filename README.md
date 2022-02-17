@@ -1,9 +1,7 @@
-![pearOS NiceC0re](placeholder)
-
 <div align='center'>
-  
-<a href='https://github.com/chroline/well_app/releases'>
-  
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/72302254/154438822-2cc5e98a-02eb-4655-ab31-59a39eb35f5a.png" alt="drawing" width="200"/>
+  </p>
 <img src='https://img.shields.io/github/v/release/pearOS-archlinux/iso?color=%23FDD835&label=version&style=for-the-badge'>
 
 </a>
