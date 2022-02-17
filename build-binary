@@ -1,7 +1,4 @@
 #!/usr/bin/env bash
-#
-# SPDX-License-Identifier: GPL-3.0-or-later
-
 set -e -u
 
 # Control the environment
@@ -21,9 +18,9 @@ redprint() { printf "${RED}%s${RESET}\n" "$1"; }
 yellowprint() { printf "${YELLOW}%s${RESET}\n" "$1"; }
 magentaprint() { printf "${MAGENTA}%s${RESET}\n" "$1"; }
 cyanprint() { printf "${CYAN}%s${RESET}\n" "$1"; }
-fn_bye() { echo "Program terminated: [user_quit]"; exit 0; }
-fn_fail() { echo "Program terminated: [wrong_option]"; exit 1; }
-fn_noroot() { echo "Program terminated: [user_notroot]"; exit 1; }
+fn_bye() { echo -e "[ \e[92m%\e[0m ] : Program terminated: [user_quit]"; exit 0; }
+fn_fail() { echo -e "[ \e[91m%\e[0m ] : Program terminated: [wrong_option]"; exit 1; }
+fn_noroot() { echo -e "[ \e[91m%\e[0m ] : Program terminated: [user_notroot]"; exit 1; }
 
 
 # Set application name from the script's file name
@@ -1382,14 +1379,14 @@ actual_build() {
         # ends the timer, calculates time ended minus time started, printing result in seconds
         end=`date +%s`
         runtime=$((end-start))
-        echo "The command was completed in $runtime s"
+        echo -e "[ \e[32m%\e[0m ] : The command was completed in $runtime seconds"
 
         # make current user the owner of the iso file
         sudo chown $USER:$USER *.iso
 }
 
 clean_out() {
-        echo -e "[\e[32m%\e[0m] : sudo rm -rf ./work"
+        echo -e "[ \e[32m%\e[0m ] : sudo rm -rf ./work"
         sudo rm -rf ./work
 }
 
@@ -1400,7 +1397,7 @@ $(magentaprint 'Choose an option:')
 $(greenprint '1)') Build ISO file
 $(magentaprint '2)') Clean the Project Directory
 $(redprint '0)') Exit
-[%] : "
+[ \e[93m% \e[0m] : "
     read -r ans
     case $ans in
     1)
@@ -1417,4 +1414,9 @@ $(redprint '0)') Exit
     esac
 }
 ################################################## CUSTOM SCRIPTS ENDS ##############################################
+if [ "$(id -u)" -ne 0 ]; then
+        echo -e '[\e[91m%\e[0m] : This build binary must be run as root (sudo)' >&2
+        exit 1
+fi
+
 mainmenu
