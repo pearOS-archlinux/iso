@@ -152,3 +152,6 @@ vlc
 nvidia
 nvidia-utils
 nvidia-settings
+
+# VmWare Support
+#xf86-video-vmware
