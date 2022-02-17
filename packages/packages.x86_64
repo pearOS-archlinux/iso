@@ -112,7 +112,7 @@ xf86-input-libinput
 pacman-contrib
 #pearos-sddm-theme
 plasma
-#alg-plasma-settings
+pearos-settings
 
 #System Utilities for ALG Plasma
 konsole
