@@ -1363,17 +1363,25 @@ actual_build() {
         # start a simple timer
         start=`date +%s`
 
-        mkdir work 2> /dev/null || echo -e "[ \e[91m%\e[0m ] : The ./work directory exists. Clean the project directory [ option 2 ] and try again. Abort" && exit 1
+	echo -e "[ \e[92m%\e[0m ] : Removing previous  work folder if exists . . ."
+	sudo rm -rf ./work/
+
+        echo -e "[ \e[92m%\e[0m ] : Creating new work folder . . ."
+        mkdir work 2> /dev/null
         export OUT=$(mktemp -d --tmpdir=work)
         mkdir -p "$OUT"
-        # copy files from packages dir to where arch needs them
+        echo -e "[ \e[92m%\e[0m ] : Copying [ \e[92mpackages/pacman.out\e[0m ] to [ \e[92mpear/pacman.conf\e[0m ] . . ."
         cp -r packages/pacman.out pear/pacman.conf
+	echo -e "[ \e[92m%\e[0m ] : Copying [ \e[92mpear/pacman.conf\e[0m ] to [ \e[92mpear/airootfs/etc/.\e[0m ] . . ."
         cp -r pear/pacman.conf pear/airootfs/etc/.
+	echo -e "[ \e[92m%\e[0m ] : Copying [ \e[92mpackages/packages.x86_64\e[0m ] to [ \e[92mpear/airootfs/etc/packages.x86_64\e[0m ] . . ."
         cp packages/packages.x86_64 pear/airootfs/etc/packages.x86_64
+	echo -e "[ \e[92m%\e[0m ] : Copying [ \e[92mpackages/packages.x86_64\e[0m ] to [ \e[92mpear/packages.x86_64\e[0m ] . . ."
         cp packages/packages.x86_64 pear/packages.x86_64
+	echo -e "[ \e[92m%\e[0m ] : Copying [ \e[92m/etc/pacman.d/mirrorlist\e[0m ] to [ \e[92mpear/etc/pacman.d/.\e[0m ] . . ."
         cp /etc/pacman.d/mirrorlist pear/airootfs/etc/pacman.d/.
 
-        # makes iso
+	echo -e "[ \e[92m%\e[0m ] : Building the ISO . . ."
         progtest -v -w $OUT -o . pear
 
         # ends the timer, calculates time ended minus time started, printing result in seconds
@@ -1381,13 +1389,14 @@ actual_build() {
         runtime=$((end-start))
         echo -e "[ \e[32m%\e[0m ] : The command was completed in $runtime seconds"
 
-        # make current user the owner of the iso file
+	echo -e "[ \e[92m%\e[0m ] : Fixing permissions . . ."
         sudo chown $USER:$USER *.iso
 }
 
 clean_out() {
         echo -e "[ \e[32m%\e[0m ] : sudo rm -rf ./work"
         sudo rm -rf ./work
+	echo -e "[ \e[92m%\e[0m ] : The work directory was cleaned"
 }
 
 printUSBDevices() {
