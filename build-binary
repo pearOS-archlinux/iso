@@ -1363,7 +1363,7 @@ actual_build() {
         # start a simple timer
         start=`date +%s`
 
-        mkdir work
+        mkdir work 2> /dev/null || echo -e "[ \e[91m%\e[0m ] : The ./work directory exists. Clean the project directory [ option 2 ] and try again. Abort" && exit 1
         export OUT=$(mktemp -d --tmpdir=work)
         mkdir -p "$OUT"
         # copy files from packages dir to where arch needs them
