@@ -1,4 +1,3 @@
-###########################################################################THE OUTED FILE##############################################
 #
 # /etc/pacman.conf
 #
@@ -34,7 +33,7 @@ Architecture = auto
 # Misc options
 #UseSyslog
 Color
-ParallelDownloads=5
+ParallelDownloads = 5
 # We cannot check disk space from within a chroot environment
 #CheckSpace
 #VerbosePkgLists
@@ -75,19 +74,18 @@ LocalFileSigLevel = Optional
 #[testing]
 #Include = /etc/pacman.d/mirrorlist
 
+[main]
+SigLevel = Never
+Server = http://192.168.1.6/$repo/$arch
+
 [core]
 Include = /etc/pacman.d/mirrorlist
 
 [extra]
 Include = /etc/pacman.d/mirrorlist
 
-[community-testing]
-Include = /etc/pacman.d/mirrorlist
-
-[main]
-SigLevel = Never
-Server = http://192.168.1.6/$repo/$arch
-
+#[community-testing]
+#Include = /etc/pacman.d/mirrorlist
 
 [community]
 Include = /etc/pacman.d/mirrorlist
@@ -111,6 +109,6 @@ Include = /etc/pacman.d/mirrorlist
 SigLevel = Optional TrustedOnly
 Server = https://arch-linux-gui.github.io/$repo/$arch
 
-[alg-settings]
-SigLevel = Optional TrustedOnly
-Server = https://arch-linux-gui.github.io/$repo/$arch
+#[main]
+#SigLevel = Optional TrustedOnly
+#Server = http://192.168.1.6/$repo/$arch
