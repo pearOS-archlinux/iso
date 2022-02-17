@@ -10,6 +10,22 @@ export LC_ALL="C"
 [[ -v SOURCE_DATE_EPOCH ]] || printf -v SOURCE_DATE_EPOCH '%(%s)T' -1
 export SOURCE_DATE_EPOCH
 
+### Colors ##
+ESC=$(printf '\033') RESET="${ESC}[0m" BLACK="${ESC}[30m" RED="${ESC}[31m"
+GREEN="${ESC}[32m" YELLOW="${ESC}[33m" BLUE="${ESC}[34m" MAGENTA="${ESC}[35m"
+CYAN="${ESC}[36m" WHITE="${ESC}[37m" DEFAULT="${ESC}[39m"
+### Color Functions ##
+greenprint() { printf "${GREEN}%s${RESET}\n" "$1"; }
+blueprint() { printf "${BLUE}%s${RESET}\n" "$1"; }
+redprint() { printf "${RED}%s${RESET}\n" "$1"; }
+yellowprint() { printf "${YELLOW}%s${RESET}\n" "$1"; }
+magentaprint() { printf "${MAGENTA}%s${RESET}\n" "$1"; }
+cyanprint() { printf "${CYAN}%s${RESET}\n" "$1"; }
+fn_bye() { echo "Program terminated: [user_quit]"; exit 0; }
+fn_fail() { echo "Program terminated: [wrong_option]"; exit 1; }
+fn_noroot() { echo "Program terminated: [user_notroot]"; exit 1; }
+
+
 # Set application name from the script's file name
 app_name="${0##*/}"
 
@@ -1298,6 +1314,8 @@ _build() {
     done
 }
 
+progtest() {
+
 while getopts 'c:p:C:L:P:A:D:w:m:o:g:G:vh?' arg; do
     case "${arg}" in
         p) read -r -a override_pkg_list <<< "${OPTARG}" ;;
@@ -1341,3 +1359,62 @@ _validate_options
 _build
 
 # vim:ts=4:sw=4:et:
+}
+
+############################################################### CUSTOM SCRIPT STARTS ###############################
+actual_build() {
+        # start a simple timer
+        start=`date +%s`
+
+        mkdir work
+        export OUT=$(mktemp -d --tmpdir=work)
+        mkdir -p "$OUT"
+        # copy files from packages dir to where arch needs them
+        cp -r packages/pacman.out pear/pacman.conf
+        cp -r pear/pacman.conf pear/airootfs/etc/.
+        cp packages/packages.x86_64 pear/airootfs/etc/packages.x86_64
+        cp packages/packages.x86_64 pear/packages.x86_64
+        cp /etc/pacman.d/mirrorlist pear/airootfs/etc/pacman.d/.
+
+        # makes iso
+        progtest -v -w $OUT -o . pear
+
+        # ends the timer, calculates time ended minus time started, printing result in seconds
+        end=`date +%s`
+        runtime=$((end-start))
+        echo "The command was completed in $runtime s"
+
+        # make current user the owner of the iso file
+        sudo chown $USER:$USER *.iso
+}
+
+clean_out() {
+        echo -e "[\e[32m%\e[0m] : sudo rm -rf ./work"
+        sudo rm -rf ./work
+}
+
+mainmenu() {
+    echo -ne "
+$(magentaprint 'Choose an option:')
+
+$(greenprint '1)') Build ISO file
+$(magentaprint '2)') Clean the Project Directory
+$(redprint '0)') Exit
+[%] : "
+    read -r ans
+    case $ans in
+    1)
+        actual_build
+        ;;
+    2)  clean_out
+        ;;
+    0)
+        fn_bye
+        ;;
+    *)
+        fn_fail
+        ;;
+    esac
+}
+################################################## CUSTOM SCRIPTS ENDS ##############################################
+mainmenu
