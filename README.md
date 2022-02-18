@@ -6,13 +6,11 @@
 
 </a>
   
-<a href='https://github.com/chroline/well_app/blob/main/LICENSE'>
-  
 <img src='https://img.shields.io/github/license/pearOS-archlinux/iso?style=for-the-badge'>
   
 </a>
 
-  <p><a href="https://discord.gg/yp4xpZeAgW"><img alt="Discord" src="https://discordapp.com/api/guilds/697456171631509515/widget.png?style=banner2"?link=https://discord.gg/yp4xpZeAgW&link=https://discord.gg/yp4xpZeAgW> </a></p>
+  <p><a href="https://discord.gg/QJPetvVhUb"><img alt="Discord" src="https://discordapp.com/api/guilds/697456171631509515/widget.png?style=banner2"?link=https://discord.gg/yp4xpZeAgW&link=https://discord.gg/yp4xpZeAgW> </a></p>
   
 </div>
 
