@@ -109,7 +109,6 @@ linux-headers
 base-devel
 xf86-input-libinput
 pacman-contrib
-#pearos-sddm-theme
 plasma
 pearos-settings
 
@@ -131,6 +130,7 @@ gambas3-runtime
 pearos-grub-theme
 touchegg
 kwin-effects-yet-another-magic-lamp
+pearos-livecd-desktop
 neofetch
 
 #Installer
@@ -142,20 +142,10 @@ os-prober
 #Browser
 firefox
 
-#Office Suite
-#libreoffice-fresh
-#okular
-
 ttf-roboto
 
 #printing
-cups
-
-#Video
-vlc
-
-#Icons
-#pearos-cursors
+#cups
 
 #NVIDIA Drivers & Tools
 nvidia
