@@ -1,4 +1,3 @@
-#
 # SPDX-License-Identifier: GPL-3.0-or-later
 alsa-utils
 amd-ucode
@@ -112,7 +111,7 @@ xf86-input-libinput
 pacman-contrib
 #pearos-sddm-theme
 plasma
-#pearos-settings
+pearos-settings
 
 #System Utilities for ALG Plasma
 konsole
@@ -122,16 +121,19 @@ xdg-user-dirs
 spectacle
 ark
 gwenview
-kcalc
-gwenview
 gnome-software
-gnome-software-packagekit-plugi
+gnome-software-packagekit-plugin
+appmenu-gtk-module
+latte-dock
 rhythmbox
+kvantum
+gambas3-runtime
 neofetch
 
 #Installer
 grub
 calamares
+alg-theme-cala-config
 os-prober
 
 #Browser
@@ -139,7 +141,7 @@ firefox
 
 #Office Suite
 #libreoffice-fresh
-okular
+#okular
 
 ttf-roboto
 
