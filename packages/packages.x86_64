@@ -113,7 +113,7 @@ pacman-contrib
 plasma
 pearos-settings
 
-#System Utilities for ALG Plasma
+#System Utilities for pearOS :)) _hi, Amy_
 konsole
 kate
 nautilus
@@ -128,6 +128,9 @@ latte-dock
 rhythmbox
 kvantum
 gambas3-runtime
+pearos-grub-theme
+touchegg
+kwin-effects-yet-another-magic-lamp
 neofetch
 
 #Installer
