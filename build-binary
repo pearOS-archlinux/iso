@@ -171,7 +171,42 @@ _cleanup_pacstrap_dir() {
     # Create an empty /etc/machine-id
     rm -f -- "${pacstrap_dir}/etc/machine-id"
     printf '' > "${pacstrap_dir}/etc/machine-id"
-
+    # Remove useless stuff
+    _msg_info "Removing not used assets..."
+    rm -rf ${pacstrap_dir}/usr/share/sddm/themes/elarun
+    rm -rf ${pacstrap_dir}/usr/share/sddm/themes/maldives
+    rm -rf ${pacstrap_dir}/usr/share/sddm/themes/maya
+    rm -rf ${pacstrap_dir}/usr/share/sddm/themes/Qogir
+    rm -rf ${pacstrap_dir}/usr/share/plasma/desktoptheme/air
+    rm -rf ${pacstrap_dir}/usr/share/plasma/desktoptheme/breeze-dark
+    rm -rf ${pacstrap_dir}/usr/share/plasma/desktoptheme/oxygen
+    rm -rf ${pacstrap_dir}/usr/share/plasma/look-and-feel/org.kde.breezedark.desktop
+    rm -rf ${pacstrap_dir}/usr/share/plasma/look-and-feel/org.kde.breezetwilight.desktop
+    rm -rf ${pacstrap_dir}/usr/share/plasma/look-and-feel/org.kde.oxygen
+    rm -rf ${pacstrap_dir}/usr/share/icons/Oxygen*
+    rm -rf ${pacstrap_dir}/usr/share/icons/Tela*
+    rm -rf ${pacstrap_dir}/usr/share/icons/Breeze_Snow
+    rm -rf ${pacstrap_dir}/usr/share/icons/Adwaita
+    rm -rf ${pacstrap_dir}/usr/share/icons/breeze-dark
+    rm -rf ${pacstrap_dir}/usr/share/icons/KDE_Classic
+    rm -rf ${pacstrap_dir}/usr/share/color-schemes/Kv*
+    rm -rf ${pacstrap_dir}/usr/share/color-schemes/Oxygen*
+    rm -rf ${pacstrap_dir}/usr/share/color-schemes/BreezeClas*
+    rm -rf ${pacstrap_dir}/usr/share/applications/avahi*
+    rm -rf ${pacstrap_dir}/usr/share/applications/bssh*
+    rm -rf ${pacstrap_dir}/usr/share/applications/bvnc*
+    rm -rf ${pacstrap_dir}/usr/share/applications/qv4l2*
+    rm -rf ${pacstrap_dir}/usr/share/applications/qvidcap*
+    rm -rf ${pacstrap_dir}/usr/share/applications/org.kde.plasma.emojier.desktop
+    rm -rf ${pacstrap_dir}/usr/share/applications/kvantum*
+    rm -rf ${pacstrap_dir}/usr/share/applications/org.kde.latte-dock.desktop
+    rm -rf ${pacstrap_dir}/usr/share/applications/org.kde.kuserfeedback-console.desktop
+    chroot ${pacstrap_dir} bin/bash -c 'pacman -R plasma-sdk --noconfirm'
+    _msg_info "Fixing /usr/share/extras/ ..."
+    chmod -R 755 ${pacstrap_dir}/usr/share/extras
+#    chroot ${pacstrap_dir} bin/bash -c 'sddm-greeter --theme /usr/share/sddm/themes/pearOS'
+    _msg_info "Installing pearOS Grub Theme"
+    cp -r ./packages/grub.default ${pacstrap_dir}/etc/default/grub
     _msg_info "Done!"
 }
 
