@@ -1,4 +1,3 @@
-#
 # SPDX-License-Identifier: GPL-3.0-or-later
 alsa-utils
 amd-ucode
@@ -41,7 +40,6 @@ ipw2200-fw
 irssi
 iwd
 jfsutils
-lftp
 linux
 linux-atm
 linux-firmware
@@ -63,13 +61,10 @@ nbd
 ndisc6
 nfs-utils
 nilfs-utils
-nmap
 ntfs-3g
 nvme-cli
-openconnect
 openssh
-openvpn
-partclone
+#partclone
 parted
 partimage
 ppp
@@ -101,7 +96,7 @@ xfsprogs
 xl2tpd
 zsh
 
-#Arch Linux GUI KDE Plasma Core
+#KDE Plasma Core
 xorg
 sddm
 bash-completion
@@ -110,57 +105,62 @@ linux-headers
 base-devel
 xf86-input-libinput
 pacman-contrib
-
-#ALG Plasma
 plasma
-#alg-plasma-settings
 
-#System Utilities for ALG Plasma
+#System Utilities
 konsole
 kate
-dolphin
-dolphin-plugins
+nautilus
 xdg-user-dirs
-spectacle
 ark
-gwenview
-filelight
-kcalc
+gnome-software
+gnome-software-packagekit-plugin
+appmenu-gtk-module
+touchegg
+rhythmbox
+
+# applist pearOS couldn't live without uwu
+latte-dock
+kvantum
+gambas3-runtime
+
+pearos-grub-theme
+theme-switcher-bin
+system-overview
+system-update
+pearos-livecd-desktop
+pearos-settings
+#filesystem
+
+kwin-effects-yet-another-magic-lamp
+
+gambas3-gb-image
+gambas3-gb-form
+gambas3-gb-qt5
+gambas3-gb-gtk3
+
+python-pip
+
 neofetch
 
 #Installer
 grub
 calamares
-#alg-theme-cala-config
+alg-theme-cala-config
 os-prober
 
 #Browser
 firefox
-#alg-firefox-settings
 
-#Office Suite
-libreoffice-fresh
-okular
-
-#fonts
-#ttf-ms-fonts
 ttf-roboto
 
 #printing
-cups
-
-#Video
-vlc
-
-#Icons
-#tela-circle-icon
-#mcmojave-cursors
-
-#AUR Helper
-#paru
+#cups
 
 #NVIDIA Drivers & Tools
 nvidia
 nvidia-utils
 nvidia-settings
 
+# VmWare Support
+#xf86-video-vmware

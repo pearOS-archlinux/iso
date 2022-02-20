@@ -64,7 +64,7 @@ nilfs-utils
 ntfs-3g
 nvme-cli
 openssh
-partclone
+#partclone
 parted
 partimage
 ppp
@@ -130,7 +130,7 @@ system-overview
 system-update
 pearos-livecd-desktop
 pearos-settings
-filesystem
+#filesystem
 
 kwin-effects-yet-another-magic-lamp
 

@@ -22,4 +22,5 @@ file_permissions=(
   ["/usr/local/bin/alg-remove-nvidia"]="0:0:755"
   ["/usr/local/bin/alg-preset"]="0:0:755"
   ["/usr/local/bin/alg-finalisation"]="0:0:755"
+  ["/usr/share/extras/"]="0:0:755"
 )
