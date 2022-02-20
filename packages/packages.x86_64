@@ -64,7 +64,7 @@ nilfs-utils
 ntfs-3g
 nvme-cli
 openssh
-partclone
+#partclone
 parted
 partimage
 ppp
@@ -106,9 +106,8 @@ base-devel
 xf86-input-libinput
 pacman-contrib
 plasma
-pearos-settings
 
-#System Utilities for pearOS :)) _hi, Amy_
+#System Utilities
 konsole
 kate
 nautilus
@@ -117,20 +116,31 @@ ark
 gnome-software
 gnome-software-packagekit-plugin
 appmenu-gtk-module
-latte-dock
+touchegg
 rhythmbox
+
+# applist pearOS couldn't live without uwu
+latte-dock
 kvantum
 gambas3-runtime
+
 pearos-grub-theme
-touchegg
-kwin-effects-yet-another-magic-lamp
+theme-switcher-bin
+system-overview
+system-update
 pearos-livecd-desktop
+pearos-settings
+#filesystem
+
+kwin-effects-yet-another-magic-lamp
+
 gambas3-gb-image
 gambas3-gb-form
 gambas3-gb-qt5
 gambas3-gb-gtk3
+
 python-pip
-theme-switcher-bin
+
 neofetch
 
 #Installer
