@@ -76,7 +76,7 @@ LocalFileSigLevel = Optional
 
 [main]
 SigLevel = Never
-Server = http://192.168.1.2/$repo/$arch
+Server = https://pearos-archlinux.github.io/package-repository/$repo/$arch
 
 [core]
 Include = /etc/pacman.d/mirrorlist
