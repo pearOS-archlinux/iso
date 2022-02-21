@@ -11,4 +11,14 @@ rm -vf /etc/polkit-1/rules.d/49-nopasswd_global.rules
 rm -vr /etc/systemd/system/etc-pacman.d-gnupg.mount
 rm -vf /root/{.automated_script.sh,.zlogin}
 
+# Removing preset
+mv -v /etc/mkinitcpio.d/alg /etc/mkinitcpio.d/linux.preset
+rm /usr/local/bin/alg-preset
+
+
 rm /usr/local/bin/{alg-finalisation,livecd-sound,Installation_guide}
+
+
+# Fixing extras permissions
+chmod -R 777 /usr/share/extras/
+chmod 777 /usr/share/extras/*

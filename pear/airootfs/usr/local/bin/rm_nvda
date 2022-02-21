@@ -46,7 +46,7 @@ if [[ $selection == "nonfree" ]]; then
 	echo "#################################"
 	echo "We keep nvidia  onboard"
 	echo "#################################"
-fi	
+fi
 
 
 echo "#################################"
