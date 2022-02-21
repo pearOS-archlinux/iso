@@ -43,8 +43,8 @@ GRUB_COLOR_NORMAL="white/black"
 GRUB_COLOR_HIGHLIGHT="light-cyan/black"
 
 # Uncomment one of them for the gfx desired, a image background or a gfxtheme
-GRUB_BACKGROUND="/usr/share/wallpapers/real-wood/real-wood.jpg"
-#GRUB_THEME=
+#GRUB_BACKGROUND="/usr/share/wallpapers/real-wood/real-wood.jpg"
+GRUB_THEME="/usr/share/grub/themes/pearOS/theme.txt"
 
 # Uncomment to get a beep at GRUB start
 #GRUB_INIT_TUNE="480 440 1"
