@@ -1416,7 +1416,7 @@ actual_build() {
 	echo -e "[ \e[92m%\e[0m ] : Copying [ \e[92m/etc/pacman.d/mirrorlist\e[0m ] to [ \e[92mpear/etc/pacman.d/.\e[0m ] . . ."
         cp /etc/pacman.d/mirrorlist pear/airootfs/etc/pacman.d/.
 	echo -e "[ \e[92m%\e[0m ] : refreshing the public key [ \e[92m7AA60E85D37C046B\e[0m ] . . ."
-	sudo pacman-key --refresh-keys 781B8934B6FA055066BE08777AA60E85D37C046B 2> /dev/null
+	sudo pacman-key --refresh-keys 55684352925CAED2 2> /dev/null
 	echo -e "[ \e[92m%\e[0m ] : Building the ISO . . ."
         progtest -v -w $OUT -o . pear
 
