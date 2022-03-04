@@ -18,6 +18,7 @@ rm /usr/local/bin/alg-preset
 
 rm /usr/local/bin/{alg-finalisation,livecd-sound,Installation_guide}
 
+systemctl enable sddm
 
 # Fixing extras permissions
 chmod -R 777 /usr/share/extras/

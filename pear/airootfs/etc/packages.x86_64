@@ -124,7 +124,7 @@ latte-dock
 kvantum
 gambas3-runtime
 
-pearos-grub-theme
+#pearos-grub-theme
 theme-switcher-bin
 system-overview
 system-update
@@ -139,6 +139,7 @@ gambas3-gb-form
 gambas3-gb-qt5
 gambas3-gb-gtk3
 
+system-update
 python-pip
 
 neofetch
@@ -146,7 +147,7 @@ neofetch
 #Installer
 grub
 calamares
-alg-theme-cala-config
+pear-calamares-config
 os-prober
 
 #Browser
