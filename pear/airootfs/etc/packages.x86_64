@@ -128,10 +128,11 @@ gambas3-runtime
 theme-switcher-bin
 system-overview
 system-update
-pearos-livecd-desktop
+#pearos-livecd-desktop
 pearos-settings
 #filesystem
-
+npm
+electron
 kwin-effects-yet-another-magic-lamp
 
 gambas3-gb-image
@@ -146,8 +147,8 @@ neofetch
 
 #Installer
 grub
-calamares
-pear-calamares-config
+#calamares
+#pear-calamares-config
 os-prober
 
 #Browser
@@ -159,9 +160,9 @@ ttf-roboto
 #cups
 
 #NVIDIA Drivers & Tools
-nvidia
-nvidia-utils
-nvidia-settings
+#nvidia
+#nvidia-utils
+#nvidia-settings
 
 # VmWare Support
 #xf86-video-vmware
