@@ -124,11 +124,11 @@ latte-dock
 kvantum
 gambas3-runtime
 
-pearos-grub-theme
+#pearos-grub-theme
 theme-switcher-bin
 system-overview
 system-update
-pearos-livecd-desktop
+#pearos-livecd-desktop
 pearos-settings
 #filesystem
 
@@ -146,8 +146,8 @@ neofetch
 
 #Installer
 grub
-calamares
-pear-calamares-config
+#calamares
+#pear-calamares-config
 os-prober
 
 #Browser
@@ -159,9 +159,9 @@ ttf-roboto
 #cups
 
 #NVIDIA Drivers & Tools
-nvidia
-nvidia-utils
-nvidia-settings
+#nvidia
+#nvidia-utils
+#nvidia-settings
 
 # VmWare Support
 #xf86-video-vmware
