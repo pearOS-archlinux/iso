@@ -128,7 +128,7 @@ gambas3-runtime
 theme-switcher-bin
 system-overview
 system-update
-#pearos-livecd-desktop
+pearos-livecd-desktop
 pearos-settings
 #filesystem
 npm
