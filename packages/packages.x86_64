@@ -124,11 +124,11 @@ latte-dock
 kvantum
 gambas3-runtime
 
-pearos-grub-theme
+#pearos-grub-theme
 theme-switcher-bin
 system-overview
 system-update
-#pearos-livecd-desktop
+pearos-livecd-desktop
 pearos-settings
 #filesystem
 npm
