@@ -41,7 +41,7 @@
     fi
 
   # Remove the script from the autostart
-  sudo rm -rf /etc/skel/.config/autostart/xyz.pearos-post-install.desktop
+  rm -rf /etc/skel/.config/autostart/xyz.pearos-post-install.desktop
 
   # Set/load the keymap
   localectl set-keymap "$KEYMAP"
@@ -63,7 +63,7 @@
   fi
 
   # making the language equal to the locale, and passing to locale.conf
-  echo "LANG=$LOCALE" | sudo tee /etc/locale.conf
+  echo "LANG=$LOCALE" | tee /etc/locale.conf
 
   # If there is a custom keymap, add it to the vconsole
   if [ "$KEYMAP" != "us" ]; then
@@ -74,33 +74,40 @@
   fi
 
   # Comitting the locale settings
-  sudo locale-gen &> /dev/null
+  locale-gen &> /dev/null
 
   # Setting the hostname
-  echo "$HOST_NAME" | sudo tee /etc/hostname
+  echo "$HOST_NAME" | tee /etc/hostname
 
   # Add the grub theme to the configuration file
-  sudo grub-mkconfig -o /boot/grub/grub.cfg &> /dev/null
+  grub-mkconfig -o /boot/grub/grub.cfg &> /dev/null
 
   # Add "default" user to wheel and sudoers, and make the system not to ask sudo password for user 'default'
-  sudo useradd -m -g users -G wheel -s /bin/bash "$USER_NAME"
-  sudo chpasswd <<<"$USER_NAME:$user_passwd"
-  sudo usermod -aG wheel "$USER_NAME"
+  useradd -m -g users -G wheel -s /bin/bash "$USER_NAME"
+  chpasswd <<<"$USER_NAME:$user_passwd"
+  usermod -aG wheel "$USER_NAME"
   sed -i 's/# %wheel ALL=(ALL) ALL$/%wheel ALL=(ALL) ALL/' /etc/sudoers
-  echo "$USER_NAME   ALL=(ALL) ALL" | sudo tee /etc/sudoers
+  echo "$USER_NAME   ALL=(ALL) ALL" | tee /etc/sudoers
 
   # Fix extras files permissions (fixes the theme-switcher bug
-  sudo chmod -R 0777 /usr/share/extras
+  chmod -R 0777 /usr/share/extras
 
   # Remove useless packages and their desktop entries
-  yes | LC_ALL=en_US.UTF-8 sudo pacman -R electron npm plasma-sdk discover
-  sudo rm -rf /usr/share/applications/avahi-discover.desktop /usr/share/applications/bssh.desktop /usr/share/applications/bvnc.desktop /usr/share/applications/qv4l2.desktop /usr/share/applications/qvidcap.desktop /usr/share/applications/org.kde.plasma.emojier /usr/share/applications/calamares*
+  yes | LC_ALL=en_US.UTF-8 pacman -R electron npm plasma-sdk discover
+  rm -rf /usr/share/applications/avahi-discover.desktop /usr/share/applications/bssh.desktop /usr/share/applications/bvnc.desktop /usr/share/applications/qv4l2.desktop /usr/share/applications/qvidcap.desktop /usr/share/applications/org.kde.plasma.emojier /usr/share/applications/calamares*
 
   # Remove sddm.conf > it is set to autologin user 'default', which breaks the system
-  sudo rm -Rf /etc/sddm.conf
+  rm -Rf /etc/sddm.conf
 
   # Remove 'default' user. It can be very dangerous
-  sudo userdel -r -f default
+  userdel -rf default
+  rm -rf /home/default/*
+  rm -rf /home/defaul/
+
+  # Fixing the SDDM theme, finally :))
+  echo "" >> /etc/sddm.conf
+  echo "[THEME]" >> /etc/sddm.conf
+  echo "Current=pearOS" >> /etc/sddm.conf
 
   # Final reboot
   sync && shutdown -r now
