@@ -202,9 +202,6 @@ _cleanup_pacstrap_dir() {
     rm -rf ${pacstrap_dir}/usr/share/applications/org.kde.latte-dock.desktop
     rm -rf ${pacstrap_dir}/usr/share/applications/org.kde.kuserfeedback-console.desktop
     chroot ${pacstrap_dir} bin/bash -c 'pacman -R plasma-sdk --noconfirm'
-    _msg_info "Fixing /usr/share/extras/ ..."
-    chmod -R 755 ${pacstrap_dir}/usr/share/extras
-#    chroot ${pacstrap_dir} bin/bash -c 'sddm-greeter --theme /usr/share/sddm/themes/pearOS'
     _msg_info "Installing pearOS Grub Theme"
     cp -r ./packages/grub.default ${pacstrap_dir}/etc/default/grub
     _msg_info "Done!"
@@ -1426,12 +1423,14 @@ actual_build() {
 
 	echo -e "[ \e[92m%\e[0m ] : Fixing permissions . . ."
         sudo chown $USER:$USER *.iso
+	mainmenu
 }
 
 clean_out() {
         echo -e "[ \e[32m%\e[0m ] : sudo rm -rf ./work"
         sudo rm -rf ./work
 	echo -e "[ \e[92m%\e[0m ] : The work directory was cleaned"
+	mainmenu
 }
 
 printUSBDevices() {
@@ -1457,6 +1456,7 @@ printUSBDevices
 if [ -z "$USB" ]
 then
       echo -e "[ \e[91m%\e[0m ] : No USB device found. Make sure there is ONE device inserted and try again. Abort"
+      mainmenu
 else
     echo -e "[ \e[92m%\e[0m ] : USB Device detected: [ \e[92m$USB\e[0m ]"
     if [ -f *.iso ]; then
@@ -1465,8 +1465,10 @@ else
     echo -e "[ \e[92m%\e[0m ] : Making pearOS Arch Base Bootable USB . . ."
     sudo dd if=$(find . 2>/dev/null| grep pearOS-NiceC0re) of=$USB bs=4M status='progress' conv='sync'; sync
     echo -e "[ \e[92m%\e[0m ] : Your bootable USB is ready!"
+    mainmenu
 else
     echo -e "[ \e[91m%\e[0m ] : No pearOS ISO file found. Abort"
+    mainmenu
 fi
 fi
 set -u
