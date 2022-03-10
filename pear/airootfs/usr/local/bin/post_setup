@@ -105,8 +105,10 @@
   rm -rf /home/defaul/
 
   # Fixing the SDDM theme, finally :))
+  echo "[Autologin]" > /etc/sddm.conf
+  echo "Session=plasma" >> /etc/sddm.conf
   echo "" >> /etc/sddm.conf
-  echo "[THEME]" >> /etc/sddm.conf
+  echo "[Theme]" >> /etc/sddm.conf
   echo "Current=pearOS" >> /etc/sddm.conf
 
   # Final reboot
