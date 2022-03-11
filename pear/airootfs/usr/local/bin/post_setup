@@ -20,7 +20,7 @@
   # Various settings for the installation process
   KEYMAP="$1" # us
   LOCALE="$2" # en_US.UTF-8
-  utc_enabled="false" # true | false
+  utc_enabled=false # true | false
   ZONE="$3" # Europe/Bucharest
   HOST_NAME="pearOS-machine"
 
@@ -98,6 +98,16 @@
 
   # Remove sddm.conf > it is set to autologin user 'default', which breaks the system
   rm -Rf /etc/sddm.conf
+
+  # Installing yay helper
+  #git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm
+
+  # Installing plymouth
+  #yay -S plymouth --noconfirm
+
+  # Setting pearOS plymouth theme
+  #plymouth-set-default-theme -R pear-plymouth
+
 
   # Remove 'default' user. It can be very dangerous
   userdel -rf default
