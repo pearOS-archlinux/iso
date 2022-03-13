@@ -31,6 +31,7 @@ fsarchiver
 gnu-netcat
 gpart
 gpm
+git
 gptfdisk
 grml-zsh-config
 hdparm
@@ -147,8 +148,6 @@ neofetch
 
 #Installer
 grub
-#calamares
-#pear-calamares-config
 os-prober
 
 #Browser
@@ -165,4 +164,4 @@ ttf-roboto
 #nvidia-settings
 
 # VmWare Support
-#xf86-video-vmware
+xf86-video-vmware
