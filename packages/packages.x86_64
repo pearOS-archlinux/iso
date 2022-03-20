@@ -7,12 +7,12 @@ base
 bind-tools
 broadcom-wl
 btrfs-progs
-clonezilla
-cloud-init
+#clonezilla
+#cloud-init
 crda
 cryptsetup
-darkhttpd
-ddrescue
+#darkhttpd
+#ddrescue
 dhclient
 dhcpcd
 diffutils
@@ -165,3 +165,8 @@ ttf-roboto
 
 # VmWare Support
 xf86-video-vmware
+
+# VirtualBox support
+linux-headers
+virtualbox-guest-dkms
+virtualbox-guest-utils
