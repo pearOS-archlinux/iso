@@ -165,6 +165,7 @@ ttf-roboto
 
 # VmWare Support
 xf86-video-vmware
+open-vm-tools
 
 # VirtualBox support
 linux-headers
