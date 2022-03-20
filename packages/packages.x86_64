@@ -169,5 +169,5 @@ open-vm-tools
 
 # VirtualBox support
 linux-headers
-virtualbox-guest-dkms
+#virtualbox-guest-dkms
 virtualbox-guest-utils
