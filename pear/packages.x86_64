@@ -131,9 +131,11 @@ system-overview
 system-update
 pearos-livecd-desktop
 pearos-settings
-#filesystem
+filesystem
 npm
 electron
+electron11
+pacman-keyrings
 kwin-effects-yet-another-magic-lamp
 
 gambas3-gb-image
