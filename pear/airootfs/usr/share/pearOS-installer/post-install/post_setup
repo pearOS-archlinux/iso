@@ -1,0 +1,125 @@
+#!/bin/bash
+
+  # Setting usefull variables
+  DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+  installed=true
+  hypervisor=$(systemd-detect-virt)
+
+
+  if [ "$#" -ne 6 ]; then
+    echo "KEYMAP=$1"
+    echo "LOCALE=$2"
+    echo "ZONE=$3"
+    echo "user_passwd=$4"
+    echo "FULL_NAME=$5"
+    echo "USER_NAME=$6"
+    echo " ^ The above list represents your selected configurations."
+    exit 2
+  fi
+
+  # Various settings for the installation process
+  KEYMAP="$1" # us
+  LOCALE="$2" # en_US.UTF-8
+  utc_enabled=false # true | false
+  ZONE="$3" # Europe/Bucharest
+  HOST_NAME="pearOS-machine"
+
+  user_passwd="$4" # user password: pear
+  FULL_NAME="$5" # Full Name
+  USER_NAME="$6" # username (to log into your system)
+
+  # Check the username
+  if printf "%s" "$USER_NAME" | grep -Eoq "^[a-z][a-z0-9-]*$" \
+    && [ "${#USER_NAME}" -lt 33 ]; then
+    if grep -Fxq "$USER_NAME" "$DIR"/reserved_usernames; then
+      echo "Reserved username. Abort"
+      exit 2
+    fi
+    else
+      echo "Invalid Username! Abort."
+      exit 2
+    fi
+
+  # Remove the script from the autostart
+  rm -rf /etc/skel/.config/autostart/xyz.pearos-post-install.desktop
+
+  # Set/load the keymap
+  localectl set-keymap "$KEYMAP"
+  loadkeys "$KEYMAP"
+
+  # Pushing Timezone to localtime file
+  ln -sf /usr/share/zoneinfo/"$ZONE" /etc/localtime
+
+  # Enable or disable UTC time
+  if $utc_enabled; then
+    hwclock --systohc --utc
+  else
+    hwclock --systohc --localtime
+  fi
+
+  # Passing custom locale to locale file
+  if [ "$LOCALE" != "en_US.UTF-8" ]; then
+    sed -i "s/#$LOCALE/$LOCALE/" /etc/locale.gen
+  fi
+
+  # making the language equal to the locale, and passing to locale.conf
+  echo "LANG=$LOCALE" | tee /etc/locale.conf
+
+  # If there is a custom keymap, add it to the vconsole
+  if [ "$KEYMAP" != "us" ]; then
+    echo "KEYMAP=$KEYMAP" | suto tee /etc/vconsole.conf
+    if [ "$DESKTOP" != "None" ]; then
+        echo -e "Section \"InputClass\"\nIdentifier \"system-keyboard\"\nMatchIsKeyboard \"on\"\nOption \"XkbLayout\" \"$KEYMAP\"\nEndSection" > /etc/X11/xorg.conf.d/00-keyboard.conf
+    fi
+  fi
+
+  # Comitting the locale settings
+  locale-gen &> /dev/null
+
+  # Setting the hostname
+  echo "$HOST_NAME" | tee /etc/hostname
+
+  # Add the grub theme to the configuration file
+  grub-mkconfig -o /boot/grub/grub.cfg &> /dev/null
+
+  # Add "default" user to wheel and sudoers, and make the system not to ask sudo password for user 'default'
+  useradd -m -g users -G wheel -s /bin/bash "$USER_NAME"
+  chpasswd <<<"$USER_NAME:$user_passwd"
+  usermod -aG wheel "$USER_NAME"
+  sed -i 's/# %wheel ALL=(ALL) ALL$/%wheel ALL=(ALL) ALL/' /etc/sudoers
+  echo "$USER_NAME   ALL=(ALL) ALL" | tee /etc/sudoers
+
+  # Fix extras files permissions (fixes the theme-switcher bug
+  chmod -R 0777 /usr/share/extras
+
+  # Remove useless packages and their desktop entries
+  yes | LC_ALL=en_US.UTF-8 pacman -R electron npm plasma-sdk discover
+  rm -rf /usr/share/applications/avahi-discover.desktop /usr/share/applications/bssh.desktop /usr/share/applications/bvnc.desktop /usr/share/applications/qv4l2.desktop /usr/share/applications/qvidcap.desktop /usr/share/applications/org.kde.plasma.emojier /usr/share/applications/calamares*
+
+  # Remove sddm.conf > it is set to autologin user 'default', which breaks the system
+  rm -Rf /etc/sddm.conf
+
+  # Installing yay helper
+  #git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm
+
+  # Installing plymouth
+  #yay -S plymouth --noconfirm
+
+  # Setting pearOS plymouth theme
+  #plymouth-set-default-theme -R pear-plymouth
+
+
+  # Remove 'default' user. It can be very dangerous
+  userdel -rf default
+  rm -rf /home/default/*
+  rm -rf /home/defaul/
+
+  # Fixing the SDDM theme, finally :))
+  echo "[Autologin]" > /etc/sddm.conf
+  echo "Session=plasma" >> /etc/sddm.conf
+  echo "" >> /etc/sddm.conf
+  echo "[Theme]" >> /etc/sddm.conf
+  echo "Current=pearOS" >> /etc/sddm.conf
+
+  # Final reboot
+  sync && shutdown -r now

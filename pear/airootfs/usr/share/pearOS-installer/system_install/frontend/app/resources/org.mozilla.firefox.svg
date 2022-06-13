@@ -1,0 +1,4 @@
+<?xml-stylesheet href="chrome://global/locale/intl.css" type="text/css"?><parsererror xmlns="http://www.mozilla.org/newlayout/xml/parsererror.xml">XML Parsing Error: syntax error
+Location: https://raw.githubusercontent.com/Pear-Project/pearOS-Default-Icons/main/pearOS-dark/apps/scalable/org.mozilla.firefox.svg
+Line Number 1, Column 1:<sourcetext>firefox.svg
+^</sourcetext></parsererror>

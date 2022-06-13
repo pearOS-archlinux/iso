@@ -1,0 +1,2 @@
+cd /usr/share/pearOS-installer/system_install/
+make

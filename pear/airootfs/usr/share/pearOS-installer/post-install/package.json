@@ -1,0 +1,14 @@
+{
+  "name": "pearOS Installer",
+  "version": "1.0.0",
+  "description": "A minimal Electron application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron11 ."
+  },
+  "author": "Alexandru Balan",
+  "license": "Pear Public License",
+  "devDependencies": {
+    "electron": "~1.6.2"
+  }
+}
