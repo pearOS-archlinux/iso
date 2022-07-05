@@ -1,0 +1,15 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Type=Application
+Version=22.03
+Name=Install pearOS NiceC0re
+GenericName=pearOS Installer
+Keywords=calamares;system;installer;
+TryExec=calamares
+Exec=bin_install
+Comment=pearOS installer
+Icon=nicec0re-logo
+Terminal=false
+StartupNotify=true
+Categories=Qt;System;
+X-AppStream-Ignore=true

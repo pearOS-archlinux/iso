@@ -1,0 +1,45 @@
+<?
+?>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../../css/assistant-styles.css">
+    <title>pearOS NiceC0re Installer</title>
+  </head>
+
+  <body>
+    <div class="flex-container">
+      <div class="menu">
+      <ul class="ul_menu">
+
+	<button onclick="open_packup()" class="menu_button">
+	<img class="menu_logo" height=50px src="../../resources/packup-logo.png"></img>
+	<p class="menu_title"><b>Restore from Packup</b></p>
+	<p class="menu_description">If you packed up your system before erasing data</p>
+	</button><br>
+
+        <button onclick="open_installer()" class="menu_button">
+	<img class="menu_logo" height=50px src="../../resources/nicec0re-logo.png"></img>
+	<p class="menu_title"><b>Install pearOS NiceC0re</b></p>
+	<p class="menu_description">Installs pearOS permanently on disk</p>
+	</button><br>
+
+	<button onclick="open_browser()" class="menu_button">
+	<img class="menu_logo" height="50px" src="../../resources/firefox-logo.png"></img>
+	<p class="menu_title"><b>Browser</b></p>
+	<p class="menu_description">Open a Firefox instance in your computer</p>
+	</button>
+
+	<button onclick="open_gparted()" class="menu_button">
+	<img class="menu_logo" height="50px" src="../../resources/gparted.svg"></img>
+	<p class="menu_title"><b>GParted</b></p>
+	<p class="menu_description">Manage or erase a disk using GParted</p>
+	</button>
+
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="../../js/engine.js"></script>
+</html>

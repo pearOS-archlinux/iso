@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../../css/assistant-styles.css">
+    <title>Instalador de pearOS NiceC0re</title>
+  </head>
+  <body>
+    <div class="flex-container">
+      <div class="app">
+        <div class="tabs">
+
+<div class="tab active">
+  <br>
+  <h1>Crear una cuenta de computadora</h1>
+  <p align="center" class="description">Complete la siguiente información para crear su cuenta de computadora.</p>
+  <div id="create_user">
+  <form>
+    <label>Nombre completo:</label>
+    <input type="text" id="full_name" name="pearid" class="textbox"><br><br>
+
+    <label>Nombre de la cuenta:</label>
+    <input type="text" id="account_name" name="pearid" class="textbox"><br><br>
+
+    <label>Clave:</label>
+    <input type="password" id="password" name="password" class="textbox">
+    <input type="password" id="password_confirm" name="password" class="textbox">
+  </form>
+    </div>
+   <br>
+   <br>
+</div>
+
+       <div class="movement-buttons"> <!-- nu umbla aici in rasa ta -->
+       <hr style="color:#ffffff">
+
+         <div class="arrow-button-container" >
+          <button onclick="window.location.href='page_timezone.html';" class="nav-button button" type="button" id="move-back-btn">Atrás</button>
+         </div>
+
+         <div class="arrow-button-container" >
+          <button onclick="save_user();" class="nav-button button" type="button" id="move-forward-btn">Continuar</button>
+         </div>
+
+        </div>
+      </div>
+    </div>
+ </div>
+  <script src="../../js/engine.js"></script>
+</html>
