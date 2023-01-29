@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
+archlinux-keyring
 alsa-utils
 amd-ucode
 arch-install-scripts
@@ -36,8 +37,8 @@ gptfdisk
 grml-zsh-config
 hdparm
 intel-ucode
-ipw2100-fw
-ipw2200-fw
+#ipw2100-fw
+#ipw2200-fw
 irssi
 iwd
 jfsutils
@@ -134,8 +135,7 @@ pearos-settings
 filesystem
 npm
 electron
-electron11
-archlinux-keyring
+#electron11
 kwin-effects-yet-another-magic-lamp
 
 gambas3-gb-image
