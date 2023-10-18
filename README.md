@@ -37,7 +37,7 @@ pearOS with arch base, solve some of the big problems with pearOS, for example:
 > "They use the macos icons and are making money off of it"
 
 Not anymore. With arch, there no more base-hopping
-Now, with arch, the system is now Rolling Realease, as it should be :>
+Now, with arch, the system is now Rolling Release, as it should be :>
 
 ( fixed in the latest debian builds but eh")
 You can do now `sudo pacman -Syu` and you will stil have the pearOS branding.
