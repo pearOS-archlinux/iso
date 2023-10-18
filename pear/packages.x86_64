@@ -116,7 +116,7 @@ nautilus
 xdg-user-dirs
 ark
 gnome-software
-gnome-software-packagekit-plugin
+#gnome-software-packagekit-plugin
 appmenu-gtk-module
 touchegg
 rhythmbox
