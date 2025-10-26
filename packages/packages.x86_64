@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
+filesystem
 archlinux-keyring
 alsa-utils
 amd-ucode
@@ -29,7 +30,7 @@ exfatprogs
 f2fs-tools
 fatresize
 fsarchiver
-gnu-netcat
+openbsd-netcat
 gpart
 gpm
 git
@@ -71,8 +72,8 @@ parted
 partimage
 ppp
 pptpclient
-reflector
-reiserfsprogs
+#reflector
+#reiserfsprogs
 rp-pppoe
 rsync
 sdparm
@@ -122,17 +123,17 @@ touchegg
 rhythmbox
 
 # applist pearOS couldn't live without uwu
-latte-dock
+#latte-dock
 kvantum
 gambas3-runtime
 gparted
 #pearos-grub-theme
-theme-switcher-bin
+#theme-switcher-bin
 system-overview
 system-update
 pearos-livecd-desktop
 pearos-settings
-filesystem
+#filesystem
 npm
 electron
 #electron11
@@ -166,7 +167,7 @@ ttf-roboto
 #nvidia-settings
 
 # VmWare Support
-xf86-video-vmware
+#xf86-video-vmware
 open-vm-tools
 
 # VirtualBox support

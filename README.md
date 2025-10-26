@@ -54,6 +54,7 @@ After that, run `./build-binary` and ~~pray~~ wait.
 sudo pacman -S mtools
 sudo pacman -S squashfs-tools
 sudo pacman -S pkgfile
+sudo pacman -S xorriso
 sudo pkgfile --update
 pkgfile pacstrap
 sudo pacman -S extra/arch-install-scripts
