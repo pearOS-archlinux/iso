@@ -41,21 +41,24 @@ console.log("Available disks are:" + count);
 
 while (i < (count+1)) {
         console.log("THE VALUE IS " + i);
-		exec("list_disk " +i, (err, stdout) => {
-		var f=1;
-        	var zi=`
-		<li>
-		  <label class="label_for_disk">
-		    <input type="radio" id="disk` +(i-count) + `" name="disk" value="${stdout}">
-        	    <img class="disk_logo" height=50px src="../../resources/disk.png"></img>
-        	    <p id="label_disk` +(i-count) + `" class="disk_title">${stdout}</p>
-		  </label>
-		</li>
-	`;
-	i++;
-        z += zi;
-        document.getElementById("disk_list").innerHTML =z;
-        })
+        const currentIndex = i;
+        
+		exec("list_disk " + currentIndex, (err, diskPath) => {
+			exec("list_disk name " + currentIndex, (err, diskName) => {
+				var zi=`
+				<li>
+				  <label class="label_for_disk">
+				    <input type="radio" id="disk${currentIndex}" name="disk" value="${diskPath.trim()}">
+        	    		<img class="disk_logo" height=50px src="../../resources/disk.png"></img>
+        	    		<p id="label_disk${currentIndex}" class="disk_title"><b>${diskName.trim()}</b></p>
+        	    		<p class="disk_title" style="font-size: 0.8em; color: #999;">${diskPath.trim()}</p>
+				  </label>
+				</li>
+				`;
+				z += zi;
+				document.getElementById("disk_list").innerHTML = z;
+			});
+        });
         i++;
 	}
 	})

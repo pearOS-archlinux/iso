@@ -1,7 +1,7 @@
 #!/usr/bin/env xdg-open
 [Desktop Entry]
 Type=Application
-Version=22.03
+Version=25.10
 Name=Install pearOS NiceC0re
 GenericName=pearOS Installer
 Keywords=calamares;system;installer;

@@ -56,6 +56,24 @@ case $1 in
 	;;
 	"size") if [[ $2 > $count  ]] ; then echo "999" ; else printf '%s\n' "${size[$2]}" | tr -d '\n' ; fi
 	;;
+	"name") 
+		if [[ $2 > $count ]] ; then 
+			echo "Unknown" 
+		else 
+			# Obține modelul discului
+			disk_path="${disk[$2]}"
+			disk_model=$(lsblk -d -n -o MODEL "$disk_path" 2>/dev/null | xargs)
+			disk_size=$(lsblk -d -n -o SIZE "$disk_path" 2>/dev/null | xargs)
+			
+			# Dacă nu există model, folosește numele dispozitivului
+			if [ -z "$disk_model" ] || [ "$disk_model" = "Unknown" ]; then
+				disk_name=$(basename "$disk_path")
+				echo "$disk_size $disk_name" | tr -d '\n'
+			else
+				echo "$disk_size $disk_model" | tr -d '\n'
+			fi
+		fi
+	;;
 	"test") echo -e "$1 $2 $3 $4"
 	;;
 	*) if [[ $@ > $count  ]] ; then echo "999" ; else printf '%s\n' "${disk[$@]}" | tr -d '\n' ; fi

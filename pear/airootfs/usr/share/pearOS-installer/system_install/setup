@@ -1,8 +1,19 @@
 #!/bin/bash
 
+  # Error handler - trimite mesaj de eroare către frontend
+  error_exit() {
+    local error_message="$1"
+    echo "INSTALLATION FAILED: $error_message" | tr -d '\n' > /tmp/progress
+    echo "ERROR: $error_message" >> /tmp/install.log
+    exit 1
+  }
+
+  # Trap pentru erori neașteptate
+  trap 'error_exit "Unexpected error at line $LINENO"' ERR
+
   # Setting usefull variables
   DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-  BASE_PACKAGES=('archlinux-keyring' 'electron' 'alsa-utils' 'amd-ucode' 'arch-install-scripts' 'b43-fwcutter' 'base' 'bind-tools' 'broadcom-wl' 'btrfs-progs' 'clonezilla' 'cloud-init' 'crda' 'cryptsetup' 'darkhttpd' 'ddrescue' 'dhclient' 'dhcpcd' 'diffutils' 'dmraid' 'dnsmasq' 'dosfstools' 'e2fsprogs' 'edk2-shell' 'efibootmgr' 'espeakup' 'ethtool' 'exfatprogs' 'f2fs-tools' 'fatresize' 'fsarchiver' 'gnu-netcat' 'gpart' 'gpm' 'gptfdisk' 'grml-zsh-config' 'hdparm' 'intel-ucode' 'irssi' 'iwd' 'jfsutils' 'linux' 'linux-atm' 'linux-firmware' 'livecd-sounds' 'lsscsi' 'lvm2' 'man-db' 'man-pages' 'mc' 'mdadm' 'memtest86+' 'mkinitcpio' 'mkinitcpio-archiso' 'mkinitcpio-nfs-utils' 'modemmanager' 'mtools' 'nano' 'nbd' 'ndisc6' 'nfs-utils' 'nilfs-utils' 'ntfs-3g' 'nvme-cli' 'openssh' 'parted' 'partimage' 'ppp' 'pptpclient' 'reflector' 'reiserfsprogs' 'rp-pppoe' 'rsync' 'sdparm' 'sg3_utils' 'smartmontools' 'sof-firmware' 'squashfs-tools' 'sudo' 'syslinux' 'systemd-resolvconf' 'tcpdump' 'testdisk' 'udftools' 'usb_modeswitch' 'usbmuxd' 'usbutils' 'vpnc' 'wireless-regdb' 'wireless_tools' 'wpa_supplicant' 'wvdial' 'xfsprogs' 'xl2tpd' 'zsh' 'xorg' 'sddm' 'bash-completion' 'networkmanager' 'linux-headers' 'base-devel' 'git' 'xf86-input-libinput' 'pacman-contrib' 'plasma' 'konsole' 'kate' 'nautilus' 'xdg-user-dirs' 'ark' 'gnome-software' 'appmenu-gtk-module' 'touchegg' 'rhythmbox' 'latte-dock' 'kvantum' 'gambas3-runtime' 'pearos-grub-theme' 'theme-switcher-bin' 'system-overview' 'system-update' 'pearos-settings' 'kwin-effects-yet-another-magic-lamp' 'gambas3-gb-image' 'gambas3-gb-form' 'gambas3-gb-qt5' 'gambas3-gb-gtk3' 'system-update' 'python-pip' 'neofetch' 'grub' 'os-prober' 'firefox' 'ttf-roboto' 'gvfs' 'pavucontrol' 'pulseaudio' 'pulseaudio-alsa' 'ttf-dejavu' 'xorg-apps' 'xorg-server' 'npm' 'xf86-video-vmware')
+  BASE_PACKAGES=('archlinux-keyring' 'alsa-utils' 'amd-ucode' 'arch-install-scripts' 'b43-fwcutter' 'base' 'bind-tools' 'broadcom-wl' 'btrfs-progs' 'clonezilla' 'cloud-init' 'crda' 'cryptsetup' 'darkhttpd' 'ddrescue' 'dhclient' 'dhcpcd' 'diffutils' 'dmraid' 'dnsmasq' 'dosfstools' 'e2fsprogs' 'edk2-shell' 'efibootmgr' 'espeakup' 'ethtool' 'exfatprogs' 'f2fs-tools' 'fatresize' 'fsarchiver' 'gnu-netcat' 'gpart' 'gpm' 'gptfdisk' 'grml-zsh-config' 'hdparm' 'intel-ucode' 'irssi' 'iwd' 'jfsutils' 'linux' 'linux-atm' 'linux-firmware' 'livecd-sounds' 'lsscsi' 'lvm2' 'man-db' 'man-pages' 'mc' 'mdadm' 'memtest86+' 'mkinitcpio' 'mkinitcpio-archiso' 'mkinitcpio-nfs-utils' 'modemmanager' 'mtools' 'nano' 'nbd' 'ndisc6' 'nfs-utils' 'nilfs-utils' 'ntfs-3g' 'nvme-cli' 'openssh' 'parted' 'partimage' 'ppp' 'pptpclient' 'reflector' 'reiserfsprogs' 'rp-pppoe' 'rsync' 'sdparm' 'sg3_utils' 'smartmontools' 'sof-firmware' 'squashfs-tools' 'sudo' 'syslinux' 'systemd-resolvconf' 'tcpdump' 'testdisk' 'udftools' 'usb_modeswitch' 'usbmuxd' 'usbutils' 'vpnc' 'wireless-regdb' 'wireless_tools' 'wpa_supplicant' 'wvdial' 'xfsprogs' 'xl2tpd' 'zsh' 'xorg' 'sddm' 'bash-completion' 'networkmanager' 'linux-headers' 'base-devel' 'git' 'xf86-input-libinput' 'pacman-contrib' 'plasma' 'konsole' 'kate' 'nautilus' 'xdg-user-dirs' 'ark' 'gnome-software' 'gnome-software-packagekit-plugin' 'appmenu-gtk-module' 'touchegg' 'rhythmbox' 'latte-dock' 'kvantum' 'gambas3-runtime' 'pearos-grub-theme' 'theme-switcher-bin' 'system-overview' 'system-update' 'pearos-settings' 'kwin-effects-yet-another-magic-lamp' 'gambas3-gb-image' 'gambas3-gb-form' 'gambas3-gb-qt5' 'gambas3-gb-gtk3' 'system-update' 'python-pip' 'neofetch' 'grub' 'os-prober' 'firefox' 'ttf-roboto' 'gvfs' 'pavucontrol' 'pulseaudio' 'pulseaudio-alsa' 'ttf-dejavu' 'xorg-apps' 'xorg-server' 'npm' 'electron' 'xf86-video-vmware')
   UEFI=false
   bluetooth=false
   installed=false
@@ -90,11 +101,15 @@
   echo "8" | tr -d '\n' > /tmp/progress
 
   # Make the ext4 filesystem
-  mkfs."$FILE_SYSTEM" "$ROOT_PART" &> /dev/null
+  if ! mkfs."$FILE_SYSTEM" "$ROOT_PART" &> /dev/null; then
+    error_exit "Failed to create filesystem on $ROOT_PART"
+  fi
   echo "10" | tr -d '\n' > /tmp/progress
 
   # Mount the disk to /mnt and commit that into the variable
-  mount "$ROOT_PART" /mnt
+  if ! mount "$ROOT_PART" /mnt; then
+    error_exit "Failed to mount $ROOT_PART to /mnt"
+  fi
   mounted=true
   echo "12" | tr -d '\n' > /tmp/progress
 
@@ -166,11 +181,28 @@
   echo "17" | tr -d '\n' > /tmp/progress
 
   # installing packages using pacstrap from the BASE_PACKAGES array variable
-  pacstrap /mnt "${BASE_PACKAGES[@]}"
+  # Flag --needed evită reinstalarea pachetelor deja instalate
+  # Iterăm prin pachete pentru a continua chiar dacă unele lipsesc
+  failed_packages=0
+  total_packages=${#BASE_PACKAGES[@]}
+  
+  for package in "${BASE_PACKAGES[@]}"; do
+    if ! pacstrap /mnt "$package" 2>/dev/null; then
+      echo "Warning: Failed to install $package" >> /tmp/install.log
+      echo "FAILED: $package" >> /tmp/failed_packages.log
+      ((failed_packages++))
+    fi
+  done
+  
+  # Scrie statistici în log
+  echo "Installed: $((total_packages - failed_packages))/$total_packages packages" >> /tmp/install.log
+  
   echo "21" | tr -d '\n' > /tmp/progress
 
   # Generating fstab
-  genfstab -U -p /mnt >> /mnt/etc/fstab
+  if ! genfstab -U -p /mnt >> /mnt/etc/fstab; then
+    error_exit "Failed to generate fstab"
+  fi
   echo "58" | tr -d '\n' > /tmp/progress
 
   # Pushing temporary Timezone to localtime file
@@ -223,15 +255,21 @@
 
   # Install GRUB for EFI or Legacy platform
   if $UEFI; then
-    arch-chroot /mnt grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=pearOS --removable &> /dev/null
+    if ! arch-chroot /mnt grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=pearOS --removable &> /dev/null; then
+      error_exit "Failed to install GRUB (UEFI mode)"
+    fi
   else
-    arch-chroot /mnt grub-install --target=i386-pc "$DISK" &> /dev/null
+    if ! arch-chroot /mnt grub-install --target=i386-pc "$DISK" &> /dev/null; then
+      error_exit "Failed to install GRUB (Legacy mode)"
+    fi
   fi
   echo "81" | tr -d '\n' > /tmp/progress
 
   # Add the grub theme to the configuration file
   echo "GRUB_THEME=\"/usr/share/grub/themes/pearOS/theme.txt\"" >> /mnt/etc/default/grub
-  arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg &> /dev/null
+  if ! arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg &> /dev/null; then
+    error_exit "Failed to generate GRUB configuration"
+  fi
   echo "85" | tr -d '\n' > /tmp/progress
 
   # Change root password to "pear"
@@ -269,17 +307,17 @@
 
   # Adding pacman to conf and updating packages list
   cp /etc/pacman.conf /mnt/etc/pacman.conf
-  arch-chroot /mnt pacman -Sy --quiet --noconfirm &> /dev/null
+  arch-chroot /mnt pacman -Sy --quiet --noconfirm 2>/dev/null || true
   echo "90" | tr -d '\n' > /tmp/progress
 
   # Installing yay helper
-  arch-chroot /mnt git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm
+  arch-chroot /mnt bash -c "cd /tmp && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm" 2>/dev/null || echo "Warning: Failed to install yay" >> /tmp/install.log
 
   # Installing plymouth
-  arch-chroot /mnt yay -S plymouth --noconfirm
+  arch-chroot /mnt yay -S plymouth --noconfirm 2>/dev/null || echo "Warning: Failed to install plymouth" >> /tmp/install.log
 
   # Setting pearOS plymouth theme
-  plymouth-set-default-theme -R pear-plymouth
+  plymouth-set-default-theme -R pear-plymouth 2>/dev/null || echo "Warning: Failed to set plymouth theme" >> /tmp/install.log
 
   # Enable Network Manager, vbox additions and SDDM services
   arch-chroot /mnt systemctl enable NetworkManager.service &> /dev/null
@@ -316,8 +354,13 @@
   fi
   echo "98" | tr -d '\n' > /tmp/progress
 
-  # Sends the install finished messaes to the frontend
-  echo "Installation finished" | tr -d '\n' > /tmp/progress
+  # Sends the install finished messages to the frontend
+  if [ -f /tmp/failed_packages.log ]; then
+    failed_count=$(wc -l < /tmp/failed_packages.log)
+    echo "Installation finished with $failed_count warnings" | tr -d '\n' > /tmp/progress
+  else
+    echo "Installation finished" | tr -d '\n' > /tmp/progress
+  fi
 
   # Not sure if I keep this or not. Looks useless to me :shrug:
   check_mountpoints() {

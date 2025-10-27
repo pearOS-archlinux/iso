@@ -12,7 +12,7 @@ zones_count = parseInt(sZones);
 console.log("There are " + zones_count + " available time-zones");
 
 while (i < (zones_count+1)) {
-	exec("find /usr/share/zoneinfo/posix -type f -or -type l | sort | cut -c27- | sed -n "+ i  + "p", (err, stdout) => { var zi=`<option>${stdout}</option>`; i++; z += zi; document.getElementById("time_zones_list").innerHTML =z; })
+	exec("find /usr/share/zoneinfo/posix -type f -or -type l | sort -r | cut -c27- | sed -n "+ i  + "p", (err, stdout) => { var zi=`<option>${stdout}</option>`; i++; z += zi; document.getElementById("time_zones_list").innerHTML =z; })
         i++;
         }
 	})

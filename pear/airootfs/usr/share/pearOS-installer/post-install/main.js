@@ -28,7 +28,7 @@ function createWindow () {
   mainWindow.setMenu(null);
 
   mainWindow.loadURL(url.format({
-    pathname: path.join(__dirname, '/app/index.html'),
+    pathname: path.join(__dirname, '/app/hello.html'),
     protocol: 'file:',
     slashes: true
   }))
@@ -57,12 +57,6 @@ app.on('window-all-closed', function () {
 app.on('activate', function () {
   if (mainWindow === null) {
     createWindow()
-  }
-})
-
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit()
   }
 })
 

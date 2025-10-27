@@ -1,8 +1,10 @@
 const electron = require('electron')
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
+const ipcMain = electron.ipcMain
 const path = require('path')
 const url = require('url')
+const { exec } = require('child_process')
 let mainWindow
 
 function createWindow () {
@@ -45,6 +47,54 @@ function createWindow () {
     mainWindow = null
   })
 }
+
+// Handler pentru acțiunile de sistem
+ipcMain.on('system-action', (event, action) => {
+  switch(action) {
+    case 'shutdown':
+      exec('shutdown now', (error) => {
+        if (error) {
+          console.error('Eroare la shutdown:', error);
+        }
+      });
+      break;
+    case 'restart':
+      exec('shutdown -r now', (error) => {
+        if (error) {
+          console.error('Eroare la restart:', error);
+        }
+      });
+      break;
+    case 'live-environment':
+      app.quit();
+      break;
+  }
+})
+
+// Handler pentru acțiunile aplicației
+ipcMain.on('app-action', (event, action) => {
+  switch(action) {
+    case 'show-log':
+      const os = require('os');
+      const logPath = path.join(os.homedir(), 'Desktop', 'install.log');
+      exec(`kate ${logPath}`, (error) => {
+        if (error) {
+          console.error('Eroare la deschiderea log-ului:', error);
+        }
+      });
+      break;
+    case 'show-disks':
+      exec('konsole -e \'$SHELL -c "sudo fdisk -l; $SHELL"\'', (error) => {
+        if (error) {
+          console.error('Eroare la deschiderea fdisk:', error);
+        }
+      });
+      break;
+    case 'quit':
+      app.quit();
+      break;
+  }
+})
 
 app.on('ready', createWindow)
 

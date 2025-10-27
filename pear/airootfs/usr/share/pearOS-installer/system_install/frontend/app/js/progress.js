@@ -51,15 +51,41 @@ fs.readFile("/tmp" + "/disk-to-install", (error, data) => {
 		    throw error;
             	}
 
-            if (data.toString() == "Installation finished") {
-		var prog = '<p align="center" class="setup-text">Installation finished. You can close this window (can use ALT+F4) and reboot<br>your new pearintosh, or check the log located on the desktop.</p>'
-		document.getElementById("disk_list").innerHTML = prog;
+            var progressText = data.toString();
+            
+            // Verifică dacă instalarea a eșuat complet
+            if (progressText.startsWith("INSTALLATION FAILED")) {
+                var errorMessage = progressText.replace("INSTALLATION FAILED: ", "");
+                var prog = '<p align="center" class="setup-text" style="color: #ff0000;">Installation Failed!</p>';
+                prog += '<p align="center" class="setup-text" style="color: #ff6666;"><b>Error:</b> ' + errorMessage + '</p>';
+                prog += '<p align="center" class="setup-text">Please check <b>/tmp/install.log</b> for details.<br>You may need to restart the installer or check your disk.</p>';
+                document.getElementById("disk_list").innerHTML = prog;
+            }
+            // Verifică dacă instalarea s-a terminat (cu sau fără warnings)
+            else if (progressText.startsWith("Installation finished")) {
+                var prog = '';
+                
+                // Verifică dacă sunt warnings
+                if (progressText.includes("warnings")) {
+                    // Extrage numărul de warnings
+                    var warningMatch = progressText.match(/(\d+) warnings/);
+                    var warningCount = warningMatch ? warningMatch[1] : '0';
+                    
+                    prog = '<p align="center" class="setup-text" style="color: #ffaa00;">Installation finished with ' + warningCount + ' warnings.</p>';
+                    prog += '<p align="center" class="setup-text">Some packages failed to install. You can close this window (ALT+F4) and reboot,<br>or check the logs: <b>/tmp/install.log</b> and <b>/tmp/failed_packages.log</b></p>';
                 } else {
-                    var prog = `
-                	<br><progress id="file" value="` + data.toString() + `" max="100"> 69% </progress>
+                    prog = '<p align="center" class="setup-text" style="color: #00ff00;">Installation finished successfully!</p>';
+                    prog += '<p align="center" class="setup-text">You can close this window (can use ALT+F4) and reboot<br>your new pearintosh, or check the log located on the desktop.</p>';
+                }
+                
+                document.getElementById("disk_list").innerHTML = prog;
+            } else {
+                // Afișează progress bar
+                var prog = `
+                	<br><progress id="file" value="` + progressText + `" max="100"> ` + progressText + `% </progress>
                 	`
-			document.getElementById("disk_list").innerHTML = disk + prog;
-                };
+		document.getElementById("disk_list").innerHTML = disk + prog;
+            };
             });
         }, 1000);
 	});
