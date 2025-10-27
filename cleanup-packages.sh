@@ -1,17 +1,13 @@
 #!/bin/bash
-# cleanup-packages.sh
-# Verifică și curăță lista de pachete, eliminând cele care nu mai există în repo-uri
 
 PACKAGES_FILE="packages/packages.x86_64"
 BACKUP_FILE="packages/packages.x86_64.backup"
 
-# Verifică dacă fișierul există
 if [[ ! -f "$PACKAGES_FILE" ]]; then
     echo -e "[\e[91m%\e[0m] Error: $PACKAGES_FILE not found!"
     exit 1
 fi
 
-# Verifică dacă suntem root (pacman -Si necesită sync)
 if [ "$(id -u)" -ne 0 ]; then
     echo -e "[\e[93m%\e[0m] Warning: Running without root. Some checks might be inaccurate."
     echo -e "[\e[93m%\e[0m] Consider running: sudo $0"
@@ -30,7 +26,6 @@ invalid_count=0
 comment_count=0
 
 while IFS= read -r line; do
-    # Păstrează comentariile și linii goale
     if [[ -z "$line" ]]; then
         echo "$line" >> "$temp_file"
         continue
@@ -42,7 +37,6 @@ while IFS= read -r line; do
         continue
     fi
     
-    # Verifică dacă pachetul există
     package=$(echo "$line" | xargs)  # trim whitespace
     
     if pacman -Si "$package" &> /dev/null; then
@@ -50,7 +44,6 @@ while IFS= read -r line; do
         echo -e "[\e[92m✓\e[0m] $package"
         ((valid_count++))
     else
-        # Comentează în loc să șteargă
         echo "# INVALID: $line" >> "$temp_file"
         echo -e "[\e[91m✗\e[0m] $package (NOT FOUND - commented out)"
         ((invalid_count++))
