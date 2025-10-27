@@ -449,6 +449,25 @@ _make_boot_on_iso9660() {
     install -m 0644 -- "${pacstrap_dir}/boot/initramfs-"*".img" "${isofs_dir}/${install_dir}/boot/${arch}/"
     install -m 0644 -- "${pacstrap_dir}/boot/vmlinuz-"* "${isofs_dir}/${install_dir}/boot/${arch}/"
 
+    # Rename kernel and initramfs to standard names (vmlinuz-linux, initramfs-linux.img)
+    _msg_info "Renaming kernel and initramfs to standard names..."
+    local kernel_file=$(find "${isofs_dir}/${install_dir}/boot/${arch}/" -name "vmlinuz-*" -type f | head -n 1)
+    local initramfs_file=$(find "${isofs_dir}/${install_dir}/boot/${arch}/" -name "initramfs-*.img" ! -name "*fallback*" -type f | head -n 1)
+    local initramfs_fallback=$(find "${isofs_dir}/${install_dir}/boot/${arch}/" -name "initramfs-*fallback.img" -type f | head -n 1)
+    
+    if [[ -n "${kernel_file}" ]]; then
+        mv "${kernel_file}" "${isofs_dir}/${install_dir}/boot/${arch}/vmlinuz-linux"
+        _msg_info "Renamed $(basename ${kernel_file}) -> vmlinuz-linux"
+    fi
+    if [[ -n "${initramfs_file}" ]]; then
+        mv "${initramfs_file}" "${isofs_dir}/${install_dir}/boot/${arch}/initramfs-linux.img"
+        _msg_info "Renamed $(basename ${initramfs_file}) -> initramfs-linux.img"
+    fi
+    if [[ -n "${initramfs_fallback}" ]]; then
+        mv "${initramfs_fallback}" "${isofs_dir}/${install_dir}/boot/${arch}/initramfs-linux-fallback.img"
+        _msg_info "Renamed $(basename ${initramfs_fallback}) -> initramfs-linux-fallback.img"
+    fi
+
     for ucode_image in "${ucodes[@]}"; do
         if [[ -e "${pacstrap_dir}/boot/${ucode_image}" ]]; then
             install -m 0644 -- "${pacstrap_dir}/boot/${ucode_image}" "${isofs_dir}/${install_dir}/boot/"
@@ -496,8 +515,8 @@ _make_bootmode_bios.syslinux.mbr() {
         # rename for PXE: https://wiki.archlinux.org/title/Syslinux#Using_memtest
         install -m 0644 -- "${pacstrap_dir}/boot/memtest86+/memtest.bin" "${isofs_dir}/${install_dir}/boot/memtest"
         install -d -m 0755 -- "${isofs_dir}/${install_dir}/boot/licenses/memtest86+/"
-        install -m 0644 -- "${pacstrap_dir}/usr/share/licenses/common/GPL2/license.txt" \
-            "${isofs_dir}/${install_dir}/boot/licenses/memtest86+/"
+        #install -m 0644 -- "${pacstrap_dir}/usr/share/licenses/common/GPL2/license.txt" \
+        #    "${isofs_dir}/${install_dir}/boot/licenses/memtest86+/"
     fi
     _msg_info "Done! SYSLINUX set up for BIOS booting from a disk successfully."
 }
@@ -518,11 +537,32 @@ _make_bootmode_bios.syslinux.eltorito() {
 # Copy kernel and initramfs to FAT image
 _make_boot_on_fat() {
     local ucode_image all_ucode_images=()
+    local kernel_file initramfs_file initramfs_fallback
+    
     _msg_info "Preparing kernel and initramfs for the FAT file system..."
     mmd -i "${work_dir}/efiboot.img" \
         "::/${install_dir}" "::/${install_dir}/boot" "::/${install_dir}/boot/${arch}"
-    mcopy -i "${work_dir}/efiboot.img" "${pacstrap_dir}/boot/vmlinuz-"* \
-        "${pacstrap_dir}/boot/initramfs-"*".img" "::/${install_dir}/boot/${arch}/"
+    
+    # Find the kernel and initramfs files
+    kernel_file=$(find "${pacstrap_dir}/boot/" -name "vmlinuz-*" -type f | head -n 1)
+    initramfs_file=$(find "${pacstrap_dir}/boot/" -name "initramfs-*.img" ! -name "*fallback*" -type f | head -n 1)
+    initramfs_fallback=$(find "${pacstrap_dir}/boot/" -name "initramfs-*fallback.img" -type f | head -n 1)
+    
+    # Copy files with standard names directly
+    _msg_info "Copying kernel and initramfs with standard names to FAT image..."
+    if [[ -n "${kernel_file}" && -e "${kernel_file}" ]]; then
+        mcopy -i "${work_dir}/efiboot.img" "${kernel_file}" "::/${install_dir}/boot/${arch}/vmlinuz-linux"
+        _msg_info "Copied $(basename ${kernel_file}) as vmlinuz-linux"
+    fi
+    if [[ -n "${initramfs_file}" && -e "${initramfs_file}" ]]; then
+        mcopy -i "${work_dir}/efiboot.img" "${initramfs_file}" "::/${install_dir}/boot/${arch}/initramfs-linux.img"
+        _msg_info "Copied $(basename ${initramfs_file}) as initramfs-linux.img"
+    fi
+    if [[ -n "${initramfs_fallback}" && -e "${initramfs_fallback}" ]]; then
+        mcopy -i "${work_dir}/efiboot.img" "${initramfs_fallback}" "::/${install_dir}/boot/${arch}/initramfs-linux-fallback.img"
+        _msg_info "Copied $(basename ${initramfs_fallback}) as initramfs-linux-fallback.img"
+    fi
+    
     for ucode_image in "${ucodes[@]}"; do
         if [[ -e "${pacstrap_dir}/boot/${ucode_image}" ]]; then
             all_ucode_images+=("${pacstrap_dir}/boot/${ucode_image}")
@@ -1412,8 +1452,6 @@ actual_build() {
         cp packages/packages.x86_64 pear/packages.x86_64
 	echo -e "[ \e[92m%\e[0m ] : Copying [ \e[92m/etc/pacman.d/mirrorlist\e[0m ] to [ \e[92mpear/etc/pacman.d/.\e[0m ] . . ."
         cp /etc/pacman.d/mirrorlist pear/airootfs/etc/pacman.d/.
-	echo -e "[ \e[92m%\e[0m ] : refreshing the public key [ \e[92m7AA60E85D37C046B\e[0m ] . . ."
-	sudo pacman-key --refresh-keys 55684352925CAED2 2> /dev/null
 	echo -e "[ \e[92m%\e[0m ] : Building the ISO . . ."
         progtest -v -w $OUT -o . pear
 
