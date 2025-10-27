@@ -1,5 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 filesystem
+elisa
+gwenview
+kcalc
+xf86-input-libinput
+
 archlinux-keyring
 alsa-utils
 amd-ucode
@@ -43,7 +48,7 @@ intel-ucode
 irssi
 iwd
 jfsutils
-linux
+linux617
 linux-atm
 linux-firmware
 livecd-sounds
@@ -137,7 +142,7 @@ pearos-settings
 npm
 electron
 #electron11
-kwin-effects-yet-another-magic-lamp
+#kwin-effects-yet-another-magic-lamp
 
 gambas3-gb-image
 gambas3-gb-form
