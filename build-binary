@@ -55,6 +55,96 @@ declare -A file_permissions=()
 # adapted from GRUB_EARLY_INITRD_LINUX_STOCK in https://git.savannah.gnu.org/cgit/grub.git/tree/util/grub-mkconfig.in
 readonly ucodes=('intel-uc.img' 'intel-ucode.img' 'amd-uc.img' 'amd-ucode.img' 'early_ucode.cpio' 'microcode.cpio')
 
+############### CUSTOM INTERACTIVE CHROOT FUNCTIONS (must be before mkarchiso) ###############
+
+# Interactive chroot function
+interactive_chroot() {
+    local airootfs_dir="$1"
+    
+    if [[ ! -d "$airootfs_dir" ]]; then
+        echo -e "[\e[91m%\e[0m] Error: airootfs directory not found!"
+        return 1
+    fi
+    
+    while true; do
+        echo -e "\n[\e[94m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m]"
+        echo -e "[\e[93m%\e[0m] Interactive Chroot"
+        echo -e "[\e[94m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m]"
+        echo -e "[\e[93m%\e[0m] You can now customize the live environment"
+        echo -e "[\e[93m%\e[0m] Airootfs location: $airootfs_dir"
+        echo -e ""
+        echo -e "  \e[92m1)\e[0m Enter chroot (customize system)"
+        echo -e "  \e[92m2)\e[0m Continue build (finish ISO)"
+        echo -e "  \e[91m0)\e[0m Cancel build"
+        echo -e ""
+        
+        read -p "$(echo -e '[\e[93m%\e[0m] Choose option: ')" choice < /dev/tty
+        
+        case "$choice" in
+            1)
+                echo -e "\n[\e[92m%\e[0m] Entering chroot environment..."
+                echo -e "[\e[93m%\e[0m] Tips:"
+                echo -e "  - Install packages: pacman -S package-name"
+                echo -e "  - Edit configs in /etc/"
+                echo -e "  - Customize user settings"
+                echo -e "  - Type 'exit' when done"
+                echo -e ""
+                
+                # Enter chroot
+                arch-chroot "$airootfs_dir" /bin/bash
+                
+                echo -e "\n[\e[92m%\e[0m] Exited chroot"
+                ;;
+            2)
+                echo -e "[\e[92m%\e[0m] Continuing with ISO build..."
+                break
+                ;;
+            0)
+                echo -e "[\e[91m%\e[0m] Build cancelled by user"
+                return 1
+                ;;
+            *)
+                echo -e "[\e[91m%\e[0m] Invalid choice!"
+                ;;
+        esac
+    done
+    
+    return 0
+}
+
+# Hook function to check for chroot request
+check_chroot_request() {
+    local work_dir="$1"
+    local airootfs_dir="${work_dir}/x86_64/airootfs"
+    
+    # Check if airootfs exists
+    if [[ ! -d "$airootfs_dir" ]]; then
+        echo -e "[\e[91m%\e[0m] Error: airootfs directory not found at $airootfs_dir"
+        return 1
+    fi
+    
+    echo -e "\n[\e[94m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m]"
+    echo -e "[\e[93m%\e[0m] System installation complete!"
+    echo -e "[\e[94m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m]"
+    
+    read -p "$(echo -e '[\e[93m%\e[0m] Do you want to chroot and customize before finalizing ISO? (y/N): ')" answer < /dev/tty
+    
+    if [[ "$answer" =~ ^[Yy]$ ]]; then
+        if interactive_chroot "$airootfs_dir"; then
+            echo -e "[\e[92m%\e[0m] Customization complete, continuing build..."
+        else
+            echo -e "[\e[91m%\e[0m] Build cancelled"
+            return 1
+        fi
+    else
+        echo -e "[\e[92m%\e[0m] Skipping chroot, continuing with build..."
+    fi
+    
+    return 0
+}
+
+############### END CUSTOM FUNCTIONS ###############
+
 
 # Show an INFO message
 # $1: message string
@@ -431,6 +521,18 @@ _make_customize_airootfs() {
         rm -- "${pacstrap_dir}/root/customize_airootfs.sh"
         _msg_info "Done! customize_airootfs.sh run successfully."
     fi
+    
+    # Custom interactive chroot hook
+    if [[ "${INTERACTIVE_CHROOT:-}" == "yes" ]]; then
+        _msg_info "Offering interactive chroot customization..."
+        
+        # Call the custom function if it exists
+        if declare -f check_chroot_request > /dev/null; then
+            if ! check_chroot_request "${work_dir}"; then
+                _msg_error "Build cancelled during chroot customization" 1
+            fi
+        fi
+    fi
 }
 
 # Set up boot loaders
@@ -443,30 +545,88 @@ _make_bootmodes() {
 
 # Copy kernel and initramfs to ISO 9660
 _make_boot_on_iso9660() {
-    local ucode_image
+    local ucode_image kernel_file
     _msg_info "Preparing kernel and initramfs for the ISO 9660 file system..."
     install -d -m 0755 -- "${isofs_dir}/${install_dir}/boot/${arch}"
     install -m 0644 -- "${pacstrap_dir}/boot/initramfs-"*".img" "${isofs_dir}/${install_dir}/boot/${arch}/"
     install -m 0644 -- "${pacstrap_dir}/boot/vmlinuz-"* "${isofs_dir}/${install_dir}/boot/${arch}/"
 
-    # Rename kernel and initramfs to standard names (vmlinuz-linux, initramfs-linux.img)
-    _msg_info "Renaming kernel and initramfs to standard names..."
-    local kernel_file=$(find "${isofs_dir}/${install_dir}/boot/${arch}/" -name "vmlinuz-*" -type f | head -n 1)
-    local initramfs_file=$(find "${isofs_dir}/${install_dir}/boot/${arch}/" -name "initramfs-*.img" ! -name "*fallback*" -type f | head -n 1)
-    local initramfs_fallback=$(find "${isofs_dir}/${install_dir}/boot/${arch}/" -name "initramfs-*fallback.img" -type f | head -n 1)
+    # Normalize kernel names: rename versioned kernels to standard names
+    _msg_info "Normalizing kernel and initramfs names..."
     
-    if [[ -n "${kernel_file}" ]]; then
-        mv "${kernel_file}" "${isofs_dir}/${install_dir}/boot/${arch}/vmlinuz-linux"
-        _msg_info "Renamed $(basename ${kernel_file}) -> vmlinuz-linux"
-    fi
-    if [[ -n "${initramfs_file}" ]]; then
-        mv "${initramfs_file}" "${isofs_dir}/${install_dir}/boot/${arch}/initramfs-linux.img"
-        _msg_info "Renamed $(basename ${initramfs_file}) -> initramfs-linux.img"
-    fi
-    if [[ -n "${initramfs_fallback}" ]]; then
-        mv "${initramfs_fallback}" "${isofs_dir}/${install_dir}/boot/${arch}/initramfs-linux-fallback.img"
-        _msg_info "Renamed $(basename ${initramfs_fallback}) -> initramfs-linux-fallback.img"
-    fi
+    # Collect all kernels first to check for duplicates
+    local all_kernels=()
+    while IFS= read -r kernel_file; do
+        all_kernels+=("$kernel_file")
+    done < <(find "${isofs_dir}/${install_dir}/boot/${arch}/" -name "vmlinuz-*" -type f)
+    
+    # Find the most recent versioned kernel (by modification time)
+    local most_recent_kernel=""
+    local most_recent_time=0
+    
+    for kernel_file in "${all_kernels[@]}"; do
+        local kernel_basename=$(basename "$kernel_file")
+        if [[ "$kernel_basename" =~ vmlinuz-([0-9]+\.[0-9]+.*)-x86_64 ]]; then
+            local mtime=$(stat -c %Y "$kernel_file" 2>/dev/null || stat -f %m "$kernel_file")
+            if [[ $mtime -gt $most_recent_time ]]; then
+                most_recent_time=$mtime
+                most_recent_kernel="$kernel_file"
+            fi
+        fi
+    done
+    
+    # Process all kernels
+    for kernel_file in "${all_kernels[@]}"; do
+        local kernel_basename=$(basename "$kernel_file")
+        local kernel_variant=""
+        local target_name=""
+        
+        # Detect kernel variant from filename
+        if [[ "$kernel_basename" =~ vmlinuz-([0-9]+\.[0-9]+.*)-x86_64 ]]; then
+            # Versioned kernel - only rename the most recent one
+            if [[ "$kernel_file" == "$most_recent_kernel" ]]; then
+                target_name="vmlinuz-linux"
+                _msg_info "Selected $kernel_basename as primary kernel (most recent)"
+            else
+                target_name="$kernel_basename"  # Keep original name for older kernels
+                _msg_info "Keeping $kernel_basename as backup kernel"
+            fi
+        elif [[ "$kernel_basename" =~ vmlinuz-linux-(.+) ]]; then
+            # Already has standard name with variant (e.g., vmlinuz-linux-lts, vmlinuz-linux-zen)
+            kernel_variant="${BASH_REMATCH[1]}"
+            target_name="$kernel_basename"  # Keep as is
+        elif [[ "$kernel_basename" == "vmlinuz-linux" ]]; then
+            # Already standard name
+            target_name="$kernel_basename"  # Keep as is
+        else
+            # Unknown format, keep as is
+            _msg_warning "Unknown kernel format: $kernel_basename (keeping original name)"
+            continue
+        fi
+        
+        # Rename if needed
+        if [[ "$kernel_basename" != "$target_name" ]]; then
+            mv "$kernel_file" "${isofs_dir}/${install_dir}/boot/${arch}/${target_name}"
+            _msg_info "Renamed $kernel_basename -> $target_name"
+            
+            # Also rename corresponding initramfs files
+            local initramfs_pattern="${kernel_basename#vmlinuz-}"
+            local initramfs_target="${target_name#vmlinuz-}"
+            local initramfs_file="${isofs_dir}/${install_dir}/boot/${arch}/initramfs-${initramfs_pattern}.img"
+            local initramfs_fallback="${isofs_dir}/${install_dir}/boot/${arch}/initramfs-${initramfs_pattern}-fallback.img"
+            
+            if [[ -e "$initramfs_file" ]]; then
+                mv "$initramfs_file" "${isofs_dir}/${install_dir}/boot/${arch}/initramfs-${initramfs_target}.img"
+                _msg_info "Renamed initramfs-${initramfs_pattern}.img -> initramfs-${initramfs_target}.img"
+            fi
+            if [[ -e "$initramfs_fallback" ]]; then
+                mv "$initramfs_fallback" "${isofs_dir}/${install_dir}/boot/${arch}/initramfs-${initramfs_target}-fallback.img"
+                _msg_info "Renamed initramfs-${initramfs_pattern}-fallback.img -> initramfs-${initramfs_target}-fallback.img"
+            fi
+        else
+            _msg_info "Kernel already has standard name: $target_name"
+        fi
+    done
 
     for ucode_image in "${ucodes[@]}"; do
         if [[ -e "${pacstrap_dir}/boot/${ucode_image}" ]]; then
@@ -537,31 +697,72 @@ _make_bootmode_bios.syslinux.eltorito() {
 # Copy kernel and initramfs to FAT image
 _make_boot_on_fat() {
     local ucode_image all_ucode_images=()
-    local kernel_file initramfs_file initramfs_fallback
+    local kernel_file
     
     _msg_info "Preparing kernel and initramfs for the FAT file system..."
     mmd -i "${work_dir}/efiboot.img" \
         "::/${install_dir}" "::/${install_dir}/boot" "::/${install_dir}/boot/${arch}"
     
-    # Find the kernel and initramfs files
-    kernel_file=$(find "${pacstrap_dir}/boot/" -name "vmlinuz-*" -type f | head -n 1)
-    initramfs_file=$(find "${pacstrap_dir}/boot/" -name "initramfs-*.img" ! -name "*fallback*" -type f | head -n 1)
-    initramfs_fallback=$(find "${pacstrap_dir}/boot/" -name "initramfs-*fallback.img" -type f | head -n 1)
+    # Copy all kernels with normalized names to FAT image
+    _msg_info "Copying kernels with standard names to FAT image..."
     
-    # Copy files with standard names directly
-    _msg_info "Copying kernel and initramfs with standard names to FAT image..."
-    if [[ -n "${kernel_file}" && -e "${kernel_file}" ]]; then
-        mcopy -i "${work_dir}/efiboot.img" "${kernel_file}" "::/${install_dir}/boot/${arch}/vmlinuz-linux"
-        _msg_info "Copied $(basename ${kernel_file}) as vmlinuz-linux"
-    fi
-    if [[ -n "${initramfs_file}" && -e "${initramfs_file}" ]]; then
-        mcopy -i "${work_dir}/efiboot.img" "${initramfs_file}" "::/${install_dir}/boot/${arch}/initramfs-linux.img"
-        _msg_info "Copied $(basename ${initramfs_file}) as initramfs-linux.img"
-    fi
-    if [[ -n "${initramfs_fallback}" && -e "${initramfs_fallback}" ]]; then
-        mcopy -i "${work_dir}/efiboot.img" "${initramfs_fallback}" "::/${install_dir}/boot/${arch}/initramfs-linux-fallback.img"
-        _msg_info "Copied $(basename ${initramfs_fallback}) as initramfs-linux-fallback.img"
-    fi
+    # Collect all kernels first to check for duplicates
+    local all_kernels=()
+    while IFS= read -r kernel_file; do
+        all_kernels+=("$kernel_file")
+    done < <(find "${pacstrap_dir}/boot/" -name "vmlinuz-*" -type f)
+    
+    # Find the most recent versioned kernel (by modification time)
+    local most_recent_kernel=""
+    local most_recent_time=0
+    
+    for kernel_file in "${all_kernels[@]}"; do
+        local kernel_basename=$(basename "$kernel_file")
+        if [[ "$kernel_basename" =~ vmlinuz-([0-9]+\.[0-9]+.*)-x86_64 ]]; then
+            local mtime=$(stat -c %Y "$kernel_file" 2>/dev/null || stat -f %m "$kernel_file")
+            if [[ $mtime -gt $most_recent_time ]]; then
+                most_recent_time=$mtime
+                most_recent_kernel="$kernel_file"
+            fi
+        fi
+    done
+    
+    for kernel_file in "${all_kernels[@]}"; do
+        local kernel_basename=$(basename "$kernel_file")
+        local target_name="$kernel_basename"
+        
+        # Detect and rename only the most recent versioned kernel
+        if [[ "$kernel_basename" =~ vmlinuz-([0-9]+\.[0-9]+.*)-x86_64 ]]; then
+            if [[ "$kernel_file" == "$most_recent_kernel" ]]; then
+                target_name="vmlinuz-linux"
+            fi
+        fi
+        
+        # Copy kernel to FAT image
+        mcopy -i "${work_dir}/efiboot.img" "$kernel_file" "::/${install_dir}/boot/${arch}/${target_name}"
+        if [[ "$kernel_basename" != "$target_name" ]]; then
+            _msg_info "Copied $kernel_basename as $target_name"
+        else
+            _msg_info "Copied $kernel_basename"
+        fi
+        
+        # Find and copy corresponding initramfs files
+        local initramfs_pattern="${kernel_basename#vmlinuz-}"
+        local initramfs_target="${target_name#vmlinuz-}"
+        local initramfs_file="${pacstrap_dir}/boot/initramfs-${initramfs_pattern}.img"
+        local initramfs_fallback="${pacstrap_dir}/boot/initramfs-${initramfs_pattern}-fallback.img"
+        
+        if [[ -e "$initramfs_file" ]]; then
+            mcopy -i "${work_dir}/efiboot.img" "$initramfs_file" \
+                "::/${install_dir}/boot/${arch}/initramfs-${initramfs_target}.img"
+            _msg_info "Copied initramfs-${initramfs_pattern}.img as initramfs-${initramfs_target}.img"
+        fi
+        if [[ -e "$initramfs_fallback" ]]; then
+            mcopy -i "${work_dir}/efiboot.img" "$initramfs_fallback" \
+                "::/${install_dir}/boot/${arch}/initramfs-${initramfs_target}-fallback.img"
+            _msg_info "Copied initramfs-${initramfs_pattern}-fallback.img as initramfs-${initramfs_target}-fallback.img"
+        fi
+    done
     
     for ucode_image in "${ucodes[@]}"; do
         if [[ -e "${pacstrap_dir}/boot/${ucode_image}" ]]; then
@@ -1431,28 +1632,144 @@ _build
 }
 
 ############################################################### CUSTOM SCRIPT STARTS ###############################
+
 actual_build() {
         # start a simple timer
         start=`date +%s`
+        
+        local CONTINUE_BUILD="no"
+        local EXISTING_OUT=""
 
-	echo -e "[ \e[92m%\e[0m ] : Removing previous  work folder if exists . . ."
-	sudo rm -rf ./work/
+        # Check if work directory exists
+        if [[ -d "./work" ]]; then
+            # Find existing OUT directory
+            EXISTING_OUT=$(find ./work -maxdepth 1 -type d -name "tmp.*" | head -n1)
+            
+            echo -e "\n[\e[94m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m]"
+            echo -e "[\e[93m%\e[0m] Existing work directory detected!"
+            echo -e "[\e[94m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m]"
+            
+            # Check if airootfs exists
+            if [[ -d "./work/"*/x86_64/airootfs ]]; then
+                echo -e "[\e[92m%\e[0m] Airootfs directory found - you can chroot or continue build"
+                echo -e ""
+                echo -e "  \e[92m1)\e[0m Enter chroot (customize existing system)"
+                echo -e "  \e[92m2)\e[0m Continue build (resume from where it stopped)"
+                echo -e "  \e[92m3)\e[0m Clean build (delete work/ and start fresh)"
+                echo -e "  \e[91m0)\e[0m Cancel and return to main menu"
+            else
+                echo -e "[\e[93m%\e[0m] Work directory exists but airootfs not found"
+                echo -e ""
+                echo -e "  \e[92m1)\e[0m Continue build (may fail if incomplete)"
+                echo -e "  \e[92m2)\e[0m Clean build (delete work/ and start fresh)"
+                echo -e "  \e[91m0)\e[0m Cancel and return to main menu"
+            fi
+            echo -e ""
+            
+            read -p "$(echo -e '[\e[93m%\e[0m] Choose option: ')" build_choice < /dev/tty
+            
+            case "$build_choice" in
+                1)
+                    if [[ -d "./work/"*/x86_64/airootfs ]]; then
+                        # Enter chroot
+                        local airootfs_path=$(find ./work -type d -path "*/x86_64/airootfs" | head -n1)
+                        echo -e "\n[\e[92m%\e[0m] Entering chroot: $airootfs_path"
+                        echo -e "[\e[93m%\e[0m] Type 'exit' when done"
+                        echo -e ""
+                        
+                        if arch-chroot "$airootfs_path" /bin/bash; then
+                            echo -e "\n[\e[92m%\e[0m] Exited chroot successfully"
+                        else
+                            echo -e "\n[\e[91m%\e[0m] Chroot failed"
+                        fi
+                        
+                        # Ask what to do next
+                        echo -e ""
+                        read -p "$(echo -e '[\e[93m%\e[0m] Continue build now? (y/N): ')" continue_answer < /dev/tty
+                        if [[ "$continue_answer" =~ ^[Yy]$ ]]; then
+                            echo -e "[\e[92m%\e[0m] Resuming build from existing state..."
+                            CONTINUE_BUILD="yes"
+                        else
+                            echo -e "[\e[92m%\e[0m] Returning to main menu"
+                            mainmenu
+                            return
+                        fi
+                    else
+                        # Continue build option (no airootfs)
+                        echo -e "[\e[92m%\e[0m] Resuming build from existing state..."
+                        CONTINUE_BUILD="yes"
+                    fi
+                    ;;
+                2)
+                    if [[ -d "./work/"*/x86_64/airootfs ]]; then
+                        # Continue build (with airootfs)
+                        echo -e "[\e[92m%\e[0m] Resuming build from existing state..."
+                        CONTINUE_BUILD="yes"
+                    else
+                        # Clean build (no airootfs)
+                        echo -e "[\e[92m%\e[0m] Removing previous work folder..."
+                        sudo rm -rf ./work/
+                        CONTINUE_BUILD="no"
+                    fi
+                    ;;
+                3)
+                    # Clean build (with airootfs)
+                    echo -e "[\e[92m%\e[0m] Removing previous work folder..."
+                    sudo rm -rf ./work/
+                    CONTINUE_BUILD="no"
+                    ;;
+                0)
+                    echo -e "[\e[92m%\e[0m] Returning to main menu"
+                    mainmenu
+                    return
+                    ;;
+                *)
+                    echo -e "[\e[91m%\e[0m] Invalid option, returning to main menu"
+                    mainmenu
+                    return
+                    ;;
+            esac
+        else
+            echo -e "[ \e[92m%\e[0m ] : No previous work folder found, starting clean build..."
+            CONTINUE_BUILD="no"
+        fi
 
-        echo -e "[ \e[92m%\e[0m ] : Creating new work folder . . ."
-        mkdir work 2> /dev/null
-        export OUT=$(mktemp -d --tmpdir=work)
-        mkdir -p "$OUT"
-        echo -e "[ \e[92m%\e[0m ] : Copying [ \e[92mpackages/pacman.out\e[0m ] to [ \e[92mpear/pacman.conf\e[0m ] . . ."
-        cp -r packages/pacman.out pear/pacman.conf
-	echo -e "[ \e[92m%\e[0m ] : Copying [ \e[92mpear/pacman.conf\e[0m ] to [ \e[92mpear/airootfs/etc/.\e[0m ] . . ."
-        cp -r pear/pacman.conf pear/airootfs/etc/.
-	echo -e "[ \e[92m%\e[0m ] : Copying [ \e[92mpackages/packages.x86_64\e[0m ] to [ \e[92mpear/airootfs/etc/packages.x86_64\e[0m ] . . ."
-        cp packages/packages.x86_64 pear/airootfs/etc/packages.x86_64
-	echo -e "[ \e[92m%\e[0m ] : Copying [ \e[92mpackages/packages.x86_64\e[0m ] to [ \e[92mpear/packages.x86_64\e[0m ] . . ."
-        cp packages/packages.x86_64 pear/packages.x86_64
-	echo -e "[ \e[92m%\e[0m ] : Copying [ \e[92m/etc/pacman.d/mirrorlist\e[0m ] to [ \e[92mpear/etc/pacman.d/.\e[0m ] . . ."
-        cp /etc/pacman.d/mirrorlist pear/airootfs/etc/pacman.d/.
+        # Setup OUT directory
+        if [[ "$CONTINUE_BUILD" == "yes" && -n "$EXISTING_OUT" ]]; then
+            # Continue with existing OUT
+            export OUT="$EXISTING_OUT"
+            echo -e "[ \e[92m%\e[0m ] : Using existing work directory: $OUT"
+            echo -e "[ \e[93m%\e[0m ] : Skipping file copy (already in place)..."
+        else
+            # Create new OUT directory and copy files
+            if [[ ! -d "./work" ]]; then
+                echo -e "[ \e[92m%\e[0m ] : Creating new work folder . . ."
+                mkdir work 2> /dev/null
+            fi
+            
+            export OUT=$(mktemp -d --tmpdir=work)
+            mkdir -p "$OUT"
+            echo -e "[ \e[92m%\e[0m ] : Copying [ \e[92mpackages/pacman.out\e[0m ] to [ \e[92mpear/pacman.conf\e[0m ] . . ."
+            cp -r packages/pacman.out pear/pacman.conf
+            echo -e "[ \e[92m%\e[0m ] : Copying [ \e[92mpear/pacman.conf\e[0m ] to [ \e[92mpear/airootfs/etc/.\e[0m ] . . ."
+            cp -r pear/pacman.conf pear/airootfs/etc/.
+            echo -e "[ \e[92m%\e[0m ] : Copying [ \e[92mpackages/packages.x86_64\e[0m ] to [ \e[92mpear/airootfs/etc/packages.x86_64\e[0m ] . . ."
+            cp packages/packages.x86_64 pear/airootfs/etc/packages.x86_64
+            echo -e "[ \e[92m%\e[0m ] : Copying [ \e[92mpackages/packages.x86_64\e[0m ] to [ \e[92mpear/packages.x86_64\e[0m ] . . ."
+            cp packages/packages.x86_64 pear/packages.x86_64
+            echo -e "[ \e[92m%\e[0m ] : Copying [ \e[92m/etc/pacman.d/mirrorlist\e[0m ] to [ \e[92mpear/etc/pacman.d/.\e[0m ] . . ."
+            cp /etc/pacman.d/mirrorlist pear/airootfs/etc/pacman.d/.
+        fi
 	echo -e "[ \e[92m%\e[0m ] : Building the ISO . . ."
+        
+        # Enable interactive chroot only for fresh builds
+        if [[ "$CONTINUE_BUILD" == "yes" ]]; then
+            export INTERACTIVE_CHROOT=no
+            echo -e "[ \e[93m%\e[0m ] : Skipping interactive chroot (resuming build)..."
+        else
+            export INTERACTIVE_CHROOT=yes
+        fi
+        
         progtest -v -w $OUT -o . pear
 
         end=`date +%s`
@@ -1461,6 +1778,7 @@ actual_build() {
 
 	echo -e "[ \e[92m%\e[0m ] : Fixing permissions . . ."
         sudo chown $USER:$USER *.iso
+        
 	mainmenu
 }
 
@@ -1522,7 +1840,7 @@ $(magentaprint '3')  Write ISO file to USB
 $(redprint '0)') Exit
 
 [ \e[93m% \e[0m] : "
-    read -r ans
+    read -r ans < /dev/tty
     case $ans in
     1)
         actual_build

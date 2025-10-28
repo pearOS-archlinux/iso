@@ -5,6 +5,24 @@ gwenview
 kcalc
 xf86-input-libinput
 
+qt5-tools
+curl
+yay
+wget
+sassc
+unzip
+zip
+flatpak
+
+gnome-terminal
+nautilus-admin
+nautilus-share
+gnome-weather
+gnome-maps
+gnome-calendar
+gnome-clocks
+vlc
+
 archlinux-keyring
 alsa-utils
 amd-ucode
@@ -109,7 +127,7 @@ xorg
 sddm
 bash-completion
 networkmanager
-linux-headers
+linux617-headers
 base-devel
 xf86-input-libinput
 pacman-contrib
@@ -128,7 +146,6 @@ touchegg
 rhythmbox
 
 # applist pearOS couldn't live without uwu
-#latte-dock
 kvantum
 gambas3-runtime
 gparted
@@ -138,11 +155,8 @@ system-overview
 system-update
 pearos-livecd-desktop
 pearos-settings
-#filesystem
 npm
 electron
-#electron11
-#kwin-effects-yet-another-magic-lamp
 
 gambas3-gb-image
 gambas3-gb-form
@@ -164,7 +178,7 @@ firefox
 ttf-roboto
 
 #printing
-#cups
+cups
 
 #NVIDIA Drivers & Tools
 #nvidia
@@ -172,10 +186,7 @@ ttf-roboto
 #nvidia-settings
 
 # VmWare Support
-#xf86-video-vmware
 open-vm-tools
 
 # VirtualBox support
-linux-headers
-#virtualbox-guest-dkms
 virtualbox-guest-utils
