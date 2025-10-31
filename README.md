@@ -61,6 +61,6 @@ sudo pacman -S extra/arch-install-scripts
 ```
 
 ## Copyright and Licensing  📌
-This project is released under the Pear Public License V2.
+This project is released under the GNU Pubilc License v3 or later
 
 Copyright: Alexandru Balan @ The Pear Project
