@@ -1,6 +1,6 @@
 <div align='center'>
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/72302254/154438822-2cc5e98a-02eb-4655-ab31-59a39eb35f5a.png" alt="drawing" width="200"/>
+  <img width="300" height="300" src="https://github.com/user-attachments/assets/c6bec808-b8b5-42a6-a459-e05656e47c3c" />
   </p>
 <img src='https://img.shields.io/github/v/release/pearOS-archlinux/iso?color=%23FDD835&label=version&style=for-the-badge'>
 
