@@ -64,27 +64,44 @@ while (i < (count+1)) {
 	})
 }
 
-function select_disk() {
-
-if(! navigator.onLine){
-	alert('You need an active internet connection to install pearOS NiceCC0re on your device. Please connect to the internet and try again.');
-	window.location.href='';
-	} else {
-        var radios = document.getElementsByName('disk');
-        for (var i = 0, length = radios.length; i < length; i++) {
-          if (radios[i].checked) {
-	  const fs = require('fs');
-	  fs.writeFileSync('/tmp/disk-to-install', '' + radios[i].value);
-	  // starting the shell //
-	  const { exec } = require('child_process');
-	  exec("sudo setup " + radios[i].value + "&> ~/Desktop/install.log", (err, stdout) => {
-	  })
-	// ending the shell //
-	window.location.href='page_install_progress.html';
-        break;
-        }
+// Verifică conexiunea la internet folosind ping
+function checkInternetConnection(callback) {
+  const { exec } = require('child_process');
+  // Ping la Google DNS (8.8.8.8) cu timeout de 3 secunde
+  exec('ping -c 1 -W 3 8.8.8.8 > /dev/null 2>&1', (error) => {
+    if (error) {
+      callback(false);
+    } else {
+      callback(true);
     }
-  }
+  });
+}
+
+function select_disk() {
+  // Verifică conexiunea la internet înainte de a permite instalarea
+  checkInternetConnection(function(hasInternet) {
+    if (!hasInternet) {
+      alert('You need an active internet connection to install pearOS NiceCC0re on your device. Please connect to the internet and try again.');
+      window.location.href='';
+      return;
+    }
+    
+    // Dacă există conexiune, continuă cu instalarea
+    var radios = document.getElementsByName('disk');
+    for (var i = 0, length = radios.length; i < length; i++) {
+      if (radios[i].checked) {
+        const fs = require('fs');
+        fs.writeFileSync('/tmp/disk-to-install', '' + radios[i].value);
+        // starting the shell //
+        const { exec } = require('child_process');
+        exec("sudo setup " + radios[i].value + "&> /home/liveuser/Desktop/install.log", (err, stdout) => {
+        })
+        // ending the shell //
+        window.location.href='page_install_progress.html';
+        break;
+      }
+    }
+  });
 }
 
 var p = document.getElementsByTagName("p");

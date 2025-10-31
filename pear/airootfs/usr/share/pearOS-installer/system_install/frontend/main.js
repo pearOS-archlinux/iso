@@ -75,8 +75,7 @@ ipcMain.on('system-action', (event, action) => {
 ipcMain.on('app-action', (event, action) => {
   switch(action) {
     case 'show-log':
-      const os = require('os');
-      const logPath = path.join(os.homedir(), 'Desktop', 'install.log');
+      const logPath = '/home/liveuser/Desktop/install.log';
       exec(`kate ${logPath}`, (error) => {
         if (error) {
           console.error('Eroare la deschiderea log-ului:', error);

@@ -58,7 +58,7 @@ fs.readFile("/tmp" + "/disk-to-install", (error, data) => {
                 var errorMessage = progressText.replace("INSTALLATION FAILED: ", "");
                 var prog = '<p align="center" class="setup-text" style="color: #ff0000;">Installation Failed!</p>';
                 prog += '<p align="center" class="setup-text" style="color: #ff6666;"><b>Error:</b> ' + errorMessage + '</p>';
-                prog += '<p align="center" class="setup-text">Please check <b>/tmp/install.log</b> for details.<br>You may need to restart the installer or check your disk.</p>';
+                prog += '<p align="center" class="setup-text">Please check <b>/home/liveuser/Desktop/install.log</b> for details.<br>You may need to restart the installer or check your disk.</p>';
                 document.getElementById("disk_list").innerHTML = prog;
             }
             // Verifică dacă instalarea s-a terminat (cu sau fără warnings)
@@ -72,7 +72,7 @@ fs.readFile("/tmp" + "/disk-to-install", (error, data) => {
                     var warningCount = warningMatch ? warningMatch[1] : '0';
                     
                     prog = '<p align="center" class="setup-text" style="color: #ffaa00;">Installation finished with ' + warningCount + ' warnings.</p>';
-                    prog += '<p align="center" class="setup-text">Some packages failed to install. You can close this window (ALT+F4) and reboot,<br>or check the logs: <b>/tmp/install.log</b> and <b>/tmp/failed_packages.log</b></p>';
+                    prog += '<p align="center" class="setup-text">Some packages failed to install. You can close this window (ALT+F4) and reboot,<br>or check the logs: <b>/home/liveuser/Desktop/install.log</b> and <b>/tmp/failed_packages.log</b></p>';
                 } else {
                     prog = '<p align="center" class="setup-text" style="color: #00ff00;">Installation finished successfully!</p>';
                     prog += '<p align="center" class="setup-text">You can close this window (can use ALT+F4) and reboot<br>your new pearintosh, or check the log located on the desktop.</p>';

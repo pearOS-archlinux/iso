@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
+archlinux-keyring
+
 filesystem
 elisa
 gwenview
@@ -23,7 +25,7 @@ gnome-calendar
 gnome-clocks
 vlc
 
-archlinux-keyring
+#archlinux-keyring
 alsa-utils
 amd-ucode
 arch-install-scripts
