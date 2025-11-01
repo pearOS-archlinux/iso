@@ -18,7 +18,7 @@
   installed=false
   mounted=false
   architecture=$(lscpu | grep 'Architecture' | awk '{print $2}')
-  hypervisor=$(systemd-detect-virt)
+ 	#hypervisor=$(systemd-detect-virt)
 
   # Various settings for the installation process
   KEYMAP="us"
@@ -370,18 +370,18 @@
   update_progress "97"
 
   # Check if the user installs pearOS in a VM, if yes, which, then enabled corresponding services
-  if [ "$hypervisor" != "none" ]; then
-    if [ "$hypervisor" = "oracle" ]; then
-      arch-chroot /mnt systemctl enable vboxservice.service &> /dev/null
-      update_progress "98"
-    elif [ "$hypervisor" = "vmware" ]; then
-      arch-chroot /mnt systemctl enable vmtoolsd.service &> /dev/null
-      arch-chroot /mnt systemctl enable vmware-vmblock-fuse.service &> /dev/null
-      update_progress "98"
-    fi
-  else
+#  if [ "$hypervisor" != "none" ]; then
+#    if [ "$hypervisor" = "oracle" ]; then
+#      arch-chroot /mnt systemctl enable vboxservice.service &> /dev/null
+#      update_progress "98"
+#    elif [ "$hypervisor" = "vmware" ]; then
+#      arch-chroot /mnt systemctl enable vmtoolsd.service &> /dev/null
+#      arch-chroot /mnt systemctl enable vmware-vmblock-fuse.service &> /dev/null
+#      update_progress "98"
+#    fi
+#  else
     update_progress "98"
-  fi
+#  fi
 
     # Add the grub theme to the configuration file
   echo "GRUB_THEME=\"/usr/share/grub/themes/pearOS/theme.txt\"" >> /mnt/etc/default/grub
