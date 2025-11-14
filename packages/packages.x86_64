@@ -2,6 +2,7 @@
 archlinux-keyring
 
 filesystem
+plymouth
 elisa
 gwenview
 kcalc
@@ -69,7 +70,7 @@ irssi
 iwd
 jfsutils
 linux617
-linux-firmware
+#linux-firmware
 livecd-sounds
 lsscsi
 lvm2
