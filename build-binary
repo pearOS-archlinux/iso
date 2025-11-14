@@ -459,6 +459,28 @@ _make_custom_airootfs() {
         done
         _msg_info "Done!"
     fi
+    
+    # Clone pearOS-installer from GitHub instead of using local files
+    if [[ -d "${pacstrap_dir}/usr/share/pearOS-installer" ]]; then
+        _msg_info "Removing existing pearOS-installer directory..."
+        rm -rf -- "${pacstrap_dir}/usr/share/pearOS-installer"
+    fi
+    
+    _msg_info "Cloning pearOS-installer from GitHub..."
+    install -d -m 0755 -- "${pacstrap_dir}/usr/share"
+    if command -v git &> /dev/null; then
+        git clone --depth 1 https://github.com/pearOS-archlinux/pearOS-installer.git "${pacstrap_dir}/usr/share/pearOS-installer" || _msg_error "Failed to clone pearOS-installer from GitHub" 1
+        _msg_info "Done! pearOS-installer cloned successfully."
+        
+        # Fix: Replace 'linux-headers' with 'linux617-headers' in setup script to use only kernel 6.17
+        if [[ -f "${pacstrap_dir}/usr/share/pearOS-installer/system_install/setup" ]]; then
+            _msg_info "Updating setup script to use linux617-headers instead of linux-headers..."
+            sed -i "s/'linux-headers'/'linux617-headers'/g" "${pacstrap_dir}/usr/share/pearOS-installer/system_install/setup"
+            _msg_info "Setup script updated successfully."
+        fi
+    else
+        _msg_error "git is not available. Cannot clone pearOS-installer from GitHub." 1
+    fi
 }
 
 # Install desired packages to the root file system

@@ -70,7 +70,7 @@ irssi
 iwd
 jfsutils
 linux617
-#linux-firmware
+linux-firmware
 livecd-sounds
 lsscsi
 lvm2
@@ -129,7 +129,7 @@ xorg
 sddm
 bash-completion
 networkmanager
-linux617-headers
+#linux617-headers
 base-devel
 xf86-input-libinput
 pacman-contrib
@@ -165,7 +165,6 @@ gambas3-gb-form
 gambas3-gb-qt5
 gambas3-gb-gtk3
 
-system-update
 python-pip
 
 neofetch
