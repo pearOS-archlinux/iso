@@ -7,6 +7,7 @@ elisa
 gwenview
 kcalc
 xf86-input-libinput
+jq
 
 qt5-tools
 curl
