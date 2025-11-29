@@ -458,6 +458,15 @@ _make_custom_airootfs() {
             fi
         done
         _msg_info "Done!"
+        
+        # Remove non-linux617 mkinitcpio presets BEFORE pacstrap installs packages
+        # This prevents mkinitcpio hooks from running for non-linux617 kernels
+        if [[ -d "${pacstrap_dir}/etc/mkinitcpio.d" ]]; then
+            _msg_info "Removing non-linux617 mkinitcpio presets from airootfs..."
+            find "${pacstrap_dir}/etc/mkinitcpio.d" -name "linux*.preset" ! -name "linux617*.preset" -type f -delete 2>/dev/null || true
+            find "${pacstrap_dir}/etc/mkinitcpio.d" -name "linux5*.preset" -type f -delete 2>/dev/null || true
+            _msg_info "Non-linux617 presets removed from airootfs."
+        fi
     fi
     
     # Clone pearOS-installer from GitHub instead of using local files
@@ -503,6 +512,36 @@ _make_packages() {
         exec {ARCHISO_GNUPG_FD}<&-
         unset ARCHISO_GNUPG_FD
     fi
+
+    # Remove standard linux kernel if installed (base package optional dependency)
+    # Also remove mkinitcpio presets for standard kernel to prevent initramfs building
+    # This MUST be done immediately after pacstrap, before any mkinitcpio hooks run
+    _msg_info "Removing all non-linux617 kernels (using only linux617)..."
+    
+    # Remove mkinitcpio presets first to prevent hooks from building initramfs
+    find "${pacstrap_dir}/etc/mkinitcpio.d" -name "linux*.preset" ! -name "linux617*.preset" -type f -delete 2>/dev/null || true
+    find "${pacstrap_dir}/etc/mkinitcpio.d" -name "linux5*.preset" -type f -delete 2>/dev/null || true
+    
+    # Remove all kernel packages except linux617
+    for pkg in linux linux-headers linux510 linux510-headers linux-lts linux-lts-headers linux-zen linux-zen-headers linux-hardened linux-hardened-headers; do
+        if arch-chroot "${pacstrap_dir}" pacman -Q "$pkg" &>/dev/null 2>&1; then
+            _msg_info "Removing kernel package: $pkg"
+            arch-chroot "${pacstrap_dir}" pacman -R --noconfirm "$pkg" 2>/dev/null || true
+        fi
+    done
+    
+    # Clean up any kernel files from non-linux617 kernels
+    find "${pacstrap_dir}/boot" -name "vmlinuz-5.*" -type f -delete 2>/dev/null || true
+    find "${pacstrap_dir}/boot" -name "vmlinuz-linux" -type f -delete 2>/dev/null || true
+    find "${pacstrap_dir}/boot" -name "vmlinuz-linux-*" ! -name "vmlinuz-linux617*" -type f -delete 2>/dev/null || true
+    find "${pacstrap_dir}/boot" -name "initramfs-5.*.img" -type f -delete 2>/dev/null || true
+    find "${pacstrap_dir}/boot" -name "initramfs-linux*.img" ! -name "initramfs-linux617*.img" -type f -delete 2>/dev/null || true
+    
+    # Also proactively remove any standard kernel presets even if kernel wasn't installed
+    # This prevents mkinitcpio from finding and processing them later
+    find "${pacstrap_dir}/etc/mkinitcpio.d" -name "linux*.preset" ! -name "linux617*.preset" -type f -delete 2>/dev/null || true
+    
+    _msg_info "Non-linux617 kernels removed successfully."
 
     _msg_info "Done! Packages installed successfully."
 }
@@ -567,88 +606,85 @@ _make_bootmodes() {
 
 # Copy kernel and initramfs to ISO 9660
 _make_boot_on_iso9660() {
-    local ucode_image kernel_file
+    local ucode_image kernel_file initramfs_file
     _msg_info "Preparing kernel and initramfs for the ISO 9660 file system..."
     install -d -m 0755 -- "${isofs_dir}/${install_dir}/boot/${arch}"
-    install -m 0644 -- "${pacstrap_dir}/boot/initramfs-"*".img" "${isofs_dir}/${install_dir}/boot/${arch}/"
-    install -m 0644 -- "${pacstrap_dir}/boot/vmlinuz-"* "${isofs_dir}/${install_dir}/boot/${arch}/"
+    
+    # Only copy linux617 initramfs and kernel files (exclude all 5.x kernels)
+    
+    # Copy only linux617 initramfs files
+    while IFS= read -r initramfs_file; do
+        local initramfs_basename=$(basename "$initramfs_file")
+        # Only copy linux617 initramfs, exclude all 5.x
+        if [[ "$initramfs_basename" =~ initramfs-6\.17.*\.img ]] || [[ "$initramfs_basename" == "initramfs-linux617"* ]]; then
+            install -m 0644 -- "$initramfs_file" "${isofs_dir}/${install_dir}/boot/${arch}/"
+        elif [[ "$initramfs_basename" =~ initramfs-6\.[0-9]+.*\.img ]]; then
+            install -m 0644 -- "$initramfs_file" "${isofs_dir}/${install_dir}/boot/${arch}/"
+        fi
+    done < <(find "${pacstrap_dir}/boot/" -name "initramfs-6.*.img" -type f)
+    
+    # Copy only linux617 kernel files
+    while IFS= read -r kernel_file; do
+        local kernel_basename=$(basename "$kernel_file")
+        # Only copy linux617 kernel, exclude all 5.x
+        if [[ "$kernel_basename" =~ vmlinuz-6\.17.*-x86_64 ]] || [[ "$kernel_basename" == "vmlinuz-linux617"* ]]; then
+            install -m 0644 -- "$kernel_file" "${isofs_dir}/${install_dir}/boot/${arch}/"
+        elif [[ "$kernel_basename" =~ vmlinuz-6\.[0-9]+.*-x86_64 ]]; then
+            install -m 0644 -- "$kernel_file" "${isofs_dir}/${install_dir}/boot/${arch}/"
+        fi
+    done < <(find "${pacstrap_dir}/boot/" -name "vmlinuz-6.*" -type f)
+    
+    if [[ -z "$(find "${isofs_dir}/${install_dir}/boot/${arch}/" -name "vmlinuz-*" -type f)" ]]; then
+        _msg_error "No linux617 kernel found in ${pacstrap_dir}/boot/!" 1
+    fi
 
-    # Normalize kernel names: rename versioned kernels to standard names
+    # Normalize kernel names: rename linux617 kernel to standard name
     _msg_info "Normalizing kernel and initramfs names..."
     
-    # Collect all kernels first to check for duplicates
-    local all_kernels=()
+    # Find linux617 kernel and rename it to vmlinuz-linux
+    local linux617_kernel=""
     while IFS= read -r kernel_file; do
-        all_kernels+=("$kernel_file")
-    done < <(find "${isofs_dir}/${install_dir}/boot/${arch}/" -name "vmlinuz-*" -type f)
-    
-    # Find the most recent versioned kernel (by modification time)
-    local most_recent_kernel=""
-    local most_recent_time=0
-    
-    for kernel_file in "${all_kernels[@]}"; do
         local kernel_basename=$(basename "$kernel_file")
-        if [[ "$kernel_basename" =~ vmlinuz-([0-9]+\.[0-9]+.*)-x86_64 ]]; then
-            local mtime=$(stat -c %Y "$kernel_file" 2>/dev/null || stat -f %m "$kernel_file")
-            if [[ $mtime -gt $most_recent_time ]]; then
-                most_recent_time=$mtime
-                most_recent_kernel="$kernel_file"
-            fi
+        if [[ "$kernel_basename" =~ vmlinuz-6\.17.*-x86_64 ]] || [[ "$kernel_basename" == "vmlinuz-linux617"* ]]; then
+            linux617_kernel="$kernel_file"
+            break
         fi
-    done
+    done < <(find "${isofs_dir}/${install_dir}/boot/${arch}/" -name "vmlinuz-6.17*" -type f)
     
-    # Process all kernels
-    for kernel_file in "${all_kernels[@]}"; do
-        local kernel_basename=$(basename "$kernel_file")
-        local kernel_variant=""
-        local target_name=""
-        
-        # Detect kernel variant from filename
-        if [[ "$kernel_basename" =~ vmlinuz-([0-9]+\.[0-9]+.*)-x86_64 ]]; then
-            # Versioned kernel - only rename the most recent one
-            if [[ "$kernel_file" == "$most_recent_kernel" ]]; then
-                target_name="vmlinuz-linux"
-                _msg_info "Selected $kernel_basename as primary kernel (most recent)"
-            else
-                target_name="$kernel_basename"  # Keep original name for older kernels
-                _msg_info "Keeping $kernel_basename as backup kernel"
+    if [[ -z "$linux617_kernel" ]]; then
+        # Fallback: try to find any vmlinuz-6.* kernel
+        while IFS= read -r kernel_file; do
+            local kernel_basename=$(basename "$kernel_file")
+            if [[ "$kernel_basename" =~ vmlinuz-6\.[0-9]+.*-x86_64 ]]; then
+                linux617_kernel="$kernel_file"
+                break
             fi
-        elif [[ "$kernel_basename" =~ vmlinuz-linux-(.+) ]]; then
-            # Already has standard name with variant (e.g., vmlinuz-linux-lts, vmlinuz-linux-zen)
-            kernel_variant="${BASH_REMATCH[1]}"
-            target_name="$kernel_basename"  # Keep as is
-        elif [[ "$kernel_basename" == "vmlinuz-linux" ]]; then
-            # Already standard name
-            target_name="$kernel_basename"  # Keep as is
-        else
-            # Unknown format, keep as is
-            _msg_warning "Unknown kernel format: $kernel_basename (keeping original name)"
-            continue
-        fi
+        done < <(find "${isofs_dir}/${install_dir}/boot/${arch}/" -name "vmlinuz-6.*" -type f)
+    fi
+    
+    if [[ -n "$linux617_kernel" ]]; then
+        local kernel_basename=$(basename "$linux617_kernel")
+        local target_name="vmlinuz-linux"
         
-        # Rename if needed
         if [[ "$kernel_basename" != "$target_name" ]]; then
-            mv "$kernel_file" "${isofs_dir}/${install_dir}/boot/${arch}/${target_name}"
+            mv "$linux617_kernel" "${isofs_dir}/${install_dir}/boot/${arch}/${target_name}"
             _msg_info "Renamed $kernel_basename -> $target_name"
             
             # Also rename corresponding initramfs files
             local initramfs_pattern="${kernel_basename#vmlinuz-}"
-            local initramfs_target="${target_name#vmlinuz-}"
             local initramfs_file="${isofs_dir}/${install_dir}/boot/${arch}/initramfs-${initramfs_pattern}.img"
             local initramfs_fallback="${isofs_dir}/${install_dir}/boot/${arch}/initramfs-${initramfs_pattern}-fallback.img"
             
             if [[ -e "$initramfs_file" ]]; then
-                mv "$initramfs_file" "${isofs_dir}/${install_dir}/boot/${arch}/initramfs-${initramfs_target}.img"
-                _msg_info "Renamed initramfs-${initramfs_pattern}.img -> initramfs-${initramfs_target}.img"
+                mv "$initramfs_file" "${isofs_dir}/${install_dir}/boot/${arch}/initramfs-linux.img"
+                _msg_info "Renamed initramfs-${initramfs_pattern}.img -> initramfs-linux.img"
             fi
             if [[ -e "$initramfs_fallback" ]]; then
-                mv "$initramfs_fallback" "${isofs_dir}/${install_dir}/boot/${arch}/initramfs-${initramfs_target}-fallback.img"
-                _msg_info "Renamed initramfs-${initramfs_pattern}-fallback.img -> initramfs-${initramfs_target}-fallback.img"
+                mv "$initramfs_fallback" "${isofs_dir}/${install_dir}/boot/${arch}/initramfs-linux-fallback.img"
+                _msg_info "Renamed initramfs-${initramfs_pattern}-fallback.img -> initramfs-linux-fallback.img"
             fi
-        else
-            _msg_info "Kernel already has standard name: $target_name"
         fi
-    done
+    fi
 
     for ucode_image in "${ucodes[@]}"; do
         if [[ -e "${pacstrap_dir}/boot/${ucode_image}" ]]; then
@@ -725,66 +761,57 @@ _make_boot_on_fat() {
     mmd -i "${work_dir}/efiboot.img" \
         "::/${install_dir}" "::/${install_dir}/boot" "::/${install_dir}/boot/${arch}"
     
-    # Copy all kernels with normalized names to FAT image
-    _msg_info "Copying kernels with standard names to FAT image..."
+    # Copy only linux617 kernel with normalized names to FAT image
+    _msg_info "Copying linux617 kernel with standard names to FAT image..."
     
-    # Collect all kernels first to check for duplicates
-    local all_kernels=()
+    # Find only linux617 kernel (exclude all other kernels, especially 5.x)
+    local linux617_kernel=""
     while IFS= read -r kernel_file; do
-        all_kernels+=("$kernel_file")
-    done < <(find "${pacstrap_dir}/boot/" -name "vmlinuz-*" -type f)
-    
-    # Find the most recent versioned kernel (by modification time)
-    local most_recent_kernel=""
-    local most_recent_time=0
-    
-    for kernel_file in "${all_kernels[@]}"; do
         local kernel_basename=$(basename "$kernel_file")
-        if [[ "$kernel_basename" =~ vmlinuz-([0-9]+\.[0-9]+.*)-x86_64 ]]; then
-            local mtime=$(stat -c %Y "$kernel_file" 2>/dev/null || stat -f %m "$kernel_file")
-            if [[ $mtime -gt $most_recent_time ]]; then
-                most_recent_time=$mtime
-                most_recent_kernel="$kernel_file"
-            fi
+        # Only process linux617 kernel, exclude all 5.x kernels
+        if [[ "$kernel_basename" =~ vmlinuz-6\.17.*-x86_64 ]] || [[ "$kernel_basename" == "vmlinuz-linux617"* ]]; then
+            linux617_kernel="$kernel_file"
+            break
         fi
-    done
+    done < <(find "${pacstrap_dir}/boot/" -name "vmlinuz-6.17*" -type f)
     
-    for kernel_file in "${all_kernels[@]}"; do
-        local kernel_basename=$(basename "$kernel_file")
-        local target_name="$kernel_basename"
-        
-        # Detect and rename only the most recent versioned kernel
-        if [[ "$kernel_basename" =~ vmlinuz-([0-9]+\.[0-9]+.*)-x86_64 ]]; then
-            if [[ "$kernel_file" == "$most_recent_kernel" ]]; then
-                target_name="vmlinuz-linux"
+    if [[ -z "$linux617_kernel" ]]; then
+        # Fallback: try to find any vmlinuz-6.* kernel
+        while IFS= read -r kernel_file; do
+            local kernel_basename=$(basename "$kernel_file")
+            if [[ "$kernel_basename" =~ vmlinuz-6\.[0-9]+.*-x86_64 ]]; then
+                linux617_kernel="$kernel_file"
+                break
             fi
-        fi
-        
-        # Copy kernel to FAT image
-        mcopy -i "${work_dir}/efiboot.img" "$kernel_file" "::/${install_dir}/boot/${arch}/${target_name}"
-        if [[ "$kernel_basename" != "$target_name" ]]; then
-            _msg_info "Copied $kernel_basename as $target_name"
-        else
-            _msg_info "Copied $kernel_basename"
-        fi
-        
-        # Find and copy corresponding initramfs files
-        local initramfs_pattern="${kernel_basename#vmlinuz-}"
-        local initramfs_target="${target_name#vmlinuz-}"
-        local initramfs_file="${pacstrap_dir}/boot/initramfs-${initramfs_pattern}.img"
-        local initramfs_fallback="${pacstrap_dir}/boot/initramfs-${initramfs_pattern}-fallback.img"
-        
-        if [[ -e "$initramfs_file" ]]; then
-            mcopy -i "${work_dir}/efiboot.img" "$initramfs_file" \
-                "::/${install_dir}/boot/${arch}/initramfs-${initramfs_target}.img"
-            _msg_info "Copied initramfs-${initramfs_pattern}.img as initramfs-${initramfs_target}.img"
-        fi
-        if [[ -e "$initramfs_fallback" ]]; then
-            mcopy -i "${work_dir}/efiboot.img" "$initramfs_fallback" \
-                "::/${install_dir}/boot/${arch}/initramfs-${initramfs_target}-fallback.img"
-            _msg_info "Copied initramfs-${initramfs_pattern}-fallback.img as initramfs-${initramfs_target}-fallback.img"
-        fi
-    done
+        done < <(find "${pacstrap_dir}/boot/" -name "vmlinuz-6.*" -type f)
+    fi
+    
+    if [[ -z "$linux617_kernel" ]]; then
+        _msg_error "No linux617 kernel found in ${pacstrap_dir}/boot/!" 1
+    fi
+    
+    local kernel_basename=$(basename "$linux617_kernel")
+    local target_name="vmlinuz-linux"
+    
+    # Copy kernel to FAT image as vmlinuz-linux
+    mcopy -i "${work_dir}/efiboot.img" "$linux617_kernel" "::/${install_dir}/boot/${arch}/${target_name}"
+    _msg_info "Copied $kernel_basename as $target_name"
+    
+    # Find and copy corresponding initramfs files
+    local initramfs_pattern="${kernel_basename#vmlinuz-}"
+    local initramfs_file="${pacstrap_dir}/boot/initramfs-${initramfs_pattern}.img"
+    local initramfs_fallback="${pacstrap_dir}/boot/initramfs-${initramfs_pattern}-fallback.img"
+    
+    if [[ -e "$initramfs_file" ]]; then
+        mcopy -i "${work_dir}/efiboot.img" "$initramfs_file" \
+            "::/${install_dir}/boot/${arch}/initramfs-linux.img"
+        _msg_info "Copied initramfs-${initramfs_pattern}.img as initramfs-linux.img"
+    fi
+    if [[ -e "$initramfs_fallback" ]]; then
+        mcopy -i "${work_dir}/efiboot.img" "$initramfs_fallback" \
+            "::/${install_dir}/boot/${arch}/initramfs-linux-fallback.img"
+        _msg_info "Copied initramfs-${initramfs_pattern}-fallback.img as initramfs-linux-fallback.img"
+    fi
     
     for ucode_image in "${ucodes[@]}"; do
         if [[ -e "${pacstrap_dir}/boot/${ucode_image}" ]]; then
@@ -836,12 +863,23 @@ _make_bootmode_uefi-x64.systemd-boot.esp() {
         fi
     done
     # Calculate the required FAT image size in bytes
+    # Only include linux617 (6.x) kernels, exclude all 5.x kernels
+    local _kernel_files=()
+    while IFS= read -r _file; do
+        _kernel_files+=("${_file}")
+    done < <(find "${pacstrap_dir}/boot/" -name "vmlinuz-6.*" -type f 2>/dev/null)
+    
+    local _initramfs_files=()
+    while IFS= read -r _file; do
+        _initramfs_files+=("${_file}")
+    done < <(find "${pacstrap_dir}/boot/" -name "initramfs-6.*.img" -type f 2>/dev/null)
+    
     efiboot_imgsize="$(du -bc \
         "${pacstrap_dir}/usr/lib/systemd/boot/efi/systemd-bootx64.efi" \
         "${pacstrap_dir}/usr/share/edk2-shell/x64/Shell_Full.efi" \
         "${profile}/efiboot/" \
-        "${pacstrap_dir}/boot/vmlinuz-"* \
-        "${pacstrap_dir}/boot/initramfs-"*".img" \
+        "${_kernel_files[@]}" \
+        "${_initramfs_files[@]}" \
         "${_available_ucodes[@]}" \
         2>/dev/null | awk 'END { print $1 }')"
     # Create a FAT image for the EFI system partition
