@@ -36,20 +36,46 @@ Now, with arch, the system is now Rolling Release, as it should be :>
 You can do now `sudo pacman -Syu` and you will stil have the pearOS branding.
 
 ## Ok... How do I build it? 📌
-Make sure you satisfy the deps in the section below.
-After that, run `./build-binary` and ~~pray~~ wait.
+Make sure you satisfy the dependencies in the section below.
+After that, run `sudo ./build-binary` and ~~pray~~ wait.
 
+**Note:** The build script must be run as root (using `sudo`) since it needs to create chroot environments and install packages.
 
-### Deps: 📌
+### Dependencies: 📌
+
+#### Required packages:
 ```sh
-sudo pacman -S mtools
-sudo pacman -S squashfs-tools
-sudo pacman -S pkgfile
-sudo pacman -S xorriso
-sudo pkgfile --update
-pkgfile pacstrap
-sudo pacman -S extra/arch-install-scripts
+# Core build tools
+sudo pacman -S arch-install-scripts    # Provides pacstrap and arch-chroot
+sudo pacman -S mtools                  # Provides mcopy, mmd for FAT filesystem operations
+sudo pacman -S squashfs-tools          # Provides mksquashfs for creating squashfs images
+sudo pacman -S xorriso                 # Creates the final ISO image
+sudo pacman -S e2fsprogs               # Provides mkfs.ext4 and tune2fs for filesystem creation
+sudo pacman -S git                     # Required for cloning pearOS-installer during build
 ```
+
+#### Optional packages:
+```sh
+# For EROFS image type support (if used in profiledef.sh)
+sudo pacman -S erofs-utils             # Provides mkfs.erofs
+
+# For GPG signing of the rootfs image (optional)
+# GPG is usually pre-installed, but ensure it's available:
+sudo pacman -S gnupg
+```
+
+#### Quick install command:
+```sh
+sudo pacman -S arch-install-scripts mtools squashfs-tools xorriso e2fsprogs git
+```
+
+#### Verify dependencies:
+To check if all required commands are available, you can use:
+```sh
+command -v pacstrap arch-chroot mksquashfs xorriso mkfs.ext4 tune2fs git
+```
+
+If any command is missing, install the corresponding package listed above.
 
 ## Copyright and Licensing  📌
 This project is released under the GNU Pubilc License v3 or later
