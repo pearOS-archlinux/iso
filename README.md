@@ -26,23 +26,14 @@ It is pearOS, but with Arch Base. Yes! It uses vanilla arch, less bugs, easier, 
 I had enough with debian-based distros.
 pearOS with arch base, solve some of the big problems with pearOS, for example:
 
-> "it uses a different distribution for the base with almost every release"
-
 > "this require you to reinstall with every new release"
 
 > "sudo apt upgrade would/will destroy your installation"
 
-> "if they really don't have the money, they just shouldn't have used the third party host"
-
-> "They use the macos icons and are making money off of it"
-
 Not anymore. With arch, there no more base-hopping
 Now, with arch, the system is now Rolling Release, as it should be :>
 
-( fixed in the latest debian builds but eh")
 You can do now `sudo pacman -Syu` and you will stil have the pearOS branding.
-With the new Arch base, the system is 2GB in size!! Good enough to save storage space on what I call the pearOS CDN.
-I heard that too! I do not make money from macOS icons but I changed them in NiceC0re anyways!!
 
 ## Ok... How do I build it? 📌
 Make sure you satisfy the deps in the section below.
@@ -63,4 +54,4 @@ sudo pacman -S extra/arch-install-scripts
 ## Copyright and Licensing  📌
 This project is released under the GNU Pubilc License v3 or later
 
-Copyright: Alexandru Balan @ The Pear Project
+Copyright: Alexandru Balan @ Pear Software and Services S.R.L. based in Romania, Dacia Boulevard 133, floor D, Sector 2, Bucharest CIF: 50888207
