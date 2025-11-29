@@ -1,0 +1,9 @@
+# Generated package list (copied from packages/packages.x86_64 during build)
+pear/packages.x86_64
+
+# Build work directory
+work/
+
+# ISO output files
+*.iso
+
