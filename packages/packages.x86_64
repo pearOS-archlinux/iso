@@ -150,7 +150,7 @@ rhythmbox
 
 # applist pearOS couldn't live without uwu
 kvantum
-gambas3-runtime
+# gambas3-runtime
 gparted
 #pearos-grub-theme
 #theme-switcher-bin
@@ -161,10 +161,10 @@ pearos-settings
 npm
 electron
 
-gambas3-gb-image
-gambas3-gb-form
-gambas3-gb-qt5
-gambas3-gb-gtk3
+# gambas3-gb-image
+# gambas3-gb-form
+# gambas3-gb-qt5
+# gambas3-gb-gtk3
 
 python-pip
 
