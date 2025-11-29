@@ -155,7 +155,7 @@ gparted
 #pearos-grub-theme
 #theme-switcher-bin
 system-overview
-system-update
+#system-update
 pearos-livecd-desktop
 pearos-settings
 npm
