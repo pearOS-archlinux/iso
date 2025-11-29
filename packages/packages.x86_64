@@ -8,6 +8,10 @@ gwenview
 kcalc
 xf86-input-libinput
 jq
+imagemagick
+net-tools
+fprintd
+tlp
 
 qt5-tools
 curl
