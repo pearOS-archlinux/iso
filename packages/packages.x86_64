@@ -147,6 +147,7 @@ gnome-software
 appmenu-gtk-module
 touchegg
 rhythmbox
+system-settings
 
 # applist pearOS couldn't live without uwu
 kvantum
