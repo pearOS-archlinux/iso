@@ -501,11 +501,36 @@ _make_packages() {
         export ARCHISO_GNUPG_FD
     fi
 
+    # Separate pearos-settings from other packages to install it with --overwrite
+    local other_packages=()
+    local pearos_settings_installed=false
+    
+    for pkg in "${buildmode_pkg_list[@]}"; do
+        if [[ "$pkg" == "pearos-settings" ]]; then
+            pearos_settings_installed=true
+        else
+            other_packages+=("$pkg")
+        fi
+    done
+
     # Unset TMPDIR to work around https://bugs.archlinux.org/task/70580
-    if [[ "${quiet}" = "y" ]]; then
-        env -u TMPDIR pacstrap -C "${work_dir}/${buildmode}.pacman.conf" -c -G -M -- "${pacstrap_dir}" "${buildmode_pkg_list[@]}" &> /dev/null
-    else
-        env -u TMPDIR pacstrap -C "${work_dir}/${buildmode}.pacman.conf" -c -G -M -- "${pacstrap_dir}" "${buildmode_pkg_list[@]}"
+    # Install all packages except pearos-settings first
+    if [[ ${#other_packages[@]} -gt 0 ]]; then
+        if [[ "${quiet}" = "y" ]]; then
+            env -u TMPDIR pacstrap -C "${work_dir}/${buildmode}.pacman.conf" -c -G -M -- "${pacstrap_dir}" "${other_packages[@]}" &> /dev/null
+        else
+            env -u TMPDIR pacstrap -C "${work_dir}/${buildmode}.pacman.conf" -c -G -M -- "${pacstrap_dir}" "${other_packages[@]}"
+        fi
+    fi
+
+    # Install pearos-settings with --overwrite to allow it to override plasma-workspace files
+    if [[ "$pearos_settings_installed" == "true" ]]; then
+        _msg_info "Installing pearos-settings with file overwrite enabled..."
+        if [[ "${quiet}" = "y" ]]; then
+            env -u TMPDIR arch-chroot "${pacstrap_dir}" pacman -S --noconfirm --overwrite='*' pearos-settings &> /dev/null
+        else
+            env -u TMPDIR arch-chroot "${pacstrap_dir}" pacman -S --noconfirm --overwrite='*' pearos-settings
+        fi
     fi
 
     if [[ -n "${gpg_key}" ]]; then
@@ -1852,19 +1877,59 @@ clean_out() {
 printUSBDevices() {
   typeset -a usbDevices
   typeset -a devices
-  getDeviceType() {
-    typeset deviceName=/sys/block/${1#/dev/}
-    typeset deviceType=$(udevadm info --query=property --path="$deviceName" | grep -Po 'ID_BUS=\K\w+')
-    echo "$deviceType"
-  }
-  mapfile -t devices < <(lsblk -o NAME,TYPE | grep --color=never -oP '^\K\w+(?=\s+disk$)')
-  for device in "${devices[0]}" ; do
-    if [ "$(getDeviceType "/dev/$device")" == "usb" ]; then
-      usbDevices+=("/dev/$device")
+  
+  # Get all disk devices with their transport type, size, and model
+  while IFS= read -r line; do
+    device=$(echo "$line" | awk '{print $1}')
+    transport=$(echo "$line" | awk '{print $3}')
+    size=$(echo "$line" | awk '{print $4}')
+    
+    # Only consider devices with USB transport
+    if [ "$transport" = "usb" ]; then
+      device_path="/dev/$device"
+      device_sys="/sys/block/$device"
+      
+      # Verify device exists
+      if [ ! -e "$device_sys" ]; then
+        continue
+      fi
+      
+      # Skip devices with 0 size (empty card readers, etc.)
+      if [ "$size" = "0B" ] || [ -z "$size" ]; then
+        continue
+      fi
+      
+      # Get device size in bytes for additional check
+      device_size_bytes=$(blockdev --getsize64 "$device_path" 2>/dev/null || echo "0")
+      if [ "$device_size_bytes" = "0" ] || [ -z "$device_size_bytes" ]; then
+        # Try alternative method
+        device_size_bytes=$(lsblk -b -d -n -o SIZE "$device_path" 2>/dev/null | head -1 || echo "0")
+      fi
+      
+      # Skip if device has no usable size
+      if [ "$device_size_bytes" = "0" ] || [ -z "$device_size_bytes" ]; then
+        continue
+      fi
+      
+      # Double-check with udev that it's really USB
+      udev_info=$(udevadm info --query=property --path="$device_sys" 2>/dev/null)
+      bus_type=$(echo "$udev_info" | grep -Po 'ID_BUS=\K\w+' || echo "")
+      
+      # Only add if both transport and bus type indicate USB, and device has usable size
+      if [ "$transport" = "usb" ] && [ "$bus_type" = "usb" ] && [ "$device_size_bytes" != "0" ]; then
+        usbDevices+=("$device_path")
+      fi
     fi
-  done
- set +u
- USB=$usbDevices
+  done < <(lsblk -d -o NAME,TYPE,TRAN,SIZE 2>/dev/null | grep -E '\sdisk\s')
+  
+  set +u
+  if [ ${#usbDevices[@]} -eq 0 ]; then
+    USB=""
+  elif [ ${#usbDevices[@]} -eq 1 ]; then
+    USB="${usbDevices[0]}"
+  else
+    USB="${usbDevices[@]}"
+  fi
 }
 
 writetousb() {
@@ -1873,20 +1938,91 @@ if [ -z "$USB" ]
 then
       echo -e "[ \e[91m%\e[0m ] : No USB device found. Make sure there is ONE device inserted and try again. Abort"
       mainmenu
-else
-    echo -e "[ \e[92m%\e[0m ] : USB Device detected: [ \e[92m$USB\e[0m ]"
-    if [ -f *.iso ]; then
-    pwd
-    echo -e "[ \e[92m%\e[0m ] : ISO File found: [ \e[92m$(find . 2>/dev/null| grep pearOS-NiceC0re )\e[0m ]"
-    echo -e "[ \e[92m%\e[0m ] : Making pearOS Arch Base Bootable USB . . ."
-    sudo dd if=$(find . 2>/dev/null| grep pearOS-NiceC0re) of=$USB bs=4M status='progress' conv='sync'; sync
-    echo -e "[ \e[92m%\e[0m ] : Your bootable USB is ready!"
+      return
+fi
+
+# Check if multiple USB devices found
+if [ -n "$USB" ] && [ "$(echo "$USB" | wc -w)" -gt 1 ]; then
+    echo -e "[ \e[91m%\e[0m ] : Multiple USB devices found. Please disconnect all but ONE USB device and try again."
+    echo -e "[ \e[93m%\e[0m ] : Found devices: $USB"
     mainmenu
-else
+    return
+fi
+
+# Find ISO file
+iso_file=$(find . -maxdepth 1 -name "*.iso" -type f 2>/dev/null | grep -i pearOS | head -1)
+
+if [ -z "$iso_file" ]; then
     echo -e "[ \e[91m%\e[0m ] : No pearOS ISO file found. Abort"
     mainmenu
+    return
 fi
+
+# Get ISO file size
+iso_size=$(stat -f%z "$iso_file" 2>/dev/null || stat -c%s "$iso_file" 2>/dev/null)
+if command -v numfmt >/dev/null 2>&1; then
+    iso_size_display=$(numfmt --to=iec-i --suffix=B "$iso_size" 2>/dev/null | sed 's/iB/B/')
+else
+    # Fallback calculation without numfmt
+    iso_size_mb=$((iso_size / 1024 / 1024))
+    if [ $iso_size_mb -ge 1024 ]; then
+        iso_size_gb=$((iso_size_mb / 1024))
+        iso_size_display="${iso_size_gb} GB"
+    else
+        iso_size_display="${iso_size_mb} MB"
+    fi
 fi
+
+# Get USB device size
+usb_size=$(blockdev --getsize64 "$USB" 2>/dev/null || echo "0")
+if [ "$usb_size" = "0" ]; then
+    usb_size=$(lsblk -b -d -n -o SIZE "$USB" 2>/dev/null | head -1 || echo "0")
+fi
+if command -v numfmt >/dev/null 2>&1 && [ "$usb_size" != "0" ]; then
+    usb_size_display=$(numfmt --to=iec-i --suffix=B "$usb_size" 2>/dev/null | sed 's/iB/B/')
+else
+    # Fallback calculation without numfmt
+    if [ "$usb_size" != "0" ]; then
+        usb_size_mb=$((usb_size / 1024 / 1024))
+        if [ $usb_size_mb -ge 1024 ]; then
+            usb_size_gb=$((usb_size_mb / 1024))
+            usb_size_display="${usb_size_gb} GB"
+        else
+            usb_size_display="${usb_size_mb} MB"
+        fi
+    else
+        usb_size_display="Unknown"
+    fi
+fi
+
+# Display confirmation
+echo ""
+echo -e "[ \e[94m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m ]"
+echo -e "[ \e[93m%\e[0m ] Flash ISO to USB - Confirmation"
+echo -e "[ \e[94m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m ]"
+echo -e "[ \e[92m%\e[0m ] ISO File: \e[96m$(basename "$iso_file")\e[0m"
+echo -e "[ \e[92m%\e[0m ] ISO Size: \e[96m${iso_size_display}\e[0m"
+echo -e "[ \e[92m%\e[0m ] USB Device: \e[96m${USB}\e[0m"
+echo -e "[ \e[92m%\e[0m ] USB Size: \e[96m${usb_size_display}\e[0m"
+echo ""
+echo -e "[ \e[91m⚠\e[0m ] \e[91mWARNING: This will erase ALL data on ${USB}\e[0m"
+echo ""
+read -p "$(echo -e '[\e[93m%\e[0m] Continue? (yes/no): ')" confirm < /dev/tty
+
+if [ "$confirm" != "yes" ]; then
+    echo -e "[ \e[91m%\e[0m ] : Operation cancelled by user"
+    mainmenu
+    return
+fi
+
+echo ""
+echo -e "[ \e[92m%\e[0m ] : Flashing ISO to USB device..."
+echo -e "[ \e[93m%\e[0m ] : This may take several minutes, please wait..."
+sudo dd if="$iso_file" of="$USB" bs=4M status=progress conv=fsync 2>&1
+sync
+echo ""
+echo -e "[ \e[92m%\e[0m ] : Your bootable USB is ready!"
+mainmenu
 set -u
 }
 
