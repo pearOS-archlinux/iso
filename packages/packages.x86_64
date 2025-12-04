@@ -11,6 +11,8 @@ jq
 imagemagick
 net-tools
 fprintd
+linux612-headers
+#broadcom-wl-dkms
 
 qt5-tools
 curl
