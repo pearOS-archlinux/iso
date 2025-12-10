@@ -24,14 +24,12 @@ zip
 flatpak
 plasma-x11-session
 
-gnome-terminal
 nautilus-admin
 nautilus-share
 gnome-weather
 gnome-maps
 gnome-calendar
 gnome-clocks
-vlc
 
 #archlinux-keyring
 alsa-utils
@@ -152,7 +150,6 @@ gnome-software
 #gnome-software-packagekit-plugin
 appmenu-gtk-module
 touchegg
-rhythmbox
 system-settings
 
 # applist pearOS couldn't live without uwu
