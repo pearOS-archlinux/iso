@@ -31,7 +31,10 @@ fi
 
 sleep 5
 
-
+echo "############################################################################################################################"
+echo "###						REGENERATING PACMAN KEYS					       ###"
+echo "############################################################################################################################"
+pacman-key --populate archlinux
 
 echo "Installing plasma-welcome patch"
 if pacman -S --noconfirm plasma-welcome; then
