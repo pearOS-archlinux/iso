@@ -23,7 +23,7 @@ unzip
 zip
 flatpak
 plasma-x11-session
-plasma-welcome
+#plasma-welcome
 
 nautilus-admin
 nautilus-share
