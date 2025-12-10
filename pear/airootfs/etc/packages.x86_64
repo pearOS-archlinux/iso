@@ -7,6 +7,12 @@ elisa
 gwenview
 kcalc
 xf86-input-libinput
+jq
+imagemagick
+net-tools
+fprintd
+linux612-headers
+#broadcom-wl-dkms
 
 qt5-tools
 curl
@@ -16,15 +22,14 @@ sassc
 unzip
 zip
 flatpak
+plasma-x11-session
 
-gnome-terminal
 nautilus-admin
 nautilus-share
 gnome-weather
 gnome-maps
 gnome-calendar
 gnome-clocks
-vlc
 
 #archlinux-keyring
 alsa-utils
@@ -145,25 +150,18 @@ gnome-software
 #gnome-software-packagekit-plugin
 appmenu-gtk-module
 touchegg
-rhythmbox
+system-settings
 
 # applist pearOS couldn't live without uwu
 kvantum
-gambas3-runtime
 gparted
 #pearos-grub-theme
-#theme-switcher-bin
 system-overview
-system-update
+#system-update
 pearos-livecd-desktop
 pearos-settings
 npm
 electron
-
-gambas3-gb-image
-gambas3-gb-form
-gambas3-gb-qt5
-gambas3-gb-gtk3
 
 python-pip
 

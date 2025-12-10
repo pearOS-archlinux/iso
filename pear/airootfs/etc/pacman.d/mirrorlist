@@ -1,13 +1,10 @@
 ##
 ## Manjaro Linux default mirrorlist
-## Generated on 2025-11-14 18:49
+## Generated on 2025-12-09 02:33
 ##
 ## Please use 'pacman-mirrors -f [NUMBER] [NUMBER]' to modify mirrorlist
 ## (Use 0 for all mirrors)
 ##
-
-## Country : Germany
-Server = http://ftp.uni-kl.de/pub/linux/manjaro/stable/$repo/$arch
 
 ## Country : United_Kingdom
 Server = https://manjaro.mirrors.uk2.net/stable/$repo/$arch
@@ -15,18 +12,6 @@ Server = https://manjaro.mirrors.uk2.net/stable/$repo/$arch
 ## Country : United_States
 Server = https://coresite.mm.fcix.net/manjaro/stable/$repo/$arch
 
-## Country : Spain
-Server = https://mirrors.ft.uam.es/manjaro/stable/$repo/$arch
-
-## Country : Singapore
-Server = https://mirror.freedif.org/Manjaro/stable/$repo/$arch
-
-## Country : Russia
-Server = https://mirror.truenetwork.ru/manjaro/stable/$repo/$arch
-
-## Country : Australia
-Server = https://mirror.aarnet.edu.au/pub/manjaro/stable/$repo/$arch
-
-## Country : Russia
-Server = https://mirror.kamtv.ru/manjaro/stable/$repo/$arch
+## Country : Japan
+Server = https://ftp.tsukuba.wide.ad.jp/Linux/manjaro/stable/$repo/$arch
 
