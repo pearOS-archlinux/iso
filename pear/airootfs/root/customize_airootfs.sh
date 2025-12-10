@@ -22,8 +22,17 @@ else
 	echo "Plymouth command theme not found"
 fi
 
+echo "Removing stock plasma-welcome app"
+if pacman -R --noconfirm plasma-welcome; then
+	echo "Stock plasma-welcome removed OK"
+else
+	echo "Failes to remove plasma-welcome"
+fi
+
+sleep 5
+
 echo "Installing plasma-welcome patch"
-if pacman -S --noconfirm plasma-welcome &> /dev/null; then
+if pacman -S --noconfirm plasma-welcome; then
 	echo "plasma-welcome installed successfully"
 else
 	echo "Failed to install plasma-welcome"
