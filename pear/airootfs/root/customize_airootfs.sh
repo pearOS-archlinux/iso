@@ -31,8 +31,11 @@ fi
 
 sleep 5
 
+
+
 echo "Installing plasma-welcome patch"
 if pacman -S --noconfirm plasma-welcome; then
+        cp -r /usr/share/applications/welcome.desktop /etc/skel/.config/autostart/welcome.desktop
 	echo "plasma-welcome installed successfully"
 else
 	echo "Failed to install plasma-welcome"

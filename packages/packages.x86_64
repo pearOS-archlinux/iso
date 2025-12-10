@@ -22,7 +22,6 @@ sassc
 unzip
 zip
 flatpak
-plasma-x11-session
 #plasma-welcome
 
 nautilus-admin
@@ -190,3 +189,5 @@ open-vm-tools
 
 # VirtualBox support
 virtualbox-guest-utils
+
+plasma-x11-session
