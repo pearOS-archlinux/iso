@@ -523,6 +523,14 @@ _make_packages() {
         fi
     fi
 
+    # Populate Arch Linux GPG keys
+    _msg_info "Populating Arch Linux GPG keys..."
+    if [[ "${quiet}" = "y" ]]; then
+        arch-chroot "${pacstrap_dir}" pacman-key --populate archlinux &> /dev/null || true
+    else
+        arch-chroot "${pacstrap_dir}" pacman-key --populate archlinux || true
+    fi
+
     # Install pearos-settings with --overwrite to allow it to override plasma-workspace files
     if [[ "$pearos_settings_installed" == "true" ]]; then
         _msg_info "Installing pearos-settings with file overwrite enabled..."

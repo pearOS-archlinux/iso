@@ -4,6 +4,20 @@
 
 set -e -u
 
+# Function to ask for continuation on error
+ask_continue() {
+	local error_msg="$1"
+	echo ""
+	echo "ERROR: $error_msg"
+	echo ""
+	read -p "Do you want to continue? (y/N): " answer < /dev/tty
+	if [[ ! "$answer" =~ ^[Yy]$ ]]; then
+		echo "Aborting script execution..."
+		exit 1
+	fi
+	echo "Continuing..."
+}
+
 echo "==========================="
 echo "Customizing pearOS Live env"
 echo "==========================="
@@ -34,7 +48,31 @@ sleep 5
 echo "############################################################################################################################"
 echo "###						REGENERATING PACMAN KEYS					       ###"
 echo "############################################################################################################################"
+# Ensure gnupg directory exists with correct permissions
+mkdir -p /etc/pacman.d/gnupg
+chmod 700 /etc/pacman.d/gnupg
+
+# Temporarily disable exit on error for pacman-key operations
+set +e
+
+# Initialize pacman keyring if it doesn't exist
+if [ ! -d /etc/pacman.d/gnupg/private-keys-v1.d ] || [ ! -f /etc/pacman.d/gnupg/pubring.gpg ]; then
+	echo "Initializing pacman keyring..."
+	pacman-key --init
+	if [ $? -ne 0 ]; then
+		ask_continue "pacman-key --init failed"
+	fi
+fi
+
+# Populate Arch Linux keys
+echo "Populating Arch Linux GPG keys..."
 pacman-key --populate archlinux
+if [ $? -ne 0 ]; then
+	ask_continue "pacman-key --populate archlinux failed"
+fi
+
+# Re-enable exit on error
+set -e
 
 echo "Installing plasma-welcome patch"
 if pacman -S --noconfirm plasma-welcome; then
