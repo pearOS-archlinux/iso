@@ -82,6 +82,17 @@ else
 	echo "Failed to install plasma-welcome"
 fi
 
+
+echo "############################################################################################################################"
+echo "###                                               Forcing X11 on build                                                   ###"
+echo "############################################################################################################################"
+#rm -rf /usr/share/wayland-sessions || :
+echo "Testing with Wayland by default, might remove X11 later if everything OK!"
+sleep 5
+
+
+
+
 echo "==================="
 echo "Script run complete"
 echo "==================="
