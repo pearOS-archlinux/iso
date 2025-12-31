@@ -1853,6 +1853,62 @@ actual_build() {
             echo -e "[ \e[92m%\e[0m ] : Copying [ \e[92m/etc/pacman.d/mirrorlist\e[0m ] to [ \e[92mpear/etc/pacman.d/.\e[0m ] . . ."
             cp /etc/pacman.d/mirrorlist pear/airootfs/etc/pacman.d/.
         fi
+	
+	# Compression selection menu
+	echo -e "\n[\e[94m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m]"
+	echo -e "[\e[93m%\e[0m] Select Compression Method"
+	echo -e "[\e[94m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m]"
+	echo -e "  \e[92m1)\e[0m Default (xz, balanced) - \e[96mMedium filesize, medium speed\e[0m"
+	echo -e "  \e[92m2)\e[0m Small filesize, slower - \e[96mBest compression (xz level 9)\e[0m"
+	echo -e "  \e[92m3)\e[0m Big filesize, faster - \e[96mFast compression (zstd level 3)\e[0m"
+	echo -e "  \e[92m4)\e[0m Fastest - \e[96mMinimal compression (lz4)\e[0m"
+	echo -e "  \e[92m5)\e[0m Very small filesize, very slow - \e[96mMaximum compression (xz level 9, large blocks)\e[0m"
+	echo -e ""
+	
+	read -p "$(echo -e '[\e[93m%\e[0m] Choose compression method (1-5) [Default: 1]: ')" compression_choice < /dev/tty
+	
+	# Set compression options based on choice
+	case "$compression_choice" in
+		1|"")
+			# Default: xz with medium settings
+			COMPRESSION_OPTS="('-comp' 'xz' '-Xbcj' 'x86' '-b' '1M' '-Xdict-size' '1M')"
+			echo -e "[\e[92m%\e[0m] Selected: Default (xz, balanced)"
+			;;
+		2)
+			# Small filesize, slower: xz maximum compression
+			COMPRESSION_OPTS="('-comp' 'xz' '-Xbcj' 'x86' '-b' '1M' '-Xdict-size' '1M' '-Xcompression-level' '9')"
+			echo -e "[\e[92m%\e[0m] Selected: Small filesize, slower (xz level 9)"
+			;;
+		3)
+			# Big filesize, faster: zstd fast
+			COMPRESSION_OPTS="('-comp' 'zstd' '-Xcompression-level' '3' '-b' '1M')"
+			echo -e "[\e[92m%\e[0m] Selected: Big filesize, faster (zstd level 3)"
+			;;
+		4)
+			# Fastest: lz4
+			COMPRESSION_OPTS="('-comp' 'lz4' '-b' '1M')"
+			echo -e "[\e[92m%\e[0m] Selected: Fastest (lz4)"
+			;;
+		5)
+			# Very small filesize, very slow: xz maximum with large blocks
+			COMPRESSION_OPTS="('-comp' 'xz' '-Xbcj' 'x86' '-b' '2M' '-Xdict-size' '2M' '-Xcompression-level' '9')"
+			echo -e "[\e[92m%\e[0m] Selected: Very small filesize, very slow (xz level 9, 2M blocks)"
+			;;
+		*)
+			echo -e "[\e[91m%\e[0m] Invalid choice, using default"
+			COMPRESSION_OPTS="('-comp' 'xz' '-Xbcj' 'x86' '-b' '1M' '-Xdict-size' '1M')"
+			;;
+	esac
+	
+	# Update profiledef.sh with selected compression options
+	if [[ -f "pear/profiledef.sh" ]]; then
+		# Backup original
+		cp pear/profiledef.sh pear/profiledef.sh.backup
+		# Update compression options line using | as delimiter to avoid conflicts
+		sed -i "s|^airootfs_image_tool_options=.*|airootfs_image_tool_options=${COMPRESSION_OPTS}|" pear/profiledef.sh
+		echo -e "[\e[92m%\e[0m] Compression options updated in profiledef.sh"
+	fi
+	
 	echo -e "[ \e[92m%\e[0m ] : Building the ISO . . ."
         
         # Enable interactive chroot only for fresh builds
@@ -1864,6 +1920,12 @@ actual_build() {
         fi
         
         progtest -v -w $OUT -o . pear
+
+        # Restore original profiledef.sh if backup exists
+        if [[ -f "pear/profiledef.sh.backup" ]]; then
+            mv pear/profiledef.sh.backup pear/profiledef.sh
+            echo -e "[\e[92m%\e[0m] Restored original profiledef.sh"
+        fi
 
         end=`date +%s`
         runtime=$((end-start))
