@@ -172,7 +172,8 @@ grub
 os-prober
 
 #Browser
-firefox
+#firefox
+pafari
 
 ttf-roboto
 

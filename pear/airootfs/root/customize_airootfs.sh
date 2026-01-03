@@ -84,10 +84,11 @@ fi
 
 
 echo "############################################################################################################################"
-echo "###                                               Forcing X11 on build                                                   ###"
+echo "###                                               Forcing Wayland on build                                               ###"
 echo "############################################################################################################################"
-#rm -rf /usr/share/wayland-sessions || :
-echo "Testing with Wayland by default, might remove X11 later if everything OK!"
+rm -rf /usr/share/xsessions || :
+
+#echo "Testing with Wayland by default, might remove X11 later if everything OK!"
 sleep 5
 
 
