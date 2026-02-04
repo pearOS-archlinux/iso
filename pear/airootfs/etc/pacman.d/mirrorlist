@@ -1,32 +1,17 @@
 ##
 ## Manjaro Linux lista implicită a locațiilor mirror
-## Generată la 2026-01-01 10:31
+## Generată la 2026-02-02 05:52
 ##
 ## Vă rugăm să folosiți 'pacman-mirrors -f [NUMĂR] [NUMĂR]' pentru a modifica lista locațiilor mirror
 ## (Se folosește 0 pentru toate locațiile mirror)
 ##
 
-## Country : Germany
-Server = https://ftp.tu-chemnitz.de/pub/linux/manjaro/stable/$repo/$arch
+## Country : Global
+Server = https://mirrors.cicku.me/manjaro/stable/$repo/$arch
 
-## Country : Czech_Republic
-Server = https://mirror.it4i.cz/manjaro/stable/$repo/$arch
+## Country : Global
+Server = https://mirrors.manjaro.org/repo/stable/$repo/$arch
 
-## Country : Netherlands
-Server = https://ftp.nluug.nl/pub/os/Linux/distr/manjaro/stable/$repo/$arch
-
-## Country : Russia
-Server = https://mirror.truenetwork.ru/manjaro/stable/$repo/$arch
-
-## Country : United_States
-Server = https://mirrors.ocf.berkeley.edu/manjaro/stable/$repo/$arch
-
-## Country : Singapore
-Server = https://mirror.freedif.org/Manjaro/stable/$repo/$arch
-
-## Country : Japan
-Server = https://mirrors.xtom.jp/manjaro/stable/$repo/$arch
-
-## Country : Russia
-Server = https://mirror.kamtv.ru/manjaro/stable/$repo/$arch
+## Country : Global
+Server = https://mirrors2.manjaro.org/stable/$repo/$arch
 

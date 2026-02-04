@@ -82,18 +82,62 @@ else
 	echo "Failed to install plasma-welcome"
 fi
 
+echo "Reinstalling plasma-workspace..."
+if pacman -S --noconfirm plasma-workspace; then
+        echo "plasma-welcome installed successfully"
+else
+        echo "Failed to install plasma-welcome"
+fi
 
-echo "############################################################################################################################"
-echo "###                                               Forcing Wayland on build                                               ###"
-echo "############################################################################################################################"
-rm -rf /usr/share/xsessions || :
 
-#echo "Testing with Wayland by default, might remove X11 later if everything OK!"
+echo "Fixing permissions"
+if chmod -R 0777 /usr/share/extras/; then
+        echo "Permissions set!"
+else
+        echo "Failed to set permissions"
+fi
+
+
+
 sleep 5
 
 
+echo "Installing CMake"
+if pacman -S --noconfirm cmake extra-cmake-modules; then
+        echo "CMake and Extra CMake Modules Installed!"
+else
+        echo "Failed to install CMake + Extra Modules"
+fi
 
+echo "Downloading Liquid Gel"
+if git clone https://github.com/pearOS-archlinux/liquid-gel; then
+        echo "Liquid Gel Downloaded..."
+else
+        echo "Failed to download Liquid Gel"
+fi
 
+echo "Compiling Liquid Gel"
+if cd liquid-gel && mkdir build && cd build && cmake .. -DCMAKE_INSTALL_PREFIX=/usr && make -j$(nproc); then
+        echo "Liquid Gel Compiled..."
+else
+        echo "Failed to Compile Liquid Gel - Build Failed"
+fi
+
+echo "Installing Liquid Gel"
+if cd liquid-gel/build && sudo make install; then
+        echo "Liquid Gel Installed!"
+else
+        echo "Failed to install Liquid Gel"
+fi
+
+echo "Cleanup"
+if rm -rf liquid-gel; then
+        echo "Finish cleanup"
+else
+        echo "Failed to Cleanup files"
+fi
+
+sleep 10
 echo "==================="
 echo "Script run complete"
 echo "==================="
