@@ -24,6 +24,8 @@ zip
 flatpak
 #plasma-welcome
 pearos-liquidgel
+cmake
+extra-cmake-modules
 
 nautilus-admin
 nautilus-share
@@ -161,12 +163,14 @@ system-overview
 #system-update
 pearos-livecd-desktop
 pearos-settings
+
 npm
 electron
 
 python-pip
 
 neofetch
+kdeconnect
 
 #Installer
 grub
@@ -175,6 +179,7 @@ os-prober
 #Browser
 #firefox
 pafari
+
 
 ttf-roboto
 
