@@ -117,18 +117,13 @@ else
 fi
 
 echo "Compiling Liquid Gel"
-if cd liquid-gel && mkdir build && cd build && cmake .. -DCMAKE_INSTALL_PREFIX=/usr && make -j$(nproc); then
+if cd liquid-gel && mkdir build && cd build && cmake .. -DCMAKE_INSTALL_PREFIX=/usr && make -j$(nproc) && sudo make install; then
         echo "Liquid Gel Compiled..."
 else
         echo "Failed to Compile Liquid Gel - Build Failed"
 fi
 
-echo "Installing Liquid Gel"
-if cd liquid-gel/build && sudo make install; then
-        echo "Liquid Gel Installed!"
-else
         echo "Failed to install Liquid Gel"
-fi
 
 echo "Cleanup"
 if rm -rf liquid-gel; then
