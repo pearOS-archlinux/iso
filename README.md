@@ -77,6 +77,16 @@ command -v pacstrap arch-chroot mksquashfs xorriso mkfs.ext4 tune2fs git
 
 If any command is missing, install the corresponding package listed above.
 
+## Star History
+
+<a href="https://www.star-history.com/#pearOS-archlinux/iso&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=pearOS-archlinux/iso&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=pearOS-archlinux/iso&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=pearOS-archlinux/iso&type=date&legend=top-left" />
+ </picture>
+</a>
+
 ## Copyright and Licensing  📌
 This project is released under the GNU Pubilc License v3 or later
 
