@@ -1,0 +1,21 @@
+#!/bin/bash
+
+if [ -f /etc/mkinitcpio.d/alg ]; then
+    mv -v /etc/mkinitcpio.d/alg /etc/mkinitcpio.d/linux.preset
+fi
+
+
+# Fixing GRUB
+ROOT_FS=$(findmnt -n -o FSTYPE /)
+
+if [ "$ROOT_FS" = "btrfs" ]; then
+    echo "Btrfs detected on root. Applying rootflags=subvol=@ to GRUB..."
+    if ! grep -q "rootflags=subvol=@" /etc/default/grub; then
+        sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="/GRUB_CMDLINE_LINUX_DEFAULT="rootflags=subvol=@ /' /etc/default/grub
+    fi
+    grub-mkconfig -o /boot/grub/grub.cfg
+else
+    echo "Root filesystem is $ROOT_FS, no special GRUB flags needed."
+fi
+
+rm -f /usr/local/bin/alg-preset

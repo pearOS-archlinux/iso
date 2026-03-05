@@ -58,7 +58,7 @@ set +e
 # Initialize pacman keyring if it doesn't exist
 if [ ! -d /etc/pacman.d/gnupg/private-keys-v1.d ] || [ ! -f /etc/pacman.d/gnupg/pubring.gpg ]; then
 	echo "Initializing pacman keyring..."
-	pacman-key --init
+	sudo pacman-key --init
 	if [ $? -ne 0 ]; then
 		ask_continue "pacman-key --init failed"
 	fi
@@ -66,7 +66,7 @@ fi
 
 # Populate Arch Linux keys
 echo "Populating Arch Linux GPG keys..."
-pacman-key --populate archlinux
+sudo pacman-key --populate archlinux
 if [ $? -ne 0 ]; then
 	ask_continue "pacman-key --populate archlinux failed"
 fi
@@ -125,6 +125,16 @@ fi
 
         echo "Failed to install Liquid Gel"
 
+
+
+
+echo "Cleaning up pearOS Build"
+
+rm -rf /usr/share/{doc,man,info,help}/*
+pacman -Scc --noconfirm
+if [ ! -L /sbin/init ]; then
+    ln -sf /usr/lib/systemd/systemd /sbin/init
+fi
 echo "Cleanup"
 if rm -rf liquid-gel; then
         echo "Finish cleanup"
@@ -136,3 +146,4 @@ sleep 10
 echo "==================="
 echo "Script run complete"
 echo "==================="
+sync

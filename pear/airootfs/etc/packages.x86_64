@@ -11,8 +11,8 @@ jq
 imagemagick
 net-tools
 fprintd
-linux612-headers
-#broadcom-wl-dkms
+linux617-headers
+broadcom-wl-dkms
 
 qt5-tools
 curl
@@ -41,7 +41,7 @@ arch-install-scripts
 b43-fwcutter
 base
 bind-tools
-broadcom-wl
+#broadcom-wl
 btrfs-progs
 #clonezilla
 #cloud-init
@@ -195,6 +195,9 @@ cups
 open-vm-tools
 
 # VirtualBox support
-virtualbox-guest-utils
+#virtualbox-guest-utils
 
 plasma-x11-session
+calamares
+pear-calamares-config
+pv

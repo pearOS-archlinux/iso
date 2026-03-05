@@ -12,3 +12,19 @@ default_image="/boot/initramfs-linux.img"
 #fallback_config="/etc/mkinitcpio.conf"
 fallback_image="/boot/initramfs-linux-fallback.img"
 fallback_options="-S autodetect"
+
+
+
+
+
+
+## mkinitcpio preset file for pearOS (Manjaro base)
+#PRESETS=('default' 'fallback')
+#
+#ALL_kver='/boot/vmlinuz-6.17-x86_64'
+#ALL_config='/etc/mkinitcpio.conf'
+#
+#default_image="/boot/initramfs-6.17-x86_64.img"
+#
+#fallback_image="/boot/initramfs-6.17-x86_64-fallback.img"
+#fallback_options="-S autodetect"

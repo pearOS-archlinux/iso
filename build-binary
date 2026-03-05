@@ -531,6 +531,16 @@ _make_packages() {
         arch-chroot "${pacstrap_dir}" pacman-key --populate archlinux || true
     fi
 
+    # Populate MANJARO Linux GPG keys
+    _msg_info "Populating MANJARO Linux GPG keys..."
+    if [[ "${quiet}" = "y" ]]; then
+        arch-chroot "${pacstrap_dir}" pacman-key --populate manjaro &> /dev/null || true
+    else
+        arch-chroot "${pacstrap_dir}" pacman-key --populate manjaro || true
+    fi
+
+
+
     # Install pearos-settings with --overwrite to allow it to override plasma-workspace files
     if [[ "$pearos_settings_installed" == "true" ]]; then
         _msg_info "Installing pearos-settings with file overwrite enabled..."
@@ -1891,9 +1901,9 @@ actual_build() {
 			;;
 		5)
 			# Very small filesize, very slow: xz maximum with large blocks
-			COMPRESSION_OPTS="('-comp' 'xz' '-Xbcj' 'x86' '-b' '2M' '-Xdict-size' '2M' '-Xcompression-level' '9')"
-			echo -e "[\e[92m%\e[0m] Selected: Very small filesize, very slow (xz level 9, 2M blocks)"
-			;;
+			COMPRESSION_OPTS="('-comp' 'zstd' '-Xcompression-level' '19' '-b' '1M')"
+                        echo -e "[\e[92m%\e[0m] Selected: Pear Slim (zstd level 19) - Best for 2.5GB Target"
+                        ;;
 		*)
 			echo -e "[\e[91m%\e[0m] Invalid choice, using default"
 			COMPRESSION_OPTS="('-comp' 'xz' '-Xbcj' 'x86' '-b' '1M' '-Xdict-size' '1M')"

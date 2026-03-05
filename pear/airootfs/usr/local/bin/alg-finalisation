@@ -1,0 +1,47 @@
+#!/bin/bash
+
+chmod 750 /etc/sudoers.d
+chmod 750 /etc/polkit-1/rules.d
+chgrp polkitd /etc/polkit-1/rules.d
+chmod -v 750 /root
+
+rm -vf /etc/sudoers.d/g_wheel
+rm -vf /etc/sddm.conf.d/autologin.conf
+rm -vf /etc/polkit-1/rules.d/49-nopasswd_global.rules
+rm -vf /root/{.automated_script.sh,.zlogin}
+
+sed -i 's/GRUB_DISTRIBUTOR=.*/GRUB_DISTRIBUTOR="ALG"/' /etc/default/grub
+sed -i 's/${GRUB_DISTRIBUTOR} Linux/${GRUB_DISTRIBUTOR}/' /etc/grub.d/10_linux
+
+# Remove calamares-desktop from Desktop
+rm -f /home/liveuser/Desktop/calamares.desktop
+
+# Copy skel/.config in /root
+cp -r /etc/skel/.config /root/
+
+rm -f /usr/local/bin/{alg-finalisation,livecd-sound,Installation_guide}
+
+# Enabling auto-login for 'default' user :
+echo "[Autologin]" > /etc/sddm.conf
+echo "User=default" >> /etc/sddm.conf
+echo "Session=plasma.desktop" >> /etc/sddm.conf
+
+# Installing pearOS Boot Chime
+git clone https://github.com/Pear-Project/pearos-boot-sound.git && cd pearos-boot-sound && bash install.sh || :
+pacman -R --noconfirm kinfocenter plasma-disks plasma-sdk
+pacman -R --noconfirm gnome-software electron npm 
+
+echo "Removing desktop entries..."
+rm -rf /usr/share/applications/avahi-discover.desktop \
+       /usr/share/applications/bssh.desktop \
+       /usr/share/applications/bvnc.desktop \
+       /usr/share/applications/qv4l2.desktop \
+       /usr/share/applications/qvidcap.desktop \
+       /usr/share/applications/org.kde.plasma.emojier \
+       /usr/share/applications/calamares*
+
+echo "Installing yay"
+       git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm && rm -rf yay
+
+sync
+
