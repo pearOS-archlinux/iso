@@ -2,7 +2,39 @@
 
 # Changelog
 
-## 09 Dec 2026
+
+## 11 Mar 2026
+## Information
+https://pearos.xyz
+
+* Add Dual Boot Support
+* Add Offline Installer Support(hold ⌥ while clicking Continue with Install pearOS selected in installer to enable Offline & Dualboot)
+* Add Calculator App
+* Add To-Do App
+* Add Contacts App
+* Add Notes App
+* Add Calendar App
+* Add Notch
+* Add nVidia drivers
+* Add Qemu Guest utils
+* Add Better Wayland Support
+* Add Close button will HIDE the app instead of closing(the bitten fruit way)
+* Add Hover effects to the CLS/MIN/MAX buttons
+* Fixed Better LiquidGel Rules
+* Fixed Most of the rounded corners
+* Fixed Launcher Dark Icon
+* Fixed wrong Window Borders
+* Fixed Piri Download Quota Exceeded
+* About pearOS app: Switched from Electron to C++
+* Switched ark -> file-roller
+
+### Known Bugs
+* Some WiFi cards are not working (?)
+* automatic theme not yer implemented
+* pearOS Notch Not working smoothly, expecting fix in 26.4
+* Other bugs: Please use the Issues tab in this repo. Thank you
+
+## 09 Feb 2026
 ## Information
 https://pearos.xyz
 
