@@ -4,7 +4,7 @@ set -euo pipefail
 
 REMOTE_NAME="ISO Uploader"
 BUCKET_NAME="pearos-cdn"
-TARGET_PATH="${REMOTE_NAME}:${BUCKET_NAME}/iso"
+TARGET_PATH="${REMOTE_NAME}:${BUCKET_NAME}/"
 
 echo "=== Looking for rclone command ==="
 if ! command -v rclone >/dev/null 2>&1; then
