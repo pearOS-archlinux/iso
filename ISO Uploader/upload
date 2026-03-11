@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+REMOTE_NAME="ISO Uploader"
+BUCKET_NAME="pearos-cdn"
+TARGET_PATH="${REMOTE_NAME}:${BUCKET_NAME}/iso"
+
+echo "=== Looking for rclone command ==="
+if ! command -v rclone >/dev/null 2>&1; then
+  echo "Error: rclone not installed or not in PATH."
+  exit 1
+fi
+
+echo
+echo "=== Conf Remotes: ==="
+rclone listremotes || true
+
+echo
+echo "=== Checking remote \"${REMOTE_NAME}\" ==="
+if ! rclone listremotes | grep -Fxq "${REMOTE_NAME}:"; then
+  echo "Error: remote \"${REMOTE_NAME}\" doesn t exist in rclone conf."
+  echo "Run:  rclone config   și creează remote-ul cu numele acesta."
+  exit 1
+fi
+
+echo
+echo "=== Buckets on \"${REMOTE_NAME}\" ==="
+rclone lsd "${REMOTE_NAME}:" || {
+  echo "Couldn t list buckets for  \"${REMOTE_NAME}:\""
+  exit 1
+}
+
+echo
+echo "=== Looking for  *.iso in this dir ==="
+shopt -s nullglob
+ISO_FILES=( *.iso )
+shopt -u nullglob
+
+if [ ${#ISO_FILES[@]} -eq 0 ]; then
+  echo "Couldn t find any .iso in $(pwd)."
+  exit 0
+fi
+
+echo "Found pearOS ISO:"
+for f in "${ISO_FILES[@]}"; do
+  echo " - $f"
+done
+
+echo
+echo "=== Uploading ISO in ${TARGET_PATH}/ ==="
+for f in "${ISO_FILES[@]}"; do
+  echo "Upload: $f -> ${TARGET_PATH}/"
+  rclone copy "$f" "${TARGET_PATH}/"
+done
+
+echo
+echo "=== Content in ${TARGET_PATH}/ after upload ==="
+rclone ls "${TARGET_PATH}/"
+
+echo
+echo "Gata. Upload complet."
