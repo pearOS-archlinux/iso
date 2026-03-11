@@ -3,9 +3,17 @@ archlinux-keyring
 
 filesystem
 plymouth
+
+# Media and codecs
 elisa
+gst-libav
+gst-plugins-good
+gst-plugins-bad
+gst-plugins-ugly
+gst-plugin-va
+libdvdcss
+
 gwenview
-kcalc
 xf86-input-libinput
 jq
 imagemagick
@@ -14,7 +22,9 @@ fprintd
 linux617-headers
 broadcom-wl-dkms
 
-qt5-tools
+#qt5-tools
+qt5-wayland
+qt6-wayland
 curl
 yay
 wget
@@ -22,20 +32,24 @@ sassc
 unzip
 zip
 flatpak
-#plasma-welcome
-pearos-liquidgel
 cmake
 extra-cmake-modules
 
 nautilus-admin
 nautilus-share
-gnome-weather
-gnome-maps
-gnome-calendar
-gnome-clocks
+python-nautilus
+gvfs
+gvfs-mtp
+gvfs-smb
+gvfs-afc
 
-#archlinux-keyring
+
 alsa-utils
+pipewire
+pipewire-pulse
+pipewire-alsa
+wireplumber
+
 amd-ucode
 arch-install-scripts
 b43-fwcutter
@@ -43,12 +57,8 @@ base
 bind-tools
 #broadcom-wl
 btrfs-progs
-#clonezilla
-#cloud-init
 crda
 cryptsetup
-#darkhttpd
-#ddrescue
 dhclient
 dhcpcd
 diffutils
@@ -139,18 +149,16 @@ bash-completion
 networkmanager
 #linux617-headers
 base-devel
-xf86-input-libinput
 pacman-contrib
 plasma
+power-profiles-daemon
 
 #System Utilities
 konsole
 kate
 nautilus
 xdg-user-dirs
-ark
-gnome-software
-#gnome-software-packagekit-plugin
+file-roller
 appmenu-gtk-module
 touchegg
 system-settings
@@ -159,13 +167,11 @@ system-settings
 kvantum
 gparted
 #pearos-grub-theme
-system-overview
 #system-update
-pearos-livecd-desktop
-pearos-settings
+
 
 npm
-electron
+#electron
 
 python-pip
 
@@ -177,27 +183,64 @@ grub
 os-prober
 
 #Browser
-#firefox
 pafari
 
-
+# Fonts
 ttf-roboto
+noto-fonts
+noto-fonts-emoji
 
 #printing
 cups
 
-#NVIDIA Drivers & Tools
-#nvidia
-#nvidia-utils
-#nvidia-settings
+# Graphics Support
+mesa
+lib32-mesa
+nvidia-dkms
+nvidia-utils
+nvidia-settings
+nvidia-prime
+lib32-nvidia-utils
+libva-nvidia-driver
+egl-wayland
+xorg-xwayland
+kscreen
+vulkan-icd-loader
+xdg-desktop-portal-kde
+xdg-desktop-portal-gtk
 
-# VmWare Support
+# Virtual Machines Support
 open-vm-tools
+virtualbox-guest-utils
+qemu-guest-agent
+spice-vdagent
+spice-protocol
+xf86-video-qxl
 
-# VirtualBox support
-#virtualbox-guest-utils
 
 plasma-x11-session
 calamares
 pear-calamares-config
 pv
+
+# pearOS Apps
+pearos-notes
+pearos-appstore
+pearos-calendar
+pearos-contacts
+pearos-notch
+pearos-todo
+pearos-calculator
+pearos-liquidgel
+pearos-window-borders
+pearos-livecd-desktop
+pearos-settings
+system-overview
+
+kmail
+gnome-maps
+
+# Bluetooth Support
+bluez
+bluez-utils
+bluedevil
