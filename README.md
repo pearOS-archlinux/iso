@@ -52,6 +52,7 @@ sudo pacman -S squashfs-tools          # Provides mksquashfs for creating squash
 sudo pacman -S xorriso                 # Creates the final ISO image
 sudo pacman -S e2fsprogs               # Provides mkfs.ext4 and tune2fs for filesystem creation
 sudo pacman -S git                     # Required for cloning pearOS-installer during build
+sudo pacman -S pv                      # Required to see progress bars
 ```
 
 #### Optional packages:
@@ -66,13 +67,13 @@ sudo pacman -S gnupg
 
 #### Quick install command:
 ```sh
-sudo pacman -S arch-install-scripts mtools squashfs-tools xorriso e2fsprogs git
+sudo pacman -S arch-install-scripts mtools squashfs-tools xorriso e2fsprogs git pv
 ```
 
 #### Verify dependencies:
 To check if all required commands are available, you can use:
 ```sh
-command -v pacstrap arch-chroot mksquashfs xorriso mkfs.ext4 tune2fs git
+command -v pacstrap arch-chroot mksquashfs xorriso mkfs.ext4 tune2fs git pv
 ```
 
 If any command is missing, install the corresponding package listed above.
