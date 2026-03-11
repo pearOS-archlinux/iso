@@ -291,8 +291,26 @@ _cleanup_pacstrap_dir() {
     rm -rf ${pacstrap_dir}/usr/share/applications/kvantum*
     rm -rf ${pacstrap_dir}/usr/share/applications/org.kde.latte-dock.desktop
     rm -rf ${pacstrap_dir}/usr/share/applications/org.kde.kuserfeedback-console.desktop
-    chroot ${pacstrap_dir} bin/bash -c 'pacman -R plasma-sdk --noconfirm'
-    _msg_info "Installing pearOS Grub Theme"
+    rm -rf ${pacstrap_dir}/usr/share/applications/lstopo.desktop
+    rm -rf ${pacstrap_dir}/usr/share/applications/cmake-gui.desktop
+    rm -rf ${pacstrap_dir}/usr/share/applications/org.kde.drkonqi.coredump.desktop
+    rm -rf ${pacstrap_dir}/usr/share/applications/calamares.desktop
+    rm -rf ${pacstrap_dir}/usr/share/applications/org.kde.kdeconnect.sms.desktop
+    rm -rf ${pacstrap_dir}/usr/share/applications/org.kde.akonadiimportwizard.desktop
+    rm -rf ${pacstrap_dir}/usr/share/applications/org.kde.ktnef.desktop
+    rm -rf ${pacstrap_dir}/usr/share/applications/org.kde.kmenuedit.desktop
+    rm -rf ${pacstrap_dir}/usr/share/applications/nvidia*
+    rm -rf ${pacstrap_dir}/usr/share/applications/assistant.desktop
+    rm -rf ${pacstrap_dir}/usr/share/applications/qdbusviewer.desktop
+    rm -rf ${pacstrap_dir}/usr/share/applications/linguist.desktop
+    rm -rf ${pacstrap_dir}/usr/share/applications/designer.desktop
+    rm -rf ${pacstrap_dir}/usr/share/applications/org.kde.sieveeditor.desktop
+    rm -rf ${pacstrap_dir}/usr/share/applications/systemsettings.desktop
+    rm -rf ${pacstrap_dir}/usr/share/applications/org.kde.pimpdataexporter.desktop
+    rm -rf ${pacstrap_dir}/usr/share/applications/cups.desktop
+    rm -rf ${pacstrap_dir}/usr/share/applications/org.gnome.FileRoller.desktop
+    chroot ${pacstrap_dir} bin/bash -c 'pacman -R plasma-sdk plasma-disks kinfocenter discover --noconfirm' 
+   _msg_info "Installing pearOS Grub Theme"
     cp -r ./packages/grub.default ${pacstrap_dir}/etc/default/grub
     _msg_info "Done!"
 }
@@ -626,6 +644,16 @@ _make_customize_airootfs() {
         _msg_info "Done! customize_airootfs.sh run successfully."
     fi
     
+
+   if [[ -e "${pacstrap_dir}/root/enable_services.sh" ]]; then
+        _msg_info "Enabling Services in '${pacstrap_dir}' chroot..."
+        chmod -f -- +x "${pacstrap_dir}/root/enable_services.sh"
+        eval -- env -u TMPDIR arch-chroot "${pacstrap_dir}" "/root/enable_services.sh"
+        rm -- "${pacstrap_dir}/root/enable_services.sh"
+        _msg_info "Done! Services Enabler run successfully."
+    fi
+
+
     # Custom interactive chroot hook
     if [[ "${INTERACTIVE_CHROOT:-}" == "yes" ]]; then
         _msg_info "Offering interactive chroot customization..."

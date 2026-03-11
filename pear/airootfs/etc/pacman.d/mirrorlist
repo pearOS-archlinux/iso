@@ -6,6 +6,10 @@
 ## (Se folosește 0 pentru toate locațiile mirror)
 ##
 
+
+##
+Server = https://mirror.alpix.eu/manjaro/stable/$repo/$arch
+
 ## Country : Global
 Server = https://mirrors.cicku.me/manjaro/stable/$repo/$arch
 
