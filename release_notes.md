@@ -1,6 +1,27 @@
-# `Last update: 11 Mar 2026, 04:38 PM`
+# `Last update: 08 Apr 2026, 03:51 AM`
 
 # Changelog
+
+## 08 Apr 2026
+## Information
+https://pearos.xyz | https://nicec0re.pearos.xyz
+
+* Moved package repository to a better server (Cloudflare R2 Storage)
+* Fixed Offline Installer (hopefully)
+* Installing packages from the packages repo now require public key, included in the pearos-keyring package
+* Add pearos-keyring
+* Add better ZSH Config
+* Add boot chime (hope it works)
+* Fix updater
+* Fix light theme
+* Fix online installer (I guess)
+
+### Known Bugs
+* Some WiFi cards are not working (?)
+* automatic theme not yer implemented
+* pearOS Notch Not working smoothly, expecting fix in 26.4
+* Other bugs: Please use the Issues tab in this repo. Thank you
+
 
 
 ## 11 Mar 2026

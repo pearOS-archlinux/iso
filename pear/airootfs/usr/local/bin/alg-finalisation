@@ -10,7 +10,7 @@ rm -vf /etc/sddm.conf.d/autologin.conf
 rm -vf /etc/polkit-1/rules.d/49-nopasswd_global.rules
 rm -vf /root/{.automated_script.sh,.zlogin}
 
-sed -i 's/GRUB_DISTRIBUTOR=.*/GRUB_DISTRIBUTOR="ALG"/' /etc/default/grub
+sed -i 's/GRUB_DISTRIBUTOR=.*/GRUB_DISTRIBUTOR="pearOS NiceC0re"/' /etc/default/grub
 sed -i 's/${GRUB_DISTRIBUTOR} Linux/${GRUB_DISTRIBUTOR}/' /etc/grub.d/10_linux
 
 # Remove calamares-desktop from Desktop
@@ -26,8 +26,6 @@ echo "[Autologin]" > /etc/sddm.conf
 echo "User=default" >> /etc/sddm.conf
 echo "Session=plasma.desktop" >> /etc/sddm.conf
 
-# Installing pearOS Boot Chime
-git clone https://github.com/Pear-Project/pearos-boot-sound.git && cd pearos-boot-sound && bash install.sh || :
 pacman -R --noconfirm kinfocenter plasma-disks plasma-sdk
 pacman -R --noconfirm gnome-software electron npm 
 

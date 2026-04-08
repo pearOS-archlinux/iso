@@ -23,3 +23,8 @@ systemctl enable sddm
 # Fixing extras permissions
 chmod -R 777 /usr/share/extras/
 chmod 777 /usr/share/extras/*
+
+pacman-key --init
+pacman-key --populate
+pacman-key --add /usr/share/pacman/keyrings/pearos.gpg
+pacman-key --lsign-key 4C1A9F3C131ACA95

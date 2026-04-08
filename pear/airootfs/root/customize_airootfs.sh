@@ -66,27 +66,34 @@ fi
 
 # Populate Arch Linux keys
 echo "Populating Arch Linux GPG keys..."
-sudo pacman-key --populate archlinux
+sudo pacman-key --populate
 if [ $? -ne 0 ]; then
-	ask_continue "pacman-key --populate archlinux failed"
+	ask_continue "pacman-key --populate failed"
 fi
+
+sudo pacman-key --recv-keys 4C1A9F3C131ACA95 --keyserver keyserver.ubuntu.com
+sudo pacman-key --lsign-key 4C1A9F3C131ACA95
 
 # Re-enable exit on error
 set -e
 
 echo "Installing plasma-welcome patch"
 if pacman -S --noconfirm plasma-welcome; then
-        cp -r /usr/share/applications/welcome.desktop /etc/skel/.config/autostart/welcome.desktop
+        cp -r /usr/share/applications/welcome.desktop /etc/skel/.config/autostart/welcome.desktop ||:
 	echo "plasma-welcome installed successfully"
 else
 	echo "Failed to install plasma-welcome"
 fi
 
 echo "Reinstalling plasma-workspace..."
-if pacman -S --noconfirm plasma-workspace; then
-        echo "plasma-welcome installed successfully"
+#
+# Some KDE Plasma theme packages (e.g. oxygen/oxygen-cursors) may ship
+# overlapping files. Use --overwrite to avoid build-time aborts.
+#
+if pacman -S --noconfirm --overwrite='*' plasma-workspace; then
+        echo "plasma-workspace installed successfully"
 else
-        echo "Failed to install plasma-welcome"
+        echo "Failed to install plasma-workspace"
 fi
 
 
@@ -122,9 +129,6 @@ if cd liquid-gel && mkdir build && cd build && cmake .. -DCMAKE_INSTALL_PREFIX=/
 else
         echo "Failed to Compile Liquid Gel - Build Failed"
 fi
-
-        echo "Failed to install Liquid Gel"
-
 
 
 

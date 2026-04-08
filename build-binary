@@ -309,7 +309,15 @@ _cleanup_pacstrap_dir() {
     rm -rf ${pacstrap_dir}/usr/share/applications/org.kde.pimpdataexporter.desktop
     rm -rf ${pacstrap_dir}/usr/share/applications/cups.desktop
     rm -rf ${pacstrap_dir}/usr/share/applications/org.gnome.FileRoller.desktop
-    chroot ${pacstrap_dir} bin/bash -c 'pacman -R plasma-sdk plasma-disks kinfocenter discover --noconfirm' 
+    chroot "${pacstrap_dir}" bin/bash -c "pacman -Syy" 2>/dev/null || true
+    # Optional KDE / Discover packages: only remove if present (resume builds /
+    # slim images may not have them, and pacman would error "target not found").
+    for pkg in plasma-sdk plasma-disks kinfocenter discover; do
+        if chroot "${pacstrap_dir}" bin/bash -c "pacman -Q '${pkg}' &>/dev/null"; then
+            _msg_info "Removing optional package from live image: ${pkg}"
+            chroot "${pacstrap_dir}" bin/bash -c "pacman -R --noconfirm '${pkg}'" 2>/dev/null || true
+        fi
+    done
    _msg_info "Installing pearOS Grub Theme"
     cp -r ./packages/grub.default ${pacstrap_dir}/etc/default/grub
     _msg_info "Done!"
@@ -535,10 +543,19 @@ _make_packages() {
     # Install all packages except pearos-settings first
     if [[ ${#other_packages[@]} -gt 0 ]]; then
         if [[ "${quiet}" = "y" ]]; then
-            env -u TMPDIR pacstrap -C "${work_dir}/${buildmode}.pacman.conf" -c -G -M -- "${pacstrap_dir}" "${other_packages[@]}" &> /dev/null
+            env -u TMPDIR pacstrap -C "${work_dir}/${buildmode}.pacman.conf" -c -M -- "${pacstrap_dir}" --overwrite='*' "${other_packages[@]}" &> /dev/null
         else
-            env -u TMPDIR pacstrap -C "${work_dir}/${buildmode}.pacman.conf" -c -G -M -- "${pacstrap_dir}" "${other_packages[@]}"
+            env -u TMPDIR pacstrap -C "${work_dir}/${buildmode}.pacman.conf" -c -M -- "${pacstrap_dir}" --overwrite='*' "${other_packages[@]}"
         fi
+    fi
+
+    # Ensure pacman keyring exists and has correct permissions before
+    # trying to populate it (pacstrap may be run with -G).
+    _msg_info "Initializing pacman GPG keyring..."
+    if [[ "${quiet}" = "y" ]]; then
+        arch-chroot "${pacstrap_dir}" bash -c 'mkdir -p /etc/pacman.d/gnupg && chmod 700 /etc/pacman.d/gnupg && { [[ -e /etc/pacman.d/gnupg/pubring.gpg || -e /etc/pacman.d/gnupg/pubring.kbx ]] || pacman-key --init &> /dev/null; }' || true
+    else
+        arch-chroot "${pacstrap_dir}" bash -c 'mkdir -p /etc/pacman.d/gnupg && chmod 700 /etc/pacman.d/gnupg && { [[ -e /etc/pacman.d/gnupg/pubring.gpg || -e /etc/pacman.d/gnupg/pubring.kbx ]] || pacman-key --init; }' || true
     fi
 
     # Populate Arch Linux GPG keys
@@ -557,7 +574,13 @@ _make_packages() {
         arch-chroot "${pacstrap_dir}" pacman-key --populate manjaro || true
     fi
 
-
+    # Populate pear OS GPG keys
+    _msg_info "Populating Arch Linux GPG keys..."
+    if [[ "${quiet}" = "y" ]]; then
+        arch-chroot "${pacstrap_dir}" pacman-key --recv-keys 4C1A9F3C131ACA95 --keyserver keyserver.ubuntu.com  &> /dev/null || true
+    else
+        arch-chroot "${pacstrap_dir}" pacman-key --recv-keys 4C1A9F3C131ACA95 --keyserver keyserver.ubuntu.com && pacman-key --lsign-key 4C1A9F3C131ACA95 || true
+    fi
 
     # Install pearos-settings with --overwrite to allow it to override plasma-workspace files
     if [[ "$pearos_settings_installed" == "true" ]]; then
@@ -575,9 +598,25 @@ _make_packages() {
     fi
 
     # Remove standard linux kernel if installed (base package optional dependency)
-    # Also remove mkinitcpio presets for standard kernel to prevent initramfs building
-    # This MUST be done immediately after pacstrap, before any mkinitcpio hooks run
-    _msg_info "Removing all non-linux617 kernels (using only linux617)..."
+    # Also remove mkinitcpio presets for standard kernel to prevent initramfs building.
+    # This MUST be done immediately after pacstrap, before any mkinitcpio hooks run.
+    #
+    # IMPORTANT: make this conditional. If the build is resumed from an incomplete
+    # work dir, the expected linux617 kernel might not be present yet, and
+    # blindly removing kernel files/packages can break the build.
+    _msg_info "Removing all non-linux617 kernels (using only linux617), if available..."
+
+    _linux617_present="$(
+        find "${pacstrap_dir}/boot" -maxdepth 1 -type f \
+            \( -name 'vmlinuz-linux617*' -o -name 'vmlinuz-6.17*' -o -name 'initramfs-linux617*' -o -name 'initramfs-6.17*' \) \
+            -print -quit 2>/dev/null || true
+    )"
+
+    if [[ -z "${_linux617_present}" ]]; then
+        _msg_info "linux617 kernel not found in '${pacstrap_dir}/boot' -> skipping kernel cleanup to keep build consistent."
+        _msg_info "Done! Packages installed successfully."
+        return 0
+    fi
     
     # Remove mkinitcpio presets first to prevent hooks from building initramfs
     find "${pacstrap_dir}/etc/mkinitcpio.d" -name "linux*.preset" ! -name "linux617*.preset" -type f -delete 2>/dev/null || true
@@ -667,6 +706,27 @@ _make_customize_airootfs() {
     fi
 }
 
+# pearOS boot chime: baked into the live ISO during build (not only post-install).
+_make_pearos_boot_sound() {
+    _msg_info "Installing pearOS Boot Chime into airootfs..."
+    if ! command -v git &>/dev/null; then
+        _msg_warning "git not available on host; skipping pearOS boot chime"
+        return 0
+    fi
+    local _bs="${pacstrap_dir}/pearos-boot-sound"
+    rm -rf -- "${_bs}"
+    if ! git clone --depth 1 https://github.com/Pear-Project/pearos-boot-sound "${_bs}"; then
+        _msg_warning "Failed to clone pearos-boot-sound; skipping"
+        return 0
+    fi
+    chmod +x "${_bs}/install.sh" 2>/dev/null || true
+    if ! arch-chroot "${pacstrap_dir}" bash -c 'cd /pearos-boot-sound && chmod +x install.sh && ./install.sh'; then
+        _msg_warning "pearOS boot chime install.sh failed (non-fatal)"
+    fi
+    rm -rf -- "${_bs}"
+    _msg_info "Done! pearOS Boot Chime installed (repo cleaned from airootfs)."
+}
+
 # Set up boot loaders
 _make_bootmodes() {
     local bootmode
@@ -687,50 +747,50 @@ _make_boot_on_iso9660() {
     while IFS= read -r initramfs_file; do
         local initramfs_basename=$(basename "$initramfs_file")
         # Only copy linux617 initramfs, exclude all 5.x
-        if [[ "$initramfs_basename" =~ initramfs-6\.17.*\.img ]] || [[ "$initramfs_basename" == "initramfs-linux617"* ]]; then
+        if [[ "$initramfs_basename" =~ initramfs-6\.17.*\.img ]] || [[ "$initramfs_basename" == "initramfs-linux617"* ]] || [[ "$initramfs_basename" == "initramfs-linux"* ]]; then
             install -m 0644 -- "$initramfs_file" "${isofs_dir}/${install_dir}/boot/${arch}/"
         elif [[ "$initramfs_basename" =~ initramfs-6\.[0-9]+.*\.img ]]; then
             install -m 0644 -- "$initramfs_file" "${isofs_dir}/${install_dir}/boot/${arch}/"
         fi
-    done < <(find "${pacstrap_dir}/boot/" -name "initramfs-6.*.img" -type f)
+    done < <(find "${pacstrap_dir}/boot/" -name "initramfs-*.img" -type f)
     
     # Copy only linux617 kernel files
     while IFS= read -r kernel_file; do
         local kernel_basename=$(basename "$kernel_file")
-        # Only copy linux617 kernel, exclude all 5.x
-        if [[ "$kernel_basename" =~ vmlinuz-6\.17.*-x86_64 ]] || [[ "$kernel_basename" == "vmlinuz-linux617"* ]]; then
+        # Only copy 6.x kernels, exclude all 5.x
+        if [[ "$kernel_basename" =~ vmlinuz-6\.17.* ]] || [[ "$kernel_basename" == "vmlinuz-linux617"* ]] || [[ "$kernel_basename" == "vmlinuz-linux"* ]]; then
             install -m 0644 -- "$kernel_file" "${isofs_dir}/${install_dir}/boot/${arch}/"
-        elif [[ "$kernel_basename" =~ vmlinuz-6\.[0-9]+.*-x86_64 ]]; then
+        elif [[ "$kernel_basename" =~ vmlinuz-6\.[0-9]+.* ]]; then
             install -m 0644 -- "$kernel_file" "${isofs_dir}/${install_dir}/boot/${arch}/"
         fi
-    done < <(find "${pacstrap_dir}/boot/" -name "vmlinuz-6.*" -type f)
+    done < <(find "${pacstrap_dir}/boot/" -name "vmlinuz*" -type f)
     
-    if [[ -z "$(find "${isofs_dir}/${install_dir}/boot/${arch}/" -name "vmlinuz-*" -type f)" ]]; then
-        _msg_error "No linux617 kernel found in ${pacstrap_dir}/boot/!" 1
+    if [[ -z "$(find "${isofs_dir}/${install_dir}/boot/${arch}/" -name "vmlinuz*" -type f)" ]]; then
+        _msg_error "No kernel found in ${pacstrap_dir}/boot/ (expected vmlinuz* files)!" 1
     fi
 
     # Normalize kernel names: rename linux617 kernel to standard name
     _msg_info "Normalizing kernel and initramfs names..."
     
-    # Find linux617 kernel and rename it to vmlinuz-linux
+    # Find a 6.x kernel and rename it to vmlinuz-linux
     local linux617_kernel=""
     while IFS= read -r kernel_file; do
         local kernel_basename=$(basename "$kernel_file")
-        if [[ "$kernel_basename" =~ vmlinuz-6\.17.*-x86_64 ]] || [[ "$kernel_basename" == "vmlinuz-linux617"* ]]; then
+        if [[ "$kernel_basename" =~ vmlinuz-6\.17.* ]] || [[ "$kernel_basename" == "vmlinuz-linux617"* ]] || [[ "$kernel_basename" == "vmlinuz-linux"* ]]; then
             linux617_kernel="$kernel_file"
             break
         fi
     done < <(find "${isofs_dir}/${install_dir}/boot/${arch}/" -name "vmlinuz-6.17*" -type f)
     
     if [[ -z "$linux617_kernel" ]]; then
-        # Fallback: try to find any vmlinuz-6.* kernel
+        # Fallback: try to find any vmlinuz* kernel
         while IFS= read -r kernel_file; do
             local kernel_basename=$(basename "$kernel_file")
-            if [[ "$kernel_basename" =~ vmlinuz-6\.[0-9]+.*-x86_64 ]]; then
+            if [[ "$kernel_basename" =~ vmlinuz-6\.[0-9]+.* ]] || [[ "$kernel_basename" == "vmlinuz-linux"* ]]; then
                 linux617_kernel="$kernel_file"
                 break
             fi
-        done < <(find "${isofs_dir}/${install_dir}/boot/${arch}/" -name "vmlinuz-6.*" -type f)
+        done < <(find "${isofs_dir}/${install_dir}/boot/${arch}/" -name "vmlinuz*" -type f)
     fi
     
     if [[ -n "$linux617_kernel" ]]; then
@@ -832,15 +892,15 @@ _make_boot_on_fat() {
     mmd -i "${work_dir}/efiboot.img" \
         "::/${install_dir}" "::/${install_dir}/boot" "::/${install_dir}/boot/${arch}"
     
-    # Copy only linux617 kernel with normalized names to FAT image
-    _msg_info "Copying linux617 kernel with standard names to FAT image..."
+    # Copy 6.x kernel with normalized names to FAT image
+    _msg_info "Copying 6.x kernel with standard names to FAT image..."
     
     # Find only linux617 kernel (exclude all other kernels, especially 5.x)
     local linux617_kernel=""
     while IFS= read -r kernel_file; do
         local kernel_basename=$(basename "$kernel_file")
-        # Only process linux617 kernel, exclude all 5.x kernels
-        if [[ "$kernel_basename" =~ vmlinuz-6\.17.*-x86_64 ]] || [[ "$kernel_basename" == "vmlinuz-linux617"* ]]; then
+        # Prefer 6.17-ish kernel naming, but don't require -x86_64
+        if [[ "$kernel_basename" =~ vmlinuz-6\.17.* ]] || [[ "$kernel_basename" == "vmlinuz-linux617"* ]]; then
             linux617_kernel="$kernel_file"
             break
         fi
@@ -850,15 +910,15 @@ _make_boot_on_fat() {
         # Fallback: try to find any vmlinuz-6.* kernel
         while IFS= read -r kernel_file; do
             local kernel_basename=$(basename "$kernel_file")
-            if [[ "$kernel_basename" =~ vmlinuz-6\.[0-9]+.*-x86_64 ]]; then
+            if [[ "$kernel_basename" =~ vmlinuz-6\.[0-9]+.* ]] || [[ "$kernel_basename" == "vmlinuz-linux"* ]]; then
                 linux617_kernel="$kernel_file"
                 break
             fi
-        done < <(find "${pacstrap_dir}/boot/" -name "vmlinuz-6.*" -type f)
+        done < <(find "${pacstrap_dir}/boot/" -name "vmlinuz*" -type f)
     fi
     
     if [[ -z "$linux617_kernel" ]]; then
-        _msg_error "No linux617 kernel found in ${pacstrap_dir}/boot/!" 1
+        _msg_error "No kernel found in ${pacstrap_dir}/boot/ (expected vmlinuz* files)!" 1
     fi
     
     local kernel_basename=$(basename "$linux617_kernel")
@@ -872,6 +932,13 @@ _make_boot_on_fat() {
     local initramfs_pattern="${kernel_basename#vmlinuz-}"
     local initramfs_file="${pacstrap_dir}/boot/initramfs-${initramfs_pattern}.img"
     local initramfs_fallback="${pacstrap_dir}/boot/initramfs-${initramfs_pattern}-fallback.img"
+    # Fallback to already-normalized initramfs-linux.img if naming doesn't match.
+    if [[ ! -e "$initramfs_file" ]] && [[ -e "${pacstrap_dir}/boot/initramfs-linux.img" ]]; then
+        initramfs_file="${pacstrap_dir}/boot/initramfs-linux.img"
+    fi
+    if [[ ! -e "$initramfs_fallback" ]] && [[ -e "${pacstrap_dir}/boot/initramfs-linux-fallback.img" ]]; then
+        initramfs_fallback="${pacstrap_dir}/boot/initramfs-linux-fallback.img"
+    fi
     
     if [[ -e "$initramfs_file" ]]; then
         mcopy -i "${work_dir}/efiboot.img" "$initramfs_file" \
@@ -933,17 +1000,17 @@ _make_bootmode_uefi-x64.systemd-boot.esp() {
             _available_ucodes+=("${pacstrap_dir}/boot/${_file}")
         fi
     done
-    # Calculate the required FAT image size in bytes
-    # Only include linux617 (6.x) kernels, exclude all 5.x kernels
+    # Calculate the required FAT image size in bytes.
+    # Use whatever vmlinuz/initramfs is present (avoid hardcoding linux617).
     local _kernel_files=()
     while IFS= read -r _file; do
         _kernel_files+=("${_file}")
-    done < <(find "${pacstrap_dir}/boot/" -name "vmlinuz-6.*" -type f 2>/dev/null)
+    done < <(find "${pacstrap_dir}/boot/" -name "vmlinuz*" -type f 2>/dev/null)
     
     local _initramfs_files=()
     while IFS= read -r _file; do
         _initramfs_files+=("${_file}")
-    done < <(find "${pacstrap_dir}/boot/" -name "initramfs-6.*.img" -type f 2>/dev/null)
+    done < <(find "${pacstrap_dir}/boot/" -name "initramfs-*.img" -type f 2>/dev/null)
     
     efiboot_imgsize="$(du -bc \
         "${pacstrap_dir}/usr/lib/systemd/boot/efi/systemd-bootx64.efi" \
@@ -1654,6 +1721,7 @@ _build_iso_base() {
     _run_once _make_packages
     _run_once _make_version
     _run_once _make_customize_airootfs
+    _run_once _make_pearos_boot_sound
     _run_once _make_pkglist
     if [[ "${buildmode}" == 'netboot' ]]; then
         _run_once _make_boot_on_iso9660

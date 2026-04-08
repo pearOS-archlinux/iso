@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+#
+# Applies NVIDIA-specific environment variables when the ISO is booted
+# with the "nonfree" driver selection (kernel cmdline: driver=nonfree).
+#
+# It is safe to run multiple times (idempotent).
+#
+
+get_cmdline_param() {
+  local key="$1"
+  local value=""
+  # shellcheck disable=SC2046
+  for param in $(< /proc/cmdline); do
+    case "${param}" in
+      ${key}=*) value="${param#*=}"; echo "${value}"; return 0 ;;
+      ${key}) echo ""; return 0 ;;
+    esac
+  done
+  return 1
+}
+
+driver="$(get_cmdline_param driver || true)"
+if [[ "${driver}" != "nonfree" ]]; then
+  # If we previously created an NVIDIA-only environment file inside this
+  # live session, remove it when booting the FOSS profile.
+  if [[ -e /etc/environment ]] && grep -Fq "pearOS-nvidia-env" /etc/environment 2>/dev/null; then
+    rm -f /etc/environment
+  fi
+  exit 0
+fi
+
+env_file="/etc/environment"
+cat > "${env_file}" <<'EOF'
+# pearOS-nvidia-env
+QT_QPA_PLATFORMTHEME="wayland;xcb"
+GBM_BACKEND=nvidia-drm
+__GLX_VENDOR_LIBRARY_NAME=nvidia
+ENABLE_VKBASALT=1
+LIBVA_DRIVER_NAME=nvidia
+WLR_NO_HARDWARE_CURSORS=1
+EOF
+
+chmod 0644 "${env_file}"
+exit 0
+
