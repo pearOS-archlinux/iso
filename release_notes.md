@@ -9,6 +9,7 @@ https://pearos.xyz | https://nicec0re.pearos.xyz
 * Fixed missing linux-firmware
 * Fixed unable to get the ky in OOBE screen
 * Fixed notch (finally?)
+* Fixed weird cursors in the AppStore app
 
 ## 08 Apr 2026
 ## Information
