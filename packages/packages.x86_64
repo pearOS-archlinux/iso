@@ -71,6 +71,7 @@ linux-cachyos-lts-nvidia-open
 
 #linux617-headers
 linux-firmware-marvell
+linux-firmware
 lsb-release
 lsof
 lsscsi

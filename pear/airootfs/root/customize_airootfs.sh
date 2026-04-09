@@ -40,7 +40,7 @@ echo "Removing stock plasma-welcome app"
 if pacman -R --noconfirm plasma-welcome; then
 	echo "Stock plasma-welcome removed OK"
 else
-	echo "Failes to remove plasma-welcome"
+	echo "Failed to remove plasma-welcome (arch)"
 fi
 
 sleep 5
@@ -82,7 +82,7 @@ if pacman -S --noconfirm plasma-welcome; then
         cp -r /usr/share/applications/welcome.desktop /etc/skel/.config/autostart/welcome.desktop ||:
 	echo "plasma-welcome installed successfully"
 else
-	echo "Failed to install plasma-welcome"
+	echo "Failed to install plasma-welcome (pearOS)"
 fi
 
 echo "Reinstalling plasma-workspace..."
