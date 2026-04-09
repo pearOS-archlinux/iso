@@ -1,6 +1,14 @@
-# `Last update: 08 Apr 2026, 03:51 AM`
+# `Last update: 09 Apr 2026, 11:11 AM`
 
 # Changelog
+
+
+# 09 Apr 2026
+## Information
+https://pearos.xyz | https://nicec0re.pearos.xyz
+* Fixed missing linux-firmware
+* Fixed unable to get the ky in OOBE screen
+* Fixed notch (finally?)
 
 ## 08 Apr 2026
 ## Information
