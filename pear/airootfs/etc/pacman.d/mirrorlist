@@ -1,143 +1,32 @@
 ##
 ## Manjaro Linux default mirrorlist
-## Generated on 2026-04-07 18:49
+## Generated on 2026-04-09 10:22
 ##
 ## Please use 'pacman-mirrors -f [NUMBER] [NUMBER]' to modify mirrorlist
 ## (Use 0 for all mirrors)
 ##
 
-## Country : Australia
-Server = https://gsl-syd.mm.fcix.net/manjaro/stable/$repo/$arch
-
-## Country : Germany
-Server = https://ftp.rz.tu-bs.de/pub/mirror/manjaro.org/repos/stable/$repo/$arch
-
-## Country : Spain
-Server = https://mirror.raiolanetworks.com/manjaro/stable/$repo/$arch
-
-## Country : United_States
-Server = https://southfront.mm.fcix.net/manjaro/stable/$repo/$arch
-
-## Country : Poland
-Server = https://ftp.psnc.pl/linux/manjaro/stable/$repo/$arch
-
-## Country : Global
-Server = https://mirrors2.manjaro.org/stable/$repo/$arch
-
-## Country : United_States
-Server = https://mirrors.ocf.berkeley.edu/manjaro/stable/$repo/$arch
-
 ## Country : Austria
 Server = https://mirror.alwyzon.net/manjaro/stable/$repo/$arch
 
-## Country : Switzerland
-Server = https://ipng.mm.fcix.net/manjaro/stable/$repo/$arch
-
-## Country : United_States
-Server = https://mirror.math.princeton.edu/pub/manjaro/stable/$repo/$arch
-
-## Country : United_States
-Server = https://repo.ialab.dsu.edu/manjaro/stable/$repo/$arch
-
-## Country : United_States
-Server = https://volico.mm.fcix.net/manjaro/stable/$repo/$arch
-
-## Country : Denmark
-Server = https://mirrors.dotsrc.org/manjaro/stable/$repo/$arch
-
-## Country : United_States
-Server = https://nnenix.mm.fcix.net/manjaro/stable/$repo/$arch
-
-## Country : New_Zealand
-Server = https://mirror.2degrees.nz/manjaro/stable/$repo/$arch
-
-## Country : Netherlands
-Server = https://manjaro.mirrors.lavatech.top/stable/$repo/$arch
-
-## Country : Portugal
-Server = https://mirrors.up.pt/pub/manjaro/stable/$repo/$arch
-
-## Country : United_Kingdom
-Server = https://ask4.mm.fcix.net/manjaro/stable/$repo/$arch
-
-## Country : United_States
-Server = https://mirror.fcix.net/manjaro/stable/$repo/$arch
-
-## Country : United_States
-Server = https://nocix.mm.fcix.net/manjaro/stable/$repo/$arch
-
-## Country : Sweden
-Server = https://ftp.lysator.liu.se/pub/manjaro/stable/$repo/$arch
-
-## Country : United_States
-Server = https://cofractal-ewr.mm.fcix.net/manjaro/stable/$repo/$arch
-
-## Country : Switzerland
-Server = https://mirror.init7.net/manjaro/stable/$repo/$arch
-
-## Country : United_Kingdom
-Server = https://manjaro.mirrors.uk2.net/stable/$repo/$arch
-
-## Country : United_States
-Server = https://coresite.mm.fcix.net/manjaro/stable/$repo/$arch
-
-## Country : Germany
-Server = https://mirror.23m.com/manjaro/stable/$repo/$arch
-
-## Country : Canada
-Server = https://muug.ca/mirror/manjaro/stable/$repo/$arch
-
-## Country : United_States
-Server = https://irltoolkit.mm.fcix.net/manjaro/stable/$repo/$arch
-
-## Country : Germany
-Server = https://ftp.gwdg.de/pub/linux/manjaro/stable/$repo/$arch
-
-## Country : France
-Server = https://manjaro.ynh.ovh/stable/$repo/$arch
-
-## Country : Austria
-Server = https://mirror.easyname.at/manjaro/stable/$repo/$arch
-
-## Country : Germany
-Server = https://ftp.halifax.rwth-aachen.de/manjaro/stable/$repo/$arch
-
-## Country : United_States
-Server = https://ohioix.mm.fcix.net/manjaro/stable/$repo/$arch
-
-## Country : Bangladesh
-Server = https://mirror.xeonbd.com/manjaro/stable/$repo/$arch
-
-## Country : United_States
-Server = https://forksystems.mm.fcix.net/manjaro/stable/$repo/$arch
-
-## Country : Global
-Server = https://mirrors.manjaro.org/repo/stable/$repo/$arch
-
-## Country : Ukraine
-Server = https://distrohub.kyiv.ua/manjaro/stable/$repo/$arch
+## Country : Poland
+Server = https://ftp.psnc.pl/linux/manjaro/stable/$repo/$arch
 
 ## Country : France
 Server = https://mirrors.eric.ovh/manjaro/stable/$repo/$arch
 
 ## Country : United_States
+Server = https://mirror.fcix.net/manjaro/stable/$repo/$arch
+
+## Country : United_States
 Server = https://codingflyboy.mm.fcix.net/manjaro/stable/$repo/$arch
 
-## Country : Germany
-Server = https://mirror.alpix.eu/manjaro/stable/$repo/$arch
+## Country : Bangladesh
+Server = https://mirror.xeonbd.com/manjaro/stable/$repo/$arch
 
-## Country : Belgium
-Server = https://mirror.futureweb.be/manjaro/stable/$repo/$arch
+## Country : Switzerland
+Server = https://ipng.mm.fcix.net/manjaro/stable/$repo/$arch
 
-## Country : Brazil
-Server = https://manjaro.c3sl.ufpr.br/stable/$repo/$arch
-
-## Country : Germany
-Server = http://ftp.uni-kl.de/pub/linux/manjaro/stable/$repo/$arch
-
-## Country : United_States
-Server = https://ziply.mm.fcix.net/manjaro/stable/$repo/$arch
-
-## Country : United_States
-Server = https://opencolo.mm.fcix.net/manjaro/stable/$repo/$arch
+## Country : New_Zealand
+Server = https://mirror.2degrees.nz/manjaro/stable/$repo/$arch
 
