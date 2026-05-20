@@ -1,6 +1,3 @@
-#
-# SPDX-License-Identifier: GPL-3.0-or-later
-
 [Unit]
 Description=Choose mirror from the kernel command line
 ConditionKernelCommandLine=mirror

@@ -1,19 +1,15 @@
-#
-# SPDX-License-Identifier: GPL-3.0-or-later
-
 [Unit]
 Description=Initializes Pacman keyring
-Wants=haveged.service
-After=haveged.service
 Requires=etc-pacman.d-gnupg.mount
-After=etc-pacman.d-gnupg.mount
+After=etc-pacman.d-gnupg.mount time-sync.target
+BindsTo=etc-pacman.d-gnupg.mount
+Before=archlinux-keyring-wkd-sync.service
 
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStartPre=/usr/bin/env bash /usr/local/bin/apply-nvidia-env
 ExecStart=/usr/bin/pacman-key --init
-ExecStart=/usr/bin/pacman-key --populate archlinux
-ExecStart=/usr/bin/pacman-key --populate manjaro
+ExecStart=/usr/bin/pacman-key --populate
+
 [Install]
 WantedBy=multi-user.target

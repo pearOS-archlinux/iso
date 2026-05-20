@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Welcome
+GenericName=Welcome
+Keywords=utility;system;welcome;
+Encoding=UTF-8
+Terminal=false
+Exec=welcome
+Icon=/usr/share/pixmaps/welcome.png
+Comment=ALG - Welcome App
+Categories=System;Go;
+StartupNotify=true

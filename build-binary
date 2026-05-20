@@ -583,14 +583,14 @@ _make_packages() {
     fi
 
     # Install pearos-settings with --overwrite to allow it to override plasma-workspace files
-    if [[ "$pearos_settings_installed" == "true" ]]; then
-        _msg_info "Installing pearos-settings with file overwrite enabled..."
-        if [[ "${quiet}" = "y" ]]; then
-            env -u TMPDIR arch-chroot "${pacstrap_dir}" pacman -S --noconfirm --overwrite='*' pearos-settings &> /dev/null
-        else
-            env -u TMPDIR arch-chroot "${pacstrap_dir}" pacman -S --noconfirm --overwrite='*' pearos-settings
-        fi
-    fi
+    #if [[ "$pearos_settings_installed" == "true" ]]; then
+    #    _msg_info "Installing pearos-settings with file overwrite enabled..."
+    #    if [[ "${quiet}" = "y" ]]; then
+    #        env -u TMPDIR arch-chroot "${pacstrap_dir}" pacman -S --noconfirm --overwrite='*' pearos-settings &> /dev/null
+    #    else
+    #        env -u TMPDIR arch-chroot "${pacstrap_dir}" pacman -S --noconfirm --overwrite='*' pearos-settings
+    #    fi
+    #fi
 
     if [[ -n "${gpg_key}" ]]; then
         exec {ARCHISO_GNUPG_FD}<&-
