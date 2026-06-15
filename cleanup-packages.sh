@@ -17,6 +17,9 @@ fi
 echo -e "[\e[92m%\e[0m] Creating backup: $BACKUP_FILE"
 cp "$PACKAGES_FILE" "$BACKUP_FILE"
 
+echo -e "[\e[93m%\e[0m] Syncing pacman database before check..."
+pacman -Sy &>/dev/null || echo -e "[\e[91m%\e[0m] Warning: pacman -Sy failed; results may be inaccurate."
+echo ""
 echo -e "[\e[92m%\e[0m] Checking packages against repositories..."
 echo ""
 

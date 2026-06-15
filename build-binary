@@ -263,59 +263,59 @@ _cleanup_pacstrap_dir() {
     printf '' > "${pacstrap_dir}/etc/machine-id"
     # Remove useless stuff
     _msg_info "Removing not used assets..."
-    rm -rf ${pacstrap_dir}/usr/share/sddm/themes/elarun
-    rm -rf ${pacstrap_dir}/usr/share/sddm/themes/maldives
-    rm -rf ${pacstrap_dir}/usr/share/sddm/themes/maya
-    rm -rf ${pacstrap_dir}/usr/share/sddm/themes/Qogir
-    rm -rf ${pacstrap_dir}/usr/share/plasma/desktoptheme/air
-    rm -rf ${pacstrap_dir}/usr/share/plasma/desktoptheme/breeze-dark
-    rm -rf ${pacstrap_dir}/usr/share/plasma/desktoptheme/oxygen
-    rm -rf ${pacstrap_dir}/usr/share/plasma/look-and-feel/org.kde.breezedark.desktop
-    rm -rf ${pacstrap_dir}/usr/share/plasma/look-and-feel/org.kde.breezetwilight.desktop
-    rm -rf ${pacstrap_dir}/usr/share/plasma/look-and-feel/org.kde.oxygen
-    rm -rf ${pacstrap_dir}/usr/share/icons/Oxygen*
-    rm -rf ${pacstrap_dir}/usr/share/icons/Tela*
-    rm -rf ${pacstrap_dir}/usr/share/icons/Breeze_Snow
-    rm -rf ${pacstrap_dir}/usr/share/icons/Adwaita
-    rm -rf ${pacstrap_dir}/usr/share/icons/breeze-dark
-    rm -rf ${pacstrap_dir}/usr/share/icons/KDE_Classic
-    rm -rf ${pacstrap_dir}/usr/share/color-schemes/Kv*
-    rm -rf ${pacstrap_dir}/usr/share/color-schemes/Oxygen*
-    rm -rf ${pacstrap_dir}/usr/share/color-schemes/BreezeClas*
-    rm -rf ${pacstrap_dir}/usr/share/applications/avahi*
-    rm -rf ${pacstrap_dir}/usr/share/applications/bssh*
-    rm -rf ${pacstrap_dir}/usr/share/applications/bvnc*
-    rm -rf ${pacstrap_dir}/usr/share/applications/qv4l2*
-    rm -rf ${pacstrap_dir}/usr/share/applications/qvidcap*
-    rm -rf ${pacstrap_dir}/usr/share/applications/org.kde.plasma.emojier.desktop
-    rm -rf ${pacstrap_dir}/usr/share/applications/kvantum*
-    rm -rf ${pacstrap_dir}/usr/share/applications/org.kde.latte-dock.desktop
-    rm -rf ${pacstrap_dir}/usr/share/applications/org.kde.kuserfeedback-console.desktop
-    rm -rf ${pacstrap_dir}/usr/share/applications/lstopo.desktop
-    rm -rf ${pacstrap_dir}/usr/share/applications/cmake-gui.desktop
-    rm -rf ${pacstrap_dir}/usr/share/applications/org.kde.drkonqi.coredump.desktop
-    rm -rf ${pacstrap_dir}/usr/share/applications/calamares.desktop
-    rm -rf ${pacstrap_dir}/usr/share/applications/org.kde.kdeconnect.sms.desktop
-    rm -rf ${pacstrap_dir}/usr/share/applications/org.kde.akonadiimportwizard.desktop
-    rm -rf ${pacstrap_dir}/usr/share/applications/org.kde.ktnef.desktop
-    rm -rf ${pacstrap_dir}/usr/share/applications/org.kde.kmenuedit.desktop
-    rm -rf ${pacstrap_dir}/usr/share/applications/nvidia*
-    rm -rf ${pacstrap_dir}/usr/share/applications/assistant.desktop
-    rm -rf ${pacstrap_dir}/usr/share/applications/qdbusviewer.desktop
-    rm -rf ${pacstrap_dir}/usr/share/applications/linguist.desktop
-    rm -rf ${pacstrap_dir}/usr/share/applications/designer.desktop
-    rm -rf ${pacstrap_dir}/usr/share/applications/org.kde.sieveeditor.desktop
-    rm -rf ${pacstrap_dir}/usr/share/applications/systemsettings.desktop
-    rm -rf ${pacstrap_dir}/usr/share/applications/org.kde.pimpdataexporter.desktop
-    rm -rf ${pacstrap_dir}/usr/share/applications/cups.desktop
-    rm -rf ${pacstrap_dir}/usr/share/applications/org.gnome.FileRoller.desktop
-    chroot "${pacstrap_dir}" bin/bash -c "pacman -Syy" 2>/dev/null || true
+    rm -rf "${pacstrap_dir}/usr/share/sddm/themes/elarun"
+    rm -rf "${pacstrap_dir}/usr/share/sddm/themes/maldives"
+    rm -rf "${pacstrap_dir}/usr/share/sddm/themes/maya"
+    rm -rf "${pacstrap_dir}/usr/share/sddm/themes/Qogir"
+    rm -rf "${pacstrap_dir}/usr/share/plasma/desktoptheme/air"
+    rm -rf "${pacstrap_dir}/usr/share/plasma/desktoptheme/breeze-dark"
+    rm -rf "${pacstrap_dir}/usr/share/plasma/desktoptheme/oxygen"
+    rm -rf "${pacstrap_dir}/usr/share/plasma/look-and-feel/org.kde.breezedark.desktop"
+    rm -rf "${pacstrap_dir}/usr/share/plasma/look-and-feel/org.kde.breezetwilight.desktop"
+    rm -rf "${pacstrap_dir}/usr/share/plasma/look-and-feel/org.kde.oxygen"
+    rm -rf "${pacstrap_dir}/usr/share/icons/Oxygen"*
+    rm -rf "${pacstrap_dir}/usr/share/icons/Tela"*
+    rm -rf "${pacstrap_dir}/usr/share/icons/Breeze_Snow"
+    rm -rf "${pacstrap_dir}/usr/share/icons/Adwaita"
+    rm -rf "${pacstrap_dir}/usr/share/icons/breeze-dark"
+    rm -rf "${pacstrap_dir}/usr/share/icons/KDE_Classic"
+    rm -rf "${pacstrap_dir}/usr/share/color-schemes/Kv"*
+    rm -rf "${pacstrap_dir}/usr/share/color-schemes/Oxygen"*
+    rm -rf "${pacstrap_dir}/usr/share/color-schemes/BreezeClas"*
+    rm -rf "${pacstrap_dir}/usr/share/applications/avahi"*
+    rm -rf "${pacstrap_dir}/usr/share/applications/bssh"*
+    rm -rf "${pacstrap_dir}/usr/share/applications/bvnc"*
+    rm -rf "${pacstrap_dir}/usr/share/applications/qv4l2"*
+    rm -rf "${pacstrap_dir}/usr/share/applications/qvidcap"*
+    rm -rf "${pacstrap_dir}/usr/share/applications/org.kde.plasma.emojier.desktop"
+    rm -rf "${pacstrap_dir}/usr/share/applications/kvantum"*
+    rm -rf "${pacstrap_dir}/usr/share/applications/org.kde.latte-dock.desktop"
+    rm -rf "${pacstrap_dir}/usr/share/applications/org.kde.kuserfeedback-console.desktop"
+    rm -rf "${pacstrap_dir}/usr/share/applications/lstopo.desktop"
+    rm -rf "${pacstrap_dir}/usr/share/applications/cmake-gui.desktop"
+    rm -rf "${pacstrap_dir}/usr/share/applications/org.kde.drkonqi.coredump.desktop"
+    rm -rf "${pacstrap_dir}/usr/share/applications/calamares.desktop"
+    rm -rf "${pacstrap_dir}/usr/share/applications/org.kde.kdeconnect.sms.desktop"
+    rm -rf "${pacstrap_dir}/usr/share/applications/org.kde.akonadiimportwizard.desktop"
+    rm -rf "${pacstrap_dir}/usr/share/applications/org.kde.ktnef.desktop"
+    rm -rf "${pacstrap_dir}/usr/share/applications/org.kde.kmenuedit.desktop"
+    rm -rf "${pacstrap_dir}/usr/share/applications/nvidia"*
+    rm -rf "${pacstrap_dir}/usr/share/applications/assistant.desktop"
+    rm -rf "${pacstrap_dir}/usr/share/applications/qdbusviewer.desktop"
+    rm -rf "${pacstrap_dir}/usr/share/applications/linguist.desktop"
+    rm -rf "${pacstrap_dir}/usr/share/applications/designer.desktop"
+    rm -rf "${pacstrap_dir}/usr/share/applications/org.kde.sieveeditor.desktop"
+    rm -rf "${pacstrap_dir}/usr/share/applications/systemsettings.desktop"
+    rm -rf "${pacstrap_dir}/usr/share/applications/org.kde.pimpdataexporter.desktop"
+    rm -rf "${pacstrap_dir}/usr/share/applications/cups.desktop"
+    rm -rf "${pacstrap_dir}/usr/share/applications/org.gnome.FileRoller.desktop"
+    arch-chroot "${pacstrap_dir}" bash -c "pacman -Syy --noconfirm" || true
     # Optional KDE / Discover packages: only remove if present (resume builds /
     # slim images may not have them, and pacman would error "target not found").
     for pkg in plasma-sdk plasma-disks kinfocenter discover; do
-        if chroot "${pacstrap_dir}" bin/bash -c "pacman -Q '${pkg}' &>/dev/null"; then
+        if arch-chroot "${pacstrap_dir}" pacman -Q "${pkg}" &>/dev/null; then
             _msg_info "Removing optional package from live image: ${pkg}"
-            chroot "${pacstrap_dir}" bin/bash -c "pacman -R --noconfirm '${pkg}'" 2>/dev/null || true
+            arch-chroot "${pacstrap_dir}" pacman -R --noconfirm "${pkg}" &>/dev/null || true
         fi
     done
    _msg_info "Installing pearOS Grub Theme"
@@ -404,12 +404,15 @@ _mkchecksum() {
 
 # GPG sign the root file system image.
 _mksignature() {
-    local airootfs_image_filename gpg_options=()
+    local airootfs_image_filename="" gpg_options=()
     _msg_info "Signing rootfs image..."
     if [[ -e "${isofs_dir}/${install_dir}/${arch}/airootfs.sfs" ]]; then
         airootfs_image_filename="${isofs_dir}/${install_dir}/${arch}/airootfs.sfs"
     elif [[ -e "${isofs_dir}/${install_dir}/${arch}/airootfs.erofs" ]]; then
         airootfs_image_filename="${isofs_dir}/${install_dir}/${arch}/airootfs.erofs"
+    fi
+    if [[ -z "${airootfs_image_filename}" ]]; then
+        _msg_error "No airootfs image found to sign (expected airootfs.sfs or airootfs.erofs)" 1
     fi
     rm -f -- "${airootfs_image_filename}.sig"
     # Add gpg sender option if the value is provided
@@ -503,18 +506,20 @@ _make_custom_airootfs() {
     
     _msg_info "Cloning pearOS-installer from GitHub..."
     install -d -m 0755 -- "${pacstrap_dir}/usr/share"
-    if command -v git &> /dev/null; then
-        git clone --depth 1 https://github.com/pearOS-archlinux/pearOS-installer.git "${pacstrap_dir}/usr/share/pearOS-installer" || _msg_error "Failed to clone pearOS-installer from GitHub" 1
-        _msg_info "Done! pearOS-installer cloned successfully."
-        
-        # Fix: Replace 'linux-headers' with 'linux617-headers' in setup script to use only kernel 6.17
-        if [[ -f "${pacstrap_dir}/usr/share/pearOS-installer/system_install/setup" ]]; then
-            _msg_info "Updating setup script to use linux617-headers instead of linux-headers..."
-            sed -i "s/'linux-headers'/'linux617-headers'/g" "${pacstrap_dir}/usr/share/pearOS-installer/system_install/setup"
-            _msg_info "Setup script updated successfully."
-        fi
-    else
+    if ! command -v git &> /dev/null; then
         _msg_error "git is not available. Cannot clone pearOS-installer from GitHub." 1
+    fi
+    if ! curl -fsS --max-time 10 https://github.com &>/dev/null; then
+        _msg_error "No internet access detected. Cannot clone pearOS-installer from GitHub." 1
+    fi
+    git clone --depth 1 https://github.com/pearOS-archlinux/pearOS-installer.git "${pacstrap_dir}/usr/share/pearOS-installer" || _msg_error "Failed to clone pearOS-installer from GitHub" 1
+    _msg_info "Done! pearOS-installer cloned successfully."
+
+    # Replace linux-headers with linux617-headers in installer setup script
+    if [[ -f "${pacstrap_dir}/usr/share/pearOS-installer/system_install/setup" ]]; then
+        _msg_info "Updating setup script to use linux617-headers instead of linux-headers..."
+        sed -i 's/\blinux-headers\b/linux617-headers/g' "${pacstrap_dir}/usr/share/pearOS-installer/system_install/setup"
+        _msg_info "Setup script updated successfully."
     fi
 }
 
@@ -579,7 +584,7 @@ _make_packages() {
     if [[ "${quiet}" = "y" ]]; then
         arch-chroot "${pacstrap_dir}" pacman-key --recv-keys 4C1A9F3C131ACA95 --keyserver keyserver.ubuntu.com  &> /dev/null || true
     else
-        arch-chroot "${pacstrap_dir}" pacman-key --recv-keys 4C1A9F3C131ACA95 --keyserver keyserver.ubuntu.com && pacman-key --lsign-key 4C1A9F3C131ACA95 || true
+        arch-chroot "${pacstrap_dir}" bash -c "pacman-key --recv-keys 4C1A9F3C131ACA95 --keyserver keyserver.ubuntu.com && pacman-key --lsign-key 4C1A9F3C131ACA95" || true
     fi
 
     # Install pearos-settings with --overwrite to allow it to override plasma-workspace files
@@ -636,11 +641,7 @@ _make_packages() {
     find "${pacstrap_dir}/boot" -name "vmlinuz-linux-*" ! -name "vmlinuz-linux617*" -type f -delete 2>/dev/null || true
     find "${pacstrap_dir}/boot" -name "initramfs-5.*.img" -type f -delete 2>/dev/null || true
     find "${pacstrap_dir}/boot" -name "initramfs-linux*.img" ! -name "initramfs-linux617*.img" -type f -delete 2>/dev/null || true
-    
-    # Also proactively remove any standard kernel presets even if kernel wasn't installed
-    # This prevents mkinitcpio from finding and processing them later
-    find "${pacstrap_dir}/etc/mkinitcpio.d" -name "linux*.preset" ! -name "linux617*.preset" -type f -delete 2>/dev/null || true
-    
+
     _msg_info "Non-linux617 kernels removed successfully."
 
     _msg_info "Done! Packages installed successfully."
@@ -706,26 +707,6 @@ _make_customize_airootfs() {
     fi
 }
 
-# pearOS boot chime: baked into the live ISO during build (not only post-install).
-_make_pearos_boot_sound() {
-    _msg_info "Installing pearOS Boot Chime into airootfs..."
-    if ! command -v git &>/dev/null; then
-        _msg_warning "git not available on host; skipping pearOS boot chime"
-        return 0
-    fi
-    local _bs="${pacstrap_dir}/pearos-boot-sound"
-    rm -rf -- "${_bs}"
-    if ! git clone --depth 1 https://github.com/Pear-Project/pearos-boot-sound "${_bs}"; then
-        _msg_warning "Failed to clone pearos-boot-sound; skipping"
-        return 0
-    fi
-    chmod +x "${_bs}/install.sh" 2>/dev/null || true
-    if ! arch-chroot "${pacstrap_dir}" bash -c 'cd /pearos-boot-sound && chmod +x install.sh && ./install.sh'; then
-        _msg_warning "pearOS boot chime install.sh failed (non-fatal)"
-    fi
-    rm -rf -- "${_bs}"
-    _msg_info "Done! pearOS Boot Chime installed (repo cleaned from airootfs)."
-}
 
 # Set up boot loaders
 _make_bootmodes() {
@@ -741,28 +722,14 @@ _make_boot_on_iso9660() {
     _msg_info "Preparing kernel and initramfs for the ISO 9660 file system..."
     install -d -m 0755 -- "${isofs_dir}/${install_dir}/boot/${arch}"
     
-    # Only copy linux617 initramfs and kernel files (exclude all 5.x kernels)
-    
-    # Copy only linux617 initramfs files
+    # _make_packages() already removed all non-linux617 kernels.
+    # Copy everything that remains — no need to re-filter here.
     while IFS= read -r initramfs_file; do
-        local initramfs_basename=$(basename "$initramfs_file")
-        # Only copy linux617 initramfs, exclude all 5.x
-        if [[ "$initramfs_basename" =~ initramfs-6\.17.*\.img ]] || [[ "$initramfs_basename" == "initramfs-linux617"* ]] || [[ "$initramfs_basename" == "initramfs-linux"* ]]; then
-            install -m 0644 -- "$initramfs_file" "${isofs_dir}/${install_dir}/boot/${arch}/"
-        elif [[ "$initramfs_basename" =~ initramfs-6\.[0-9]+.*\.img ]]; then
-            install -m 0644 -- "$initramfs_file" "${isofs_dir}/${install_dir}/boot/${arch}/"
-        fi
+        install -m 0644 -- "$initramfs_file" "${isofs_dir}/${install_dir}/boot/${arch}/"
     done < <(find "${pacstrap_dir}/boot/" -name "initramfs-*.img" -type f)
-    
-    # Copy only linux617 kernel files
+
     while IFS= read -r kernel_file; do
-        local kernel_basename=$(basename "$kernel_file")
-        # Only copy 6.x kernels, exclude all 5.x
-        if [[ "$kernel_basename" =~ vmlinuz-6\.17.* ]] || [[ "$kernel_basename" == "vmlinuz-linux617"* ]] || [[ "$kernel_basename" == "vmlinuz-linux"* ]]; then
-            install -m 0644 -- "$kernel_file" "${isofs_dir}/${install_dir}/boot/${arch}/"
-        elif [[ "$kernel_basename" =~ vmlinuz-6\.[0-9]+.* ]]; then
-            install -m 0644 -- "$kernel_file" "${isofs_dir}/${install_dir}/boot/${arch}/"
-        fi
+        install -m 0644 -- "$kernel_file" "${isofs_dir}/${install_dir}/boot/${arch}/"
     done < <(find "${pacstrap_dir}/boot/" -name "vmlinuz*" -type f)
     
     if [[ -z "$(find "${isofs_dir}/${install_dir}/boot/${arch}/" -name "vmlinuz*" -type f)" ]]; then
@@ -772,26 +739,9 @@ _make_boot_on_iso9660() {
     # Normalize kernel names: rename linux617 kernel to standard name
     _msg_info "Normalizing kernel and initramfs names..."
     
-    # Find a 6.x kernel and rename it to vmlinuz-linux
+    # Pick the only kernel present — cleanup already removed non-linux617 kernels
     local linux617_kernel=""
-    while IFS= read -r kernel_file; do
-        local kernel_basename=$(basename "$kernel_file")
-        if [[ "$kernel_basename" =~ vmlinuz-6\.17.* ]] || [[ "$kernel_basename" == "vmlinuz-linux617"* ]] || [[ "$kernel_basename" == "vmlinuz-linux"* ]]; then
-            linux617_kernel="$kernel_file"
-            break
-        fi
-    done < <(find "${isofs_dir}/${install_dir}/boot/${arch}/" -name "vmlinuz-6.17*" -type f)
-    
-    if [[ -z "$linux617_kernel" ]]; then
-        # Fallback: try to find any vmlinuz* kernel
-        while IFS= read -r kernel_file; do
-            local kernel_basename=$(basename "$kernel_file")
-            if [[ "$kernel_basename" =~ vmlinuz-6\.[0-9]+.* ]] || [[ "$kernel_basename" == "vmlinuz-linux"* ]]; then
-                linux617_kernel="$kernel_file"
-                break
-            fi
-        done < <(find "${isofs_dir}/${install_dir}/boot/${arch}/" -name "vmlinuz*" -type f)
-    fi
+    linux617_kernel="$(find "${isofs_dir}/${install_dir}/boot/${arch}/" -name "vmlinuz*" -type f | sort | head -1)"
     
     if [[ -n "$linux617_kernel" ]]; then
         local kernel_basename=$(basename "$linux617_kernel")
@@ -892,31 +842,11 @@ _make_boot_on_fat() {
     mmd -i "${work_dir}/efiboot.img" \
         "::/${install_dir}" "::/${install_dir}/boot" "::/${install_dir}/boot/${arch}"
     
-    # Copy 6.x kernel with normalized names to FAT image
-    _msg_info "Copying 6.x kernel with standard names to FAT image..."
-    
-    # Find only linux617 kernel (exclude all other kernels, especially 5.x)
+    # _make_packages() already removed all non-linux617 kernels — pick whatever remains.
+    _msg_info "Copying linux617 kernel with standard names to FAT image..."
     local linux617_kernel=""
-    while IFS= read -r kernel_file; do
-        local kernel_basename=$(basename "$kernel_file")
-        # Prefer 6.17-ish kernel naming, but don't require -x86_64
-        if [[ "$kernel_basename" =~ vmlinuz-6\.17.* ]] || [[ "$kernel_basename" == "vmlinuz-linux617"* ]]; then
-            linux617_kernel="$kernel_file"
-            break
-        fi
-    done < <(find "${pacstrap_dir}/boot/" -name "vmlinuz-6.17*" -type f)
-    
-    if [[ -z "$linux617_kernel" ]]; then
-        # Fallback: try to find any vmlinuz-6.* kernel
-        while IFS= read -r kernel_file; do
-            local kernel_basename=$(basename "$kernel_file")
-            if [[ "$kernel_basename" =~ vmlinuz-6\.[0-9]+.* ]] || [[ "$kernel_basename" == "vmlinuz-linux"* ]]; then
-                linux617_kernel="$kernel_file"
-                break
-            fi
-        done < <(find "${pacstrap_dir}/boot/" -name "vmlinuz*" -type f)
-    fi
-    
+    linux617_kernel="$(find "${pacstrap_dir}/boot/" -name "vmlinuz*" -type f | sort | head -1)"
+
     if [[ -z "$linux617_kernel" ]]; then
         _msg_error "No kernel found in ${pacstrap_dir}/boot/ (expected vmlinuz* files)!" 1
     fi
@@ -1541,7 +1471,6 @@ _read_profile() {
         if [[ -z "$bootstrap_packages" ]] && [[ -e "${profile}/bootstrap_packages.${arch}" ]]; then
             bootstrap_packages="${profile}/bootstrap_packages.${arch}"
             bootstrap_packages="$(realpath -- "${bootstrap_packages}")"
-            pacman_conf="$(realpath -- "${pacman_conf}")"
         fi
 
         cd -- "${OLDPWD}"
@@ -1721,12 +1650,11 @@ _build_iso_base() {
     _run_once _make_packages
     _run_once _make_version
     _run_once _make_customize_airootfs
-    _run_once _make_pearos_boot_sound
     _run_once _make_pkglist
     if [[ "${buildmode}" == 'netboot' ]]; then
         _run_once _make_boot_on_iso9660
     else
-        _make_bootmodes
+        _run_once _make_bootmodes
     fi
     _run_once _cleanup_pacstrap_dir
     _run_once _prepare_airootfs_image
@@ -1907,14 +1835,14 @@ actual_build() {
                     else
                         # Clean build (no airootfs)
                         echo -e "[\e[92m%\e[0m] Removing previous work folder..."
-                        sudo rm -rf ./work/
+                        rm -rf ./work/
                         CONTINUE_BUILD="no"
                     fi
                     ;;
                 3)
                     # Clean build (with airootfs)
                     echo -e "[\e[92m%\e[0m] Removing previous work folder..."
-                    sudo rm -rf ./work/
+                    rm -rf ./work/
                     CONTINUE_BUILD="no"
                     ;;
                 0)
@@ -1968,7 +1896,7 @@ actual_build() {
 	echo -e "  \e[92m2)\e[0m Small filesize, slower - \e[96mBest compression (xz level 9)\e[0m"
 	echo -e "  \e[92m3)\e[0m Big filesize, faster - \e[96mFast compression (zstd level 3)\e[0m"
 	echo -e "  \e[92m4)\e[0m Fastest - \e[96mMinimal compression (lz4)\e[0m"
-	echo -e "  \e[92m5)\e[0m Very small filesize, very slow - \e[96mMaximum compression (xz level 9, large blocks)\e[0m"
+	echo -e "  \e[92m5)\e[0m Very small filesize, slower - \e[96mPear Slim (zstd level 19 — best for 2.5GB target)\e[0m"
 	echo -e ""
 	
 	read -p "$(echo -e '[\e[93m%\e[0m] Choose compression method (1-5) [Default: 1]: ')" compression_choice < /dev/tty
@@ -1996,9 +1924,9 @@ actual_build() {
 			echo -e "[\e[92m%\e[0m] Selected: Fastest (lz4)"
 			;;
 		5)
-			# Very small filesize, very slow: xz maximum with large blocks
+			# Very small filesize, slower: zstd level 19 (Pear Slim)
 			COMPRESSION_OPTS="('-comp' 'zstd' '-Xcompression-level' '19' '-b' '1M')"
-                        echo -e "[\e[92m%\e[0m] Selected: Pear Slim (zstd level 19) - Best for 2.5GB Target"
+			echo -e "[\e[92m%\e[0m] Selected: Pear Slim (zstd level 19) - Best for 2.5GB Target"
                         ;;
 		*)
 			echo -e "[\e[91m%\e[0m] Invalid choice, using default"
@@ -2006,17 +1934,17 @@ actual_build() {
 			;;
 	esac
 	
-	# Update profiledef.sh with selected compression options
+	# Update profiledef.sh temporarily with selected compression options.
+	# A trap ensures the original is always restored, even on Ctrl+C or error.
 	if [[ -f "pear/profiledef.sh" ]]; then
-		# Backup original
 		cp pear/profiledef.sh pear/profiledef.sh.backup
-		# Update compression options line using | as delimiter to avoid conflicts
+		trap 'mv pear/profiledef.sh.backup pear/profiledef.sh 2>/dev/null; trap - EXIT INT TERM' EXIT INT TERM
 		sed -i "s|^airootfs_image_tool_options=.*|airootfs_image_tool_options=${COMPRESSION_OPTS}|" pear/profiledef.sh
 		echo -e "[\e[92m%\e[0m] Compression options updated in profiledef.sh"
 	fi
-	
+
 	echo -e "[ \e[92m%\e[0m ] : Building the ISO . . ."
-        
+
         # Enable interactive chroot only for fresh builds
         if [[ "$CONTINUE_BUILD" == "yes" ]]; then
             export INTERACTIVE_CHROOT=no
@@ -2024,12 +1952,13 @@ actual_build() {
         else
             export INTERACTIVE_CHROOT=yes
         fi
-        
-        progtest -v -w $OUT -o . pear
 
-        # Restore original profiledef.sh if backup exists
+        progtest -v -w "$OUT" -o . pear
+
+        # Restore original profiledef.sh and disarm trap
         if [[ -f "pear/profiledef.sh.backup" ]]; then
             mv pear/profiledef.sh.backup pear/profiledef.sh
+            trap - EXIT INT TERM
             echo -e "[\e[92m%\e[0m] Restored original profiledef.sh"
         fi
 
@@ -2038,14 +1967,14 @@ actual_build() {
         echo -e "[ \e[32m%\e[0m ] : The command was completed in $runtime seconds"
 
 	echo -e "[ \e[92m%\e[0m ] : Fixing permissions . . ."
-        sudo chown $USER:$USER *.iso
+        chown "${SUDO_USER:-$USER}:${SUDO_USER:-$USER}" ./*.iso 2>/dev/null || true
         
 	mainmenu
 }
 
 clean_out() {
-        echo -e "[ \e[32m%\e[0m ] : sudo rm -rf ./work"
-        sudo rm -rf ./work
+        echo -e "[ \e[32m%\e[0m ] : rm -rf ./work"
+        rm -rf ./work
 	echo -e "[ \e[92m%\e[0m ] : The work directory was cleaned"
 	mainmenu
 }
@@ -2098,13 +2027,12 @@ printUSBDevices() {
     fi
   done < <(lsblk -d -o NAME,TYPE,TRAN,SIZE 2>/dev/null | grep -E '\sdisk\s')
   
-  set +u
   if [ ${#usbDevices[@]} -eq 0 ]; then
     USB=""
   elif [ ${#usbDevices[@]} -eq 1 ]; then
     USB="${usbDevices[0]}"
   else
-    USB="${usbDevices[@]}"
+    USB="${usbDevices[*]}"
   fi
 }
 
@@ -2199,7 +2127,6 @@ sync
 echo ""
 echo -e "[ \e[92m%\e[0m ] : Your bootable USB is ready!"
 mainmenu
-set -u
 }
 
 
@@ -2208,7 +2135,7 @@ mainmenu() {
 $(magentaprint 'Choose an option:')
 $(magentaprint '1)') Build ISO file
 $(magentaprint '2)') Clean the Project Directory
-$(magentaprint '3')  Write ISO file to USB
+$(magentaprint '3)') Write ISO file to USB
 $(redprint '0)') Exit
 
 [ \e[93m% \e[0m] : "

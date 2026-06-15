@@ -177,6 +177,8 @@ xl2tpd
 zfs-utils
 
 # pearOS Apps
+mpv
+make
 plasma-x11-session
 qt5-wayland
 qt6-wayland
@@ -199,8 +201,13 @@ pearos-liquidgel
 pearos-window-borders
 pearos-livecd-desktop
 pearos-settings
+pearos-icons
 pearos-keyring
 pearos-zshconfig
+pearos-appmenu
+pearos-dock
+pearos-bootsound
+pearos-muternvf
 system-overview
 kmail
 gnome-maps

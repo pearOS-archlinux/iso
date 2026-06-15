@@ -36,15 +36,6 @@ else
 	echo "Plymouth command theme not found"
 fi
 
-echo "Removing stock plasma-welcome app"
-if pacman -R --noconfirm plasma-welcome; then
-	echo "Stock plasma-welcome removed OK"
-else
-	echo "Failed to remove plasma-welcome (arch)"
-fi
-
-sleep 5
-
 echo "############################################################################################################################"
 echo "###						REGENERATING PACMAN KEYS					       ###"
 echo "############################################################################################################################"
@@ -58,7 +49,7 @@ set +e
 # Initialize pacman keyring if it doesn't exist
 if [ ! -d /etc/pacman.d/gnupg/private-keys-v1.d ] || [ ! -f /etc/pacman.d/gnupg/pubring.gpg ]; then
 	echo "Initializing pacman keyring..."
-	sudo pacman-key --init
+	pacman-key --init
 	if [ $? -ne 0 ]; then
 		ask_continue "pacman-key --init failed"
 	fi
@@ -66,47 +57,33 @@ fi
 
 # Populate Arch Linux keys
 echo "Populating Arch Linux GPG keys..."
-sudo pacman-key --populate
+pacman-key --populate
 if [ $? -ne 0 ]; then
 	ask_continue "pacman-key --populate failed"
 fi
 
-sudo pacman-key --recv-keys 4C1A9F3C131ACA95 --keyserver keyserver.ubuntu.com
-sudo pacman-key --lsign-key 4C1A9F3C131ACA95
+pacman-key --recv-keys 4C1A9F3C131ACA95 --keyserver keyserver.ubuntu.com
+pacman-key --lsign-key 4C1A9F3C131ACA95
 
 # Re-enable exit on error
 set -e
 
-echo "Installing plasma-welcome patch"
-if pacman -S --noconfirm plasma-welcome; then
+echo "Installing pearOS plasma-welcome (replaces stock version via --overwrite)"
+if pacman -S --noconfirm --overwrite='*' plasma-welcome; then
+        mkdir -p /etc/skel/.config/autostart
         cp -r /usr/share/applications/welcome.desktop /etc/skel/.config/autostart/welcome.desktop ||:
-	echo "plasma-welcome installed successfully"
+        echo "plasma-welcome installed successfully"
 else
-	echo "Failed to install plasma-welcome (pearOS)"
-fi
-
-echo "Reinstalling plasma-workspace..."
-#
-# Some KDE Plasma theme packages (e.g. oxygen/oxygen-cursors) may ship
-# overlapping files. Use --overwrite to avoid build-time aborts.
-#
-if pacman -S --noconfirm --overwrite='*' plasma-workspace; then
-        echo "plasma-workspace installed successfully"
-else
-        echo "Failed to install plasma-workspace"
+        echo "Failed to install pearOS plasma-welcome"
 fi
 
 
 echo "Fixing permissions"
-if chmod -R 0777 /usr/share/extras/; then
+if chmod -R 0755 /usr/share/extras/; then
         echo "Permissions set!"
 else
         echo "Failed to set permissions"
 fi
-
-
-
-sleep 5
 
 
 echo "Installing CMake"
@@ -140,13 +117,11 @@ if [ ! -L /sbin/init ]; then
     ln -sf /usr/lib/systemd/systemd /sbin/init
 fi
 echo "Cleanup"
-if rm -rf liquid-gel; then
+if rm -rf /root/liquid-gel; then
         echo "Finish cleanup"
 else
         echo "Failed to Cleanup files"
 fi
-
-sleep 10
 echo "==================="
 echo "Script run complete"
 echo "==================="

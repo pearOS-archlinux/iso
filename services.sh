@@ -1,4 +1,8 @@
 #!/bin/bash
+# DEPRECATED — service enablement has been consolidated into
+# pear/airootfs/root/enable_services.sh which runs inside the chroot
+# during build. This file is no longer used by the build system.
+# Kept for reference only.
 set -e
 cd pear/airootfs/etc/systemd/system/
 
@@ -7,12 +11,13 @@ ln -sv /usr/lib/systemd/system/graphical.target default.target
 ln -sv /usr/lib/systemd/system/sddm.service display-manager.service
 
 # 2. Network Manager (NM)
-mkdir -p multi-user.target.wants
+mkdir -p multi-user.target.wants network-online.target.wants
 ln -sv /usr/lib/systemd/system/NetworkManager.service multi-user.target.wants/NetworkManager.service
 ln -sv /usr/lib/systemd/system/NetworkManager-wait-online.service network-online.target.wants/NetworkManager-wait-online.service
 ln -sv /usr/lib/systemd/system/NetworkManager-dispatcher.service dbus-org.freedesktop.nm-dispatcher.service
 
 # 3. Printing (CUPS)
+mkdir -p sockets.target.wants
 ln -sv /usr/lib/systemd/system/cups.service multi-user.target.wants/cups.service
 ln -sv /usr/lib/systemd/system/cups.socket sockets.target.wants/cups.socket
 ln -sv /usr/lib/systemd/system/cups.path multi-user.target.wants/cups.path

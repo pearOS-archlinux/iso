@@ -1,32 +1,314 @@
 ##
 ## Manjaro Linux default mirrorlist
-## Generated on 2026-04-09 10:22
+## Generated on 2026-06-11 13:30
 ##
 ## Please use 'pacman-mirrors -f [NUMBER] [NUMBER]' to modify mirrorlist
 ## (Use 0 for all mirrors)
 ##
 
-## Country : Austria
-Server = https://mirror.alwyzon.net/manjaro/stable/$repo/$arch
+## Country : Germany
+Server = https://mirror.23m.com/manjaro/testing/$repo/$arch
 
-## Country : Poland
-Server = https://ftp.psnc.pl/linux/manjaro/stable/$repo/$arch
+## Country : Kenya
+Server = https://manjaro.mirror.liquidtelecom.com/testing/$repo/$arch
 
-## Country : France
-Server = https://mirrors.eric.ovh/manjaro/stable/$repo/$arch
+## Country : Spain
+Server = https://mirror.raiolanetworks.com/manjaro/testing/$repo/$arch
+
+## Country : Singapore
+Server = http://ossmirror.mycloud.services/os/linux/manjaro/testing/$repo/$arch
+
+## Country : Germany
+Server = https://ftp.gwdg.de/pub/linux/manjaro/testing/$repo/$arch
 
 ## Country : United_States
-Server = https://mirror.fcix.net/manjaro/stable/$repo/$arch
-
-## Country : United_States
-Server = https://codingflyboy.mm.fcix.net/manjaro/stable/$repo/$arch
-
-## Country : Bangladesh
-Server = https://mirror.xeonbd.com/manjaro/stable/$repo/$arch
-
-## Country : Switzerland
-Server = https://ipng.mm.fcix.net/manjaro/stable/$repo/$arch
+Server = https://ziply.mm.fcix.net/manjaro/testing/$repo/$arch
 
 ## Country : New_Zealand
-Server = https://mirror.2degrees.nz/manjaro/stable/$repo/$arch
+Server = https://mirror.2degrees.nz/manjaro/testing/$repo/$arch
+
+## Country : Brazil
+Server = https://linorg.usp.br/manjaro/testing/$repo/$arch
+
+## Country : Sweden
+Server = https://ftpmirror1.infania.net/mirror/manjaro/testing/$repo/$arch
+
+## Country : Singapore
+Server = https://mirror.freedif.org/Manjaro/testing/$repo/$arch
+
+## Country : Australia
+Server = https://gsl-syd.mm.fcix.net/manjaro/testing/$repo/$arch
+
+## Country : Indonesia
+Server = https://kartolo.sby.datautama.net.id/manjaro/testing/$repo/$arch
+
+## Country : Switzerland
+Server = https://mirror.init7.net/manjaro/testing/$repo/$arch
+
+## Country : China
+Server = https://mirror.nyist.edu.cn/manjaro/testing/$repo/$arch
+
+## Country : Global
+Server = https://mirrors.manjaro.org/repo/testing/$repo/$arch
+
+## Country : Taiwan
+Server = https://mirror.archlinux.tw/Manjaro/testing/$repo/$arch
+
+## Country : United_States
+Server = https://nnenix.mm.fcix.net/manjaro/testing/$repo/$arch
+
+## Country : Belgium
+Server = https://ftp.belnet.be/mirrors/manjaro/repos/testing/$repo/$arch
+
+## Country : Russia
+Server = https://mirror.kamtv.ru/manjaro/testing/$repo/$arch
+
+## Country : China
+Server = https://mirrors.tuna.tsinghua.edu.cn/manjaro/testing/$repo/$arch
+
+## Country : United_States
+Server = https://codingflyboy.mm.fcix.net/manjaro/testing/$repo/$arch
+
+## Country : Netherlands
+Server = https://mirror.bouwhuis.network/manjaro/testing/$repo/$arch
+
+## Country : United_Kingdom
+Server = https://ask4.mm.fcix.net/manjaro/testing/$repo/$arch
+
+## Country : Serbia
+Server = https://mirror1.sox.rs/manjaro/testing/$repo/$arch
+
+## Country : United_Kingdom
+Server = https://manjaro.mirrors.uk2.net/testing/$repo/$arch
+
+## Country : Canada
+Server = https://mirror.csclub.uwaterloo.ca/manjaro/testing/$repo/$arch
+
+## Country : United_States
+Server = https://mirrors.gigenet.com/manjaro/testing/$repo/$arch
+
+## Country : Netherlands
+Server = https://ftp.nluug.nl/pub/os/Linux/distr/manjaro/testing/$repo/$arch
+
+## Country : Costa_Rica
+Server = https://mirrors.ucr.ac.cr/manjaro/testing/$repo/$arch
+
+## Country : Japan
+Server = https://ftp.tsukuba.wide.ad.jp/Linux/manjaro/testing/$repo/$arch
+
+## Country : France
+Server = https://manjaro.ynh.ovh/testing/$repo/$arch
+
+## Country : Germany
+Server = https://mirror.rabisu.com/mirrors/manjaro/testing/$repo/$arch
+
+## Country : Bulgaria
+Server = https://mirror.telepoint.bg/manjaro/testing/$repo/$arch
+
+## Country : China
+Server = https://mirrors.aliyun.com/manjaro/testing/$repo/$arch
+
+## Country : United_States
+Server = https://mirrors.ocf.berkeley.edu/manjaro/testing/$repo/$arch
+
+## Country : Belgium
+Server = https://manjaro.mirror-services.net/pub/testing/$repo/$arch
+
+## Country : United_States
+Server = https://volico.mm.fcix.net/manjaro/testing/$repo/$arch
+
+## Country : United_States
+Server = https://mirror.math.princeton.edu/pub/manjaro/testing/$repo/$arch
+
+## Country : Czech_Republic
+Server = https://mirror.dkm.cz/manjaro/testing/$repo/$arch
+
+## Country : Germany
+Server = https://ftp.halifax.rwth-aachen.de/manjaro/testing/$repo/$arch
+
+## Country : Sweden
+Server = https://ftp.lysator.liu.se/pub/manjaro/testing/$repo/$arch
+
+## Country : Austria
+Server = https://mirror.alwyzon.net/manjaro/testing/$repo/$arch
+
+## Country : China
+Server = https://mirror.nju.edu.cn/manjaro/testing/$repo/$arch
+
+## Country : Spain
+Server = https://ftp.caliu.cat/pub/distribucions/manjaro/testing/$repo/$arch
+
+## Country : Russia
+Server = https://mirror.truenetwork.ru/manjaro/testing/$repo/$arch
+
+## Country : Poland
+Server = https://ftp.psnc.pl/linux/manjaro/testing/$repo/$arch
+
+## Country : Ukraine
+Server = https://distrohub.kyiv.ua/manjaro/testing/$repo/$arch
+
+## Country : Austria
+Server = https://mirror.easyname.at/manjaro/testing/$repo/$arch
+
+## Country : Greece
+Server = https://ftp.cc.uoc.gr/mirrors/linux/manjaro/testing/$repo/$arch
+
+## Country : United_States
+Server = https://repo.ialab.dsu.edu/manjaro/testing/$repo/$arch
+
+## Country : United_States
+Server = https://mirror.fcix.net/manjaro/testing/$repo/$arch
+
+## Country : Netherlands
+Server = https://manjaro.mirror.wearetriple.com/testing/$repo/$arch
+
+## Country : France
+Server = https://mirrors.eric.ovh/manjaro/testing/$repo/$arch
+
+## Country : Italy
+Server = https://ct.mirror.garr.it/mirrors/manjaro/testing/$repo/$arch
+
+## Country : Japan
+Server = https://ftp.yz.yamagata-u.ac.jp/pub/linux/manjaro/testing/$repo/$arch
+
+## Country : Belarus
+Server = https://mirror.datacenter.by/pub/mirrors/manjaro/testing/$repo/$arch
+
+## Country : Netherlands
+Server = https://ftp.snt.utwente.nl/pub/linux/manjaro/testing/$repo/$arch
+
+## Country : Netherlands
+Server = https://manjaro.mirrors.lavatech.top/testing/$repo/$arch
+
+## Country : United_States
+Server = https://nocix.mm.fcix.net/manjaro/testing/$repo/$arch
+
+## Country : Colombia
+Server = https://mirrors.atlas.net.co/manjaro/testing/$repo/$arch
+
+## Country : Italy
+Server = https://manjaro.mirror.garr.it/manjaro/testing/$repo/$arch
+
+## Country : Georgia
+Server = https://manjaro.grena.ge/testing/$repo/$arch
+
+## Country : United_States
+Server = https://cofractal-ewr.mm.fcix.net/manjaro/testing/$repo/$arch
+
+## Country : United_States
+Server = https://irltoolkit.mm.fcix.net/manjaro/testing/$repo/$arch
+
+## Country : United_States
+Server = https://mirrors.sonic.net/manjaro/testing/$repo/$arch
+
+## Country : Spain
+Server = https://mirrors.ft.uam.es/manjaro/testing/$repo/$arch
+
+## Country : Brazil
+Server = https://manjaro.c3sl.ufpr.br/testing/$repo/$arch
+
+## Country : Switzerland
+Server = https://ipng.mm.fcix.net/manjaro/testing/$repo/$arch
+
+## Country : Turkey
+Server = https://ftp.linux.org.tr/manjaro/testing/$repo/$arch
+
+## Country : Global
+Server = https://mirrors.cicku.me/manjaro/testing/$repo/$arch
+
+## Country : Canada
+Server = https://muug.ca/mirror/manjaro/testing/$repo/$arch
+
+## Country : South_Africa
+Server = https://mirror.dimensiondata.com/mirrors/manjaro.org/testing/$repo/$arch
+
+## Country : Germany
+Server = https://ftp.rz.tu-bs.de/pub/mirror/manjaro.org/repos/testing/$repo/$arch
+
+## Country : Belgium
+Server = https://mirror.futureweb.be/manjaro/testing/$repo/$arch
+
+## Country : United_States
+Server = https://southfront.mm.fcix.net/manjaro/testing/$repo/$arch
+
+## Country : Bangladesh
+Server = https://mirror.xeonbd.com/manjaro/testing/$repo/$arch
+
+## Country : Germany
+Server = https://mirror.netcologne.de/manjaro/testing/$repo/$arch
+
+## Country : China
+Server = https://mirrors.sjtug.sjtu.edu.cn/manjaro/testing/$repo/$arch
+
+## Country : France
+Server = https://ftp.free.org/mirrors/repo.manjaro.org/repos/testing/$repo/$arch
+
+## Country : Canada
+Server = https://mirror.xenyth.net/manjaro/testing/$repo/$arch
+
+## Country : Global
+Server = https://mirrors2.manjaro.org/testing/$repo/$arch
+
+## Country : Denmark
+Server = https://mirrors.dotsrc.org/manjaro/testing/$repo/$arch
+
+## Country : Japan
+Server = https://mirrors.xtom.jp/manjaro/testing/$repo/$arch
+
+## Country : Portugal
+Server = https://mirrors.up.pt/pub/manjaro/testing/$repo/$arch
+
+## Country : Germany
+Server = http://ftp.uni-kl.de/pub/linux/manjaro/testing/$repo/$arch
+
+## Country : Germany
+Server = https://ftp.tu-chemnitz.de/pub/linux/manjaro/testing/$repo/$arch
+
+## Country : Greece
+Server = https://fosszone.csd.auth.gr/manjaro/testing/$repo/$arch
+
+## Country : United_States
+Server = https://coresite.mm.fcix.net/manjaro/testing/$repo/$arch
+
+## Country : China
+Server = https://mirrors.ustc.edu.cn/manjaro/testing/$repo/$arch
+
+## Country : United_Kingdom
+Server = https://www.mirrorservice.org/sites/repo.manjaro.org/repos/testing/$repo/$arch
+
+## Country : Australia
+Server = https://mirror.aarnet.edu.au/pub/manjaro/testing/$repo/$arch
+
+## Country : United_States
+Server = https://opencolo.mm.fcix.net/manjaro/testing/$repo/$arch
+
+## Country : United_States
+Server = https://ohioix.mm.fcix.net/manjaro/testing/$repo/$arch
+
+## Country : France
+Server = https://mirror.bakertelekom.fr/manjaro/testing/$repo/$arch
+
+## Country : United_States
+Server = https://forksystems.mm.fcix.net/manjaro/testing/$repo/$arch
+
+## Country : Italy
+Server = https://ba.mirror.garr.it/mirrors/manjaro/testing/$repo/$arch
+
+## Country : United_Kingdom
+Server = https://mirror.vinehost.net/manjaro/testing/$repo/$arch
+
+## Country : Bulgaria
+Server = https://manjaro.ipacct.com/manjaro/testing/$repo/$arch
+
+## Country : Japan
+Server = https://mirror.phoepsilonix.love/manjaro/testing/$repo/$arch
+
+## Country : Czech_Republic
+Server = https://mirror.it4i.cz/manjaro/testing/$repo/$arch
+
+## Country : Germany
+Server = https://mirror.alpix.eu/manjaro/testing/$repo/$arch
+
+## Country : Russia
+Server = https://mirror.yandex.ru/mirrors/manjaro/testing/$repo/$arch
 
