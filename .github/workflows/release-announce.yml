@@ -1,5 +1,5 @@
 name: Release Announcement
-
+run-name: ${{ github.actor }} is announcing pearOS ${{ github.ref_name }} 🍐
 on:
   push:
     tags:
@@ -10,14 +10,16 @@ on:
         description: 'Tag to simulate (ex: v26.6)'
         required: true
         default: 'v26.6'
-
 jobs:
-  announce:
+  Announce-Release:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The tag is ${{ github.ref }} in repository ${{ github.repository }}."
+      - name: Check out repository code
         uses: actions/checkout@v4
-
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - name: Parse tag into ISO URL
         id: parse
         run: |
@@ -30,7 +32,7 @@ jobs:
           echo "iso_url=https://iso.pearos.xyz/iso/pearOS-NiceC0re-${YEAR}.${MONTH}-x86_64.iso" >> "$GITHUB_OUTPUT"
           echo "version=${YEAR}.${MONTH}" >> "$GITHUB_OUTPUT"
           echo "sha=$(cat sha.txt)" >> "$GITHUB_OUTPUT"
-
+      - run: echo "🍏 Parsed version ${{ steps.parse.outputs.version }}, ISO at ${{ steps.parse.outputs.iso_url }}"
       - name: Announce on Discord
         uses: sarisia/actions-status-discord@v1.16.0
         with:
@@ -42,5 +44,7 @@ jobs:
             A new monthly release of pearOS NiceC0re is available.
 
             **Download:** ${{ steps.parse.outputs.iso_url }}
+            **SHA256:** `${{ steps.parse.outputs.sha }}`
           color: 0xf5a623
           username: pearOS Releases
+      - run: echo "🍏 This job's status is ${{ job.status }}."
