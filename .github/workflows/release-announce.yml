@@ -1,0 +1,46 @@
+name: Release Announcement
+
+on:
+  push:
+    tags:
+      - 'v[0-9]*.[0-9]*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to simulate (ex: v26.6)'
+        required: true
+        default: 'v26.6'
+
+jobs:
+  announce:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Parse tag into ISO URL
+        id: parse
+        run: |
+          TAG="${{ github.event.inputs.tag || github.ref_name }}"
+          VERSION="${TAG#v}"
+          YEAR="20${VERSION%%.*}"
+          MONTH=$(printf "%02d" "${VERSION##*.}")
+          echo "year=$YEAR" >> "$GITHUB_OUTPUT"
+          echo "month=$MONTH" >> "$GITHUB_OUTPUT"
+          echo "iso_url=https://iso.pearos.xyz/iso/pearOS-NiceC0re-${YEAR}.${MONTH}-x86_64.iso" >> "$GITHUB_OUTPUT"
+          echo "version=${YEAR}.${MONTH}" >> "$GITHUB_OUTPUT"
+          echo "sha=$(cat sha.txt)" >> "$GITHUB_OUTPUT"
+
+      - name: Announce on Discord
+        uses: sarisia/actions-status-discord@v1.16.0
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          nodetail: true
+          noprefix: true
+          title: "pearOS NiceC0re ${{ steps.parse.outputs.version }} is out!"
+          description: |
+            A new monthly release of pearOS NiceC0re is available.
+
+            **Download:** ${{ steps.parse.outputs.iso_url }}
+          color: 0xf5a623
+          username: pearOS Releases
