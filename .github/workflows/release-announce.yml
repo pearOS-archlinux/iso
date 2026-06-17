@@ -19,7 +19,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Parse tag into ISO URL
+      - name: Parse tag and build release notes
         id: parse
         run: |
           TAG="${{ github.event.inputs.tag || github.ref_name }}"
@@ -27,11 +27,28 @@ jobs:
           VERSION="${VERSION%%_*}"
           YEAR="20${VERSION%%.*}"
           MONTH=$(printf "%02d" "${VERSION##*.}")
-          echo "year=$YEAR" >> "$GITHUB_OUTPUT"
-          echo "month=$MONTH" >> "$GITHUB_OUTPUT"
+
+          echo "short_version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "iso_url=https://iso.pearos.xyz/iso/pearOS-NiceC0re-${YEAR}.${MONTH}-x86_64.iso" >> "$GITHUB_OUTPUT"
-          echo "version=${YEAR}.${MONTH}" >> "$GITHUB_OUTPUT"
           echo "sha=$(cat sha.txt)" >> "$GITHUB_OUTPUT"
+
+          NOTES=$(awk '
+            /^#+ [0-9]+ [A-Za-z]+ [0-9]{4}/ { count++; if (count == 2) exit }
+            count == 1 { print }
+          ' release_notes.md | \
+          sed 's|^### Known Bugs$|**⚠️ Known Bugs:**|' | \
+          sed 's|^## Information$||' | \
+          sed 's|^#\{1,3\} \([0-9][^*]*\)|**\1**|' | \
+          sed 's|^\* |- |' | \
+          grep -v '^https://' | \
+          grep -v '^[[:space:]]*$' | \
+          head -25)
+
+          {
+            echo 'notes<<EOF'
+            echo "$NOTES"
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
 
       - name: Announce on Discord
         uses: sarisia/actions-status-discord@v1.16.0
@@ -39,12 +56,16 @@ jobs:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           nodetail: true
           noprefix: true
-          title: "pearOS NiceC0re ${{ steps.parse.outputs.version }} is out!"
+          title: "pearOS NiceC0re ${{ steps.parse.outputs.short_version }} is out!"
           description: |
-            A new monthly release of pearOS NiceC0re is available.
+            A new release of pearOS is available!
 
-            **Download:** ${{ steps.parse.outputs.iso_url }}
+            **Download:** https://pearos.xyz
             **SHA256:** `${{ steps.parse.outputs.sha }}`
+
+            **What's new:**
+            ${{ steps.parse.outputs.notes }}
+
+            **Bug reports:** #nicec0re-bugs-report or https://github.com/pearOS-archlinux/iso/issues
           color: 0xf5a623
           username: pearOS Releases
-
