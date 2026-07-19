@@ -79,8 +79,8 @@ lvm2
 lynx
 mc
 mdadm
-memtest86+
-memtest86+-efi
+#memtest86+
+#memtest86+-efi
 mesa
 mkinitcpio
 mkinitcpio-archiso
