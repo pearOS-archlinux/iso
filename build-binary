@@ -653,13 +653,28 @@ _make_packages() {
         arch-chroot "${pacstrap_dir}" pacman-key --populate archlinux || true
     fi
 
-    # Populate MANJARO Linux GPG keys
-    _msg_info "Populating MANJARO Linux GPG keys..."
-    if [[ "${quiet}" = "y" ]]; then
-        arch-chroot "${pacstrap_dir}" pacman-key --populate manjaro &> /dev/null || true
-    else
-        arch-chroot "${pacstrap_dir}" pacman-key --populate manjaro || true
-    fi
+    # Detect and populate distro-specific GPG keyrings from host
+    _msg_info "Detecting host distro keyrings..."
+    local _host_keyrings
+    _host_keyrings=$(
+        ls /usr/share/pacman/keyrings/ 2>/dev/null | \
+        sed -n 's/\.\(gpg\)$//p' | \
+        grep -v '^archlinux$' | \
+        sort -u
+    )
+
+    for _keyring in ${_host_keyrings}; do
+        if [[ -f "/usr/share/pacman/keyrings/${_keyring}.gpg" ]]; then
+            _msg_info "Copying ${_keyring} keyring to chroot..."
+            cp "/usr/share/pacman/keyrings/${_keyring}"* "${pacstrap_dir}/usr/share/pacman/keyrings/"
+            _msg_info "Populating ${_keyring} GPG keys..."
+            if [[ "${quiet}" = "y" ]]; then
+                arch-chroot "${pacstrap_dir}" pacman-key --populate "${_keyring}" &> /dev/null || true
+            else
+                arch-chroot "${pacstrap_dir}" pacman-key --populate "${_keyring}" || true
+            fi
+        fi
+    done
 
     # Import pearOS GPG key
     _msg_info "Importing pearOS GPG key..."
