@@ -439,16 +439,15 @@ _detect_host_repos() {
 
     _HOST_EXTRA_REPOS=()
     _HOST_EXTRA_MIRRORLISTS=()
+    declare -A _seen_mirrorlists=()
 
     if [[ ! -f "${host_conf}" ]]; then
         _msg_warning "Host pacman.conf not found at ${host_conf}, skipping distro-specific repos."
         return
     fi
 
-    local active_repos
-    active_repos=$(grep -oP '^\[\K[^\]]+' "${host_conf}" | grep -v '^options$')
-
-    for repo in ${active_repos}; do
+    while IFS= read -r repo; do
+        [[ -z "${repo}" ]] && continue
         if echo "${std_repos}" | grep -qw "${repo}"; then
             continue
         fi
@@ -458,12 +457,15 @@ _detect_host_repos() {
         if [[ -n "${section}" ]]; then
             _HOST_EXTRA_REPOS+=("${section}")
             local mlist
-            mlist=$(echo "${section}" | grep -oP 'Include\s*=\s*\K\S+')
-            if [[ -n "${mlist}" ]] && [[ -f "${mlist}" ]]; then
-                _HOST_EXTRA_MIRRORLISTS+=("${mlist}")
-            fi
+            while IFS= read -r mlist; do
+                [[ -z "${mlist}" ]] && continue
+                if [[ -f "${mlist}" ]] && [[ -z "${_seen_mirrorlists[${mlist}]+_}" ]]; then
+                    _HOST_EXTRA_MIRRORLISTS+=("${mlist}")
+                    _seen_mirrorlists["${mlist}"]=1
+                fi
+            done < <(echo "${section}" | grep -oP '^[^#]*Include\s*=\s*\K\S+')
         fi
-    done
+    done < <(grep -oP '^\[\K[^\]]+' "${host_conf}" | grep -v '^options$')
 
     if [[ ${#_HOST_EXTRA_REPOS[@]} -gt 0 ]]; then
         _msg_info "Detected distro-specific repos: $(printf '%s ' "${_HOST_EXTRA_REPOS[@]}" | head -c 200)"
