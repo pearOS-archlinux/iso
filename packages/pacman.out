@@ -75,7 +75,7 @@ LocalFileSigLevel = Optional
 #Include = /etc/pacman.d/mirrorlist
 
 [pearos]
-SigLevel = PackageRequired DatabaseOptional
+SigLevel = Optional TrustAll
 Server = https://mirror.pearos.xyz/main/x86_64/
 
 [core]
