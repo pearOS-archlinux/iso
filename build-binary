@@ -638,19 +638,26 @@ _make_packages() {
     done
 
     # Initialize keyring and import keys BEFORE pacstrap so packages can be verified
-    _msg_info "Initializing pacman GPG keyring..."
-    if [[ "${quiet}" = "y" ]]; then
-        arch-chroot "${pacstrap_dir}" bash -c 'mkdir -p /etc/pacman.d/gnupg && chmod 700 /etc/pacman.d/gnupg && { [[ -e /etc/pacman.d/gnupg/pubring.gpg || -e /etc/pacman.d/gnupg/pubring.kbx ]] || pacman-key --init &> /dev/null; }' || true
-    else
-        arch-chroot "${pacstrap_dir}" bash -c 'mkdir -p /etc/pacman.d/gnupg && chmod 700 /etc/pacman.d/gnupg && { [[ -e /etc/pacman.d/gnupg/pubring.gpg || -e /etc/pacman.d/gnupg/pubring.kbx ]] || pacman-key --init; }' || true
+    # Use --gpgdir to operate directly on the target, no arch-chroot needed
+    local _gpg_dir="${pacstrap_dir}/etc/pacman.d/gnupg"
+    mkdir -p "${_gpg_dir}"
+    chmod 700 "${_gpg_dir}"
+
+    if [[ ! -e "${_gpg_dir}/pubring.gpg" ]] && [[ ! -e "${_gpg_dir}/pubring.kbx" ]]; then
+        _msg_info "Initializing pacman GPG keyring..."
+        if [[ "${quiet}" = "y" ]]; then
+            pacman-key --gpgdir "${_gpg_dir}" --init &> /dev/null || true
+        else
+            pacman-key --gpgdir "${_gpg_dir}" --init || true
+        fi
     fi
 
     # Populate Arch Linux GPG keys
     _msg_info "Populating Arch Linux GPG keys..."
     if [[ "${quiet}" = "y" ]]; then
-        arch-chroot "${pacstrap_dir}" pacman-key --populate archlinux &> /dev/null || true
+        pacman-key --gpgdir "${_gpg_dir}" --populate archlinux &> /dev/null || true
     else
-        arch-chroot "${pacstrap_dir}" pacman-key --populate archlinux || true
+        pacman-key --gpgdir "${_gpg_dir}" --populate archlinux || true
     fi
 
     # Detect and populate distro-specific GPG keyrings from host
@@ -669,9 +676,9 @@ _make_packages() {
             cp "/usr/share/pacman/keyrings/${_keyring}"* "${pacstrap_dir}/usr/share/pacman/keyrings/"
             _msg_info "Populating ${_keyring} GPG keys..."
             if [[ "${quiet}" = "y" ]]; then
-                arch-chroot "${pacstrap_dir}" pacman-key --populate "${_keyring}" &> /dev/null || true
+                pacman-key --gpgdir "${_gpg_dir}" --populate "${_keyring}" &> /dev/null || true
             else
-                arch-chroot "${pacstrap_dir}" pacman-key --populate "${_keyring}" || true
+                pacman-key --gpgdir "${_gpg_dir}" --populate "${_keyring}" || true
             fi
         fi
     done
@@ -679,9 +686,11 @@ _make_packages() {
     # Import pearOS GPG key
     _msg_info "Importing pearOS GPG key..."
     if [[ "${quiet}" = "y" ]]; then
-        arch-chroot "${pacstrap_dir}" bash -c "pacman-key --recv-keys 4C1A9F3C131ACA95 --keyserver keyserver.ubuntu.com && pacman-key --lsign-key 4C1A9F3C131ACA95" &> /dev/null || true
+        pacman-key --gpgdir "${_gpg_dir}" --recv-keys 4C1A9F3C131ACA95 --keyserver keyserver.ubuntu.com &> /dev/null || true
+        pacman-key --gpgdir "${_gpg_dir}" --lsign-key 4C1A9F3C131ACA95 &> /dev/null || true
     else
-        arch-chroot "${pacstrap_dir}" bash -c "pacman-key --recv-keys 4C1A9F3C131ACA95 --keyserver keyserver.ubuntu.com && pacman-key --lsign-key 4C1A9F3C131ACA95" || true
+        pacman-key --gpgdir "${_gpg_dir}" --recv-keys 4C1A9F3C131ACA95 --keyserver keyserver.ubuntu.com || true
+        pacman-key --gpgdir "${_gpg_dir}" --lsign-key 4C1A9F3C131ACA95 || true
     fi
 
     # Unset TMPDIR to work around https://bugs.archlinux.org/task/70580
