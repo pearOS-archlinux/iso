@@ -638,60 +638,24 @@ _make_packages() {
     done
 
     # Initialize keyring and import keys BEFORE pacstrap so packages can be verified
-    # Use --gpgdir to operate directly on the target, no arch-chroot needed
+    # Copy the host's working GPG keyring to the target instead of rebuilding it
     local _gpg_dir="${pacstrap_dir}/etc/pacman.d/gnupg"
     mkdir -p "${_gpg_dir}"
     chmod 700 "${_gpg_dir}"
+    mkdir -p "${pacstrap_dir}/usr/share/pacman/keyrings"
 
-    if [[ ! -e "${_gpg_dir}/pubring.gpg" ]] && [[ ! -e "${_gpg_dir}/pubring.kbx" ]]; then
-        _msg_info "Initializing pacman GPG keyring..."
-        if [[ "${quiet}" = "y" ]]; then
-            pacman-key --gpgdir "${_gpg_dir}" --init &> /dev/null || true
-        else
-            pacman-key --gpgdir "${_gpg_dir}" --init || true
-        fi
-    fi
+    _msg_info "Copying host GPG keyring to target..."
+    cp -a /etc/pacman.d/gnupg/. "${_gpg_dir}/"
 
-    # Populate Arch Linux GPG keys
-    _msg_info "Populating Arch Linux GPG keys..."
-    if [[ "${quiet}" = "y" ]]; then
-        pacman-key --gpgdir "${_gpg_dir}" --populate archlinux &> /dev/null || true
-    else
-        pacman-key --gpgdir "${_gpg_dir}" --populate archlinux || true
-    fi
+    _msg_info "Copying host keyring definitions to target..."
+    cp /usr/share/pacman/keyrings/*.gpg "${pacstrap_dir}/usr/share/pacman/keyrings/" 2>/dev/null || true
+    cp /usr/share/pacman/keyrings/*-revoked "${pacstrap_dir}/usr/share/pacman/keyrings/" 2>/dev/null || true
+    cp /usr/share/pacman/keyrings/*-trusted "${pacstrap_dir}/usr/share/pacman/keyrings/" 2>/dev/null || true
 
-    # Detect and populate distro-specific GPG keyrings from host
-    _msg_info "Detecting host distro keyrings..."
-    local _host_keyrings
-    _host_keyrings=$(
-        ls /usr/share/pacman/keyrings/ 2>/dev/null | \
-        sed -n 's/\.\(gpg\)$//p' | \
-        grep -v '^archlinux$' | \
-        sort -u
-    )
-
-    for _keyring in ${_host_keyrings}; do
-        if [[ -f "/usr/share/pacman/keyrings/${_keyring}.gpg" ]]; then
-            _msg_info "Copying ${_keyring} keyring to chroot..."
-            cp "/usr/share/pacman/keyrings/${_keyring}"* "${pacstrap_dir}/usr/share/pacman/keyrings/"
-            _msg_info "Populating ${_keyring} GPG keys..."
-            if [[ "${quiet}" = "y" ]]; then
-                pacman-key --gpgdir "${_gpg_dir}" --populate "${_keyring}" &> /dev/null || true
-            else
-                pacman-key --gpgdir "${_gpg_dir}" --populate "${_keyring}" || true
-            fi
-        fi
-    done
-
-    # Import pearOS GPG key
+    # Import pearOS key into the copied keyring using GNUPGHOME
     _msg_info "Importing pearOS GPG key..."
-    if [[ "${quiet}" = "y" ]]; then
-        pacman-key --gpgdir "${_gpg_dir}" --recv-keys 4C1A9F3C131ACA95 --keyserver keyserver.ubuntu.com &> /dev/null || true
-        pacman-key --gpgdir "${_gpg_dir}" --lsign-key 4C1A9F3C131ACA95 &> /dev/null || true
-    else
-        pacman-key --gpgdir "${_gpg_dir}" --recv-keys 4C1A9F3C131ACA95 --keyserver keyserver.ubuntu.com || true
-        pacman-key --gpgdir "${_gpg_dir}" --lsign-key 4C1A9F3C131ACA95 || true
-    fi
+    GNUPGHOME="${_gpg_dir}" pacman-key --recv-keys 4C1A9F3C131ACA95 --keyserver keyserver.ubuntu.com || true
+    GNUPGHOME="${_gpg_dir}" pacman-key --lsign-key 4C1A9F3C131ACA95 || true
 
     # Unset TMPDIR to work around https://bugs.archlinux.org/task/70580
     # Install all packages except pearos-settings first
