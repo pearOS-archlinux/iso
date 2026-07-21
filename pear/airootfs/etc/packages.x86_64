@@ -208,6 +208,7 @@ pearos-appmenu
 pearos-dock
 pearos-bootsound
 pearos-muternvf
+#electron
 system-overview
 kmail
 gnome-maps
@@ -227,3 +228,4 @@ nautilus
 npm
 gwenview
 elisa
+electron
