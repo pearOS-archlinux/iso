@@ -432,6 +432,99 @@ _run_once() {
     fi
 }
 
+# Detect distro-specific repos from host pacman.conf
+_detect_host_repos() {
+    local host_conf="/etc/pacman.conf"
+    local std_repos="core extra multilib community"
+
+    _HOST_EXTRA_REPOS=()
+    _HOST_EXTRA_MIRRORLISTS=()
+    declare -A _seen_mirrorlists=()
+
+    if [[ ! -f "${host_conf}" ]]; then
+        _msg_warning "Host pacman.conf not found at ${host_conf}, skipping distro-specific repos."
+        return
+    fi
+
+    while IFS= read -r repo; do
+        [[ -z "${repo}" ]] && continue
+        if echo "${std_repos}" | grep -qw "${repo}"; then
+            continue
+        fi
+
+        local section
+        section=$(awk "/^\[${repo}\]/{found=1} found && /^\[/{if(found && !/\[${repo}\]/){exit}} found{print}" "${host_conf}")
+        if [[ -n "${section}" ]]; then
+            _HOST_EXTRA_REPOS+=("${section}")
+            local mlist
+            while IFS= read -r mlist; do
+                [[ -z "${mlist}" ]] && continue
+                if [[ -f "${mlist}" ]] && [[ -z "${_seen_mirrorlists[${mlist}]+_}" ]]; then
+                    _HOST_EXTRA_MIRRORLISTS+=("${mlist}")
+                    _seen_mirrorlists["${mlist}"]=1
+                fi
+            done < <(echo "${section}" | grep -oP '^[^#]*Include\s*=\s*\K\S+')
+        fi
+    done < <(grep -oP '^\[\K[^\]]+' "${host_conf}" | grep -v '^options$')
+
+    if [[ ${#_HOST_EXTRA_REPOS[@]} -gt 0 ]]; then
+        _msg_info "Detected distro-specific repos: $(printf '%s ' "${_HOST_EXTRA_REPOS[@]}" | head -c 200)"
+    fi
+}
+
+# Generate pear/pacman.conf by merging base config with host distro repos
+_generate_pear_pacman_conf() {
+    local base_conf="packages/pacman.out"
+    local target_conf="pear/pacman.conf"
+
+    if [[ ! -f "${base_conf}" ]]; then
+        _msg_error "Base pacman.conf not found at ${base_conf}" 1
+        return 1
+    fi
+
+    cp "${base_conf}" "${target_conf}"
+
+    if [[ ${#_HOST_EXTRA_REPOS[@]} -eq 0 ]]; then
+        return
+    fi
+
+    local insert_block=""
+    for section in "${_HOST_EXTRA_REPOS[@]}"; do
+        insert_block+="${section}"$'\n\n'
+    done
+
+    local tmp_conf="${target_conf}.tmp"
+    awk -v block="${insert_block}" '/^\[core\]/{printf "%s\n", block} {print}' "${target_conf}" > "${tmp_conf}"
+    mv "${tmp_conf}" "${target_conf}"
+
+    _msg_info "Merged distro-specific repos into ${target_conf}"
+}
+
+# Copy host distro mirrorlist files to pear/airootfs/etc/pacman.d/
+_copy_host_mirrorlists() {
+    local target_dir="pear/airootfs/etc/pacman.d"
+
+    if [[ ${#_HOST_EXTRA_MIRRORLISTS[@]} -eq 0 ]]; then
+        return
+    fi
+
+    mkdir -p "${target_dir}"
+
+    for mlist in "${_HOST_EXTRA_MIRRORLISTS[@]}"; do
+        local fname
+        fname=$(basename "${mlist}")
+        local dest="${target_dir}/${fname}"
+
+        if [[ -f "${dest}" ]]; then
+            _msg_info "Mirrorlist already exists: ${fname}, skipping."
+            continue
+        fi
+
+        cp "${mlist}" "${dest}"
+        _msg_info "Copied mirrorlist: ${fname}"
+    done
+}
+
 # Set up custom pacman.conf with custom cache and pacman hook directories.
 _make_pacman_conf() {
     local _cache_dirs _system_cache_dirs _profile_cache_dirs
@@ -544,6 +637,26 @@ _make_packages() {
         fi
     done
 
+    # Initialize keyring and import keys BEFORE pacstrap so packages can be verified
+    # Copy the host's working GPG keyring to the target instead of rebuilding it
+    local _gpg_dir="${pacstrap_dir}/etc/pacman.d/gnupg"
+    mkdir -p "${_gpg_dir}"
+    chmod 700 "${_gpg_dir}"
+    mkdir -p "${pacstrap_dir}/usr/share/pacman/keyrings"
+
+    _msg_info "Copying host GPG keyring to target..."
+    cp -a /etc/pacman.d/gnupg/. "${_gpg_dir}/"
+
+    _msg_info "Copying host keyring definitions to target..."
+    cp /usr/share/pacman/keyrings/*.gpg "${pacstrap_dir}/usr/share/pacman/keyrings/" 2>/dev/null || true
+    cp /usr/share/pacman/keyrings/*-revoked "${pacstrap_dir}/usr/share/pacman/keyrings/" 2>/dev/null || true
+    cp /usr/share/pacman/keyrings/*-trusted "${pacstrap_dir}/usr/share/pacman/keyrings/" 2>/dev/null || true
+
+    # Import pearOS key into the copied keyring using GNUPGHOME
+    _msg_info "Importing pearOS GPG key..."
+    GNUPGHOME="${_gpg_dir}" pacman-key --recv-keys 4C1A9F3C131ACA95 --keyserver keyserver.ubuntu.com || true
+    GNUPGHOME="${_gpg_dir}" pacman-key --lsign-key 4C1A9F3C131ACA95 || true
+
     # Unset TMPDIR to work around https://bugs.archlinux.org/task/70580
     # Install all packages except pearos-settings first
     if [[ ${#other_packages[@]} -gt 0 ]]; then
@@ -552,39 +665,6 @@ _make_packages() {
         else
             env -u TMPDIR pacstrap -C "${work_dir}/${buildmode}.pacman.conf" -c -M -- "${pacstrap_dir}" --overwrite='*' "${other_packages[@]}"
         fi
-    fi
-
-    # Ensure pacman keyring exists and has correct permissions before
-    # trying to populate it (pacstrap may be run with -G).
-    _msg_info "Initializing pacman GPG keyring..."
-    if [[ "${quiet}" = "y" ]]; then
-        arch-chroot "${pacstrap_dir}" bash -c 'mkdir -p /etc/pacman.d/gnupg && chmod 700 /etc/pacman.d/gnupg && { [[ -e /etc/pacman.d/gnupg/pubring.gpg || -e /etc/pacman.d/gnupg/pubring.kbx ]] || pacman-key --init &> /dev/null; }' || true
-    else
-        arch-chroot "${pacstrap_dir}" bash -c 'mkdir -p /etc/pacman.d/gnupg && chmod 700 /etc/pacman.d/gnupg && { [[ -e /etc/pacman.d/gnupg/pubring.gpg || -e /etc/pacman.d/gnupg/pubring.kbx ]] || pacman-key --init; }' || true
-    fi
-
-    # Populate Arch Linux GPG keys
-    _msg_info "Populating Arch Linux GPG keys..."
-    if [[ "${quiet}" = "y" ]]; then
-        arch-chroot "${pacstrap_dir}" pacman-key --populate archlinux &> /dev/null || true
-    else
-        arch-chroot "${pacstrap_dir}" pacman-key --populate archlinux || true
-    fi
-
-    # Populate MANJARO Linux GPG keys
-    _msg_info "Populating MANJARO Linux GPG keys..."
-    if [[ "${quiet}" = "y" ]]; then
-        arch-chroot "${pacstrap_dir}" pacman-key --populate manjaro &> /dev/null || true
-    else
-        arch-chroot "${pacstrap_dir}" pacman-key --populate manjaro || true
-    fi
-
-    # Populate pear OS GPG keys
-    _msg_info "Populating Arch Linux GPG keys..."
-    if [[ "${quiet}" = "y" ]]; then
-        arch-chroot "${pacstrap_dir}" pacman-key --recv-keys 4C1A9F3C131ACA95 --keyserver keyserver.ubuntu.com  &> /dev/null || true
-    else
-        arch-chroot "${pacstrap_dir}" bash -c "pacman-key --recv-keys 4C1A9F3C131ACA95 --keyserver keyserver.ubuntu.com && pacman-key --lsign-key 4C1A9F3C131ACA95" || true
     fi
 
     # Install pearos-settings with --overwrite to allow it to override plasma-workspace files
@@ -1876,16 +1956,15 @@ actual_build() {
             
             export OUT=$(mktemp -d --tmpdir=work)
             mkdir -p "$OUT"
-            echo -e "[ \e[92m%\e[0m ] : Copying [ \e[92mpackages/pacman.out\e[0m ] to [ \e[92mpear/pacman.conf\e[0m ] . . ."
-            cp -r packages/pacman.out pear/pacman.conf
+            _detect_host_repos
+            _generate_pear_pacman_conf
+            _copy_host_mirrorlists
             echo -e "[ \e[92m%\e[0m ] : Copying [ \e[92mpear/pacman.conf\e[0m ] to [ \e[92mpear/airootfs/etc/.\e[0m ] . . ."
             cp -r pear/pacman.conf pear/airootfs/etc/.
             echo -e "[ \e[92m%\e[0m ] : Copying [ \e[92mpackages/packages.x86_64\e[0m ] to [ \e[92mpear/airootfs/etc/packages.x86_64\e[0m ] . . ."
             cp packages/packages.x86_64 pear/airootfs/etc/packages.x86_64
             echo -e "[ \e[92m%\e[0m ] : Copying [ \e[92mpackages/packages.x86_64\e[0m ] to [ \e[92mpear/packages.x86_64\e[0m ] . . ."
             cp packages/packages.x86_64 pear/packages.x86_64
-            echo -e "[ \e[92m%\e[0m ] : Copying [ \e[92m/etc/pacman.d/mirrorlist\e[0m ] to [ \e[92mpear/etc/pacman.d/.\e[0m ] . . ."
-            cp /etc/pacman.d/mirrorlist pear/airootfs/etc/pacman.d/.
         fi
 	
 	# Compression selection menu
