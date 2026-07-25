@@ -78,6 +78,10 @@ command -v pacstrap arch-chroot mksquashfs xorriso mkfs.ext4 tune2fs git pv
 
 If any command is missing, install the corresponding package listed above.
 
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/W4V723UZ17)
+
+
 ## Star History
 
 <a href="https://www.star-history.com/#pearOS-archlinux/iso&type=date&legend=top-left">
