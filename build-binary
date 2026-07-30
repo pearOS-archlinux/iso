@@ -1095,6 +1095,117 @@ _make_bootmode_uefi-x64.systemd-boot.eltorito() {
     _msg_info "Done!"
 }
 
+# Set _ploader_dir/_ploader_efi, the in-profile directory holding the
+# prebuilt Ploader binary, theme, and boot chime. ${profile} is only set once
+# argument parsing has run, so this must be called from within a function
+# rather than at top level.
+_ploader_paths() {
+    _ploader_dir="${profile}/efiboot/ploader"
+    _ploader_efi="${_ploader_dir}/ploader_x64.efi"
+}
+
+# Copy the Ploader binary, its hardcoded theme, and its boot chime onto a FAT
+# volume already mounted with mtools (image given as $1), plus write out a
+# ploader.conf with silent_menu disabled so the picker is always shown.
+_install_ploader_on_fat() {
+    local _image="${1}"
+    _ploader_paths
+
+    mcopy -i "${_image}" "${_ploader_efi}" ::/EFI/BOOT/BOOTx64.EFI
+    mcopy -i "${_image}" -s "${_ploader_dir}/theme" ::/EFI/BOOT/theme
+    sed "s|%ARCHISO_LABEL%|${iso_label}|g;
+         s|%INSTALL_DIR%|${install_dir}|g;
+         s|%ARCH%|${arch}|g" \
+        "${profile}/efiboot/ploader/ploader.conf" | mcopy -i "${_image}" - ::/EFI/BOOT/ploader.conf
+}
+
+# Prepare Ploader for booting when written to a disk (isohybrid)
+_make_bootmode_uefi-x64.ploader.esp() {
+    local _file efiboot_imgsize
+    local _available_ucodes=()
+    _ploader_paths
+    _msg_info "Setting up Ploader for UEFI booting..."
+
+    for _file in "${ucodes[@]}"; do
+        if [[ -e "${pacstrap_dir}/boot/${_file}" ]]; then
+            _available_ucodes+=("${pacstrap_dir}/boot/${_file}")
+        fi
+    done
+    local _kernel_files=()
+    while IFS= read -r _file; do
+        _kernel_files+=("${_file}")
+    done < <(find "${pacstrap_dir}/boot/" -name "vmlinuz*" -type f 2>/dev/null)
+
+    local _initramfs_files=()
+    while IFS= read -r _file; do
+        _initramfs_files+=("${_file}")
+    done < <(find "${pacstrap_dir}/boot/" -name "initramfs-*.img" -type f 2>/dev/null)
+
+    efiboot_imgsize="$(du -bc \
+        "${_ploader_efi}" \
+        "${_ploader_dir}/theme/" \
+        "${_kernel_files[@]}" \
+        "${_initramfs_files[@]}" \
+        "${_available_ucodes[@]}" \
+        2>/dev/null | awk 'END { print $1 }')"
+    # Create a FAT image for the EFI system partition
+    _make_efibootimg "$efiboot_imgsize"
+
+    # Copy the Ploader binary, theme, and ploader.conf (silent_menu false) onto it
+    _install_ploader_on_fat "${work_dir}/efiboot.img"
+
+    # Copy kernel and initramfs to FAT image.
+    _make_boot_on_fat
+
+    # Linux's EFI stub dropped cmdline-based multi-initrd loading (multiple
+    # "initrd=" tokens) in recent kernels -- only the LINUX_EFI_INITRD_MEDIA_GUID
+    # protocol path (used by systemd-boot/GRUB, not Ploader) supports several
+    # files. So combine microcode + the real initramfs into a single file here
+    # and reference just that one from ploader_linux.conf, replacing the plain
+    # initramfs-linux.img _make_boot_on_fat already copied.
+    local _real_initramfs
+    _real_initramfs="$(find "${pacstrap_dir}/boot/" -name "initramfs-linux.img" -type f 2>/dev/null | head -1)"
+    if [[ -n "${_real_initramfs}" ]]; then
+        local _combined_initrd="${work_dir}/ploader-initrd-combined.img"
+        cat "${_available_ucodes[@]}" "${_real_initramfs}" > "${_combined_initrd}"
+        mcopy -o -i "${work_dir}/efiboot.img" "${_combined_initrd}" \
+            "::/${install_dir}/boot/${arch}/initramfs-linux.img"
+    fi
+
+    # Write the ploader_linux.conf boot stanzas next to the kernel so Ploader
+    # auto-detects and boots it without needing a menu entry configured.
+    sed "s|%ARCHISO_LABEL%|${iso_label}|g;
+         s|%INSTALL_DIR%|${install_dir}|g;
+         s|%ARCH%|${arch}|g" \
+        "${profile}/efiboot/ploader/ploader_linux.conf" | \
+        mcopy -i "${work_dir}/efiboot.img" - "::/${install_dir}/boot/${arch}/ploader_linux.conf"
+
+    _msg_info "Done! Ploader set up for UEFI booting successfully."
+}
+
+# Prepare Ploader for El Torito booting
+_make_bootmode_uefi-x64.ploader.eltorito() {
+    # El Torito UEFI boot requires an image containing the EFI system partition.
+    # uefi-x64.ploader.eltorito has the same requirements as uefi-x64.ploader.esp
+    _run_once _make_bootmode_uefi-x64.ploader.esp
+    _ploader_paths
+
+    # Additionally set up Ploader in ISO 9660. This allows creating a medium for the live environment by using
+    # manual partitioning and simply copying the ISO 9660 file system contents.
+    # This is not related to El Torito booting and no firmware uses these files.
+    _msg_info "Preparing an /EFI directory for the ISO 9660 file system..."
+    install -d -m 0755 -- "${isofs_dir}/EFI/BOOT"
+
+    install -m 0644 -- "${_ploader_efi}" "${isofs_dir}/EFI/BOOT/BOOTx64.EFI"
+    cp -a -- "${_ploader_dir}/theme" "${isofs_dir}/EFI/BOOT/theme"
+    sed "s|%ARCHISO_LABEL%|${iso_label}|g;
+         s|%INSTALL_DIR%|${install_dir}|g;
+         s|%ARCH%|${arch}|g" \
+        "${profile}/efiboot/ploader/ploader.conf" > "${isofs_dir}/EFI/BOOT/ploader.conf"
+
+    _msg_info "Done!"
+}
+
 _validate_requirements_bootmode_bios.syslinux.mbr() {
     # bios.syslinux.mbr requires bios.syslinux.eltorito
     # shellcheck disable=SC2076
@@ -1181,6 +1292,49 @@ _validate_requirements_bootmode_uefi-x64.systemd-boot.esp() {
 _validate_requirements_bootmode_uefi-x64.systemd-boot.eltorito() {
     # uefi-x64.systemd-boot.eltorito has the exact same requirements as uefi-x64.systemd-boot.esp
     _validate_requirements_bootmode_uefi-x64.systemd-boot.esp
+}
+
+_validate_requirements_bootmode_uefi-x64.ploader.esp() {
+    _ploader_paths
+
+    # Check if mkfs.fat is available
+    if ! command -v mkfs.fat &> /dev/null; then
+        (( validation_error=validation_error+1 ))
+        _msg_error "Validating '${bootmode}': mkfs.fat is not available on this host. Install 'dosfstools'!" 0
+    fi
+
+    # Check if mmd and mcopy are available
+    if ! { command -v mmd &> /dev/null && command -v mcopy &> /dev/null; }; then
+        (( validation_error=validation_error+1 ))
+        _msg_error "Validating '${bootmode}': mmd and/or mcopy are not available on this host. Install 'mtools'!" 0
+    fi
+
+    # Check that the Ploader binary has been built
+    if [[ ! -e "${_ploader_efi}" ]]; then
+        (( validation_error=validation_error+1 ))
+        _msg_error "Validating '${bootmode}': '${_ploader_efi}' not found. Build it first with 'make' in 'pear-bootloader/ploader' and copy the artifacts into '${_ploader_dir}'!" 0
+    fi
+
+    # Check that the theme and boot chime are present
+    if [[ ! -d "${_ploader_dir}/theme" ]]; then
+        (( validation_error=validation_error+1 ))
+        _msg_error "Validating '${bootmode}': The '${_ploader_dir}/theme' directory is missing!" 0
+    fi
+
+    # Check if Ploader configuration templates exist
+    if [[ ! -e "${profile}/efiboot/ploader/ploader.conf" ]]; then
+        (( validation_error=validation_error+1 ))
+        _msg_error "Validating '${bootmode}': File '${profile}/efiboot/ploader/ploader.conf' not found!" 0
+    fi
+    if [[ ! -e "${profile}/efiboot/ploader/ploader_linux.conf" ]]; then
+        (( validation_error=validation_error+1 ))
+        _msg_error "Validating '${bootmode}': File '${profile}/efiboot/ploader/ploader_linux.conf' not found!" 0
+    fi
+}
+
+_validate_requirements_bootmode_uefi-x64.ploader.eltorito() {
+    # uefi-x64.ploader.eltorito has the exact same requirements as uefi-x64.ploader.esp
+    _validate_requirements_bootmode_uefi-x64.ploader.esp
 }
 
 # Build airootfs filesystem image
@@ -1457,6 +1611,76 @@ _add_xorrisofs_options_uefi-x64.systemd-boot.eltorito() {
         install -d -m 0755 -- "${isofs_dir}/EFI/archiso"
         cp -a -- "${work_dir}/efiboot.img" "${isofs_dir}/EFI/archiso/efiboot.img"
         # systemd-boot in an embedded efiboot.img via El Torito
+        xorrisofs_options+=(
+            # Start a new El Torito boot entry for UEFI
+            '-eltorito-alt-boot'
+            # Set efiboot.img as the El Torito UEFI boot image
+            '-e' 'EFI/archiso/efiboot.img'
+            # Boot image is not emulating floppy or hard disk; required for all known boot loaders
+            '-no-emul-boot'
+        )
+    fi
+    # Specify where to save the El Torito boot catalog file in case it is not already set by bios.syslinux.eltorito
+    # shellcheck disable=SC2076
+    [[ " ${bootmodes[*]} " =~ ' bios.' ]] || xorrisofs_options+=('-eltorito-catalog' 'EFI/boot.cat')
+}
+
+# Ploader in an attached EFI system partition
+_add_xorrisofs_options_uefi-x64.ploader.esp() {
+    # Move the first partition away from the start of the ISO, otherwise the GPT will not be valid and ISO 9660
+    # partition will not be mountable
+    # shellcheck disable=SC2076
+    [[ " ${xorrisofs_options[*]} " =~ ' -partition_offset ' ]] || xorrisofs_options+=('-partition_offset' '16')
+    # Attach efiboot.img as a second partition and set its partition type to "EFI system partition"
+    xorrisofs_options+=('-append_partition' '2' 'C12A7328-F81F-11D2-BA4B-00A0C93EC93B' "${work_dir}/efiboot.img")
+    # Ensure GPT is used as some systems do not support UEFI booting without it
+    # shellcheck disable=SC2076
+    if [[ " ${bootmodes[*]} " =~ ' bios.syslinux.mbr ' ]]; then
+        # A valid GPT prevents BIOS booting on some systems, instead use an invalid GPT (without a protective MBR).
+        # The attached partition will have the EFI system partition type code in MBR, but in the invalid GPT it will
+        # have a Microsoft basic partition type code.
+        if [[ ! " ${bootmodes[*]} " =~ ' uefi-x64.ploader.eltorito ' ]]; then
+            # If '-isohybrid-gpt-basdat' is specified before '-e', then the appended EFI system partition will have the
+            # EFI system partition type ID/GUID in both MBR and GPT. If '-isohybrid-gpt-basdat' is specified after '-e',
+            # the appended EFI system partition will have the Microsoft basic data type GUID in GPT.
+            if [[ ! " ${xorrisofs_options[*]} " =~ ' -isohybrid-gpt-basdat ' ]]; then
+                xorrisofs_options+=('-isohybrid-gpt-basdat')
+            fi
+        fi
+    else
+        # Use valid GPT if BIOS booting support will not be required
+        xorrisofs_options+=('-appended_part_as_gpt')
+    fi
+}
+
+# Ploader via El Torito
+_add_xorrisofs_options_uefi-x64.ploader.eltorito() {
+    # shellcheck disable=SC2076
+    if [[ " ${bootmodes[*]} " =~ ' uefi-x64.ploader.esp ' ]]; then
+        # Ploader in an attached EFI system partition via El Torito
+        xorrisofs_options+=(
+            # Start a new El Torito boot entry for UEFI
+            '-eltorito-alt-boot'
+            # Set the second partition as the El Torito UEFI boot image
+            '-e' '--interval:appended_partition_2:all::'
+            # Boot image is not emulating floppy or hard disk; required for all known boot loaders
+            '-no-emul-boot'
+        )
+        # A valid GPT prevents BIOS booting on some systems, use an invalid GPT instead.
+        if [[ " ${bootmodes[*]} " =~ ' bios.syslinux.mbr ' ]]; then
+            # If '-isohybrid-gpt-basdat' is specified before '-e', then the appended EFI system partition will have the
+            # EFI system partition type ID/GUID in both MBR and GPT. If '-isohybrid-gpt-basdat' is specified after '-e',
+            # the appended EFI system partition will have the Microsoft basic data type GUID in GPT.
+            if [[ ! " ${xorrisofs_options[*]} " =~ ' -isohybrid-gpt-basdat ' ]]; then
+                xorrisofs_options+=('-isohybrid-gpt-basdat')
+            fi
+        fi
+    else
+        # The ISO will not contain a GPT partition table, so to be able to reference efiboot.img, place it as a
+        # file inside the ISO 9660 file system
+        install -d -m 0755 -- "${isofs_dir}/EFI/archiso"
+        cp -a -- "${work_dir}/efiboot.img" "${isofs_dir}/EFI/archiso/efiboot.img"
+        # Ploader in an embedded efiboot.img via El Torito
         xorrisofs_options+=(
             # Start a new El Torito boot entry for UEFI
             '-eltorito-alt-boot'

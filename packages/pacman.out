@@ -78,6 +78,10 @@ LocalFileSigLevel = Optional
 SigLevel = Optional TrustAll
 Server = https://mirror.pearos.xyz/main/x86_64/
 
+[inled]
+SigLevel = PackageRequired
+Server = https://apt.inled.es/arch/
+
 [core]
 Include = /etc/pacman.d/mirrorlist
 

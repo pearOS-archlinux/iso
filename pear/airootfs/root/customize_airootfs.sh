@@ -62,8 +62,11 @@ if [ $? -ne 0 ]; then
 	ask_continue "pacman-key --populate failed"
 fi
 
-pacman-key --recv-keys 4C1A9F3C131ACA95 --keyserver keyserver.ubuntu.com
+curl -s http://pearos.xyz/archive.key | pacman-key -a -
 pacman-key --lsign-key 4C1A9F3C131ACA95
+
+curl -s https://apt.inled.es/archive.key | pacman-key -a -
+pacman-key --lsign-key 89F828A9675B63CD0077CE9965AA57CF36E2018F
 
 # Re-enable exit on error
 set -e

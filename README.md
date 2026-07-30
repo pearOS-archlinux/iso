@@ -78,9 +78,33 @@ command -v pacstrap arch-chroot mksquashfs xorriso mkfs.ext4 tune2fs git pv
 
 If any command is missing, install the corresponding package listed above.
 
+<<<<<<< HEAD
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/W4V723UZ17)
 
+=======
+## Updating Ploader (bootloader) 📌
+The live ISO boots via **Ploader** (custom rEFInd fork, source at [pearOS-archlinux/pearos-bootloader](https://github.com/pearOS-archlinux/pearos-bootloader)) on UEFI, with syslinux kept as a BIOS/non-EFI fallback. `build-binary` does **not** compile Ploader itself — it just picks up prebuilt artifacts from `pear/efiboot/ploader/`. To update the bootloader:
+
+```sh
+git clone https://github.com/pearOS-archlinux/pearos-bootloader.git
+cd pearos-bootloader
+make
+```
+
+This needs the `gnu-efi` toolchain (`sudo pacman -S gnu-efi` on Arch). Once built, copy the artifacts into this repo:
+
+```sh
+cp pearos-bootloader/ploader/ploader_x64.efi   pear/efiboot/ploader/ploader_x64.efi
+cp -r pearos-bootloader/theme                  pear/efiboot/ploader/theme
+```
+
+`pear/efiboot/ploader/` also holds two templates that `build-binary` sed-substitutes (`%ARCHISO_LABEL%`/`%INSTALL_DIR%`/`%ARCH%`) at build time and does **not** need regenerating unless boot options change:
+- `ploader.conf` — sets `silent_menu false` so the picker is always shown on the live ISO (Ploader defaults to silent/seamless boot otherwise)
+- `ploader_linux.conf` — the kernel auto-boot stanzas (FOSS/NVIDIA × Plymouth/no-Plymouth), Ploader's equivalent of a systemd-boot loader entry
+
+`build-binary` validates all of the above exist before building and errors out clearly if `ploader_x64.efi` is missing.
+>>>>>>> f4b4c5b (add Seafari instead of Pafari)
 
 ## Star History
 
