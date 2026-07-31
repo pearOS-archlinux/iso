@@ -78,8 +78,10 @@ LocalFileSigLevel = Optional
 SigLevel = Optional TrustAll
 Server = https://mirror.pearos.xyz/main/x86_64/
 
+# Added Optional TrustaLL to Inled Repo due to pacman keyring errors.
+
 [inled]
-SigLevel = PackageRequired
+SigLevel = Optional TrustAll
 Server = https://apt.inled.es/arch/
 
 [core]
