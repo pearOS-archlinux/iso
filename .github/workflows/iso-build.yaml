@@ -125,19 +125,23 @@ jobs:
           echo "[ SUCCESS ] Upload finished"
 
       - name: Commit updated sha.txt
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          cd "$GITHUB_WORKSPACE"
+          # $GITHUB_WORKSPACE/.git is gone by this point (something in the
+          # mkarchiso/pacstrap process wipes or obscures it) -- clone fresh
+          # into a separate dir instead of depending on the build workspace's
+          # own repo state.
+          new_sha=$(cat "$GITHUB_WORKSPACE/sha.txt")
 
-          echo "---- debug ----"
-          echo "pwd: $(pwd)"
-          echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
-          whoami
-          ls -la .git 2>&1 | head -5
-          git rev-parse --show-toplevel 2>&1 || echo "git rev-parse failed"
-          git status 2>&1 | head -5 || echo "git status failed"
-          echo "---------------"
+          clonedir=$(mktemp -d)
+          git clone --depth 1 --branch "${GITHUB_REF_NAME}" \
+            "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
+            "$clonedir"
 
-          git config --global --add safe.directory '*'
+          cd "$clonedir"
+          echo "$new_sha" > sha.txt
+
           git config user.name "pearOS build bot"
           git config user.email "actions@users.noreply.github.com"
 
@@ -147,5 +151,5 @@ jobs:
           fi
 
           git add sha.txt
-          git commit -m "Update sha.txt for $(basename "$(ls *.iso 2>/dev/null | head -n1)")"
-          git push origin HEAD:"${GITHUB_REF_NAME}"
+          git commit -m "Update sha.txt for $(basename "$(ls "$GITHUB_WORKSPACE"/*.iso 2>/dev/null | head -n1)")"
+          git push origin "${GITHUB_REF_NAME}"
