@@ -1,1 +1,1 @@
-df0b0aaf932b52f312ff9620d2c9888a08d9270b02b0ede543e505ef5f8a1c16  ./pearOS-NiceC0re-2026.08-x86_64.iso
+44e6f38469bc3f98e444f67994ac603ed90e99b9edfb1b6f14673cc21aeaf9f2  /__w/iso/iso/testbuild-2026.08-x86_64.iso
