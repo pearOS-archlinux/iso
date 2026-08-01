@@ -126,7 +126,18 @@ jobs:
 
       - name: Commit updated sha.txt
         run: |
-          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          cd "$GITHUB_WORKSPACE"
+
+          echo "---- debug ----"
+          echo "pwd: $(pwd)"
+          echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
+          whoami
+          ls -la .git 2>&1 | head -5
+          git rev-parse --show-toplevel 2>&1 || echo "git rev-parse failed"
+          git status 2>&1 | head -5 || echo "git status failed"
+          echo "---------------"
+
+          git config --global --add safe.directory '*'
           git config user.name "pearOS build bot"
           git config user.email "actions@users.noreply.github.com"
 
