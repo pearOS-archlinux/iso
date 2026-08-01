@@ -2977,6 +2977,7 @@ elif [[ "${_cli_want_build_effective}" == "yes" || "${_cli_want_usb}" == "yes" \
     [[ "${_cli_want_build_effective}" == "yes" ]] && non_interactive_build
     [[ "${_cli_want_usb}" == "yes" ]] && writetousb
     [[ -n "${CLI_UPLOAD_ACTION}" ]] && cli_upload_action
+    true
 elif [[ "${CLI_CHROOT}" == "yes" ]]; then
     # --chroot alone, no existing airootfs, no --build: nothing to chroot
     # into yet and no pipeline was requested to create one.

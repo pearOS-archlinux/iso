@@ -3,6 +3,13 @@ name: Build pearOS ISO
 on:
   push:
     branches: [ "main", "master" ]
+    paths:
+      - "pear/**"
+      - "packages/**"
+      - "gh-actions/**"
+      - "build-binary"
+      - "kickstart.sh"
+      - ".github/workflows/iso-build.yaml"
   schedule:
     - cron: '0 3 8-14 * 3'
   workflow_dispatch:
