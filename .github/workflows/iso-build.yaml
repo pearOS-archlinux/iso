@@ -98,7 +98,7 @@ jobs:
           SHA_FILE="testbuild-fake.iso.sha256"
           cp sha.txt "$SHA_FILE"
 
-          echo "Uploading $SHA_FILE to Cloudflare R2 (pearos-cdn)..."
-          rclone copy "$SHA_FILE" "r2-pearos:pearos-cdn/" --progress
+          echo "Uploading $SHA_FILE to Cloudflare R2 (pearos-cdn/iso)..."
+          rclone copy "$SHA_FILE" "r2-pearos:pearos-cdn/iso/" --progress
 
           echo "[ SUCCESS ] Upload finished"
