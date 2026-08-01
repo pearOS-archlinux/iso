@@ -22,7 +22,18 @@ jobs:
       - name: Setup custom pacman.conf
         run: |
           echo "Getting pacman.conf..."
-          curl -sSL https://raw.githubusercontent.com/pearOS-archlinux/iso/main/packages/gh-actions.out -o /etc/pacman.conf
+          curl -sSL https://raw.githubusercontent.com/pearOS-archlinux/iso/main/packages/pacman.out -o /etc/pacman.conf
+
+      - name: Init pacman keyring
+        run: |
+          pacman-key --init
+          pacman-key --populate archlinux
+
+          pacman-key -a packages/pearos.gpg
+          pacman-key --lsign-key 4C1A9F3C131ACA95
+
+          curl -s https://apt.inled.es/archive.key | pacman-key -a -
+          pacman-key --lsign-key 89F828A9675B63CD0077CE9965AA57CF36E2018F
 
       - name: Updating packages and installing deps
         run: |
