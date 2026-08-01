@@ -35,6 +35,9 @@ jobs:
           pacman-key -a packages/inled.gpg
           pacman-key --lsign-key 89F828A9675B63CD0077CE9965AA57CF36E2018F
 
+          pacman-key -a packages/chaotic-aur.gpg
+          pacman-key --lsign-key 3056513887B78AEB
+
       - name: Updating packages and installing deps
         run: |
           pacman -Syu --noconfirm
