@@ -61,19 +61,22 @@ jobs:
       - name: Updating packages and installing deps
         run: |
           pacman -Syu --noconfirm
-          pacman -S --noconfirm rclone
+          pacman -S --noconfirm \
+            archiso \
+            arch-install-scripts \
+            mtools \
+            dosfstools \
+            squashfs-tools \
+            xorriso \
+            e2fsprogs \
+            git \
+            pv \
+            rclone
 
       - name: Starting Build
-        if: false # TEMP TEST: skip, testing only the R2 upload step
         run: |
           chmod +x ./kickstart.sh
           ./kickstart.sh
-
-      - name: TEMP TEST - fake sha256 file
-        run: |
-          echo "0000000000000000000000000000000000000000000000000000000000000000  testbuild-fake.iso" > sha.txt
-          touch testbuild-fake.iso
-          cat sha.txt
 
       - name: Configure rclone (R2)
         env:
@@ -92,13 +95,28 @@ jobs:
           acl = private
           EOF
 
-      - name: Uploading to R2 (pearos-cdn)
+      - name: Uploading to R2 (pearos-cdn/iso)
         run: |
-          # TEMP TEST: only sha.txt, no ISO involved
-          SHA_FILE="testbuild-fake.iso.sha256"
-          cp sha.txt "$SHA_FILE"
+          ISO_FILE=$(ls out/*.iso 2>/dev/null || ls *.iso 2>/dev/null | head -n 1)
 
-          echo "Uploading $SHA_FILE to Cloudflare R2 (pearos-cdn/iso)..."
-          rclone copy "$SHA_FILE" "r2-pearos:pearos-cdn/iso/" --progress
+          if [ -z "$ISO_FILE" ]; then
+            echo "[ ERR ]: Could not find ISO file."
+            exit 1
+          fi
+
+          echo "Uploading $ISO_FILE (file-size: $(du -h "$ISO_FILE" | cut -f1)) to Cloudflare R2 (pearos-cdn/iso)..."
+
+          rclone copy "$ISO_FILE" "r2-pearos:pearos-cdn/iso/" --progress
+
+          if [ -f sha.txt ]; then
+            SHA_FILE="$(basename "$ISO_FILE").sha256"
+            cp sha.txt "$SHA_FILE"
+
+            echo "Uploading $SHA_FILE to Cloudflare R2 (pearos-cdn/iso)..."
+
+            rclone copy "$SHA_FILE" "r2-pearos:pearos-cdn/iso/" --progress
+          else
+            echo "[ ERR ]: sha.txt not found, skipping checksum upload."
+          fi
 
           echo "[ SUCCESS ] Upload finished"
