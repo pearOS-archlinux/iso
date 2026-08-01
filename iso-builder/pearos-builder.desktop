@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=pearOS ISO Builder
+GenericName=ISO Builder
+Comment=Build and customize pearOS ISO images
+Exec=pearos-builder
+Icon=pearos-builder
+Terminal=false
+Categories=System;Building;
+StartupNotify=true
