@@ -14,6 +14,9 @@ on:
     - cron: '0 3 8-14 * 3'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build-iso:
     runs-on: ubuntu-latest
@@ -120,3 +123,18 @@ jobs:
           fi
 
           echo "[ SUCCESS ] Upload finished"
+
+      - name: Commit updated sha.txt
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          git config user.name "pearOS build bot"
+          git config user.email "actions@users.noreply.github.com"
+
+          if git diff --quiet -- sha.txt; then
+            echo "sha.txt unchanged, nothing to commit."
+            exit 0
+          fi
+
+          git add sha.txt
+          git commit -m "Update sha.txt for $(basename "$(ls *.iso 2>/dev/null | head -n1)")"
+          git push origin HEAD:"${GITHUB_REF_NAME}"
