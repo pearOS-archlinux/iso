@@ -34,12 +34,15 @@ jobs:
           # Manjaro mirrorlist (same as the build machine), so some packages
           # (e.g. mkinitcpio-openswap, required by calamares) are signed by
           # Manjaro packager keys unknown to a stock archlinux-keyring.
-          # `pacman -U` uses LocalFileSigLevel (Optional in this conf) instead
-          # of the repo's PackageRequired, so it installs even before the key
-          # is trusted -- same bootstrap trick a real Manjaro install does,
-          # just from a bare Arch container instead of a pre-baked image.
+          # Optional still validates a signature if one is present -- it just
+          # allows a MISSING one -- so an untrusted-but-present signature
+          # still fails. Drop to Never for this one bootstrap install only,
+          # then restore, same trust-bootstrap problem every fresh Manjaro
+          # install solves by shipping the keyring pre-baked in the ISO.
+          sed -i 's/^LocalFileSigLevel.*/LocalFileSigLevel = Never/' /etc/pacman.conf
           pacman -U --noconfirm \
             "https://mirror1.sox.rs/manjaro/testing/core/x86_64/manjaro-keyring-20251003-1-any.pkg.tar.zst"
+          sed -i 's/^LocalFileSigLevel.*/LocalFileSigLevel = Optional/' /etc/pacman.conf
           pacman-key --populate manjaro
 
           pacman-key -a packages/pearos.gpg
