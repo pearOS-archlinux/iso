@@ -6,16 +6,16 @@ set -e -u
 SCRIPT_DIR="$(cd -- "$(dirname -- "$(readlink -f -- "$0")")" && pwd)"
 
 if [[ "${EUID}" -eq 0 ]]; then
-    "${SCRIPT_DIR}/build-binary" --build --profile pear --filename testbuild --clean
+    "${SCRIPT_DIR}/build-binary" --build --profile pear --clean
 else
-    sudo "${SCRIPT_DIR}/build-binary" --build --profile pear --filename testbuild --clean
+    sudo "${SCRIPT_DIR}/build-binary" --build --profile pear --clean
 fi
 
-iso_file=$(find "${SCRIPT_DIR}" -maxdepth 1 -name "testbuild-*.iso" -type f | head -1)
+iso_file=$(find "${SCRIPT_DIR}" -maxdepth 1 -name "*.iso" -type f | grep -i pearos | head -1)
 if [[ -n "${iso_file}" ]]; then
     sha256sum -- "${iso_file}" > "${SCRIPT_DIR}/sha.txt"
     cat "${SCRIPT_DIR}/sha.txt"
 else
-    echo "No testbuild ISO found for sha256" >&2
+    echo "No pearOS ISO found for sha256" >&2
     exit 1
 fi
