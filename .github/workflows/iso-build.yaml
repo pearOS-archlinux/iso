@@ -39,10 +39,10 @@ jobs:
           # still fails. Drop to Never for this one bootstrap install only,
           # then restore, same trust-bootstrap problem every fresh Manjaro
           # install solves by shipping the keyring pre-baked in the ISO.
-          sed -i 's/^LocalFileSigLevel.*/LocalFileSigLevel = Never/' /etc/pacman.conf
+          sed -i 's/^LocalFileSigLevel.*/LocalFileSigLevel = Never/;s/^#\?RemoteFileSigLevel.*/RemoteFileSigLevel = Never/' /etc/pacman.conf
           pacman -U --noconfirm \
             "https://mirror1.sox.rs/manjaro/testing/core/x86_64/manjaro-keyring-20251003-1-any.pkg.tar.zst"
-          sed -i 's/^LocalFileSigLevel.*/LocalFileSigLevel = Optional/' /etc/pacman.conf
+          sed -i 's/^LocalFileSigLevel.*/LocalFileSigLevel = Optional/;s/^RemoteFileSigLevel.*/#RemoteFileSigLevel = Required/' /etc/pacman.conf
           pacman-key --populate manjaro
 
           pacman-key -a packages/pearos.gpg
