@@ -33,7 +33,6 @@ jobs:
           cp gh-actions/mirrorlist /etc/pacman.d/mirrorlist
 
       - name: Init pacman keyring
-        if: false # TEMP TEST: skip, no build needed for this test
         run: |
           pacman-key --init
           pacman-key --populate archlinux
