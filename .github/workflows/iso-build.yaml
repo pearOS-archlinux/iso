@@ -19,24 +19,34 @@ jobs:
       - name: Checking out source code
         uses: actions/checkout@v4
 
-      - name: Setup custom pacman.conf
+      - name: Setup custom pacman.conf + mirrorlist
         run: |
-          echo "Getting pacman.conf..."
-          curl -sSL https://raw.githubusercontent.com/pearOS-archlinux/iso/main/packages/pacman.out -o /etc/pacman.conf
+          echo "Copying pacman.conf and mirrorlist from gh-actions/ (mirrors the pearOS build machine)..."
+          cp gh-actions/pacman.conf /etc/pacman.conf
+          cp gh-actions/mirrorlist /etc/pacman.d/mirrorlist
 
       - name: Init pacman keyring
         run: |
           pacman-key --init
           pacman-key --populate archlinux
 
+          # Bootstrap manjaro-keyring: [core]/[extra] now resolve through the
+          # Manjaro mirrorlist (same as the build machine), so some packages
+          # (e.g. mkinitcpio-openswap, required by calamares) are signed by
+          # Manjaro packager keys unknown to a stock archlinux-keyring.
+          # `pacman -U` uses LocalFileSigLevel (Optional in this conf) instead
+          # of the repo's PackageRequired, so it installs even before the key
+          # is trusted -- same bootstrap trick a real Manjaro install does,
+          # just from a bare Arch container instead of a pre-baked image.
+          pacman -U --noconfirm \
+            "https://mirror1.sox.rs/manjaro/testing/core/x86_64/manjaro-keyring-20251003-1-any.pkg.tar.zst"
+          pacman-key --populate manjaro
+
           pacman-key -a packages/pearos.gpg
           pacman-key --lsign-key 4C1A9F3C131ACA95
 
           pacman-key -a packages/inled.gpg
           pacman-key --lsign-key 89F828A9675B63CD0077CE9965AA57CF36E2018F
-
-          pacman-key -a packages/chaotic-aur.gpg
-          pacman-key --lsign-key 3056513887B78AEB
 
       - name: Updating packages and installing deps
         run: |

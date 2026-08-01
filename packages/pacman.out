@@ -110,10 +110,6 @@ SigLevel = Required DatabaseOptional
 SigLevel = Required DatabaseOptional
 Include = /etc/pacman.d/mirrorlist
 
-[chaotic-aur]
-SigLevel = Required DatabaseOptional
-Server = https://cdn-mirror.chaotic.cx/chaotic-aur/$arch
-
 # An example of a custom package repository.  See the pacman manpage for
 # tips on creating your own repositories.
 #[custom]
