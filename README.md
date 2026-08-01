@@ -78,11 +78,10 @@ command -v pacstrap arch-chroot mksquashfs xorriso mkfs.ext4 tune2fs git pv
 
 If any command is missing, install the corresponding package listed above.
 
-<<<<<<< HEAD
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/W4V723UZ17)
 
-=======
+
 ## Updating Ploader (bootloader) 📌
 The live ISO boots via **Ploader** (custom rEFInd fork, source at [pearOS-archlinux/pearos-bootloader](https://github.com/pearOS-archlinux/pearos-bootloader)) on UEFI, with syslinux kept as a BIOS/non-EFI fallback. `build-binary` does **not** compile Ploader itself — it just picks up prebuilt artifacts from `pear/efiboot/ploader/`. To update the bootloader:
 
@@ -104,7 +103,7 @@ cp -r pearos-bootloader/theme                  pear/efiboot/ploader/theme
 - `ploader_linux.conf` — the kernel auto-boot stanzas (FOSS/NVIDIA × Plymouth/no-Plymouth), Ploader's equivalent of a systemd-boot loader entry
 
 `build-binary` validates all of the above exist before building and errors out clearly if `ploader_x64.efi` is missing.
->>>>>>> f4b4c5b (add Seafari instead of Pafari)
+
 
 ## Star History
 
