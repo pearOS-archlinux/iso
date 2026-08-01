@@ -71,49 +71,50 @@ jobs:
             e2fsprogs \
             git \
             pv \
-            aws-cli
+            rclone
 
       - name: Starting Build
         run: |
           chmod +x ./kickstart.sh
           ./kickstart.sh
 
-      - name: Conf AWS CLI for Cloudflare R2
-        run: |
-          aws configure set default.s3.multipart_chunksize 64MB
-          aws configure set default.s3.max_concurrent_requests 10
-
-      - name: Uploading to R2 Bucket
+      - name: Configure rclone (R2)
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-          ENDPOINT_URL: ${{ secrets.R2_ENDPOINT_URL }}
-          BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_ENDPOINT_URL: ${{ secrets.R2_ENDPOINT_URL }}
+        run: |
+          mkdir -p /root/.config/rclone
+          cat > /root/.config/rclone/rclone.conf <<EOF
+          [r2-pearos]
+          type = s3
+          provider = Cloudflare
+          access_key_id = ${R2_ACCESS_KEY_ID}
+          secret_access_key = ${R2_SECRET_ACCESS_KEY}
+          endpoint = ${R2_ENDPOINT_URL}
+          acl = private
+          EOF
+
+      - name: Uploading to R2 (pearos-cdn)
         run: |
           ISO_FILE=$(ls out/*.iso 2>/dev/null || ls *.iso 2>/dev/null | head -n 1)
-          
+
           if [ -z "$ISO_FILE" ]; then
             echo "[ ERR ]: Could not find ISO file."
             exit 1
           fi
 
-          echo "Uploading $ISO_FILE (dimensiune: $(du -h "$ISO_FILE" | cut -f1)) in Cloudflare R2..."
-          
-          aws s3 cp "$ISO_FILE" "s3://$BUCKET_NAME/$(basename "$ISO_FILE")" \
-            --endpoint-url "$ENDPOINT_URL" \
-            --region auto \
-            --no-progress
+          echo "Uploading $ISO_FILE (file-size: $(du -h "$ISO_FILE" | cut -f1)) to Cloudflare R2 (pearos-cdn)..."
+
+          rclone copy "$ISO_FILE" "r2-pearos:pearos-cdn/" --progress
 
           if [ -f sha.txt ]; then
             SHA_FILE="$(basename "$ISO_FILE").sha256"
             cp sha.txt "$SHA_FILE"
 
-            echo "Uploading $SHA_FILE in Cloudflare R2..."
+            echo "Uploading $SHA_FILE in Cloudflare R2 (pearos-cdn)..."
 
-            aws s3 cp "$SHA_FILE" "s3://$BUCKET_NAME/$SHA_FILE" \
-              --endpoint-url "$ENDPOINT_URL" \
-              --region auto \
-              --no-progress
+            rclone copy "$SHA_FILE" "r2-pearos:pearos-cdn/" --progress
           else
             echo "[ ERR ]: sha.txt not found, skipping checksum upload."
           fi
