@@ -33,6 +33,7 @@ jobs:
           cp gh-actions/mirrorlist /etc/pacman.d/mirrorlist
 
       - name: Init pacman keyring
+        if: false # TEMP TEST: skip, no build needed for this test
         run: |
           pacman-key --init
           pacman-key --populate archlinux
@@ -61,22 +62,19 @@ jobs:
       - name: Updating packages and installing deps
         run: |
           pacman -Syu --noconfirm
-          pacman -S --noconfirm \
-            archiso \
-            arch-install-scripts \
-            mtools \
-            dosfstools \
-            squashfs-tools \
-            xorriso \
-            e2fsprogs \
-            git \
-            pv \
-            rclone
+          pacman -S --noconfirm rclone
 
       - name: Starting Build
+        if: false # TEMP TEST: skip, testing only the R2 upload step
         run: |
           chmod +x ./kickstart.sh
           ./kickstart.sh
+
+      - name: TEMP TEST - fake sha256 file
+        run: |
+          echo "0000000000000000000000000000000000000000000000000000000000000000  testbuild-fake.iso" > sha.txt
+          touch testbuild-fake.iso
+          cat sha.txt
 
       - name: Configure rclone (R2)
         env:
@@ -84,8 +82,8 @@ jobs:
           R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
           R2_ENDPOINT_URL: ${{ secrets.R2_ENDPOINT_URL }}
         run: |
-          mkdir -p /root/.config/rclone
-          cat > /root/.config/rclone/rclone.conf <<EOF
+          mkdir -p "${HOME}/.config/rclone"
+          cat > "${HOME}/.config/rclone/rclone.conf" <<EOF
           [r2-pearos]
           type = s3
           provider = Cloudflare
@@ -97,26 +95,11 @@ jobs:
 
       - name: Uploading to R2 (pearos-cdn)
         run: |
-          ISO_FILE=$(ls out/*.iso 2>/dev/null || ls *.iso 2>/dev/null | head -n 1)
+          # TEMP TEST: only sha.txt, no ISO involved
+          SHA_FILE="testbuild-fake.iso.sha256"
+          cp sha.txt "$SHA_FILE"
 
-          if [ -z "$ISO_FILE" ]; then
-            echo "[ ERR ]: Could not find ISO file."
-            exit 1
-          fi
-
-          echo "Uploading $ISO_FILE (file-size: $(du -h "$ISO_FILE" | cut -f1)) to Cloudflare R2 (pearos-cdn)..."
-
-          rclone copy "$ISO_FILE" "r2-pearos:pearos-cdn/" --progress
-
-          if [ -f sha.txt ]; then
-            SHA_FILE="$(basename "$ISO_FILE").sha256"
-            cp sha.txt "$SHA_FILE"
-
-            echo "Uploading $SHA_FILE in Cloudflare R2 (pearos-cdn)..."
-
-            rclone copy "$SHA_FILE" "r2-pearos:pearos-cdn/" --progress
-          else
-            echo "[ ERR ]: sha.txt not found, skipping checksum upload."
-          fi
+          echo "Uploading $SHA_FILE to Cloudflare R2 (pearos-cdn)..."
+          rclone copy "$SHA_FILE" "r2-pearos:pearos-cdn/" --progress
 
           echo "[ SUCCESS ] Upload finished"
