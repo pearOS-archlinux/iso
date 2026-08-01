@@ -1,0 +1,87 @@
+name: Build pearOS ISO
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  schedule:
+    - cron: '0 3 8-14 * 3'
+  workflow_dispatch:
+
+jobs:
+  build-iso:
+    runs-on: ubuntu-latest
+
+    container:
+      image: archlinux:latest
+      options: --privileged
+
+    steps:
+      - name: Checking out source code
+        uses: actions/checkout@v4
+
+      - name: Setup custom pacman.conf
+        run: |
+          echo "Getting pacman.conf..."
+          curl -sSL https://raw.githubusercontent.com/pearOS-archlinux/iso/main/packages/pacman.out -o /etc/pacman.conf
+
+      - name: Updating packages and installing deps
+        run: |
+          pacman -Syu --noconfirm
+          pacman -S --noconfirm \
+            archiso \
+            arch-install-scripts \
+            mtools \
+            dosfstools \
+            squashfs-tools \
+            xorriso \
+            e2fsprogs \
+            git \
+            pv \
+            aws-cli
+
+      - name: Starting Build
+        run: |
+          chmod +x ./kickstart.sh
+          ./kickstart.sh
+
+      - name: Conf AWS CLI for Cloudflare R2
+        run: |
+          aws configure set default.s3.multipart_chunksize 64MB
+          aws configure set default.s3.max_concurrent_requests 10
+
+      - name: Uploading to R2 Bucket
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          ENDPOINT_URL: ${{ secrets.R2_ENDPOINT_URL }}
+          BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+        run: |
+          ISO_FILE=$(ls out/*.iso 2>/dev/null || ls *.iso 2>/dev/null | head -n 1)
+          
+          if [ -z "$ISO_FILE" ]; then
+            echo "[ ERR ]: Could not find ISO file."
+            exit 1
+          fi
+
+          echo "Uploading $ISO_FILE (dimensiune: $(du -h "$ISO_FILE" | cut -f1)) in Cloudflare R2..."
+          
+          aws s3 cp "$ISO_FILE" "s3://$BUCKET_NAME/$(basename "$ISO_FILE")" \
+            --endpoint-url "$ENDPOINT_URL" \
+            --region auto \
+            --no-progress
+
+          if [ -f sha.txt ]; then
+            SHA_FILE="$(basename "$ISO_FILE").sha256"
+            cp sha.txt "$SHA_FILE"
+
+            echo "Uploading $SHA_FILE in Cloudflare R2..."
+
+            aws s3 cp "$SHA_FILE" "s3://$BUCKET_NAME/$SHA_FILE" \
+              --endpoint-url "$ENDPOINT_URL" \
+              --region auto \
+              --no-progress
+          else
+            echo "[ ERR ]: sha.txt not found, skipping checksum upload."
+          fi
+
+          echo "[ SUCCESS ] Upload finished"
