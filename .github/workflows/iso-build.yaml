@@ -22,14 +22,7 @@ jobs:
       - name: Setup custom pacman.conf
         run: |
           echo "Getting pacman.conf..."
-          curl -sSL https://raw.githubusercontent.com/pearOS-archlinux/iso/main/packages/pacman.out -o /etc/pacman.conf
-
-      - name: Init pacman keyring
-        run: |
-          pacman-key --init
-          pacman-key --populate archlinux
-          pacman-key --recv-keys 89F828A9675B63CD0077CE9965AA57CF36E2018F --keyserver keyserver.ubuntu.com
-          pacman-key --lsign-key 89F828A9675B63CD0077CE9965AA57CF36E2018F
+          curl -sSL https://raw.githubusercontent.com/pearOS-archlinux/iso/main/packages/gh-actions.out -o /etc/pacman.conf
 
       - name: Updating packages and installing deps
         run: |
