@@ -26,6 +26,10 @@ fn_noroot() { echo -e "[ \e[91m%\e[0m ] : Program terminated: [user_notroot]"; e
 # Set application name from the script's file name
 app_name="${0##*/}"
 
+# Absolute path to this script's directory, used to locate the ISO Uploader
+SCRIPT_DIR="$(cd -- "$(dirname -- "$(readlink -f -- "$0")")" && pwd)"
+UPLOAD_SCRIPT="${SCRIPT_DIR}/ISO Uploader/upload"
+
 # Define global variables. All of them will be overwritten later
 pkg_list=()
 bootstrap_pkg_list=()
@@ -57,90 +61,61 @@ readonly ucodes=('intel-uc.img' 'intel-ucode.img' 'amd-uc.img' 'amd-ucode.img' '
 
 ############### CUSTOM INTERACTIVE CHROOT FUNCTIONS (must be before mkarchiso) ###############
 
-# Interactive chroot function
+# Drop straight into an arch-chroot shell in $1. No menu, no y/n prompt --
+# every caller of this function only calls it because --chroot was passed
+# on the command line, so that's already explicit consent. There's nothing
+# left to ask.
 interactive_chroot() {
     local airootfs_dir="$1"
-    
+
     if [[ ! -d "$airootfs_dir" ]]; then
         echo -e "[\e[91m%\e[0m] Error: airootfs directory not found!"
         return 1
     fi
-    
-    while true; do
-        echo -e "\n[\e[94m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m]"
-        echo -e "[\e[93m%\e[0m] Interactive Chroot"
-        echo -e "[\e[94m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m]"
-        echo -e "[\e[93m%\e[0m] You can now customize the live environment"
-        echo -e "[\e[93m%\e[0m] Airootfs location: $airootfs_dir"
-        echo -e ""
-        echo -e "  \e[92m1)\e[0m Enter chroot (customize system)"
-        echo -e "  \e[92m2)\e[0m Continue build (finish ISO)"
-        echo -e "  \e[91m0)\e[0m Cancel build"
-        echo -e ""
-        
-        read -p "$(echo -e '[\e[93m%\e[0m] Choose option: ')" choice < /dev/tty
-        
-        case "$choice" in
-            1)
-                echo -e "\n[\e[92m%\e[0m] Entering chroot environment..."
-                echo -e "[\e[93m%\e[0m] Tips:"
-                echo -e "  - Install packages: pacman -S package-name"
-                echo -e "  - Edit configs in /etc/"
-                echo -e "  - Customize user settings"
-                echo -e "  - Type 'exit' when done"
-                echo -e ""
-                
-                # Enter chroot
-                arch-chroot "$airootfs_dir" /bin/bash
-                
-                echo -e "\n[\e[92m%\e[0m] Exited chroot"
-                ;;
-            2)
-                echo -e "[\e[92m%\e[0m] Continuing with ISO build..."
-                break
-                ;;
-            0)
-                echo -e "[\e[91m%\e[0m] Build cancelled by user"
-                return 1
-                ;;
-            *)
-                echo -e "[\e[91m%\e[0m] Invalid choice!"
-                ;;
-        esac
-    done
-    
+
+    echo -e "\n[\e[94m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m]"
+    echo -e "[\e[93m%\e[0m] Entering chroot: $airootfs_dir"
+    echo -e "[\e[94m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m]"
+    echo -e "[\e[93m%\e[0m] Tips:"
+    echo -e "  - Install packages: pacman -S package-name"
+    echo -e "  - Edit configs in /etc/"
+    echo -e "  - Customize user settings"
+    echo -e "  - Type 'exit' when done"
+    echo -e ""
+
+    arch-chroot "$airootfs_dir" /bin/bash
+
+    echo -e "\n[\e[92m%\e[0m] Exited chroot -- airootfs keeps everything you changed."
     return 0
 }
 
-# Hook function to check for chroot request
+# Mid-build hook, called from _make_customize_airootfs only when
+# INTERACTIVE_CHROOT=yes (i.e. --build --chroot was passed) -- see line
+# ~787. Chroots directly, no prompt: passing --chroot IS the answer.
 check_chroot_request() {
     local work_dir="$1"
     local airootfs_dir="${work_dir}/x86_64/airootfs"
-    
-    # Check if airootfs exists
+
     if [[ ! -d "$airootfs_dir" ]]; then
         echo -e "[\e[91m%\e[0m] Error: airootfs directory not found at $airootfs_dir"
         return 1
     fi
-    
+
     echo -e "\n[\e[94m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m]"
-    echo -e "[\e[93m%\e[0m] System installation complete!"
+    echo -e "[\e[93m%\e[0m] System installation complete -- chrooting in (--chroot was given)"
     echo -e "[\e[94m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m]"
-    
-    read -p "$(echo -e '[\e[93m%\e[0m] Do you want to chroot and customize before finalizing ISO? (y/N): ')" answer < /dev/tty
-    
-    if [[ "$answer" =~ ^[Yy]$ ]]; then
-        if interactive_chroot "$airootfs_dir"; then
-            echo -e "[\e[92m%\e[0m] Customization complete, continuing build..."
-        else
-            echo -e "[\e[91m%\e[0m] Build cancelled"
-            return 1
-        fi
-    else
-        echo -e "[\e[92m%\e[0m] Skipping chroot, continuing with build..."
-    fi
-    
-    return 0
+
+    interactive_chroot "$airootfs_dir"
+
+    # Stop here, deliberately -- don't fall through to squashfs/ISO
+    # creation in this same run. pacstrap is already done and airootfs
+    # keeps every change from the chroot session; compression/sha256/
+    # filename are decided in a SEPARATE, later "--build" run that reuses
+    # this same ./work (pacstrap is skipped -- see the marker-clearing in
+    # non_interactive_build) and only finishes the squashfs + ISO.
+    echo -e "\n[\e[92m%\e[0m] : Stopping here -- airootfs is ready, nothing built into an ISO yet."
+    echo -e "[\e[92m%\e[0m] : Run \"--build\" again (same ./work, pacstrap skipped) whenever you're ready to finish it."
+    exit 0
 }
 
 ############### END CUSTOM FUNCTIONS ###############
@@ -435,6 +410,7 @@ _run_once() {
 # Detect distro-specific repos from host pacman.conf
 _detect_host_repos() {
     local host_conf="/etc/pacman.conf"
+    local base_conf="packages/pacman.out"
     local std_repos="core extra multilib community"
 
     _HOST_EXTRA_REPOS=()
@@ -446,9 +422,21 @@ _detect_host_repos() {
         return
     fi
 
+    # Repos the pearOS base template (packages/pacman.out) already defines
+    # -- e.g. [pearos]/[inled] -- must NOT be re-injected here even if the
+    # build host also has them configured in its own /etc/pacman.conf
+    # (which it will, on a pearOS machine): _generate_pear_pacman_conf()
+    # copies base_conf into pear/pacman.conf first, so re-adding them from
+    # the host produces duplicate [pearos]/[inled] blocks on every build.
+    local base_repos=""
+    [[ -f "${base_conf}" ]] && base_repos=$(grep -oP '^\[\K[^\]]+' "${base_conf}")
+
     while IFS= read -r repo; do
         [[ -z "${repo}" ]] && continue
         if echo "${std_repos}" | grep -qw "${repo}"; then
+            continue
+        fi
+        if [[ -n "${base_repos}" ]] && echo "${base_repos}" | grep -qxF "${repo}"; then
             continue
         fi
 
@@ -652,10 +640,21 @@ _make_packages() {
     cp /usr/share/pacman/keyrings/*-revoked "${pacstrap_dir}/usr/share/pacman/keyrings/" 2>/dev/null || true
     cp /usr/share/pacman/keyrings/*-trusted "${pacstrap_dir}/usr/share/pacman/keyrings/" 2>/dev/null || true
 
-    # Import pearOS key into the copied keyring using GNUPGHOME
+    # Import pearOS key into the copied keyring using GNUPGHOME. Fetched
+    # live (same pattern as the inled key right below) rather than read
+    # from a repo-local pear/airootfs/root/archive.key -- that file was
+    # never actually committed to this repo, so importing from it always
+    # failed (silently, thanks to `|| true`); it only ever "worked" on
+    # machines that already trusted this key in their own host keyring
+    # (which every pearOS machine does, masking the failure).
     _msg_info "Importing pearOS GPG key..."
-    GNUPGHOME="${_gpg_dir}" pacman-key --recv-keys 4C1A9F3C131ACA95 --keyserver keyserver.ubuntu.com || true
+    GNUPGHOME="${_gpg_dir}" curl -s https://pearos.xyz/archive.key | GNUPGHOME="${_gpg_dir}" pacman-key -a - || true
     GNUPGHOME="${_gpg_dir}" pacman-key --lsign-key 4C1A9F3C131ACA95 || true
+
+    # Import inled key into the copied keyring using GNUPGHOME
+    _msg_info "Importing inled GPG key..."
+    GNUPGHOME="${_gpg_dir}" curl -s https://apt.inled.es/archive.key | GNUPGHOME="${_gpg_dir}" pacman-key -a - || true
+    GNUPGHOME="${_gpg_dir}" pacman-key --lsign-key 89F828A9675B63CD0077CE9965AA57CF36E2018F || true
 
     # Unset TMPDIR to work around https://bugs.archlinux.org/task/70580
     # Install all packages except pearos-settings first
@@ -2213,7 +2212,7 @@ actual_build() {
 			;;
 		2)
 			# Small filesize, slower: xz maximum compression
-			COMPRESSION_OPTS="('-comp' 'xz' '-Xbcj' 'x86' '-b' '1M' '-Xdict-size' '1M' '-Xcompression-level' '9')"
+			COMPRESSION_OPTS="('-comp' 'xz' '-Xbcj' 'x86' '-b' '1M' '-Xdict-size' '100%')"
 			echo -e "[\e[92m%\e[0m] Selected: Small filesize, slower (xz level 9)"
 			;;
 		3)
@@ -2275,11 +2274,23 @@ actual_build() {
 	mainmenu
 }
 
+# Global CLI state, set by the option parser at the bottom of this file.
+# CLI_MODE=yes means a menu action was reached via a command-line flag, not
+# by typing at the interactive prompt -- functions shared between both
+# paths use it to decide whether to loop back to mainmenu (interactive) or
+# just return so the script can exit (CLI).
+CLI_MODE="${CLI_MODE:-no}"
+CLI_YES="${CLI_YES:-no}"
+
+_back_to_menu() {
+    [[ "${CLI_MODE}" == "yes" ]] || mainmenu
+}
+
 clean_out() {
         echo -e "[ \e[32m%\e[0m ] : rm -rf ./work"
         rm -rf ./work
 	echo -e "[ \e[92m%\e[0m ] : The work directory was cleaned"
-	mainmenu
+	_back_to_menu
 }
 
 printUSBDevices() {
@@ -2344,7 +2355,8 @@ printUSBDevices
 if [ -z "$USB" ]
 then
       echo -e "[ \e[91m%\e[0m ] : No USB device found. Make sure there is ONE device inserted and try again. Abort"
-      mainmenu
+      _back_to_menu
+      [[ "${CLI_MODE}" == "yes" ]] && exit 1
       return
 fi
 
@@ -2352,7 +2364,8 @@ fi
 if [ -n "$USB" ] && [ "$(echo "$USB" | wc -w)" -gt 1 ]; then
     echo -e "[ \e[91m%\e[0m ] : Multiple USB devices found. Please disconnect all but ONE USB device and try again."
     echo -e "[ \e[93m%\e[0m ] : Found devices: $USB"
-    mainmenu
+    _back_to_menu
+    [[ "${CLI_MODE}" == "yes" ]] && exit 1
     return
 fi
 
@@ -2361,7 +2374,8 @@ iso_file=$(find . -maxdepth 1 -name "*.iso" -type f 2>/dev/null | grep -i pearOS
 
 if [ -z "$iso_file" ]; then
     echo -e "[ \e[91m%\e[0m ] : No pearOS ISO file found. Abort"
-    mainmenu
+    _back_to_menu
+    [[ "${CLI_MODE}" == "yes" ]] && exit 1
     return
 fi
 
@@ -2414,11 +2428,17 @@ echo -e "[ \e[92m%\e[0m ] USB Size: \e[96m${usb_size_display}\e[0m"
 echo ""
 echo -e "[ \e[91m⚠\e[0m ] \e[91mWARNING: This will erase ALL data on ${USB}\e[0m"
 echo ""
-read -p "$(echo -e '[\e[93m%\e[0m] Continue? (yes/no): ')" confirm < /dev/tty
+if [[ "${CLI_MODE}" == "yes" && "${CLI_YES}" == "yes" ]]; then
+    confirm="yes"
+    echo -e "[\e[93m%\e[0m] Continue? (yes/no): yes  (--yes)"
+else
+    read -p "$(echo -e '[\e[93m%\e[0m] Continue? (yes/no): ')" confirm < /dev/tty
+fi
 
 if [ "$confirm" != "yes" ]; then
     echo -e "[ \e[91m%\e[0m ] : Operation cancelled by user"
-    mainmenu
+    _back_to_menu
+    [[ "${CLI_MODE}" == "yes" ]] && exit 1
     return
 fi
 
@@ -2429,9 +2449,360 @@ sudo dd if="$iso_file" of="$USB" bs=4M status=progress conv=fsync 2>&1
 sync
 echo ""
 echo -e "[ \e[92m%\e[0m ] : Your bootable USB is ready!"
-mainmenu
+_back_to_menu
 }
 
+
+# rclone reads its config from $HOME/.config/rclone/rclone.conf. build-binary runs
+# as root via sudo, so run the uploader as the invoking (non-root) user instead,
+# otherwise it looks in /root and finds no remotes.
+_run_upload() {
+    if [[ -n "${SUDO_USER:-}" ]] && [[ "$(id -u)" -eq 0 ]]; then
+        sudo -u "${SUDO_USER}" -H "${UPLOAD_SCRIPT}" "$@"
+    else
+        "${UPLOAD_SCRIPT}" "$@"
+    fi
+}
+
+# Standalone CLI chroot: enters interactive_chroot() on whatever airootfs
+# currently exists in ./work, independent of --build. This is the only way
+# to chroot "after a build" -- once a build reaches the squashfs step,
+# mkarchiso deletes the airootfs directory to save space, so there's
+# nothing left to chroot into. If --build is also given, CLI_CHROOT is
+# instead handled inline by non_interactive_build (via INTERACTIVE_CHROOT),
+# which offers the chroot at the one point mid-build where airootfs still
+# exists but pacstrap/customize_airootfs have already run.
+cli_chroot() {
+    local airootfs_dir
+    airootfs_dir=$(find ./work -maxdepth 3 -type d -path "*/x86_64/airootfs" 2>/dev/null | head -n1)
+    if [[ -z "${airootfs_dir}" ]]; then
+        echo -e "[ \e[91m%\e[0m ] : No airootfs found under ./work to chroot into." >&2
+        echo -e "[ \e[93m%\e[0m ] : It only exists between pacstrap and the squashfs step -- run" >&2
+        echo -e "[ \e[93m%\e[0m ] : \"--build --chroot\" to build up to that point and chroot into it," >&2
+        echo -e "[ \e[93m%\e[0m ] : or if a build already finished, its airootfs has already been" >&2
+        echo -e "[ \e[93m%\e[0m ] : consumed into the ISO and can't be chrooted into anymore." >&2
+        exit 1
+    fi
+    interactive_chroot "${airootfs_dir}"
+    # Always stops here, even if --build was also given -- --chroot never
+    # falls through to building the squashfs/ISO in the same run (see
+    # check_chroot_request for the equivalent mid-pipeline case). airootfs
+    # keeps every change; run "--build" again afterward (same ./work,
+    # pacstrap skipped) whenever you're ready to finish the ISO.
+    echo -e "[ \e[93m%\e[0m ] : Not building the ISO in this run. Run \"--build\" again (pacstrap is skipped) whenever you're ready to finish it."
+    exit 0
+}
+
+# CLI equivalent of the ISO Uploader submenu (uploadmenu()'s case 1-4).
+# Bypasses that submenu's own `read` prompts entirely -- the sub-action and
+# filename come from CLI_UPLOAD_ACTION/CLI_DELETE_FILE (set by the option
+# parser), not from interactive input.
+cli_upload_action() {
+    if [[ ! -x "${UPLOAD_SCRIPT}" ]]; then
+        echo -e "[ \e[91m%\e[0m ] : ISO Uploader script not found or not executable: ${UPLOAD_SCRIPT}" >&2
+        exit 1
+    fi
+
+    case "${CLI_UPLOAD_ACTION}" in
+        upload)
+            _run_upload
+            ;;
+        list)
+            _run_upload --list
+            ;;
+        links)
+            _run_upload --get-links
+            ;;
+        delete)
+            if [[ -z "${CLI_DELETE_FILE}" ]]; then
+                echo -e "[ \e[91m%\e[0m ] : --delete-cdn requires a filename" >&2
+                exit 1
+            fi
+            if [[ "${CLI_YES}" == "yes" ]]; then
+                printf 'y\n' | _run_upload --delete "${CLI_DELETE_FILE}"
+            else
+                _run_upload --delete "${CLI_DELETE_FILE}"
+            fi
+            ;;
+    esac
+}
+
+uploadmenu() {
+    if [[ ! -x "${UPLOAD_SCRIPT}" ]]; then
+        echo -e "[ \e[91m%\e[0m ] : ISO Uploader script not found or not executable: ${UPLOAD_SCRIPT}"
+        mainmenu
+        return
+    fi
+
+    echo -ne "
+$(magentaprint 'ISO Uploader:')
+$(magentaprint '1)') Upload ISO file(s) to CDN
+$(magentaprint '2)') List ISO files on CDN
+$(magentaprint '3)') Get public links for ISO files on CDN
+$(magentaprint '4)') Delete an ISO file from CDN
+$(redprint '0)') Back to main menu
+
+[ \e[93m% \e[0m] : "
+    read -r upload_ans < /dev/tty
+    case $upload_ans in
+    1)
+        # Only the upload action reads local ISO files, so only it needs out_dir.
+        # out_dir is populated by _set_overrides, which runs during an actual build;
+        # fall back to the default './out' when the menu is used without building first.
+        local _upload_out_dir="${out_dir}"
+        if [[ -z "${_upload_out_dir}" ]]; then
+            _upload_out_dir="$(realpath -- './out')"
+        fi
+        if [[ ! -d "${_upload_out_dir}" ]]; then
+            echo -e "[ \e[91m%\e[0m ] : Output directory not found: ${_upload_out_dir}"
+        else
+            ( cd -- "${_upload_out_dir}" && _run_upload )
+        fi
+        ;;
+    2)
+        _run_upload --list
+        ;;
+    3)
+        _run_upload --get-links
+        ;;
+    4)
+        read -p "$(echo -e '[\e[93m%\e[0m] Filename to delete: ')" del_file < /dev/tty
+        _run_upload --delete "${del_file}"
+        ;;
+    0)
+        mainmenu
+        return
+        ;;
+    *)
+        fn_fail
+        ;;
+    esac
+    mainmenu
+}
+
+shaiso() {
+    # Find ISO file the same way writetousb does
+    local iso_file
+    iso_file=$(find . -maxdepth 1 -name "*.iso" -type f 2>/dev/null | grep -i pearOS | head -1)
+
+    if [ -z "$iso_file" ]; then
+        echo -e "[ \e[91m%\e[0m ] : No pearOS ISO file found. Abort"
+        _back_to_menu
+        [[ "${CLI_MODE}" == "yes" ]] && exit 1
+        return
+    fi
+
+    echo -e "[ \e[92m%\e[0m ] : Computing sha256sum for $(basename "$iso_file")..."
+    sha256sum -- "$iso_file" > ./sha.txt
+    echo -e "[ \e[92m%\e[0m ] : Written to ./sha.txt"
+    cat ./sha.txt
+    _back_to_menu
+}
+
+_print_cli_usage() {
+    cat <<'EOF'
+Usage: sudo ./build-binary [options]
+
+Running with no options opens the interactive menu, same as before. Passing
+any option below skips the menu and runs directly instead -- every action
+is 100% flag-driven, nothing is ever decided by a menu prompt. Flags can be
+given in any order (only a flag's own VALUE has to immediately follow it,
+e.g. "--compression fastest"); build-binary just collects them all before
+deciding what to do.
+
+Actions chain in this fixed order when combined: chroot -> build -> usb ->
+upload. Each step only runs if its flag was given, e.g.
+  --build --compression fastest --sha256 --upload
+builds, checksums, then uploads, all in one run (a failing step aborts the
+rest, via `set -e`).
+
+Build (menu 1):
+  --build                  build the ISO
+  --profile NAME            archiso profile directory to build (default: pear)
+  --compression VALUE       1|default   xz, balanced (default)
+                             2|max       xz level 9, smaller/slower
+                             3|big       zstd level 3, bigger/faster
+                             4|fastest   lz4, minimal compression
+                             5|slim      zstd level 19 (Pear Slim)
+  --filename NAME            override the ISO's base filename (profiledef.sh's
+                              iso_name). The final name is always
+                              NAME-<version>-<arch>.iso -- mkarchiso appends
+                              that suffix itself. NOTE: --usb/--sha256/--upload
+                              locate the ISO with `grep -i pearos`, so keep
+                              that substring in NAME if you plan to chain them.
+  --clean                   delete ./work first instead of resuming it
+  --sha256                  write sha256sum of the resulting ISO to ./sha.txt
+                             (with --build: runs after the build; alone: just
+                             checksums the existing ISO, same as menu 5)
+
+Interactive chroot -- no menu, no y/n prompt, purely flag-driven. --chroot
+ALWAYS stops right after the chroot shell exits -- it never falls through
+to building the squashfs/ISO in the same run, even combined with --build:
+  --chroot                 if an airootfs already exists under ./work (from
+                            an earlier run, even days ago -- it's never
+                            deleted): chroots into it immediately, then
+                            stops. Run "--build" again afterward (same
+                            ./work, pacstrap skipped) to finish the ISO.
+                            Errors out if no airootfs exists yet.
+  --chroot --build          if no airootfs exists yet: builds up to the
+                            point where it does (pacstrap done, squashfs
+                            not made), chroots in, then stops -- same as
+                            above, run "--build" again afterward to finish.
+                            If an airootfs already exists, behaves exactly
+                            like plain --chroot (pacstrap is skipped).
+
+Clean project directory (menu 2):
+  --clean-project          delete ./work (does not touch the ISO file)
+
+Write ISO to USB (menu 3):
+  --usb                    auto-detect the (single) USB device and write
+  -y, --yes                skip the "Continue? (yes/no)" confirmation
+
+Upload to CDN / ISO Uploader (menu 4):
+  --upload                 upload ISO file(s) from the repo root to the CDN
+  --list-cdn                list ISO files on the CDN
+  --get-links               print public links for ISO files on the CDN
+  --delete-cdn FILENAME      delete FILENAME from the CDN
+  -y, --yes                 with --delete-cdn, skip the confirmation prompt
+
+  -h, --help               show this help and exit
+
+Examples:
+  sudo ./build-binary --profile pear --compression fastest --clean --sha256 --chroot
+  sudo ./build-binary --build --filename pearOS-custom --compression slim
+  sudo ./build-binary --chroot                      # edit, exit, done -- rebuild later
+  sudo ./build-binary --chroot --build              # edit, exit, rebuild squashfs+ISO now
+  sudo ./build-binary --clean-project
+  sudo ./build-binary --usb --yes
+  sudo ./build-binary --delete-cdn old-build.iso --yes
+EOF
+}
+
+# Non-interactive build driven by CLI flags. Mirrors actual_build()'s logic
+# (existing-work-dir reuse, compression selection, chroot gate, permission
+# fixup) but takes every decision from flags instead of `read` prompts, so
+# it can be scripted or driven by a GUI without an expect-style automation
+# layer -- see CLI_* globals set by the option parser at the bottom of this
+# file.
+non_interactive_build() {
+    local start end
+    start=$(date +%s)
+
+    if [[ "${CLI_CLEAN}" == "yes" ]]; then
+        echo -e "[ \e[92m%\e[0m ] : --clean requested, removing ./work"
+        rm -rf ./work
+    fi
+
+    local existing_out=""
+    if [[ -d "./work" ]]; then
+        existing_out=$(find ./work -maxdepth 1 -type d -name "tmp.*" | head -n1)
+    fi
+
+    if [[ -n "${existing_out}" ]]; then
+        export OUT="${existing_out}"
+        echo -e "[ \e[92m%\e[0m ] : Using existing work directory: ${OUT}"
+
+        # _run_once markers only record "did this function ever run", not
+        # "is its output still current". airootfs is never deleted (see
+        # cli_chroot above), so the whole point of reusing OUT is to let
+        # you chroot in, tweak something, and rebuild -- but the squashfs
+        # and the ISO itself are each gated by their own single marker from
+        # the previous run, and would otherwise be skipped even though
+        # airootfs changed underneath them. Clear just those markers so the
+        # image is always regenerated from whatever is in airootfs right
+        # now; pacstrap/customize_airootfs markers are left alone since
+        # that's the slow part this is meant to let you skip.
+        echo -e "[ \e[92m%\e[0m ] : Clearing cached squashfs/ISO markers so the image reflects any chroot changes..."
+        rm -f -- "${OUT}"/base._mkairootfs_* "${OUT}"/base._prepare_airootfs_image \
+                 "${OUT}"/*._build_iso_image "${OUT}"/build._build_buildmode_*
+    else
+        [[ -d "./work" ]] || mkdir work
+        export OUT=$(mktemp -d --tmpdir=work)
+        mkdir -p "${OUT}"
+        _detect_host_repos
+        _generate_pear_pacman_conf
+        _copy_host_mirrorlists
+        echo -e "[ \e[92m%\e[0m ] : Copying [ \e[92mpear/pacman.conf\e[0m ] to [ \e[92mpear/airootfs/etc/.\e[0m ] . . ."
+        cp -r pear/pacman.conf pear/airootfs/etc/.
+        echo -e "[ \e[92m%\e[0m ] : Copying [ \e[92mpackages/packages.x86_64\e[0m ] to [ \e[92mpear/airootfs/etc/packages.x86_64\e[0m ] . . ."
+        cp packages/packages.x86_64 pear/airootfs/etc/packages.x86_64
+        echo -e "[ \e[92m%\e[0m ] : Copying [ \e[92mpackages/packages.x86_64\e[0m ] to [ \e[92mpear/packages.x86_64\e[0m ] . . ."
+        cp packages/packages.x86_64 pear/packages.x86_64
+    fi
+
+    local compression_opts
+    case "${CLI_COMPRESSION}" in
+        1|default|xz)
+            compression_opts="('-comp' 'xz' '-Xbcj' 'x86' '-b' '1M' '-Xdict-size' '1M')" ;;
+        2|max|small)
+            compression_opts="('-comp' 'xz' '-Xbcj' 'x86' '-b' '1M' '-Xdict-size' '100%')" ;;
+        3|big|zstd)
+            compression_opts="('-comp' 'zstd' '-Xcompression-level' '3' '-b' '1M')" ;;
+        4|fastest|lz4)
+            compression_opts="('-comp' 'lz4' '-b' '1M')" ;;
+        5|slim|pearslim)
+            compression_opts="('-comp' 'zstd' '-Xcompression-level' '19' '-b' '1M')" ;;
+        *)
+            echo -e "[ \e[91m%\e[0m ] : Unknown --compression value '${CLI_COMPRESSION}'" >&2
+            exit 1
+            ;;
+    esac
+
+    if [[ -f "pear/profiledef.sh" ]]; then
+        cp pear/profiledef.sh pear/profiledef.sh.backup
+        trap 'mv pear/profiledef.sh.backup pear/profiledef.sh 2>/dev/null; trap - EXIT INT TERM' EXIT INT TERM
+        sed -i "s|^airootfs_image_tool_options=.*|airootfs_image_tool_options=${compression_opts}|" pear/profiledef.sh
+        echo -e "[\e[92m%\e[0m] Compression options updated in profiledef.sh"
+        if [[ -n "${CLI_FILENAME}" ]]; then
+            # profiledef.sh's iso_name is only the base -- mkarchiso always
+            # appends "-<version>-<arch>.iso" itself. writetousb/shaiso/the
+            # ISO Uploader all locate the ISO with `grep -i pearOS`, so a
+            # --filename that drops that substring will still build fine
+            # but won't be auto-found by --usb/--sha256/--upload afterward.
+            _cli_filename_base="${CLI_FILENAME%.iso}"
+            sed -i "s|^iso_name=.*|iso_name=\"${_cli_filename_base}\"|" pear/profiledef.sh
+            echo -e "[\e[92m%\e[0m] ISO filename base overridden to \"${_cli_filename_base}\" (final: ${_cli_filename_base}-<version>-<arch>.iso)"
+        fi
+    fi
+
+    echo -e "[ \e[92m%\e[0m ] : Building the ISO (non-interactive) . . ."
+    # If --chroot was already handled standalone (cli_chroot, called by the
+    # dispatcher right before this when an airootfs already existed), don't
+    # offer it again mid-pipeline -- that only applies to a fresh build
+    # that hasn't run pacstrap yet.
+    if [[ "${CLI_CHROOT_HANDLED_STANDALONE:-no}" == "yes" ]]; then
+        export INTERACTIVE_CHROOT="no"
+    else
+        export INTERACTIVE_CHROOT="${CLI_CHROOT}"
+    fi
+
+    progtest -v -w "${OUT}" -o . "${CLI_PROFILE}"
+
+    if [[ -f "pear/profiledef.sh.backup" ]]; then
+        mv pear/profiledef.sh.backup pear/profiledef.sh
+        trap - EXIT INT TERM
+        echo -e "[\e[92m%\e[0m] Restored original profiledef.sh"
+    fi
+
+    end=$(date +%s)
+    echo -e "[ \e[32m%\e[0m ] : The command was completed in $((end - start)) seconds"
+
+    echo -e "[ \e[92m%\e[0m ] : Fixing permissions . . ."
+    chown "${SUDO_USER:-$USER}:${SUDO_USER:-$USER}" ./*.iso 2>/dev/null || true
+
+    if [[ "${CLI_SHA256}" == "yes" ]]; then
+        local iso_file
+        iso_file=$(find . -maxdepth 1 -name "*.iso" -type f 2>/dev/null | grep -i pearOS | head -1)
+        if [[ -n "${iso_file}" ]]; then
+            echo -e "[ \e[92m%\e[0m ] : Computing sha256sum for $(basename "${iso_file}")..."
+            sha256sum -- "${iso_file}" > ./sha.txt
+            echo -e "[ \e[92m%\e[0m ] : Written to ./sha.txt"
+            cat ./sha.txt
+        else
+            echo -e "[ \e[91m%\e[0m ] : No pearOS ISO file found for --sha256" >&2
+        fi
+    fi
+}
 
 mainmenu() {
     echo -ne "
@@ -2439,6 +2810,8 @@ $(magentaprint 'Choose an option:')
 $(magentaprint '1)') Build ISO file
 $(magentaprint '2)') Clean the Project Directory
 $(magentaprint '3)') Write ISO file to USB
+$(magentaprint '4)') Upload ISO to CDN (ISO Uploader)
+$(magentaprint '5)') Generate sha256sum for ISO
 $(redprint '0)') Exit
 
 [ \e[93m% \e[0m] : "
@@ -2451,6 +2824,10 @@ $(redprint '0)') Exit
         ;;
     3)  writetousb
 	;;
+    4)  uploadmenu
+        ;;
+    5)  shaiso
+        ;;
     0)
         fn_bye
         ;;
@@ -2466,4 +2843,155 @@ if [ "$(id -u)" -ne 0 ]; then
         exit 1
 fi
 
-mainmenu
+# CLI flags run the matching menu action directly and skip the interactive
+# menu; with no arguments the menu behaves exactly as before.
+CLI_PROFILE="pear"
+CLI_COMPRESSION="default"
+CLI_CLEAN="no"
+CLI_SHA256="no"
+CLI_CHROOT="no"
+CLI_YES="no"
+CLI_FILENAME=""
+CLI_UPLOAD_ACTION=""
+CLI_DELETE_FILE=""
+_cli_want_build="no"
+_cli_want_clean_project="no"
+_cli_want_usb="no"
+_cli_args_given="no"
+
+while [[ $# -gt 0 ]]; do
+    _cli_args_given="yes"
+    case "$1" in
+        --build)
+            _cli_want_build="yes"
+            shift
+            ;;
+        --profile)
+            CLI_PROFILE="${2:?--profile requires a value}"
+            shift 2
+            ;;
+        --compression)
+            CLI_COMPRESSION="${2:?--compression requires a value}"
+            shift 2
+            ;;
+        --filename)
+            CLI_FILENAME="${2:?--filename requires a value}"
+            shift 2
+            ;;
+        --clean)
+            CLI_CLEAN="yes"
+            shift
+            ;;
+        --sha256)
+            CLI_SHA256="yes"
+            shift
+            ;;
+        --chroot)
+            CLI_CHROOT="yes"
+            shift
+            ;;
+        --clean-project)
+            _cli_want_clean_project="yes"
+            shift
+            ;;
+        --usb)
+            _cli_want_usb="yes"
+            shift
+            ;;
+        --upload)
+            CLI_UPLOAD_ACTION="upload"
+            shift
+            ;;
+        --list-cdn)
+            CLI_UPLOAD_ACTION="list"
+            shift
+            ;;
+        --get-links)
+            CLI_UPLOAD_ACTION="links"
+            shift
+            ;;
+        --delete-cdn)
+            CLI_UPLOAD_ACTION="delete"
+            CLI_DELETE_FILE="${2:?--delete-cdn requires a filename}"
+            shift 2
+            ;;
+        -y|--yes)
+            CLI_YES="yes"
+            shift
+            ;;
+        -h|--help)
+            _print_cli_usage
+            exit 0
+            ;;
+        *)
+            echo -e "[ \e[91m%\e[0m ] : Unknown option: $1" >&2
+            _print_cli_usage
+            exit 1
+            ;;
+    esac
+done
+
+# --clean-project is exclusive: it's an unrelated maintenance action, not
+# something you'd chain with a build. Everything else chains in a fixed
+# order -- chroot (only if standalone, i.e. no --build), then build, then
+# usb, then upload -- so e.g.
+#   --build --compression fastest --sha256 --upload
+# builds the ISO and then uploads it in the same run (set -e above means
+# the chain stops if an earlier step fails). A bare --sha256 with nothing
+# else just checksums the existing ISO (menu 5), same as before.
+#
+# --chroot behaves differently depending on whether --build is also given:
+#   --build --chroot   chroot happens mid-build (non_interactive_build sets
+#                       INTERACTIVE_CHROOT=yes), the one point where
+#                       airootfs exists but hasn't been consumed yet.
+#   --chroot (alone)    chroots straight into whatever airootfs already
+#                       exists under ./work from an earlier run -- no build
+#                       is triggered just because --chroot was passed.
+_cli_want_build_effective="no"
+if [[ "${_cli_want_build}" == "yes" || "${CLI_CLEAN}" == "yes" \
+        || "${CLI_COMPRESSION}" != "default" || "${CLI_PROFILE}" != "pear" ]]; then
+    _cli_want_build_effective="yes"
+fi
+
+# If an airootfs already exists (from an earlier run), --chroot always
+# means "chroot into it right now" -- cli_chroot() below always `exit 0`s
+# right after, so nothing else on the command line (even --build) runs in
+# this same invocation; finishing the ISO is always a separate, later
+# "--build" run. Only when there's NO existing airootfs yet does --chroot
+# fall back to the mid-build hook (it has to wait for --build's pacstrap
+# step to create one first, and that hook also always exits right after).
+_cli_existing_airootfs=$(find ./work -maxdepth 3 -type d -path "*/x86_64/airootfs" 2>/dev/null | head -n1)
+_cli_want_chroot_standalone="no"
+if [[ "${CLI_CHROOT}" == "yes" && -n "${_cli_existing_airootfs}" ]]; then
+    _cli_want_chroot_standalone="yes"
+fi
+CLI_CHROOT_HANDLED_STANDALONE="${_cli_want_chroot_standalone}"
+
+if [[ "${_cli_want_clean_project}" == "yes" ]]; then
+    CLI_MODE="yes"
+    clean_out
+elif [[ "${_cli_want_build_effective}" == "yes" || "${_cli_want_usb}" == "yes" \
+        || -n "${CLI_UPLOAD_ACTION}" || "${_cli_want_chroot_standalone}" == "yes" ]]; then
+    CLI_MODE="yes"
+    [[ "${_cli_want_chroot_standalone}" == "yes" ]] && cli_chroot
+    [[ "${_cli_want_build_effective}" == "yes" ]] && non_interactive_build
+    [[ "${_cli_want_usb}" == "yes" ]] && writetousb
+    [[ -n "${CLI_UPLOAD_ACTION}" ]] && cli_upload_action
+elif [[ "${CLI_CHROOT}" == "yes" ]]; then
+    # --chroot alone, no existing airootfs, no --build: nothing to chroot
+    # into yet and no pipeline was requested to create one.
+    CLI_MODE="yes"
+    cli_chroot
+elif [[ "${CLI_SHA256}" == "yes" ]]; then
+    CLI_MODE="yes"
+    shaiso
+elif [[ "${_cli_args_given}" == "yes" ]]; then
+    # Args were given but none selected an action (shouldn't normally
+    # happen since the parser rejects unknown flags) -- fail loudly
+    # instead of silently opening the interactive menu.
+    echo -e "[ \e[91m%\e[0m ] : No action selected" >&2
+    _print_cli_usage
+    exit 1
+else
+    mainmenu
+fi

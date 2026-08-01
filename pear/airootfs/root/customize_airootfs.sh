@@ -55,18 +55,12 @@ if [ ! -d /etc/pacman.d/gnupg/private-keys-v1.d ] || [ ! -f /etc/pacman.d/gnupg/
 	fi
 fi
 
-# Populate Arch Linux keys
-echo "Populating Arch Linux GPG keys..."
+# Populate all installed keyrings (archlinux, pearos, ...)
+echo "Populating GPG keyrings..."
 pacman-key --populate
 if [ $? -ne 0 ]; then
 	ask_continue "pacman-key --populate failed"
 fi
-
-curl -s http://pearos.xyz/archive.key | pacman-key -a -
-pacman-key --lsign-key 4C1A9F3C131ACA95
-
-curl -s https://apt.inled.es/archive.key | pacman-key -a -
-pacman-key --lsign-key 89F828A9675B63CD0077CE9965AA57CF36E2018F
 
 # Re-enable exit on error
 set -e

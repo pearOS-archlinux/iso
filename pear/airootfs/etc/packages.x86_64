@@ -216,7 +216,8 @@ plymouth
 #linux617
 fastfetch
 kdeconnect
-pafari
+#pafari
+seafari
 calamares
 pear-calamares-config
 python-pip
@@ -229,3 +230,4 @@ npm
 gwenview
 elisa
 electron
+tk

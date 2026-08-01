@@ -13,7 +13,6 @@ Type=oneshot
 RemainAfterExit=yes
 ExecStartPre=/usr/bin/env bash /usr/local/bin/apply-nvidia-env
 ExecStart=/usr/bin/pacman-key --init
-ExecStart=/usr/bin/pacman-key --populate archlinux
-ExecStart=/usr/bin/pacman-key --populate manjaro
+ExecStart=/usr/bin/pacman-key --populate
 [Install]
 WantedBy=multi-user.target

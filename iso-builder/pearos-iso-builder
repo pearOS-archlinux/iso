@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -e
+DIR="$(cd -- "$(dirname -- "$(readlink -f -- "$0")")" && pwd)"
+exec python3 "${DIR}/iso_builder_gui.py" "$@"

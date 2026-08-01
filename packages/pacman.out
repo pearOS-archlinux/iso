@@ -72,35 +72,42 @@ LocalFileSigLevel = Optional
 # after the header, and they will be used before the default mirrors.
 
 #[testing]
+SigLevel = Required DatabaseOptional
 #Include = /etc/pacman.d/mirrorlist
 
 [pearos]
-SigLevel = Optional TrustAll
+SigLevel = Required DatabaseOptional
 Server = https://mirror.pearos.xyz/main/x86_64/
 
 [inled]
-SigLevel = PackageRequired
+SigLevel = Required DatabaseOptional
 Server = https://apt.inled.es/arch/
 
 [core]
+SigLevel = Required DatabaseOptional
 Include = /etc/pacman.d/mirrorlist
 
 [extra]
+SigLevel = Required DatabaseOptional
 Include = /etc/pacman.d/mirrorlist
 
 #[community-testing]
+SigLevel = Required DatabaseOptional
 #Include = /etc/pacman.d/mirrorlist
 
 #[community]
+SigLevel = Required DatabaseOptional
 #Include = /etc/pacman.d/mirrorlist
 
 # If you want to run 32 bit applications on your x86_64 system,
 # enable the multilib repositories as required here.
 
 #[multilib-testing]
+SigLevel = Required DatabaseOptional
 #Include = /etc/pacman.d/mirrorlist
 
 [multilib]
+SigLevel = Required DatabaseOptional
 Include = /etc/pacman.d/mirrorlist
 
 # An example of a custom package repository.  See the pacman manpage for

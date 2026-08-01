@@ -1,7 +1,73 @@
-# `Last update: 09 Apr 2026, 11:11 AM`
+# `Last update: 01 Aug 2026, 06:00 AM`
 
 # Changelog
 
+# 01 Aug 2026
+## Information
+https://pearos.xyz | https://nicec0re.pearos.xyz
+
+* Added Seafari Browser
+* Added New Welcome Application
+* Added More Settings in System Preferences
+* Added ploader - pearos-bootloader on the USB only(installer will use GRUB). Legacy boot is still possible
+* Fixed pearOS Lockscreen Bug
+* Fixed pacman-keys
+* Fixed OOBE errors (before it only worked in en_US, other languages crashing the installer)
+* Fixed Mouse & Trackpad settings in System Preferences
+* Removed Pafari Browser
+* Stability Improvements
+* Fix Memory Leak in System Preferences application
+
+
+### Known bugs:
+* pearOS calculator doesn't let you use keyboard
+* Small Grab Area when trying to move certain windows around
+* Some WiFi cards are not working (investigating(forgot to investigate actually))
+* BTRFS not working on install (investigating)
+* Other bugs: Please use the Issues tab in this repo. Thank you
+
+
+## 16 Jun 2026
+## Information
+https://pearos.xyz | https://nicec0re.pearos.xyz
+* Added Dynamic Island
+* Added Tray in Notch/Dynamic Island
+* Added Liquid Gel Slider
+* Added Golden Gate Wallpapers
+* Added auto dark/light mode theme (not tested)
+* Added new dock
+* Added Zoom animation on dock
+* Added New Dock settings in System Settings
+* Added Boot Sound
+* Added modal that asks if you want online or offline install
+* Added new Global Menu widget
+* Added the ability to change folder color based on the accent color
+* Added New Lockscreen
+* Added Notch settings (size, distance, offset)
+* Added dock settings (size, distance, offset, zoom amount, amplitude etc)
+* Added Fix Layout in the Welcome App that restores your layout to the pearOS default one
+* Added CachyOS 6.18 kernel
+* Added Close button that hides a window instead of closing, like in macOS, now need to ctrl/win+Q to quit or ALT+F4
+* Fixed AppStore
+* Fixed Notch glitching when hover
+* Fixed pearOS System Settings ( electron JS -> C++ Qt6 )
+* Fixed top menu (rewrote the plasmoid as standalone package 'pearos-appmenu')
+* Fixed dock problems (rewrote the plasmoid as standalone package ('pearos-dock')
+* Fixed post-install failed to remove user 'default' -> now creates a single-shot linux service that removes the user after installation
+* Fixed pearID (?)
+* Fixed COMMAND + SPACE not opening the App Drawer
+* Fixed Dark-Light theme switching, now it won't restart Plasmashell
+* Fixed Accent-Color switching, not it won't restart Plasmashell
+* Fixed high memory usage and slow Settings Startup ( electron -> C++ Qt6)
+* Fixed Pafari not launching
+
+### Known bugs:
+* pearOS calculator doesn't let you use keyboard
+* Pafari search bar inconsistences (UI)
+* Lockscreen sometimes doesn't unlock. You must start a TTY session and use 'loginctl unlock-session x' to get around
+* Small Grab Area when trying to move certain windows around
+* Some WiFi cards are not working (investigating)
+* Other bugs: Please use the Issues tab in this repo. Thank you
 
 # 09 Apr 2026
 ## Information
