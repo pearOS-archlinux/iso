@@ -2269,7 +2269,7 @@ actual_build() {
         echo -e "[ \e[32m%\e[0m ] : The command was completed in $runtime seconds"
 
 	echo -e "[ \e[92m%\e[0m ] : Fixing permissions . . ."
-        chown "${SUDO_USER:-$USER}:${SUDO_USER:-$USER}" ./*.iso 2>/dev/null || true
+        chown "${SUDO_USER:-${USER:-root}}:${SUDO_USER:-${USER:-root}}" ./*.iso 2>/dev/null || true
         
 	mainmenu
 }
@@ -2788,7 +2788,7 @@ non_interactive_build() {
     echo -e "[ \e[32m%\e[0m ] : The command was completed in $((end - start)) seconds"
 
     echo -e "[ \e[92m%\e[0m ] : Fixing permissions . . ."
-    chown "${SUDO_USER:-$USER}:${SUDO_USER:-$USER}" ./*.iso 2>/dev/null || true
+    chown "${SUDO_USER:-${USER:-root}}:${SUDO_USER:-${USER:-root}}" ./*.iso 2>/dev/null || true
 
     if [[ "${CLI_SHA256}" == "yes" ]]; then
         local iso_file
