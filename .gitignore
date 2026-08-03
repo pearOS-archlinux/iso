@@ -7,3 +7,6 @@ work/
 # ISO output files
 *.iso
 
+
+# Cache
+__pycache__
