@@ -46,7 +46,7 @@ haveged
 hwdetect
 hwinfo
 hyperv
-imwheel
+#imwheel
 inetutils
 intel-ucode
 inxi
@@ -63,11 +63,11 @@ ldns
 less
 libfido2
 libusb-compat
-libwnck3
+#libwnck3
 linux-atm
 linux-cachyos-lts
 linux-cachyos-lts-zfs
-linux-cachyos-lts-nvidia-open
+#linux-cachyos-lts-nvidia-open
 
 #linux617-headers
 linux-firmware-marvell
@@ -101,7 +101,7 @@ noto-fonts-cjk
 nss-mdns
 ntfs-3g
 ntp
-nvidia-utils
+#nvidia-utils
 nvme-cli
 open-iscsi
 open-vm-tools
@@ -179,11 +179,11 @@ zfs-utils
 # pearOS Apps
 mpv
 make
-plasma-x11-session
+#plasma-x11-session
 qt5-wayland
 qt6-wayland
 kvantum
-xorg
+#xorg
 sddm
 zsh
 zsh-completions
@@ -222,12 +222,21 @@ calamares
 pear-calamares-config
 python-pip
 system-settings
-touchegg
-appmenu-gtk-module
+#touchegg
+#appmenu-gtk-module
 file-roller
-nautilus
+#nautilus
 npm
 gwenview
 elisa
 electron
 tk
+#xf86-video-nouveau
+#xf86-video-ati
+#xf86-video-amdgpu
+libva-mesa-driver
+intel-media-driver
+#libva-intel-driver
+vulkan-radeon
+vulkan-intel
+vulkan-icd-loader

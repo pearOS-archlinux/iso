@@ -21,6 +21,7 @@ from __future__ import annotations
 import glob
 import os
 import shlex
+import shutil
 import socket
 import subprocess
 from datetime import date
@@ -49,19 +50,74 @@ from pacman_conf_editor import COMMON_SIGLEVELS, extract_global_siglevel, new_re
 from qemu_test import MIN_CPUS, MIN_DISK_GIB, MIN_RAM_MIB, QemuTestSession, find_ovmf
 from profiledef_editor import parse_profiledef, render_profiledef
 
-REPO_ROOT = str(Path(__file__).resolve().parent.parent)
+_INSTALLED_DEV_ROOT = "/usr/share/pearOS/dev"
+_USER_DEV_ROOT = os.path.join(GLib.get_user_data_dir(), "pearOS", "dev")
+_DEV_VERSION_MARKER = ".pearos-dev-version"
 
-# Installed via the pearos-iso-dev Arch package, build-binary always lands
-# at this fixed path (see arch-package/pearos-iso-dev/PKGBUILD); prefer it
-# over REPO_ROOT so the GUI keeps working even if it's ever invoked from a
-# copy/symlink elsewhere. Falls back to the repo-relative path for the
-# git-checkout dev workflow, where that fixed path doesn't exist.
-_INSTALLED_BUILD_BINARY = "/usr/share/pearOS/dev/build-binary"
-BUILD_BINARY = (
-    _INSTALLED_BUILD_BINARY
-    if os.path.exists(_INSTALLED_BUILD_BINARY)
-    else os.path.join(REPO_ROOT, "build-binary")
-)
+# Set by _ensure_writable_repo_root(): None when running from a dev
+# checkout (no sync involved), else "synced" or "resynced" -- used to show
+# a small status indicator in the header.
+SYNC_STATUS = None
+
+
+def _dev_tree_version(root):
+    try:
+        with open(os.path.join(root, _DEV_VERSION_MARKER), encoding="utf-8") as f:
+            return f.read().strip()
+    except OSError:
+        return None
+
+
+def _sync_dev_tree(system_root, user_root):
+    """Overwrite only the entries that exist in system_root. build-binary
+    writes work/, out/ (ISOs) and sha.txt into user_root's cwd -- none of
+    those exist in the packaged source tree, so they're never touched
+    here and survive a re-sync.
+    """
+    os.makedirs(user_root, exist_ok=True)
+    for name in os.listdir(system_root):
+        src = os.path.join(system_root, name)
+        dst = os.path.join(user_root, name)
+        if os.path.isdir(dst) and not os.path.islink(dst):
+            shutil.rmtree(dst)
+        elif os.path.lexists(dst):
+            os.remove(dst)
+        if os.path.isdir(src) and not os.path.islink(src):
+            shutil.copytree(src, dst, symlinks=True)
+        else:
+            shutil.copy2(src, dst, follow_symlinks=False)
+
+
+def _ensure_writable_repo_root(raw_root):
+    """The pearos-builder Arch package installs the dev tree read-only,
+    root:root, at /usr/share/pearOS/dev. This GUI's editors (packages,
+    pacman.conf, profiledef, airootfs) write straight into REPO_ROOT with
+    no sudo -- only build-binary itself runs elevated -- so when launched
+    from the installed copy those saves would fail. Mirror it into a
+    user-writable copy and work out of that instead. A repo checkout used
+    for development (raw_root elsewhere) is left untouched.
+
+    Re-synced whenever the installed .pearos-dev-version marker doesn't
+    match the user copy's (fresh install or package upgrade) -- this
+    overwrites source files (packages/, pear/, iso-builder/, build-binary,
+    ...) with the installed version, so edits made only in the user copy
+    to those are lost. Build output (work/, out/, sha.txt) isn't part of
+    the packaged tree and is left alone. If the markers already match,
+    nothing is touched.
+    """
+    global SYNC_STATUS
+    if raw_root != _INSTALLED_DEV_ROOT:
+        return raw_root
+    if _dev_tree_version(_USER_DEV_ROOT) != _dev_tree_version(_INSTALLED_DEV_ROOT):
+        _sync_dev_tree(_INSTALLED_DEV_ROOT, _USER_DEV_ROOT)
+        SYNC_STATUS = "resynced"
+    else:
+        SYNC_STATUS = "synced"
+    return _USER_DEV_ROOT
+
+
+REPO_ROOT = _ensure_writable_repo_root(str(Path(__file__).resolve().parent.parent))
+BUILD_BINARY = os.path.join(REPO_ROOT, "build-binary")
 
 # packages/packages.x86_64 is the real source of truth: build-binary copies
 # it over pear/airootfs/etc/packages.x86_64 (and pear/packages.x86_64) at
@@ -280,6 +336,14 @@ class ISOBuilderWindow(Gtk.ApplicationWindow):
         header.set_show_close_button(True)
         header.set_title("pearOS ISO Builder")
         self.set_titlebar(header)
+
+        if SYNC_STATUS is not None:
+            sync_label = Gtk.Label()
+            if SYNC_STATUS == "resynced":
+                sync_label.set_markup('<span color="#e5c07b">⟳ dev tree re-synced</span>')
+            else:
+                sync_label.set_markup('<span color="#7cb342">● synced</span>')
+            header.pack_start(sync_label)
 
         self.back_button = Gtk.Button(label="Back")
         self.back_button.connect("clicked", self.on_back)
