@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+#
+# Smart NVIDIA module loader (ported from CachyOS-Live-ISO).
+#
+# The ISO ships only the *open* NVIDIA kernel modules, which support Turing and
+# newer. Older GPUs (Fermi/Kepler/Maxwell/Pascal/Volta) need the 470xx or 580xx
+# proprietary branches, which are installed post-install by chwd -- they are not
+# on the ISO. Loading the open module on such a GPU fails, so we ask chwd what
+# profile the hardware actually needs and load nouveau instead.
+#
+# Wired up via /etc/modprobe.d/nvidia-loader.conf, which routes every
+# `modprobe nvidia*` through this script.
+#
+
+# Quick pass if one of the modules is already loaded.
+if [[ -e /sys/module/nvidia || -e /sys/module/nouveau ]]; then
+    exit 0
+fi
+
+# chwd is what decides; without it we cannot tell the GPU generation apart.
+if ! command -v chwd >/dev/null 2>&1; then
+    modprobe nouveau
+    exit 0
+fi
+
+# Load compatible version of NVIDIA modules for current hardware
+if chwd --list | awk '{ if($2 == "nouveau" || $2 == "nvidia-dkms-470xx" || $2 == "nvidia-dkms-580xx") f=1 } END {exit (f == 1) ? 0 : 1 }'; then
+    modprobe nouveau
+elif chwd --list | awk '{ if($2 == "nvidia-open-dkms") f=1 } END {exit (f == 1) ? 0 : 1 }'; then
+    # Load some basic dependencies of nvidia modules
+    modprobe video
+    modprobe drm_ttm_helper
+    modprobe drm_kms_helper
+    # load nvidia modules
+    modprobe --ignore-install -a nvidia nvidia-modeset nvidia-drm nvidia-uvm
+fi
+
+# Otherwise, do a fallback to nouveau anyway
+if [[ ! -e /sys/module/nouveau && ! -e /sys/module/nvidia ]]; then
+    modprobe nouveau
+fi

@@ -1171,14 +1171,6 @@ _make_bootmode_uefi-x64.ploader.esp() {
             "::/${install_dir}/boot/${arch}/initramfs-linux.img"
     fi
 
-    # Write the ploader_linux.conf boot stanzas next to the kernel so Ploader
-    # auto-detects and boots it without needing a menu entry configured.
-    sed "s|%ARCHISO_LABEL%|${iso_label}|g;
-         s|%INSTALL_DIR%|${install_dir}|g;
-         s|%ARCH%|${arch}|g" \
-        "${profile}/efiboot/ploader/ploader_linux.conf" | \
-        mcopy -i "${work_dir}/efiboot.img" - "::/${install_dir}/boot/${arch}/ploader_linux.conf"
-
     _msg_info "Done! Ploader set up for UEFI booting successfully."
 }
 
@@ -2179,11 +2171,30 @@ actual_build() {
             
             export OUT=$(mktemp -d --tmpdir=work)
             mkdir -p "$OUT"
-            _detect_host_repos
-            _generate_pear_pacman_conf
-            _copy_host_mirrorlists
-            echo -e "[ \e[92m%\e[0m ] : Copying [ \e[92mpear/pacman.conf\e[0m ] to [ \e[92mpear/airootfs/etc/.\e[0m ] . . ."
-            cp -r pear/pacman.conf pear/airootfs/etc/.
+            # DISABLED -- pear/pacman.conf and pear/airootfs/etc/pacman.conf are
+            # now maintained by hand in the profile and are the source of truth.
+            #
+            # _generate_pear_pacman_conf() overwrote pear/pacman.conf with
+            # packages/pacman.out on every build and then injected whatever
+            # non-standard repos the build host had in its own /etc/pacman.conf.
+            # That silently reverted [cachyos] and the explicit Arch Server=
+            # lines, and made the ISO depend on how the build machine happened
+            # to be configured -- a pearOS/Manjaro host produced a Manjaro-based
+            # ISO no matter what the profile said, and CI produced something
+            # different again.
+            #
+            # The last `cp` is disabled too: the two pacman.conf files are
+            # deliberately NOT identical any more. The build one carries explicit
+            # Arch mirrors (Include would resolve against the build host), while
+            # the airootfs one keeps Include so the installed system uses its own
+            # mirrorlist, refreshed by reflector.
+            #
+            # Re-enabling any of this means updating packages/pacman.out first.
+            #_detect_host_repos
+            #_generate_pear_pacman_conf
+            #_copy_host_mirrorlists
+            #echo -e "[ \e[92m%\e[0m ] : Copying [ \e[92mpear/pacman.conf\e[0m ] to [ \e[92mpear/airootfs/etc/.\e[0m ] . . ."
+            #cp -r pear/pacman.conf pear/airootfs/etc/.
             echo -e "[ \e[92m%\e[0m ] : Copying [ \e[92mpackages/packages.x86_64\e[0m ] to [ \e[92mpear/airootfs/etc/packages.x86_64\e[0m ] . . ."
             cp packages/packages.x86_64 pear/airootfs/etc/packages.x86_64
             echo -e "[ \e[92m%\e[0m ] : Copying [ \e[92mpackages/packages.x86_64\e[0m ] to [ \e[92mpear/packages.x86_64\e[0m ] . . ."
@@ -2719,11 +2730,16 @@ non_interactive_build() {
         [[ -d "./work" ]] || mkdir work
         export OUT=$(mktemp -d --tmpdir=work)
         mkdir -p "${OUT}"
-        _detect_host_repos
-        _generate_pear_pacman_conf
-        _copy_host_mirrorlists
-        echo -e "[ \e[92m%\e[0m ] : Copying [ \e[92mpear/pacman.conf\e[0m ] to [ \e[92mpear/airootfs/etc/.\e[0m ] . . ."
-        cp -r pear/pacman.conf pear/airootfs/etc/.
+        # DISABLED -- see the identical block in the interactive path above.
+        # pear/pacman.conf and pear/airootfs/etc/pacman.conf are maintained by
+        # hand in the profile; regenerating them from packages/pacman.out plus
+        # the build host's /etc/pacman.conf reverted [cachyos] and the explicit
+        # Arch mirrors on every build.
+        #_detect_host_repos
+        #_generate_pear_pacman_conf
+        #_copy_host_mirrorlists
+        #echo -e "[ \e[92m%\e[0m ] : Copying [ \e[92mpear/pacman.conf\e[0m ] to [ \e[92mpear/airootfs/etc/.\e[0m ] . . ."
+        #cp -r pear/pacman.conf pear/airootfs/etc/.
         echo -e "[ \e[92m%\e[0m ] : Copying [ \e[92mpackages/packages.x86_64\e[0m ] to [ \e[92mpear/airootfs/etc/packages.x86_64\e[0m ] . . ."
         cp packages/packages.x86_64 pear/airootfs/etc/packages.x86_64
         echo -e "[ \e[92m%\e[0m ] : Copying [ \e[92mpackages/packages.x86_64\e[0m ] to [ \e[92mpear/packages.x86_64\e[0m ] . . ."

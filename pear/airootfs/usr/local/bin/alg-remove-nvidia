@@ -1,27 +1,23 @@
-#!/bin/bash
-# driver=free or driver=nonfree - grub and efi
+#!/usr/bin/env bash
+#
+# Runs inside the target chroot from Calamares (shellprocess@algmkinitcpio).
+#
+# The ISO ships the open NVIDIA stack so that Turing+ cards are accelerated in
+# the live session. On a machine with no NVIDIA GPU that is ~900 MB of dead
+# weight in the installed system, so drop it here. Machines that do have an
+# NVIDIA GPU keep it, and shellprocess@chwd later installs the correct branch
+# (open for Turing+, 580xx for Maxwell/Pascal, 470xx for Kepler).
+#
+# Note: upstream CachyOS uses `chwd --is_nvidia_card` for this. That flag does
+# not exist in chwd 1.24, so detection is done with lspci -- the same
+# vendor/class match the chwd profiles themselves use.
+#
+
 echo "Start alg-remove-nvidia"
-kernel_cmdline(){
-	for param in $(cat /proc/cmdline); do
-		case "${param}" in
-			$1=*) echo "${param##*=}"; return 0 ;;
-			$1) return 0 ;;
-			*) continue ;;
-		esac
-	done
-	[ -n "${2}" ] && echo "${2}"
-	return 1
-}
 
-get_driver(){
-	echo $(kernel_cmdline driver)
-}
-
-
-while [ -e "/var/lib/pacman/db.lck" ];
-do
+while [ -e "/var/lib/pacman/db.lck" ]; do
     echo 'Pacman is not ready yet. Will try again in 10 seconds.'
-    seconds=$(($seconds + 10))
+    seconds=$((${seconds:-0} + 10))
     sleep 10
     if [[ "$seconds" == "30" ]]; then
         echo 'Warning: removing pacman db.lck!'
@@ -29,29 +25,20 @@ do
     fi
 done
 
-# free = remove nvidia keep nouveau
-selection=$(get_driver)
-echo "#################################"
-echo "Selection was "$selection
-echo "#################################"
-if [[ $selection == "free" ]]; then
-	pacman -Rns --noconfirm nvidia nvidia-utils nvidia-settings
+# 10de = NVIDIA, class 030x = VGA / 3D / display controller
+if lspci -d '10de:*:030x' -n 2>/dev/null | grep -q .; then
+    echo "#################################"
+    echo "NVIDIA GPU found -- keeping the NVIDIA stack onboard."
+    echo "chwd will select the right driver branch for it."
+    echo "#################################"
+else
+    echo "#################################"
+    echo "No NVIDIA GPU detected -- removing the NVIDIA stack."
+    echo "#################################"
+    pacman -Rns --noconfirm linux-cachyos-lts-nvidia-open nvidia-utils egl-wayland || true
 fi
-
-
-#nonfree = keepin nvidia and nouveau
-selection=$(get_driver)
-echo "Selection was "$selection
-if [[ $selection == "nonfree" ]]; then
-	echo "blacklist nouveau" > /usr/lib/modprobe.d/nvidia-utils.conf
-	echo "#################################"
-	echo "We keep nvidia  onboard"
-	echo "#################################"
-fi	
-
 
 echo "#################################"
 echo "End alg-remove-nvidia"
 echo "#################################"
 rm -f /usr/local/bin/alg-remove-nvidia
-

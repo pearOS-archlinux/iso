@@ -11,14 +11,46 @@ on:
       - "kickstart.sh"
       - ".github/workflows/iso-build.yaml"
   schedule:
-    - cron: '0 3 8-14 * 3'
+    # Every Wednesday 03:00 UTC. The "second Wednesday of the month" part is
+    # enforced by the `gate` job below, not here: when both day-of-month and
+    # day-of-week are restricted, cron matches on EITHER, so '0 3 8-14 * 3'
+    # fired on days 8-14 *plus* every Wednesday.
+    - cron: '0 3 * * 3'
   workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
+  # Turns the weekly cron into "second Wednesday of the month". Only scheduled
+  # runs are gated -- push and workflow_dispatch always build.
+  gate:
+    runs-on: ubuntu-latest
+    outputs:
+      proceed: ${{ steps.check.outputs.proceed }}
+    steps:
+      - id: check
+        run: |
+          if [ "${{ github.event_name }}" != "schedule" ]; then
+            echo "Event is ${{ github.event_name }}, not gating."
+            echo "proceed=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # The cron already restricted this to a Wednesday; the second one of
+          # any month is always between the 8th and the 14th inclusive.
+          dom=$(date -u +%-d)
+          if [ "$dom" -ge 8 ] && [ "$dom" -le 14 ]; then
+            echo "Day $dom -- second Wednesday, building."
+            echo "proceed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Day $dom -- not the second Wednesday, skipping."
+            echo "proceed=false" >> "$GITHUB_OUTPUT"
+          fi
+
   build-iso:
+    needs: gate
+    if: needs.gate.outputs.proceed == 'true'
     runs-on: ubuntu-latest
 
     container:
@@ -40,26 +72,25 @@ jobs:
           pacman-key --init
           pacman-key --populate archlinux
 
-          # Bootstrap manjaro-keyring: [core]/[extra] now resolve through the
-          # Manjaro mirrorlist (same as the build machine), so some packages
-          # (e.g. mkinitcpio-openswap, required by calamares) are signed by
-          # Manjaro packager keys unknown to a stock archlinux-keyring.
-          # Optional still validates a signature if one is present -- it just
-          # allows a MISSING one -- so an untrusted-but-present signature
-          # still fails. Drop to Never for this one bootstrap install only,
-          # then restore, same trust-bootstrap problem every fresh Manjaro
-          # install solves by shipping the keyring pre-baked in the ISO.
-          sed -i 's/^LocalFileSigLevel.*/LocalFileSigLevel = Never/;s/^#\?RemoteFileSigLevel.*/RemoteFileSigLevel = Never/' /etc/pacman.conf
-          pacman -U --noconfirm \
-            "https://mirror1.sox.rs/manjaro/testing/core/x86_64/manjaro-keyring-20251003-1-any.pkg.tar.zst"
-          sed -i 's/^LocalFileSigLevel.*/LocalFileSigLevel = Optional/;s/^RemoteFileSigLevel.*/#RemoteFileSigLevel = Required/' /etc/pacman.conf
-          pacman-key --populate manjaro
-
           pacman-key -a packages/pearos.gpg
           pacman-key --lsign-key 4C1A9F3C131ACA95
 
           pacman-key -a packages/inled.gpg
           pacman-key --lsign-key 89F828A9675B63CD0077CE9965AA57CF36E2018F
+
+          # [cachyos] supplies the kernel, chwd, mkinitcpio-openswap and the
+          # legacy NVIDIA branches. mkarchiso/pacstrap verifies those against
+          # the *container's* keyring, so the key has to be here -- shipping
+          # cachyos-keyring inside the ISO only covers the installed system.
+          #
+          # The keyring package is republished in our own repo and signed with
+          # our key, which is already trusted two lines up. So it installs
+          # through the normal verified path; the previous Manjaro bootstrap
+          # had to blank out LocalFileSigLevel/RemoteFileSigLevel to get its
+          # keyring in, which meant one unverified package download per build.
+          pacman -Sy --noconfirm
+          pacman -S --noconfirm cachyos-keyring
+          pacman-key --populate cachyos
 
       - name: Updating packages and installing deps
         run: |

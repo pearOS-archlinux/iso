@@ -10,6 +10,28 @@ rm -vf /etc/sddm.conf.d/autologin.conf
 rm -vf /etc/polkit-1/rules.d/49-nopasswd_global.rules
 rm -vf /root/{.automated_script.sh,.zlogin}
 
+# --- pacman keyring: hand the installed system a real, persistent one --------
+#
+# pacman-init.service and etc-pacman.d-gnupg.mount are live-session machinery:
+# the mount puts /etc/pacman.d/gnupg on tmpfs and the service rebuilds the
+# keyring into it at every boot. Both survive unpackfs into the installed
+# system, where the effect is a keyring that lives in RAM and is thrown away on
+# every reboot -- so `pacman-key --lsign-key` never persists, and every boot
+# pays for a full --populate.
+#
+# Order matters here. The tmpfs is what currently masks the build host's
+# keyring, which pacstrap copied into airootfs (Arch + Manjaro + our own keys,
+# plus whatever local trust the build machine had). Removing the units without
+# reinitialising would expose that copy as the installed system's keyring.
+# So: drop the units, delete the inherited keyring, then build a fresh one from
+# the keyring packages actually shipped (archlinux, cachyos, pearos).
+rm -vf /etc/systemd/system/multi-user.target.wants/pacman-init.service
+rm -vf /etc/systemd/system/pacman-init.service
+rm -vf /etc/systemd/system/etc-pacman.d-gnupg.mount
+rm -rf /etc/pacman.d/gnupg
+pacman-key --init
+pacman-key --populate
+
 sed -i 's/GRUB_DISTRIBUTOR=.*/GRUB_DISTRIBUTOR="pearOS NiceC0re"/' /etc/default/grub
 sed -i 's/${GRUB_DISTRIBUTOR} Linux/${GRUB_DISTRIBUTOR}/' /etc/grub.d/10_linux
 
@@ -18,6 +40,14 @@ rm -f /home/liveuser/Desktop/calamares.desktop
 
 # Copy skel/.config in /root
 cp -r /etc/skel/.config /root/
+
+# The smart NVIDIA loader is a live-session mechanism only. On the installed
+# system chwd has already put the correct driver branch in place, and the loader
+# would override it: it decides from `chwd --list`, which reports the profiles
+# *available* for the hardware, not the one installed. On a Pascal card that
+# lists nvidia-dkms-580xx and would send the machine back to nouveau.
+rm -vf /etc/modprobe.d/nvidia-loader.conf
+rm -vf /usr/local/bin/nvidia-module-loader
 
 rm -f /usr/local/bin/{alg-finalisation,livecd-sound,Installation_guide}
 

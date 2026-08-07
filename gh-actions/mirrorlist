@@ -1,32 +1,26 @@
 ##
-## Manjaro Linux default mirrorlist
-## Generated on 2026-07-30 20:24
-##
-## Please use 'pacman-mirrors -f [NUMBER] [NUMBER]' to modify mirrorlist
-## (Use 0 for all mirrors)
+## Arch Linux repository mirrorlist -- build container only.
+## The ISO profile (pear/pacman.conf) carries its own explicit Server=
+## lines and does not read this file.
 ##
 
-## Country : Serbia
-Server = https://mirror1.sox.rs/manjaro/testing/$repo/$arch
-
-## Country : Czech_Republic
-Server = https://mirror.dkm.cz/manjaro/testing/$repo/$arch
-
-## Country : Switzerland
-Server = https://ipng.mm.fcix.net/manjaro/testing/$repo/$arch
-
-## Country : United_Kingdom
-Server = https://www.mirrorservice.org/sites/repo.manjaro.org/repos/testing/$repo/$arch
-
-## Country : Belarus
-Server = https://mirror.datacenter.by/pub/mirrors/manjaro/testing/$repo/$arch
-
-## Country : Belgium
-Server = https://manjaro.mirror-services.net/pub/testing/$repo/$arch
-
-## Country : Japan
-Server = https://mirrors.xtom.jp/manjaro/testing/$repo/$arch
-
-## Country : China
-Server = https://mirrors.ustc.edu.cn/manjaro/testing/$repo/$arch
-
+Server = https://frankfurt.mirror.pkgbuild.com/$repo/os/$arch
+Server = https://mirror.iusearchbtw.nl/$repo/os/$arch
+Server = https://arch.ljkx.org/$repo/os/$arch
+Server = https://mirror.bethselamin.de/$repo/os/$arch
+Server = https://mirrors.niyawe.de/archlinux/$repo/os/$arch
+Server = https://mirror.fr.cdn-perfprod.com/archlinux/$repo/os/$arch
+Server = https://arch.mirror.cloud.thatcyberlynx.de/$repo/os/$arch
+Server = https://mirror.ipb.de/archlinux/$repo/os/$arch
+Server = https://ftp.spline.inf.fu-berlin.de/mirrors/archlinux/$repo/os/$arch
+Server = https://mirror.kumi.systems/archlinux/$repo/os/$arch
+Server = https://mirror.fra10.de.leaseweb.net/archlinux/$repo/os/$arch
+Server = https://mirror.oldsql.cc/archlinux/$repo/os/$arch
+Server = https://mirror.selfnet.de/archlinux/$repo/os/$arch
+Server = https://mirror.dogado.de/archlinux/$repo/os/$arch
+Server = https://mirror.pseudoform.org/$repo/os/$arch
+Server = https://mirror.wtnet.de/archlinux/$repo/os/$arch
+Server = https://ftp.tu-chemnitz.de/pub/linux/archlinux/$repo/os/$arch
+Server = https://lon.mirror.rackspace.com/archlinux/$repo/os/$arch
+Server = https://mirrors.aminvakil.com/archlinux/$repo/os/$arch
+Server = https://files.hadiko.de/pub/dists/arch/$repo/os/$arch
