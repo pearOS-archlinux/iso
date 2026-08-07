@@ -88,9 +88,12 @@ jobs:
           # through the normal verified path; the previous Manjaro bootstrap
           # had to blank out LocalFileSigLevel/RemoteFileSigLevel to get its
           # keyring in, which meant one unverified package download per build.
-          pacman -Sy --noconfirm
-          pacman -S --noconfirm cachyos-keyring
+          awk '/^\[cachyos\]/{skip=1; next} /^\[/{skip=0} !skip' /etc/pacman.conf \
+            > /tmp/pacman-bootstrap.conf
+          pacman -Sy --noconfirm --config /tmp/pacman-bootstrap.conf
+          pacman -S --noconfirm --config /tmp/pacman-bootstrap.conf cachyos-keyring
           pacman-key --populate cachyos
+          pacman -Sy --noconfirm
 
       - name: Updating packages and installing deps
         run: |
