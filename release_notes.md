@@ -1,6 +1,38 @@
-# `Last update: 01 Aug 2026, 06:00 AM`
+# `Last update: 12 Aug 2026, 06:30 A.M.`
 
 # Changelog
+
+# 12 Aug 2026 RELEASE 3
+## information
+https://pearos.xyz | https://nicec0re.pearos.xyz
+
+* Added Ventoy Support
+* Added better Window Snapping Support (hover the green button on a window)
+
+# 08 Aug 2026 RELEASE 2
+## information
+https://pearos.xyz | https://nicec0re.pearos.xyz
+
+* Fixed chwd error in calares if no internet
+* Add new window borders
+<img width="862" height="569" alt="image" src="https://github.com/user-attachments/assets/6dcc0542-3a59-41b9-954a-c7433b076335" />
+* Windows now tint if you move them <br>
+* Close Button gets a black dot if a running process (i.e.: in konsole type 'sleep 20' to test)<br>
+<img width="494" height="131" alt="image" src="https://github.com/user-attachments/assets/4331a703-8f80-49c9-9266-181b050ef1a5" /> <br>
+* Added Window Tiling similar to macOS <br>
+<img width="336" height="351" alt="image" src="https://github.com/user-attachments/assets/75e9d404-1300-4bbf-af86-46e427325a1a" /><br>
+
+* Window borders got 16px rounded cornerse even in Maximized state
+<img width="336" height="351" alt="image" src="https://github.com/user-attachments/assets/456ef170-03d3-4590-99ab-d3c37b2b21b8" /><br>
+
+### Known bugs:
+* when updating from older version you need sudo pacman -Sy pear-temp-fix --noconfirm
+* pearOS calculator doesn't let you use keyboard
+* Small Grab Area when trying to move certain windows around
+* Some WiFi cards are not working (investigating(forgot to investigate actually))
+* BTRFS not working on install (investigating(forgot to investigate actually))
+* Other bugs: Please use the Issues tab in this repo. Thank you
+
 
 # 01 Aug 2026
 ## Information
@@ -265,3 +297,4 @@ https://pearos.xyz
  * ~~Add error handling, so you will know when something goes wrong with the installer (added 'no internet' handler)~~ DONE
 
 **Full Changelog**: https://github.com/pearOS-archlinux/iso/compare/v25.10...v25.12_relese_candidate
+

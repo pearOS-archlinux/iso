@@ -1194,6 +1194,24 @@ _make_bootmode_uefi-x64.ploader.eltorito() {
          s|%ARCH%|${arch}|g" \
         "${profile}/efiboot/ploader/ploader.conf" > "${isofs_dir}/EFI/BOOT/ploader.conf"
 
+    # Ventoy's UEFI path only knows how to read grub.cfg-style files and
+    # /loader/entries/*.conf when it looks for the initramfs it has to graft its
+    # own cpio onto. It cannot parse ploader.conf (rEFInd syntax), and unlike its
+    # BIOS path it never falls back to /syslinux. With no entries on the ISO 9660
+    # file system Ventoy skips the injection entirely, so nothing creates the
+    # /dev/disk/by-label/${iso_label} symlink the archiso hook waits for and the
+    # boot dies at "device did not show up". Shipping the systemd-boot entries
+    # here (config only -- BOOTx64.EFI stays Ploader) makes Ventoy take its
+    # normal Arch path and replace /arch/boot/x86_64/initramfs-linux.img.
+    install -d -m 0755 -- "${isofs_dir}/loader/entries"
+    install -m 0644 -- "${profile}/efiboot/loader/loader.conf" "${isofs_dir}/loader/"
+    for _conf in "${profile}/efiboot/loader/entries/"*".conf"; do
+        sed "s|%ARCHISO_LABEL%|${iso_label}|g;
+             s|%INSTALL_DIR%|${install_dir}|g;
+             s|%ARCH%|${arch}|g" \
+            "${_conf}" > "${isofs_dir}/loader/entries/${_conf##*/}"
+    done
+
     _msg_info "Done!"
 }
 

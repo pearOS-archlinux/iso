@@ -27,7 +27,7 @@ diffutils
 dmidecode
 dmraid
 dnsmasq
-dolphin
+#dolphin
 dosfstools
 e2fsprogs
 edk2-shell
@@ -133,7 +133,7 @@ power-profiles-daemon
 pv
 qemu-guest-agent
 realtime-privileges
-reflector
+pearos-reflector
 refind
 rp-pppoe
 rsync
@@ -228,7 +228,7 @@ system-settings
 #touchegg
 #appmenu-gtk-module
 file-roller
-#nautilus
+nautilus
 npm
 gwenview
 elisa
