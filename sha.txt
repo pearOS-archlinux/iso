@@ -1,1 +1,1 @@
-e66129d70364dfc502ef8fddbfed68ac1cb61cc21d6cd2cb30586bdcbdeb1d32  /__w/iso/iso/pearOS-NiceC0re-2026.08-x86_64.iso
+57a8adcada2000bd9d8189d01ddb3499a454dfde91e6995a42b05544993ff611  /__w/iso/iso/pearOS-NiceC0re-2026.09-x86_64.iso
