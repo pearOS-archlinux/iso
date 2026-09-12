@@ -1,6 +1,14 @@
-# `Last update: 12 Aug 2026, 06:30 A.M.`
+# `Last update: 09 Aug 2026, 11:22 A.M.`
 
 # Changelog
+
+# 09 Aug 2026
+## information
+https://pearos.xyz | https://nicec0re.pearos.xyz
+
+* Automatic build
+* Bug Fixes
+
 
 # 12 Aug 2026 RELEASE 3
 ## information
@@ -8,6 +16,7 @@ https://pearos.xyz | https://nicec0re.pearos.xyz
 
 * Added Ventoy Support
 * Added better Window Snapping Support (hover the green button on a window)
+<img width="477" height="254" alt="image" src="https://github.com/user-attachments/assets/a85fc807-ffd3-49bd-9142-9078fe195d04" />
 
 # 08 Aug 2026 RELEASE 2
 ## information
@@ -298,3 +307,12 @@ https://pearos.xyz
 
 **Full Changelog**: https://github.com/pearOS-archlinux/iso/compare/v25.10...v25.12_relese_candidate
 
+## What's Changed
+* Update installation description for pearOS by @Rani-Wehbe in https://github.com/pearOS-archlinux/iso/pull/88
+* fix(build): auto-detect host distro repos and fix PGP verification by @Victor1890 in https://github.com/pearOS-archlinux/iso/pull/130
+
+## New Contributors
+* @Rani-Wehbe made their first contribution in https://github.com/pearOS-archlinux/iso/pull/88
+* @Victor1890 made their first contribution in https://github.com/pearOS-archlinux/iso/pull/130
+
+**Full Changelog**: https://github.com/pearOS-archlinux/iso/compare/v25.10...v26.9
