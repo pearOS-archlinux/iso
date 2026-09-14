@@ -21,15 +21,15 @@
 It is pearOS, but with Arch Base. Yes! It uses vanilla arch, less bugs, easier, better etc.
 
 ## Why? 📌
-I had enough with debian-based distros.
-pearOS with arch base, solve some of the big problems with pearOS, for example:
+I had enough with Debian-based distros.
+pearOS with an Arch base solves some of the big problems with pearOS, for example:
 
-> "this require you to reinstall with every new release"
+> "This requires you to reinstall with every new release"
 
-> "sudo apt upgrade would/will destroy your installation"
+> "`sudo apt upgrade` would/will destroy your installation"
 
-Not anymore. With arch, there no more base-hopping
-Now, with arch, the system is now Rolling Release, as it should be :>
+Not anymore. With Arch, there's no more base-hopping.
+Now, with Arch, the system is now Rolling Release, as it should be :>
 
 You can do now `sudo pacman -Syu` and you will stil have the pearOS branding.
 
@@ -74,7 +74,7 @@ To check if all required commands are available, you can use:
 command -v pacstrap arch-chroot mksquashfs xorriso mkfs.ext4 tune2fs git pv
 ```
 
-If any command is missing, install the corresponding package listed above.
+If any command(s) are missing, install the corresponding package listed above.
 
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/W4V723UZ17)
@@ -114,6 +114,6 @@ cp -r pearos-bootloader/theme                  pear/efiboot/ploader/theme
 </a>
 
 ## Copyright and Licensing  📌
-This project is released under the GNU Pubilc License v3 or later
+This project is released under the GNU Pubilc License v3 or later.
 
 Copyright: Alexandru Balan @ Pear Software and Services S.R.L. based in Romania, Dacia Boulevard 133, floor D, Sector 2, Bucharest CIF: 50888207
