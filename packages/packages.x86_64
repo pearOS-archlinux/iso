@@ -27,7 +27,6 @@ diffutils
 dmidecode
 dmraid
 dnsmasq
-#dolphin
 dosfstools
 e2fsprogs
 edk2-shell
