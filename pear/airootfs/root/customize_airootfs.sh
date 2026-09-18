@@ -83,11 +83,11 @@ else
 fi
 
 
-echo "Installing CMake"
-if pacman -S --noconfirm cmake extra-cmake-modules; then
-        echo "CMake and Extra CMake Modules Installed!"
+echo "Installing Liquid Gel build dependencies"
+if pacman -S --noconfirm cmake extra-cmake-modules qt6-tools vulkan-headers; then
+        echo "Liquid Gel build dependencies installed!"
 else
-        echo "Failed to install CMake + Extra Modules"
+        echo "Failed to install Liquid Gel build dependencies"
 fi
 
 echo "Downloading Liquid Gel"
