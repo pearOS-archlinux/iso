@@ -229,6 +229,7 @@ system-settings
 #appmenu-gtk-module
 file-roller
 nautilus
+localsearch
 npm
 gwenview
 elisa
