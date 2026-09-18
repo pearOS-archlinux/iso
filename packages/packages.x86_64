@@ -181,11 +181,9 @@ zfs-utils
 # pearOS Apps
 mpv
 make
-#plasma-x11-session
 qt5-wayland
 qt6-wayland
 kvantum
-#xorg
 sddm
 zsh
 zsh-completions
