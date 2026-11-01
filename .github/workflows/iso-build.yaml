@@ -173,29 +173,6 @@ jobs:
 
           echo "[ SUCCESS ] Upload finished"
 
-      - name: Archive ISO on archive.org
-        # The web repo only deletes an ISO from R2 once this item exists, so a
-        # missing key must not fail the build -- it just means no deletion later.
-        env:
-          IA_ACCESS_KEY: ${{ secrets.IA_ACCESS_KEY }}
-          IA_SECRET_KEY: ${{ secrets.IA_SECRET_KEY }}
-        run: |
-          if [ -z "$IA_ACCESS_KEY" ] || [ -z "$IA_SECRET_KEY" ]; then
-            echo "IA_ACCESS_KEY/IA_SECRET_KEY not set, skipping archive.org upload."
-            exit 0
-          fi
-          ISO_FILE=$(ls out/*.iso 2>/dev/null || ls *.iso 2>/dev/null | head -n 1)
-          ITEM=$(basename "$ISO_FILE" .iso)
-          pip install --quiet --break-system-packages internetarchive
-          mkdir -p ~/.config/internetarchive
-          printf '[s3]\naccess = %s\nsecret = %s\n' "$IA_ACCESS_KEY" "$IA_SECRET_KEY" > ~/.config/internetarchive/ia.ini
-          ia upload "$ITEM" "$ISO_FILE" --retries=10 --checksum \
-            --metadata="mediatype:software" \
-            --metadata="collection:opensource" \
-            --metadata="title:$ITEM" \
-            --metadata="creator:Alexandru Balan" \
-            --metadata="description:pearOS NiceC0re live ISO (Arch base), https://pearos.xyz"
-
       - name: Commit updated sha.txt
         env:
           GH_TOKEN: ${{ github.token }}
