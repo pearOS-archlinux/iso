@@ -187,7 +187,8 @@ jobs:
           ISO_FILE=$(ls out/*.iso 2>/dev/null || ls *.iso 2>/dev/null | head -n 1)
           ITEM=$(basename "$ISO_FILE" .iso)
           pip install --quiet --break-system-packages internetarchive
-          ia configure --access-key="$IA_ACCESS_KEY" --secret-key="$IA_SECRET_KEY"
+          mkdir -p ~/.config/internetarchive
+          printf '[s3]\naccess = %s\nsecret = %s\n' "$IA_ACCESS_KEY" "$IA_SECRET_KEY" > ~/.config/internetarchive/ia.ini
           ia upload "$ITEM" "$ISO_FILE" --retries=10 --checksum \
             --metadata="mediatype:software" \
             --metadata="collection:opensource" \
