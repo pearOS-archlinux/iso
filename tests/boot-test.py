@@ -174,7 +174,7 @@ def main():
     ap.add_argument("iso")
     ap.add_argument("--duration", type=int, default=180)
     ap.add_argument("--interval", type=int, default=10)
-    ap.add_argument("--memory", default="4G")
+    ap.add_argument("--memory", default="16G")
     ap.add_argument("--install-wait", type=int, default=110,
                     help="seconds to keep capturing after clicking Install pearOS")
     ap.add_argument("--update-reference", action="store_true",

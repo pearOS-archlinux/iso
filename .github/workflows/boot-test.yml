@@ -1,0 +1,60 @@
+name: Boot test (existing ISO)
+
+# Manual. Boots an ISO that is already in R2 and runs the boot / installer /
+# UI sanity test on it, without building or publishing anything. Use it to
+# debug the test itself or to re-test a published ISO.
+
+on:
+  workflow_dispatch:
+    inputs:
+      key:
+        description: "R2 key of the ISO in pearos-cdn"
+        required: true
+        default: "iso/pearOS-NiceC0re-2026.10-x86_64.iso"
+      memory:
+        description: "Guest RAM (the runner has 16 GB total)"
+        required: true
+        default: "6G"
+      duration:
+        description: "Seconds to wait for the desktop"
+        required: true
+        default: "240"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+      R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      R2_ENDPOINT_URL: ${{ secrets.R2_ENDPOINT_URL }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install QEMU, OVMF, rclone
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq qemu-system-x86 ovmf rclone
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+          ls -l /dev/kvm; nproc; free -g | sed -n 2p; ls /usr/share/OVMF
+
+      - name: Download the ISO from R2
+        run: |
+          export RCLONE_CONFIG_R2_TYPE=s3 RCLONE_CONFIG_R2_PROVIDER=Cloudflare \
+            RCLONE_CONFIG_R2_ACCESS_KEY_ID="$R2_ACCESS_KEY_ID" \
+            RCLONE_CONFIG_R2_SECRET_ACCESS_KEY="$R2_SECRET_ACCESS_KEY" \
+            RCLONE_CONFIG_R2_ENDPOINT="$R2_ENDPOINT_URL"
+          rclone copyto "R2:pearos-cdn/${{ inputs.key }}" test.iso --progress
+          ls -lh test.iso
+
+      - name: Boot test
+        run: python3 tests/boot-test.py test.iso --duration "${{ inputs.duration }}" --memory "${{ inputs.memory }}"
+
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: boot-sequence
+          path: seq/
