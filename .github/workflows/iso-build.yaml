@@ -17,6 +17,11 @@ on:
     # fired on days 8-14 *plus* every Wednesday.
     - cron: '0 3 * * 3'
   workflow_dispatch:
+    inputs:
+      publish:
+        description: "Publish to R2 and update sha.txt (untick to build + test only; the ISO is kept as an artifact)"
+        type: boolean
+        default: true
 
 permissions:
   contents: write
@@ -116,12 +121,14 @@ jobs:
           ./kickstart.sh
 
       - name: Boot test (QEMU, screenshot every 10s)
+        # In build-only mode a failing boot must not hide the ISO artifact.
+        continue-on-error: ${{ github.event_name == 'workflow_dispatch' && inputs.publish == false }}
         run: |
           pacman -S --noconfirm qemu-system-x86 edk2-ovmf python
           ISO_FILE=$(ls out/*.iso 2>/dev/null || ls *.iso 2>/dev/null | head -n 1)
           # No KVM on some runners: falls back to TCG, so give it more time.
           if [ -w /dev/kvm ]; then dur=180; else dur=600; fi
-          python3 tests/boot-test.py "$ISO_FILE" --duration "$dur" --interval 10
+          python3 tests/boot-test.py "$ISO_FILE" --duration "$dur" --interval 10 --memory 6G
 
       - name: Upload boot screenshots
         if: always()
@@ -130,7 +137,17 @@ jobs:
           name: boot-sequence
           path: seq/
 
+      - name: Keep ISO as artifact (build-only mode)
+        if: always() && github.event_name == 'workflow_dispatch' && inputs.publish == false
+        uses: actions/upload-artifact@v4
+        with:
+          name: iso-under-test
+          path: out/*.iso
+          retention-days: 1
+          compression-level: 0
+
       - name: Configure rclone (R2)
+        if: github.event_name != 'workflow_dispatch' || inputs.publish
         env:
           R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
@@ -148,6 +165,7 @@ jobs:
           EOF
 
       - name: Uploading to R2 (pearos-cdn/iso)
+        if: github.event_name != 'workflow_dispatch' || inputs.publish
         run: |
           ISO_FILE=$(ls out/*.iso 2>/dev/null || ls *.iso 2>/dev/null | head -n 1)
 
@@ -174,6 +192,7 @@ jobs:
           echo "[ SUCCESS ] Upload finished"
 
       - name: Commit updated sha.txt
+        if: github.event_name != 'workflow_dispatch' || inputs.publish
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
