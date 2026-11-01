@@ -3,10 +3,24 @@
 into seq/1.png, seq/2.png, ... and list them in README.md under
 "Boot Status sequence".
 
-Exit code 0 if the VM looks booted (screen changed over time and the last
-frame is not blank), 1 otherwise. No dependencies besides qemu + OVMF.
+Phases:
+  1. boot until the desktop is up (Welcome app on screen, picture stable)
+  2. click "Install pearOS" in the Welcome app (virtual tablet via QMP)
+  3. keep screenshotting while the installer starts; the last frame should be
+     Calamares
 
-Usage: tests/boot-test.py path/to.iso [--duration 180] [--interval 10]
+Also runs the UI Sanity Test on the "desktop ready" frame: the top 30 px
+(menu bar) and bottom 100 px (dock) are compared with tests/ui-reference/
+desktop.png and the % of matching pixels is reported (README: "UI Sanity
+Test"). Refresh the reference with --update-reference.
+
+Exit code 0 if the VM booted, the installer opened (screen changed massively
+after the click) and the UI sanity test passed; 1 otherwise. No dependencies besides qemu + OVMF.
+
+Usage: tests/boot-test.py path/to.iso [--duration 180] [--install-wait 90]
+                          [--interval 10] [--click 575,181]
+--click is the "Install pearOS" button in the Welcome app, in pixels of the
+1280x800 guest screen.
 """
 import argparse, hashlib, json, os, re, shutil, socket, struct, subprocess
 import sys, tempfile, time, zlib
@@ -56,6 +70,39 @@ def write_png(path, w, h, rgb):
                 + chunk(b"IEND", b""))
 
 
+def read_png(path):
+    """Reads PNGs written by write_png (8-bit RGB, filter 0, one IDAT run)."""
+    with open(path, "rb") as f:
+        data = f.read()
+    pos, idat, w = 8, b"", 0
+    while pos < len(data):
+        n, t = struct.unpack(">I4s", data[pos:pos + 8])
+        body = data[pos + 8:pos + 8 + n]
+        if t == b"IHDR":
+            w, h = struct.unpack(">II", body[:8])
+        elif t == b"IDAT":
+            idat += body
+        pos += 12 + n
+    raw = zlib.decompress(idat)
+    stride = w * 3 + 1
+    return w, h, b"".join(raw[y * stride + 1:(y + 1) * stride] for y in range(h))
+
+
+def strip_similarity(a, b, w, y0, y1, tol=16):
+    """% of pixels in rows [y0, y1) whose RGB channels all differ by <= tol."""
+    ra, rb = a[y0 * w * 3:y1 * w * 3], b[y0 * w * 3:y1 * w * 3]
+    same = sum(1 for i in range(0, len(ra), 3)
+               if abs(ra[i] - rb[i]) <= tol and abs(ra[i + 1] - rb[i + 1]) <= tol
+               and abs(ra[i + 2] - rb[i + 2]) <= tol)
+    return 100.0 * same / (len(ra) // 3)
+
+
+def changed_fraction(a, b, tol=16):
+    """Fraction of (sampled) bytes that differ by more than tol."""
+    xs = range(0, min(len(a), len(b)), 97)
+    return sum(1 for i in xs if abs(a[i] - b[i]) > tol) / len(xs)
+
+
 class QMP:
     def __init__(self, path):
         self.s = socket.socket(socket.AF_UNIX)
@@ -80,19 +127,44 @@ class QMP:
                 return r
 
 
-def update_readme(frames, interval, verdict):
-    lines = [BEGIN, "", f"Result: **{verdict}**  ", f"One screenshot every {interval}s.", ""]
+def click(qmp, x, y, w, h):
+    """Move the virtual tablet to (x, y) of a w x h screen and left-click."""
+    ax = {"type": "abs", "data": {"axis": "x", "value": int(x * 32767 / w)}}
+    ay = {"type": "abs", "data": {"axis": "y", "value": int(y * 32767 / h)}}
+    qmp.cmd("input-send-event", events=[ax, ay])
+    time.sleep(1)
+    for down in (True, False):
+        qmp.cmd("input-send-event", events=[{"type": "btn", "data": {"down": down, "button": "left"}}])
+        time.sleep(0.15)
+
+
+UI_BEGIN, UI_END = "<!-- ui-sanity:begin -->", "<!-- ui-sanity:end -->"
+
+
+def replace_block(text, begin, end, body, heading):
+    block = "\n".join([begin, "", body, "", end])
+    if begin in text and end in text:
+        return re.sub(re.escape(begin) + r".*?" + re.escape(end), lambda _: block, text, flags=re.S)
+    return text.replace("\n## Star History", f"\n## {heading} 📌\n{block}\n\n## Star History", 1)
+
+
+def update_readme(frames, interval, verdict, notes, ui):
+    lines = [f"Result: **{verdict}**  ", f"One screenshot every {interval}s.", ""]
     for i in range(1, frames + 1):
-        lines.append(f"{i}. `{(i - 1) * interval}s` — ![boot {i}](seq/{i}.png)")
-    lines += ["", END]
-    block = "\n".join(lines)
+        note = f" — {notes[i]}" if i in notes else ""
+        lines.append(f"{i}. `{i * interval}s`{note} — ![boot {i}](seq/{i}.png)")
     path = os.path.join(ROOT, "README.md")
     text = open(path).read()
-    if BEGIN in text and END in text:
-        text = re.sub(re.escape(BEGIN) + r".*?" + re.escape(END), lambda _: block, text, flags=re.S)
-    else:
-        text = text.replace("\n## Star History",
-                            f"\n## Boot Status sequence 📌\n{block}\n\n## Star History", 1)
+    text = replace_block(text, BEGIN, END, "\n".join(lines), "Boot Status sequence")
+    if ui:
+        u = ["Result: **%s**  " % ui["verdict"],
+             f"Compared against the reference [`tests/ui-reference/desktop.png`](tests/ui-reference/desktop.png) "
+             f"(% of pixels within ±{ui['tol']} per channel; pass ≥ {ui['threshold']:.0f}%).", "",
+             "| Area | Similarity |", "|---|---|",
+             f"| Top bar (first 30 px) | {ui['top']:.1f}% |",
+             f"| Dock (last 100 px) | {ui['dock']:.1f}% |", "",
+             f"Current frame: ![desktop](seq/{ui['frame']}.png)"]
+        text = replace_block(text, UI_BEGIN, UI_END, "\n".join(u), "UI Sanity Test")
     open(path, "w").write(text)
 
 
@@ -102,6 +174,13 @@ def main():
     ap.add_argument("--duration", type=int, default=180)
     ap.add_argument("--interval", type=int, default=10)
     ap.add_argument("--memory", default="4G")
+    ap.add_argument("--install-wait", type=int, default=90,
+                    help="seconds to keep capturing after clicking Install pearOS")
+    ap.add_argument("--update-reference", action="store_true",
+                    help="save the desktop-ready frame as the UI sanity reference")
+    ap.add_argument("--ui-threshold", type=float, default=90.0)
+    ap.add_argument("--click", default="575,181",
+                    help="x,y of the Install pearOS button in the Welcome app")
     a = ap.parse_args()
 
     seq = os.path.join(ROOT, "seq")
@@ -116,6 +195,7 @@ def main():
     qemu = subprocess.Popen([
         "qemu-system-x86_64", "-machine", f"q35,accel={accel}", "-m", a.memory,
         "-smp", "2", "-display", "none", "-vga", "std",
+        "-device", "qemu-xhci", "-device", "usb-tablet",
         "-drive", f"if=pflash,format=raw,readonly=on,file={first_existing(OVMF_CODE, 'code')}",
         "-drive", f"if=pflash,format=raw,file={vars_copy}",
         "-cdrom", a.iso, "-boot", "d", "-qmp", f"unix:{sock},server=on,wait=off",
@@ -123,31 +203,94 @@ def main():
     print(f"QEMU started (accel={accel})")
 
     qmp = QMP(sock)
-    hashes, bright, n = [], 0.0, 0
+    cx, cy = (int(v) for v in a.click.split(","))
+    hashes, notes, frames = [], {}, {}
+    n, bright, desktop_at, click_at, size = 0, 0.0, None, None, (1280, 800)
+
+    def shot():
+        nonlocal n, bright, size
+        n += 1
+        ppm = os.path.join(tmp, "s.ppm")
+        qmp.cmd("screendump", filename=ppm)
+        w, h, rgb = read_ppm(ppm)
+        size = (w, h)
+        write_png(os.path.join(seq, f"{n}.png"), w, h, rgb)
+        hashes.append(hashlib.md5(rgb).hexdigest())
+        frames[n] = rgb
+        bright = sum(rgb[::97]) / len(rgb[::97])
+        print(f"[{(n - 1) * a.interval + a.interval:>4}s] seq/{n}.png {w}x{h} brightness={bright:.1f}")
+
     try:
-        for n in range(1, a.duration // a.interval + 1):
+        # Phase 1: boot until the desktop is up. "Up" = bright and identical
+        # to the previous frame (Plymouth and the login transition are dark or
+        # still animating).
+        for _ in range(a.duration // a.interval):
             time.sleep(a.interval)
             if qemu.poll() is not None:
                 print("QEMU exited early")
-                n -= 1
                 break
-            ppm = os.path.join(tmp, "s.ppm")
-            qmp.cmd("screendump", filename=ppm)
-            w, h, rgb = read_ppm(ppm)
-            write_png(os.path.join(seq, f"{n}.png"), w, h, rgb)
-            hashes.append(hashlib.md5(rgb).hexdigest())
-            bright = sum(rgb[::97]) / len(rgb[::97])
-            print(f"[{n * a.interval:>4}s] seq/{n}.png {w}x{h} brightness={bright:.1f}")
+            shot()
+            if n >= 2 and bright > 20 and hashes[-1] == hashes[-2]:
+                desktop_at = n
+                notes[n] = "desktop ready"
+                break
+
+        # Phase 2: click Install pearOS, then keep capturing.
+        if desktop_at:
+            click(qmp, cx, cy, *size)
+            click_at = n
+            notes[n] = "desktop ready, then clicked **Install pearOS**"
+            for _ in range(a.install_wait // a.interval):
+                time.sleep(a.interval)
+                if qemu.poll() is not None:
+                    print("QEMU exited early")
+                    break
+                shot()
+            if n > click_at:
+                notes[n] = "installer (Calamares)"
     finally:
         qemu.kill()
         shutil.rmtree(tmp, ignore_errors=True)
 
-    booted = n >= 2 and len(set(hashes)) >= 3 and bright > 20
-    verdict = "booted ✅" if booted else "boot FAILED ❌"
+    booted = desktop_at is not None and len(set(hashes[:desktop_at])) >= 3
+    # Calamares is dark-themed, so judge it by how much the screen changed
+    # since the click, not by brightness.
+    installer = (click_at is not None and n > click_at and bright > 2
+                 and changed_fraction(frames[n], frames[click_at]) > 0.4)
+    if installer:
+        verdict = "booted, installer opened ✅"
+    elif booted:
+        verdict = "booted, installer did NOT open ❌"
+    else:
+        verdict = "boot FAILED ❌"
     print(verdict)
-    if n:
-        update_readme(n, a.interval, verdict)
-    sys.exit(0 if booted else 1)
 
+    ui = None
+    ref_path = os.path.join(ROOT, "tests", "ui-reference", "desktop.png")
+    if desktop_at:
+        cur = frames[desktop_at]
+        w, h = size
+        if a.update_reference:
+            os.makedirs(os.path.dirname(ref_path), exist_ok=True)
+            write_png(ref_path, w, h, cur)
+            print(f"reference saved: {ref_path}")
+        if os.path.exists(ref_path):
+            rw, rh, ref = read_png(ref_path)
+            if (rw, rh) == (w, h):
+                top = strip_similarity(cur, ref, w, 0, 30)
+                dock = strip_similarity(cur, ref, w, h - 100, h)
+                ok = top >= a.ui_threshold and dock >= a.ui_threshold
+                ui = {"top": top, "dock": dock, "tol": 16, "threshold": a.ui_threshold,
+                      "frame": desktop_at, "ok": ok,
+                      "verdict": "menu bar + dock look as expected ✅" if ok
+                                 else "menu bar or dock DIFFER from the reference ❌"}
+                print(f"UI Sanity: top bar {top:.1f}%, dock {dock:.1f}% -> {ui['verdict']}")
+            else:
+                print(f"UI Sanity: reference is {rw}x{rh}, screen is {w}x{h} -- skipped")
+        else:
+            print("UI Sanity: no reference yet (run with --update-reference)")
+    if n:
+        update_readme(n, a.interval, verdict, notes, ui)
+    sys.exit(0 if installer and (ui is None or ui["ok"]) else 1)
 
 main()

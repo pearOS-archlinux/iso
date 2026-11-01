@@ -106,26 +106,49 @@ cp -r pearos-bootloader/theme                  pear/efiboot/ploader/theme
 ## Boot Status sequence 📌
 <!-- boot-seq:begin -->
 
-Result: **booted ✅**  
+Result: **booted, installer opened ✅**  
 One screenshot every 10s.
 
-1. `0s` — ![boot 1](seq/1.png)
-2. `10s` — ![boot 2](seq/2.png)
-3. `20s` — ![boot 3](seq/3.png)
-4. `30s` — ![boot 4](seq/4.png)
-5. `40s` — ![boot 5](seq/5.png)
-6. `50s` — ![boot 6](seq/6.png)
-7. `60s` — ![boot 7](seq/7.png)
-8. `70s` — ![boot 8](seq/8.png)
-9. `80s` — ![boot 9](seq/9.png)
-10. `90s` — ![boot 10](seq/10.png)
-11. `100s` — ![boot 11](seq/11.png)
-12. `110s` — ![boot 12](seq/12.png)
-13. `120s` — ![boot 13](seq/13.png)
-14. `130s` — ![boot 14](seq/14.png)
-15. `140s` — ![boot 15](seq/15.png)
+1. `10s` — ![boot 1](seq/1.png)
+2. `20s` — ![boot 2](seq/2.png)
+3. `30s` — ![boot 3](seq/3.png)
+4. `40s` — ![boot 4](seq/4.png)
+5. `50s` — ![boot 5](seq/5.png)
+6. `60s` — ![boot 6](seq/6.png)
+7. `70s` — ![boot 7](seq/7.png)
+8. `80s` — ![boot 8](seq/8.png)
+9. `90s` — ![boot 9](seq/9.png)
+10. `100s` — ![boot 10](seq/10.png)
+11. `110s` — ![boot 11](seq/11.png)
+12. `120s` — ![boot 12](seq/12.png)
+13. `130s` — ![boot 13](seq/13.png)
+14. `140s` — ![boot 14](seq/14.png)
+15. `150s` — ![boot 15](seq/15.png)
+16. `160s` — ![boot 16](seq/16.png)
+17. `170s` — desktop ready, then clicked **Install pearOS** — ![boot 17](seq/17.png)
+18. `180s` — ![boot 18](seq/18.png)
+19. `190s` — ![boot 19](seq/19.png)
+20. `200s` — ![boot 20](seq/20.png)
+21. `210s` — ![boot 21](seq/21.png)
+22. `220s` — ![boot 22](seq/22.png)
+23. `230s` — installer (Calamares) — ![boot 23](seq/23.png)
 
 <!-- boot-seq:end -->
+
+## UI Sanity Test 📌
+<!-- ui-sanity:begin -->
+
+Result: **menu bar + dock look as expected ✅**  
+Compared against the reference [`tests/ui-reference/desktop.png`](tests/ui-reference/desktop.png) (% of pixels within ±16 per channel; pass ≥ 90%).
+
+| Area | Similarity |
+|---|---|
+| Top bar (first 30 px) | 99.7% |
+| Dock (last 100 px) | 100.0% |
+
+Current frame: ![desktop](seq/17.png)
+
+<!-- ui-sanity:end -->
 
 ## Star History
 
