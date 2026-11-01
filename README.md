@@ -103,6 +103,30 @@ cp -r pearos-bootloader/theme                  pear/efiboot/ploader/theme
 `build-binary` validates all of the above exist before building and errors out clearly if `ploader_x64.efi` is missing.
 
 
+## Boot Status sequence 📌
+<!-- boot-seq:begin -->
+
+Result: **booted ✅**  
+One screenshot every 10s.
+
+1. `0s` — ![boot 1](seq/1.png)
+2. `10s` — ![boot 2](seq/2.png)
+3. `20s` — ![boot 3](seq/3.png)
+4. `30s` — ![boot 4](seq/4.png)
+5. `40s` — ![boot 5](seq/5.png)
+6. `50s` — ![boot 6](seq/6.png)
+7. `60s` — ![boot 7](seq/7.png)
+8. `70s` — ![boot 8](seq/8.png)
+9. `80s` — ![boot 9](seq/9.png)
+10. `90s` — ![boot 10](seq/10.png)
+11. `100s` — ![boot 11](seq/11.png)
+12. `110s` — ![boot 12](seq/12.png)
+13. `120s` — ![boot 13](seq/13.png)
+14. `130s` — ![boot 14](seq/14.png)
+15. `140s` — ![boot 15](seq/15.png)
+
+<!-- boot-seq:end -->
+
 ## Star History
 
 <a href="https://www.star-history.com/?type=date&legend=top-left&repos=pearOS-archlinux%2Fiso">

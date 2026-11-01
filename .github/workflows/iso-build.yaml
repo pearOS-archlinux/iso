@@ -115,6 +115,21 @@ jobs:
           chmod +x ./kickstart.sh
           ./kickstart.sh
 
+      - name: Boot test (QEMU, screenshot every 10s)
+        run: |
+          pacman -S --noconfirm qemu-system-x86 edk2-ovmf python
+          ISO_FILE=$(ls out/*.iso 2>/dev/null || ls *.iso 2>/dev/null | head -n 1)
+          # No KVM on some runners: falls back to TCG, so give it more time.
+          if [ -w /dev/kvm ]; then dur=180; else dur=600; fi
+          python3 tests/boot-test.py "$ISO_FILE" --duration "$dur" --interval 10
+
+      - name: Upload boot screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: boot-sequence
+          path: seq/
+
       - name: Configure rclone (R2)
         env:
           R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
@@ -158,6 +173,28 @@ jobs:
 
           echo "[ SUCCESS ] Upload finished"
 
+      - name: Archive ISO on archive.org
+        # The web repo only deletes an ISO from R2 once this item exists, so a
+        # missing key must not fail the build -- it just means no deletion later.
+        env:
+          IA_ACCESS_KEY: ${{ secrets.IA_ACCESS_KEY }}
+          IA_SECRET_KEY: ${{ secrets.IA_SECRET_KEY }}
+        run: |
+          if [ -z "$IA_ACCESS_KEY" ] || [ -z "$IA_SECRET_KEY" ]; then
+            echo "IA_ACCESS_KEY/IA_SECRET_KEY not set, skipping archive.org upload."
+            exit 0
+          fi
+          ISO_FILE=$(ls out/*.iso 2>/dev/null || ls *.iso 2>/dev/null | head -n 1)
+          ITEM=$(basename "$ISO_FILE" .iso)
+          pip install --quiet --break-system-packages internetarchive
+          ia configure --access-key="$IA_ACCESS_KEY" --secret-key="$IA_SECRET_KEY"
+          ia upload "$ITEM" "$ISO_FILE" --retries=10 --checksum \
+            --metadata="mediatype:software" \
+            --metadata="collection:opensource" \
+            --metadata="title:$ITEM" \
+            --metadata="creator:Alexandru Balan" \
+            --metadata="description:pearOS NiceC0re live ISO (Arch base), https://pearos.xyz"
+
       - name: Commit updated sha.txt
         env:
           GH_TOKEN: ${{ github.token }}
@@ -179,11 +216,15 @@ jobs:
           git config user.name "pearOS build bot"
           git config user.email "actions@users.noreply.github.com"
 
-          if git diff --quiet -- sha.txt; then
-            echo "sha.txt unchanged, nothing to commit."
+          # Boot-test screenshots + the README section listing them.
+          rm -rf seq
+          [ -d "$GITHUB_WORKSPACE/seq" ] && cp -r "$GITHUB_WORKSPACE/seq" seq
+          [ -f "$GITHUB_WORKSPACE/README.md" ] && cp "$GITHUB_WORKSPACE/README.md" README.md
+
+          git add -A sha.txt seq README.md
+          if git diff --cached --quiet; then
+            echo "Nothing to commit."
             exit 0
           fi
-
-          git add sha.txt
           git commit -m "Update sha.txt for $(basename "$(ls "$GITHUB_WORKSPACE"/*.iso 2>/dev/null | head -n1)")"
           git push origin "${GITHUB_REF_NAME}"
