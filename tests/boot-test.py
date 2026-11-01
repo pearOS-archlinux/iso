@@ -6,8 +6,9 @@ into seq/1.png, seq/2.png, ... and list them in README.md under
 Phases:
   1. boot until the desktop is up (Welcome app on screen, picture stable)
   2. click "Install pearOS" in the Welcome app (virtual tablet via QMP)
-  3. keep screenshotting while the installer starts; the last frame should be
-     Calamares
+  3. walk the pearOS installer: pick English -> Next -> "Install pearOS
+     NiceC0re" (offline installer) -> Continue; Calamares then opens and the
+     last frame should be Calamares
 
 Also runs the UI Sanity Test on the "desktop ready" frame: the top 30 px
 (menu bar) and bottom 100 px (dock) are compared with tests/ui-reference/
@@ -174,7 +175,7 @@ def main():
     ap.add_argument("--duration", type=int, default=180)
     ap.add_argument("--interval", type=int, default=10)
     ap.add_argument("--memory", default="4G")
-    ap.add_argument("--install-wait", type=int, default=90,
+    ap.add_argument("--install-wait", type=int, default=110,
                     help="seconds to keep capturing after clicking Install pearOS")
     ap.add_argument("--update-reference", action="store_true",
                     help="save the desktop-ready frame as the UI sanity reference")
@@ -191,6 +192,9 @@ def main():
     vars_copy = os.path.join(tmp, "vars.fd")
     shutil.copy(first_existing(OVMF_VARS, "vars"), vars_copy)
     sock = os.path.join(tmp, "qmp.sock")
+    disk = os.path.join(tmp, "disk.img")
+    with open(disk, "wb") as f:
+        f.truncate(20 * 1024 ** 3)  # sparse
     accel = "kvm" if os.access("/dev/kvm", os.W_OK) else "tcg"
     qemu = subprocess.Popen([
         "qemu-system-x86_64", "-machine", f"q35,accel={accel}", "-m", a.memory,
@@ -198,6 +202,8 @@ def main():
         "-device", "qemu-xhci", "-device", "usb-tablet",
         "-drive", f"if=pflash,format=raw,readonly=on,file={first_existing(OVMF_CODE, 'code')}",
         "-drive", f"if=pflash,format=raw,file={vars_copy}",
+        # Blank target disk, otherwise Calamares stops at "no partitions to install on".
+        "-drive", f"if=virtio,format=raw,file={disk}",
         "-cdrom", a.iso, "-boot", "d", "-qmp", f"unix:{sock},server=on,wait=off",
     ])
     print(f"QEMU started (accel={accel})")
@@ -205,7 +211,7 @@ def main():
     qmp = QMP(sock)
     cx, cy = (int(v) for v in a.click.split(","))
     hashes, notes, frames = [], {}, {}
-    n, bright, desktop_at, click_at, size = 0, 0.0, None, None, (1280, 800)
+    n, bright, desktop_at, click_at, continue_at, size = 0, 0.0, None, None, None, (1280, 800)
 
     def shot():
         nonlocal n, bright, size
@@ -235,19 +241,36 @@ def main():
                 notes[n] = "desktop ready"
                 break
 
-        # Phase 2: click Install pearOS, then keep capturing.
+        # Phase 2: Welcome app -> pearOS installer -> Calamares. One action per
+        # tick, performed right after that tick's screenshot (so each frame
+        # shows the screen *before* its click). Tick 1 just lets the installer
+        # load.
+        steps = [  # (what the frame shows, click performed after it)
+            ("pearOS installer loading", None, None),
+            ("Language screen", "selected English", (657, 385)),
+            ("Language screen", "clicked Next", (1022, 704)),
+            ("Recovery screen", "selected **Install pearOS NiceC0re** (offline installer)", (655, 353)),
+            ("Recovery screen", "clicked **Continue**", (858, 655)),
+        ]
         if desktop_at:
             click(qmp, cx, cy, *size)
             click_at = n
-            notes[n] = "desktop ready, then clicked **Install pearOS**"
-            for _ in range(a.install_wait // a.interval):
+            notes[n] = "desktop ready, then clicked **Install pearOS** in Welcome"
+            for tick in range(a.install_wait // a.interval):
                 time.sleep(a.interval)
                 if qemu.poll() is not None:
                     print("QEMU exited early")
                     break
                 shot()
+                if tick < len(steps):
+                    screen, action, pos = steps[tick]
+                    if pos:
+                        click(qmp, *pos, *size)
+                    notes[n] = f"{screen}, then {action}" if action else screen
+                    if action and "Continue" in action:
+                        continue_at = n
             if n > click_at:
-                notes[n] = "installer (Calamares)"
+                notes[n] = "Calamares"
     finally:
         qemu.kill()
         shutil.rmtree(tmp, ignore_errors=True)
@@ -255,8 +278,10 @@ def main():
     booted = desktop_at is not None and len(set(hashes[:desktop_at])) >= 3
     # Calamares is dark-themed, so judge it by how much the screen changed
     # since the click, not by brightness.
-    installer = (click_at is not None and n > click_at and bright > 2
-                 and changed_fraction(frames[n], frames[click_at]) > 0.4)
+    # The last installer-flow frame is the one taken at the Continue click; if
+    # Calamares really opened, the final frame is a different screen.
+    installer = (continue_at is not None and n > continue_at and bright > 2
+                 and changed_fraction(frames[n], frames[continue_at]) > 0.4)
     if installer:
         verdict = "booted, installer opened ✅"
     elif booted:
