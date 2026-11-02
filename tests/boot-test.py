@@ -104,6 +104,160 @@ def changed_fraction(a, b, tol=16):
     return sum(1 for i in xs if abs(a[i] - b[i]) > tol) / len(xs)
 
 
+SERIAL_PATTERNS = [
+    r"Kernel panic[^\n]*", r"VFS: Unable to mount root[^\n]*", r"Cannot open root device[^\n]*",
+    r"[^\n]*Dependency failed for[^\n]*", r"[^\n]*Failed to start[^\n]*",
+    r"[^\n]*Failed to (?:mount|find|load)[^\n]*", r"[^\n]*Welcome to emergency mode[^\n]*",
+    r"[^\n]*You are in emergency mode[^\n]*", r"ERROR:[^\n]*", r"[^\n]*Unable to find[^\n]*",
+    r"[^\n]*timed out[^\n]*", r"[^\n]*Segmentation fault[^\n]*", r"[^\n]*Out of memory[^\n]*",
+    r"[^\n]*Call Trace[^\n]*", r"[^\n]*BUG:[^\n]*", r"[^\n]*not found[^\n]*",
+]
+
+
+def analyze_serial(text, max_evidence=8):
+    """Distinctive failure lines from a serial console log (deduplicated)."""
+    found = []
+    for pat in SERIAL_PATTERNS:
+        for m in re.finditer(pat, text):
+            line = re.sub(r"\x1b\[[0-9;]*[A-Za-z]", "", m.group(0)).strip()
+            if line and line not in found:
+                found.append(line[:200])
+    return found[:max_evidence]
+
+
+def diagnose_guest(iso, memory, accel, wait=150):
+    """Boots the ISO's kernel + initramfs directly (bypassing the bootloader) with
+    the console on a serial port, logs in as root and asks systemd what is going
+    on. Returns (boot_log, facts, error); facts has the cause when one is found.
+    Explains kernel / early-userspace / session failures, not bootloader ones."""
+    import socket
+    work = tempfile.mkdtemp()
+    qemu = None
+    try:
+        files = {"vmlinuz": "/arch/boot/x86_64/vmlinuz-linux",
+                 "initramfs": "/arch/boot/x86_64/initramfs-linux.img",
+                 "intel": "/arch/boot/intel-ucode.img", "amd": "/arch/boot/amd-ucode.img",
+                 "entry": "/loader/entries/01-archiso-x86_64-linux.conf"}
+        args = ["xorriso", "-osirrox", "on", "-indev", iso]
+        for k, v in files.items():
+            args += ["-extract", v, os.path.join(work, k)]
+        subprocess.run(args, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        if not os.path.exists(os.path.join(work, "vmlinuz")):
+            return None, {}, "kernel not found in the ISO at /arch/boot/x86_64/vmlinuz-linux"
+        entry = open(os.path.join(work, "entry")).read() if os.path.exists(os.path.join(work, "entry")) else ""
+        m = re.search(r"^options\s+(.*)$", entry, re.M)
+        opts = (m.group(1) if m else "archisobasedir=arch").replace("quiet", "").replace("splash", "")
+        with open(os.path.join(work, "initrd"), "wb") as out:
+            for k in ("amd", "intel", "initramfs"):
+                if os.path.exists(os.path.join(work, k)):
+                    out.write(open(os.path.join(work, k), "rb").read())
+        vars_copy = os.path.join(work, "vars.fd")
+        shutil.copy(first_existing(OVMF_VARS, "vars"), vars_copy)
+        with socket.socket() as probe:
+            probe.bind(("127.0.0.1", 0))
+            port = probe.getsockname()[1]
+        qemu = subprocess.Popen([
+            "qemu-system-x86_64", "-machine", f"q35,accel={accel}", "-m", memory, "-smp", "2",
+            "-display", "none", "-vga", "std", "-nic", "user",
+            "-serial", f"tcp:127.0.0.1:{port},server=on,wait=off",
+            "-drive", f"if=pflash,format=raw,readonly=on,file={first_existing(OVMF_CODE, 'code')}",
+            "-drive", f"if=pflash,format=raw,file={vars_copy}",
+            "-kernel", os.path.join(work, "vmlinuz"), "-initrd", os.path.join(work, "initrd"),
+            "-append", opts + " console=ttyS0,115200", "-cdrom", iso, "-boot", "d"],
+            stderr=subprocess.DEVNULL)
+        time.sleep(4)
+        sock = socket.create_connection(("127.0.0.1", port))
+        sock.settimeout(1)
+        ansi = re.compile(r"\x1b\[[0-9;?]*[A-Za-z]|\x1b\][^\\\x07]*(?:\\|\x07)|\(B")
+
+        def read(seconds, until=None):
+            end, out = time.time() + seconds, ""
+            while time.time() < end:
+                try:
+                    out += ansi.sub("", sock.recv(65536).decode(errors="replace"))
+                except socket.timeout:
+                    pass
+                if until and until in out:
+                    break
+            return out
+
+        log = read(120, until="login:")
+        if "login:" not in log:
+            return log, {}, None  # the kernel never got to a login prompt
+        sock.sendall(b"\n"); read(2)
+        sock.sendall(b"root\n"); read(4)
+
+        def run(cmd, seconds=10):
+            sock.sendall((cmd + "\n").encode())
+            return read(seconds)
+
+        # Give the session time to either come up or start crash-looping.
+        run("for i in $(seq 1 %d); do systemctl is-active -q graphical.target && break; sleep 2; done; sleep 15" % (wait // 2), wait + 25)
+        facts = {}
+        facts["active"] = run("systemctl is-active graphical.target sddm", 8)
+        facts["jobs"] = run("systemctl list-jobs --no-pager", 8)
+        facts["symbols"] = run("journalctl -b --no-pager | grep -aoE '[^ ]+: symbol lookup error: .*' | sort -u | head -3", 10)
+        facts["qt"] = run("journalctl -b --no-pager | grep -aoE 'Could not load the Qt platform plugin[^.]*' | sort -u | head -2", 10)
+        facts["cores"] = run("coredumpctl list --no-pager 2>/dev/null | awk '{print $(NF-3), $(NF-2)}' | sort | uniq -c | head -6", 10)
+        facts["slow"] = run("systemd-analyze blame --no-pager 2>/dev/null | head -3", 10)
+        return log, facts, None
+    except OSError as e:
+        return None, {}, f"could not run the diagnosis: {e}"
+    finally:
+        if qemu:
+            qemu.kill()
+        shutil.rmtree(work, ignore_errors=True)
+
+
+def explain_guest(facts):
+    """(cause, evidence lines) from the facts collected by diagnose_guest."""
+    def lines(key):
+        return [l.strip() for l in facts.get(key, "").splitlines()[1:]
+                if l.strip() and not l.strip().startswith(("#", "root@"))]
+
+    symbols = [re.sub(r"^.*?(/\S+: symbol lookup error)", r"\1", l) for l in lines("symbols")
+               if "symbol lookup error" in l]
+    if symbols:
+        return ("the desktop session crashes at startup, a shared library does not match the program "
+                "that loads it (typically two packages from different release sets)"), symbols
+    qt = [l for l in lines("qt") if "Qt platform plugin" in l]
+    jobs = [l.split()[1] for l in lines("jobs") if re.match(r"^\d+\s+\S+\.service\s", l)]
+    active = " ".join(lines("active"))
+    if jobs and "inactive" in active.split()[:1]:
+        return ("the boot is held up: graphical.target waits for services that never finish ("
+                + ", ".join(jobs) + ")"), lines("slow")
+    cores = lines("cores")
+    if cores:
+        return "desktop components crashed at startup", cores
+    if qt:
+        return "an application cannot initialise its Qt platform plugin", qt
+    if "inactive" in active or "failed" in active:
+        return "the display manager (sddm) is not running", lines("active")
+    return None, []
+
+
+def classify_failure(hashes, frames, n, desktop_at, installer, ui, size):
+    """(stage, human reason) for a failed run, judged from the screenshots."""
+    if not n:
+        return "no-frames", "QEMU produced no screenshots (VM did not start)."
+    w, h = size
+    last = frames[n]
+    nonblack = sum(1 for i in range(0, len(last), 97) if last[i] > 12) / len(range(0, len(last), 97))
+    if desktop_at is None:
+        if len(set(hashes)) == 1:
+            return "bootloader", "Stuck in the bootloader: the screen never changed, the kernel was not started."
+        if nonblack < 0.002:
+            return "black-screen", ("Black screen after the bootloader: the kernel/initramfs started but nothing "
+                                    "graphical ever appeared (hang or crash before Plymouth/SDDM).")
+        return "splash", "Boot never reached the desktop: the screen stayed on a boot splash / early UI."
+    if not installer:
+        return "installer", "Desktop reached, but the pearOS installer / Calamares did not open."
+    if ui is not None and not ui["ok"]:
+        return "ui", (f"The desktop looks different from the reference: menu bar {ui['top']:.1f}%, "
+                      f"dock {ui['dock']:.1f}% similar (needs {ui['threshold']:.0f}%).")
+    return "unknown", "Test failed for an unknown reason."
+
+
 class QMP:
     def __init__(self, path):
         self.s = socket.socket(socket.AF_UNIX)
@@ -149,8 +303,15 @@ def replace_block(text, begin, end, body, heading):
     return text.replace("\n## Star History", f"\n## {heading} 📌\n{block}\n\n## Star History", 1)
 
 
-def update_readme(frames, interval, verdict, notes, ui):
-    lines = [f"Result: **{verdict}**  ", f"One screenshot every {interval}s.", ""]
+def update_readme(frames, interval, verdict, notes, ui, failure=None):
+    lines = [f"Result: **{verdict}**  "]
+    if failure:
+        lines += ["", f"> **Why it failed:** {failure['reason']}", ""]
+        if failure.get("evidence"):
+            lines += ["Kernel/initramfs log lines that explain it (serial console, direct kernel boot):", "", "```"]
+            lines += failure["evidence"] + ["```", ""]
+        lines += ["This ISO was **not published**; it was saved as a quarantined `FAIL_TEST` build.", ""]
+    lines += [f"One screenshot every {interval}s.", ""]
     for i in range(1, frames + 1):
         note = f" — {notes[i]}" if i in notes else ""
         lines.append(f"{i}. `{i * interval}s`{note} — ![boot {i}](seq/{i}.png)")
@@ -180,6 +341,8 @@ def main():
     ap.add_argument("--update-reference", action="store_true",
                     help="save the desktop-ready frame as the UI sanity reference")
     ap.add_argument("--ui-threshold", type=float, default=90.0)
+    ap.add_argument("--diagnose-seconds", type=int, default=150,
+                    help="how long to wait for graphical.target when diagnosing a failure")
     ap.add_argument("--click", default="575,181",
                     help="x,y of the Install pearOS button in the Welcome app")
     a = ap.parse_args()
@@ -314,8 +477,37 @@ def main():
                 print(f"UI Sanity: reference is {rw}x{rh}, screen is {w}x{h} -- skipped")
         else:
             print("UI Sanity: no reference yet (run with --update-reference)")
+    passed = bool(installer and (ui is None or ui["ok"]))
+    failure = None
+    if not passed:
+        verdict = "FAIL TEST ❌"
+        stage, reason = classify_failure(hashes, frames, n, desktop_at, installer, ui, size)
+        evidence = []
+        if stage in ("bootloader", "black-screen", "splash"):
+            print("Failure before the desktop: booting the kernel directly with a serial console to find out why...")
+            log, facts, err = diagnose_guest(a.iso, a.memory, accel, a.diagnose_seconds)
+            if err:
+                evidence = [err]
+            elif log is not None:
+                with open(os.path.join(seq, "serial.log"), "w") as f:
+                    f.write(log + "\n" + "\n".join(str(v) for v in facts.values()))
+                cause, evidence = explain_guest(facts)
+                if cause:
+                    reason = f"{reason}  **Cause:** {cause}."
+                elif "login:" not in log:
+                    evidence = [l for l in log.splitlines() if l.strip()][-8:]
+                    reason += "  The kernel never reached a login prompt on the serial console."
+                else:
+                    reason += "  The system booted fine over the serial console, so this looks like a graphics/display problem."
+        failure = {"stage": stage, "reason": reason, "evidence": evidence}
+        print(f"FAIL TEST at stage '{stage}': {reason}")
+        for line in evidence:
+            print("   |", line)
+    with open(os.path.join(seq, "result.json"), "w") as f:
+        json.dump({"passed": passed, "verdict": verdict, "iso": os.path.basename(a.iso),
+                   "failure": failure, "ui": ui, "frames": n}, f, indent=2, ensure_ascii=False)
     if n:
-        update_readme(n, a.interval, verdict, notes, ui)
-    sys.exit(0 if installer and (ui is None or ui["ok"]) else 1)
+        update_readme(n, a.interval, verdict, notes, ui, failure)
+    sys.exit(0 if passed else 1)
 
 main()

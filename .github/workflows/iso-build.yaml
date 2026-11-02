@@ -120,14 +120,17 @@ jobs:
           chmod +x ./kickstart.sh
           ./kickstart.sh
 
-      - name: Boot test (QEMU, screenshot every 10s)
-        # In build-only mode a failing boot must not hide the ISO artifact.
-        continue-on-error: ${{ github.event_name == 'workflow_dispatch' && inputs.publish == false }}
+      - name: Boot test (QEMU, screenshots, installer, UI sanity)
+        id: boottest
+        # Never abort here: a failed test must still upload its screenshots,
+        # write the reason into README.md and quarantine the ISO (see below).
+        # The run is failed explicitly by the last step.
+        continue-on-error: true
         run: |
           pacman -S --noconfirm qemu-system-x86 edk2-ovmf python
           ISO_FILE=$(ls out/*.iso 2>/dev/null || ls *.iso 2>/dev/null | head -n 1)
           # No KVM on some runners: falls back to TCG, so give it more time.
-          if [ -w /dev/kvm ]; then dur=180; else dur=600; fi
+          if [ -w /dev/kvm ]; then dur=240; else dur=600; fi
           python3 tests/boot-test.py "$ISO_FILE" --duration "$dur" --interval 10 --memory 6G
 
       - name: Upload boot screenshots
@@ -142,7 +145,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: iso-under-test
-          path: out/*.iso
+          path: |
+            out/*.iso
+            *.iso
           retention-days: 1
           compression-level: 0
 
@@ -164,8 +169,16 @@ jobs:
           acl = private
           EOF
 
+      - name: Quarantine the ISO if the boot test failed (not published)
+        if: steps.boottest.outcome == 'failure' && (github.event_name != 'workflow_dispatch' || inputs.publish)
+        run: |
+          ISO_FILE=$(ls out/*.iso 2>/dev/null || ls *.iso 2>/dev/null | head -n 1)
+          NAME="$(basename "$ISO_FILE" .iso)-FAIL_TEST.iso"
+          echo "Boot test FAILED. Saving $ISO_FILE as failed/$NAME (the public iso/ folder is untouched)."
+          rclone copyto "$ISO_FILE" "r2-pearos:pearos-cdn/failed/$NAME" --progress
+
       - name: Uploading to R2 (pearos-cdn/iso)
-        if: github.event_name != 'workflow_dispatch' || inputs.publish
+        if: steps.boottest.outcome == 'success' && (github.event_name != 'workflow_dispatch' || inputs.publish)
         run: |
           ISO_FILE=$(ls out/*.iso 2>/dev/null || ls *.iso 2>/dev/null | head -n 1)
 
@@ -191,9 +204,10 @@ jobs:
 
           echo "[ SUCCESS ] Upload finished"
 
-      - name: Commit updated sha.txt
-        if: github.event_name != 'workflow_dispatch' || inputs.publish
+      - name: Commit boot status (and sha.txt when the ISO was published)
+        if: always() && steps.boottest.outcome != 'skipped' && (github.event_name != 'workflow_dispatch' || inputs.publish)
         env:
+          BOOT_OUTCOME: ${{ steps.boottest.outcome }}
           GH_TOKEN: ${{ github.token }}
         run: |
           # $GITHUB_WORKSPACE/.git is gone by this point (something in the
@@ -208,7 +222,8 @@ jobs:
             "$clonedir"
 
           cd "$clonedir"
-          echo "$new_sha" > sha.txt
+          # A failed (quarantined) ISO must not move sha.txt.
+          [ "$BOOT_OUTCOME" = "success" ] && echo "$new_sha" > sha.txt
 
           git config user.name "pearOS build bot"
           git config user.email "actions@users.noreply.github.com"
@@ -223,5 +238,16 @@ jobs:
             echo "Nothing to commit."
             exit 0
           fi
-          git commit -m "Update sha.txt for $(basename "$(ls "$GITHUB_WORKSPACE"/*.iso 2>/dev/null | head -n1)")"
+          iso_name="$(basename "$(ls "$GITHUB_WORKSPACE"/*.iso 2>/dev/null | head -n1)")"
+          if [ "$BOOT_OUTCOME" = "success" ]; then
+            git commit -m "Update sha.txt for $iso_name"
+          else
+            git commit -m "Boot test FAILED for $iso_name: see README (Boot Status sequence)"
+          fi
           git push origin "${GITHUB_REF_NAME}"
+
+      - name: Fail the run if the boot test failed
+        if: always() && steps.boottest.outcome == 'failure'
+        run: |
+          echo "::error::Boot test failed - the ISO was NOT published. See the README 'Boot Status sequence' for the reason."
+          exit 1
