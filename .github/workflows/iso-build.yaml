@@ -231,6 +231,14 @@ jobs:
           # Boot-test screenshots + the README section listing them.
           rm -rf seq
           [ -d "$GITHUB_WORKSPACE/seq" ] && cp -r "$GITHUB_WORKSPACE/seq" seq
+          # Web-sized copies (960px webp, ~25 KB each) for the NiceC0re page gallery.
+          if [ -d seq ]; then
+            mkdir -p seq/web
+            for f in seq/[0-9]*.png; do
+              ffmpeg -loglevel error -y -i "$f" -vf scale=960:-1 -quality 70 \
+                "seq/web/$(basename "${f%.png}").webp" || true
+            done
+          fi
           [ -f "$GITHUB_WORKSPACE/README.md" ] && cp "$GITHUB_WORKSPACE/README.md" README.md
 
           git add -A sha.txt seq README.md

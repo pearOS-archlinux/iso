@@ -12,5 +12,19 @@
     "ok": true,
     "verdict": "menu bar + dock look as expected ✅"
   },
-  "frames": 26
+  "frames": 26,
+  "booted": true,
+  "installer": true,
+  "interval": 10,
+  "desktop_frame": 15,
+  "notes": {
+    "15": "desktop ready, then clicked Install pearOS in Welcome",
+    "16": "pearOS installer loading",
+    "17": "Language screen, then selected English",
+    "18": "Language screen, then clicked Next",
+    "19": "Recovery screen, then selected Install pearOS NiceC0re (offline installer)",
+    "20": "Recovery screen, then clicked Continue",
+    "26": "Calamares"
+  },
+  "built": "2026-11-02T10:00:00Z"
 }

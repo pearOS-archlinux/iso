@@ -505,7 +505,12 @@ def main():
             print("   |", line)
     with open(os.path.join(seq, "result.json"), "w") as f:
         json.dump({"passed": passed, "verdict": verdict, "iso": os.path.basename(a.iso),
-                   "failure": failure, "ui": ui, "frames": n}, f, indent=2, ensure_ascii=False)
+                   "failure": failure, "ui": ui, "frames": n,
+                   "booted": bool(booted), "installer": bool(installer),
+                   "interval": a.interval, "desktop_frame": desktop_at,
+                   "notes": {str(k): v.replace("**", "") for k, v in notes.items()},
+                   "built": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())},
+                  f, indent=2, ensure_ascii=False)
     if n:
         update_readme(n, a.interval, verdict, notes, ui, failure)
     sys.exit(0 if passed else 1)
