@@ -1,30 +1,137 @@
 {
   "passed": true,
-  "verdict": "booted, installer opened ✅",
+  "verdict": "booted, installed pearOS and booted it ✅",
   "iso": "pearOS-NiceC0re-2026.11-x86_64.iso",
   "failure": null,
   "ui": {
-    "top": 96.94791666666667,
+    "top": 96.95572916666667,
     "dock": 100.0,
     "tol": 16,
     "threshold": 90.0,
-    "frame": 15,
+    "frame": 13,
     "ok": true,
     "verdict": "menu bar + dock look as expected ✅"
   },
-  "frames": 26,
+  "frames": 76,
   "booted": true,
   "installer": true,
-  "interval": 10,
-  "desktop_frame": 15,
-  "notes": {
-    "15": "desktop ready, then clicked Install pearOS in Welcome",
-    "16": "pearOS installer loading",
-    "17": "Language screen, then selected English",
-    "18": "Language screen, then clicked Next",
-    "19": "Recovery screen, then selected Install pearOS NiceC0re (offline installer)",
-    "20": "Recovery screen, then clicked Continue",
-    "26": "Calamares"
+  "install": {
+    "ran": true,
+    "finished": true,
+    "booted": true,
+    "minutes": 7.0
   },
-  "built": "2026-11-02T10:00:00Z"
+  "score": {
+    "boot": 100,
+    "ui": 100,
+    "install": 100,
+    "usability": 90,
+    "checks": {
+      "login + desktop": {
+        "ok": true,
+        "detail": ""
+      },
+      "UI sanity (installed)": {
+        "ok": true,
+        "detail": "top 97% / dock 100%"
+      },
+      "Konsole opens": {
+        "ok": true,
+        "detail": ""
+      },
+      "fastfetch shows pearOS": {
+        "ok": true,
+        "detail": ""
+      },
+      "sudo pacman -Syyu --noconfirm": {
+        "ok": false,
+        "detail": "timed out"
+      },
+      "Seafari opens": {
+        "ok": true,
+        "detail": ""
+      },
+      "Calculator opens": {
+        "ok": true,
+        "detail": ""
+      },
+      "Notes opens": {
+        "ok": true,
+        "detail": ""
+      },
+      "Finder opens": {
+        "ok": true,
+        "detail": ""
+      },
+      "Kate opens": {
+        "ok": true,
+        "detail": ""
+      }
+    },
+    "total": 98
+  },
+  "interval": 10,
+  "desktop_frame": 13,
+  "notes": {
+    "13": "desktop ready, then clicked Install pearOS in Welcome",
+    "14": "pearOS installer loading",
+    "15": "Language screen, then selected English",
+    "16": "Language screen, then clicked Next",
+    "17": "Recovery screen, then selected Install pearOS NiceC0re (offline installer)",
+    "18": "Recovery screen, then clicked Continue",
+    "24": "Calamares",
+    "25": "Calamares: Welcome, clicked Next",
+    "26": "Calamares: Location, clicked Next",
+    "27": "Calamares: Keyboard, clicked Next",
+    "28": "Calamares: Partitions, selected Erase disk",
+    "29": "Calamares: Partitions, clicked Next",
+    "30": "Calamares: Summary, clicked Install",
+    "31": "Calamares: installing (2 min)",
+    "32": "Calamares: installing (4 min)",
+    "33": "Calamares: installing (6 min)",
+    "34": "Calamares: installation finished",
+    "35": "Installed system: first boot",
+    "36": "Installed system: first boot",
+    "37": "Installed system: first boot",
+    "38": "Installed system: first boot",
+    "39": "Installed system: reached the login screen / desktop",
+    "40": "First boot: language",
+    "41": "First boot: keyboard",
+    "42": "First boot: time zone",
+    "43": "First boot: create account",
+    "44": "First boot: account filled in",
+    "45": "First boot: look",
+    "46": "First boot: terms",
+    "47": "First boot: applying settings",
+    "48": "Login screen",
+    "49": "Login screen",
+    "50": "Login screen",
+    "51": "Login screen",
+    "52": "Login screen",
+    "53": "Login screen",
+    "54": "Logging in",
+    "55": "Logging in",
+    "56": "Logging in",
+    "57": "Logging in",
+    "58": "Logging in",
+    "59": "Logging in",
+    "60": "Logging in",
+    "61": "Installed system: desktop",
+    "62": "Konsole opened",
+    "63": "Konsole: fastfetch",
+    "64": "Konsole: sudo pacman -Syyu --noconfirm (running)",
+    "65": "Konsole: sudo pacman -Syyu --noconfirm (running)",
+    "66": "Konsole: sudo pacman -Syyu --noconfirm (running)",
+    "67": "Konsole: sudo pacman -Syyu --noconfirm (running)",
+    "68": "Konsole: sudo pacman -Syyu --noconfirm (running)",
+    "69": "Konsole: sudo pacman -Syyu --noconfirm (running)",
+    "70": "Konsole: sudo pacman -Syyu --noconfirm (running)",
+    "71": "Konsole: pacman -Syyu FAILED",
+    "72": "App: Seafari opened",
+    "73": "App: Calculator opened",
+    "74": "App: Notes opened",
+    "75": "App: Finder opened",
+    "76": "App: Kate opened"
+  },
+  "built": "2026-11-02T17:09:53Z"
 }

@@ -106,7 +106,32 @@ cp -r pearos-bootloader/theme                  pear/efiboot/ploader/theme
 ## Boot Status sequence 📌
 <!-- boot-seq:begin -->
 
-Result: **booted, installer opened ✅**  
+Result: **booted, installed pearOS and booted it ✅**  
+
+**Success score: 98/100**
+
+| Test | Score |
+|---|---|
+| Boot | 100/100 |
+| UI sanity | 100/100 |
+| Installable | 100/100 |
+| Usability | 90/100 |
+
+Usability checks:
+
+| Check | Result |
+|---|---|
+| login + desktop | ✅  |
+| UI sanity (installed) | ✅ top 97% / dock 100% |
+| Konsole opens | ✅  |
+| fastfetch shows pearOS | ✅  |
+| sudo pacman -Syyu --noconfirm | ❌ timed out |
+| Seafari opens | ✅  |
+| Calculator opens | ✅  |
+| Notes opens | ✅  |
+| Finder opens | ✅  |
+| Kate opens | ✅  |
+
 One screenshot every 10s.
 
 1. `10s` — ![boot 1](seq/1.png)
@@ -121,20 +146,70 @@ One screenshot every 10s.
 10. `100s` — ![boot 10](seq/10.png)
 11. `110s` — ![boot 11](seq/11.png)
 12. `120s` — ![boot 12](seq/12.png)
-13. `130s` — ![boot 13](seq/13.png)
-14. `140s` — ![boot 14](seq/14.png)
-15. `150s` — desktop ready, then clicked **Install pearOS** in Welcome — ![boot 15](seq/15.png)
-16. `160s` — pearOS installer loading — ![boot 16](seq/16.png)
-17. `170s` — Language screen, then selected English — ![boot 17](seq/17.png)
-18. `180s` — Language screen, then clicked Next — ![boot 18](seq/18.png)
-19. `190s` — Recovery screen, then selected **Install pearOS NiceC0re** (offline installer) — ![boot 19](seq/19.png)
-20. `200s` — Recovery screen, then clicked **Continue** — ![boot 20](seq/20.png)
+13. `130s` — desktop ready, then clicked **Install pearOS** in Welcome — ![boot 13](seq/13.png)
+14. `140s` — pearOS installer loading — ![boot 14](seq/14.png)
+15. `150s` — Language screen, then selected English — ![boot 15](seq/15.png)
+16. `160s` — Language screen, then clicked Next — ![boot 16](seq/16.png)
+17. `170s` — Recovery screen, then selected **Install pearOS NiceC0re** (offline installer) — ![boot 17](seq/17.png)
+18. `180s` — Recovery screen, then clicked **Continue** — ![boot 18](seq/18.png)
+19. `190s` — ![boot 19](seq/19.png)
+20. `200s` — ![boot 20](seq/20.png)
 21. `210s` — ![boot 21](seq/21.png)
 22. `220s` — ![boot 22](seq/22.png)
 23. `230s` — ![boot 23](seq/23.png)
-24. `240s` — ![boot 24](seq/24.png)
-25. `250s` — ![boot 25](seq/25.png)
-26. `260s` — Calamares — ![boot 26](seq/26.png)
+24. `240s` — Calamares — ![boot 24](seq/24.png)
+25. `250s` — Calamares: Welcome, clicked Next — ![boot 25](seq/25.png)
+26. `260s` — Calamares: Location, clicked Next — ![boot 26](seq/26.png)
+27. `270s` — Calamares: Keyboard, clicked Next — ![boot 27](seq/27.png)
+28. `280s` — Calamares: Partitions, selected Erase disk — ![boot 28](seq/28.png)
+29. `290s` — Calamares: Partitions, clicked Next — ![boot 29](seq/29.png)
+30. `300s` — Calamares: Summary, clicked Install — ![boot 30](seq/30.png)
+31. `310s` — Calamares: installing (2 min) — ![boot 31](seq/31.png)
+32. `320s` — Calamares: installing (4 min) — ![boot 32](seq/32.png)
+33. `330s` — Calamares: installing (6 min) — ![boot 33](seq/33.png)
+34. `340s` — Calamares: installation finished — ![boot 34](seq/34.png)
+35. `350s` — Installed system: first boot — ![boot 35](seq/35.png)
+36. `360s` — Installed system: first boot — ![boot 36](seq/36.png)
+37. `370s` — Installed system: first boot — ![boot 37](seq/37.png)
+38. `380s` — Installed system: first boot — ![boot 38](seq/38.png)
+39. `390s` — Installed system: reached the login screen / desktop — ![boot 39](seq/39.png)
+40. `400s` — First boot: language — ![boot 40](seq/40.png)
+41. `410s` — First boot: keyboard — ![boot 41](seq/41.png)
+42. `420s` — First boot: time zone — ![boot 42](seq/42.png)
+43. `430s` — First boot: create account — ![boot 43](seq/43.png)
+44. `440s` — First boot: account filled in — ![boot 44](seq/44.png)
+45. `450s` — First boot: look — ![boot 45](seq/45.png)
+46. `460s` — First boot: terms — ![boot 46](seq/46.png)
+47. `470s` — First boot: applying settings — ![boot 47](seq/47.png)
+48. `480s` — Login screen — ![boot 48](seq/48.png)
+49. `490s` — Login screen — ![boot 49](seq/49.png)
+50. `500s` — Login screen — ![boot 50](seq/50.png)
+51. `510s` — Login screen — ![boot 51](seq/51.png)
+52. `520s` — Login screen — ![boot 52](seq/52.png)
+53. `530s` — Login screen — ![boot 53](seq/53.png)
+54. `540s` — Logging in — ![boot 54](seq/54.png)
+55. `550s` — Logging in — ![boot 55](seq/55.png)
+56. `560s` — Logging in — ![boot 56](seq/56.png)
+57. `570s` — Logging in — ![boot 57](seq/57.png)
+58. `580s` — Logging in — ![boot 58](seq/58.png)
+59. `590s` — Logging in — ![boot 59](seq/59.png)
+60. `600s` — Logging in — ![boot 60](seq/60.png)
+61. `610s` — Installed system: desktop — ![boot 61](seq/61.png)
+62. `620s` — Konsole opened — ![boot 62](seq/62.png)
+63. `630s` — Konsole: fastfetch — ![boot 63](seq/63.png)
+64. `640s` — Konsole: sudo pacman -Syyu --noconfirm (running) — ![boot 64](seq/64.png)
+65. `650s` — Konsole: sudo pacman -Syyu --noconfirm (running) — ![boot 65](seq/65.png)
+66. `660s` — Konsole: sudo pacman -Syyu --noconfirm (running) — ![boot 66](seq/66.png)
+67. `670s` — Konsole: sudo pacman -Syyu --noconfirm (running) — ![boot 67](seq/67.png)
+68. `680s` — Konsole: sudo pacman -Syyu --noconfirm (running) — ![boot 68](seq/68.png)
+69. `690s` — Konsole: sudo pacman -Syyu --noconfirm (running) — ![boot 69](seq/69.png)
+70. `700s` — Konsole: sudo pacman -Syyu --noconfirm (running) — ![boot 70](seq/70.png)
+71. `710s` — Konsole: pacman -Syyu FAILED — ![boot 71](seq/71.png)
+72. `720s` — App: Seafari opened — ![boot 72](seq/72.png)
+73. `730s` — App: Calculator opened — ![boot 73](seq/73.png)
+74. `740s` — App: Notes opened — ![boot 74](seq/74.png)
+75. `750s` — App: Finder opened — ![boot 75](seq/75.png)
+76. `760s` — App: Kate opened — ![boot 76](seq/76.png)
 
 <!-- boot-seq:end -->
 
@@ -146,10 +221,10 @@ Compared against the reference [`tests/ui-reference/desktop.png`](tests/ui-refer
 
 | Area | Similarity |
 |---|---|
-| Top bar (first 30 px) | 96.9% |
+| Top bar (first 30 px) | 97.0% |
 | Dock (last 100 px) | 100.0% |
 
-Current frame: ![desktop](seq/15.png)
+Current frame: ![desktop](seq/13.png)
 
 <!-- ui-sanity:end -->
 
