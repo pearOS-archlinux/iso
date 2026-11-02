@@ -39,6 +39,27 @@ OVMF_VARS = [
     "/usr/share/OVMF/OVMF_VARS.fd",
     "/usr/share/edk2/ovmf/OVMF_VARS.fd",
 ]
+# Calamares pages, in pixels of the 1280x800 guest screen (verified on the
+# 2026.11 ISO): Welcome -> Location -> Keyboard -> Partitions -> Summary ->
+# Install -> Finish. No users page: the installed system asks on first boot.
+CALAMARES_STEPS = [
+    ("Welcome, clicked Next", (1133, 654)),
+    ("Location, clicked Next", (1133, 654)),
+    ("Keyboard, clicked Next", (1133, 654)),
+    ("Partitions, selected Erase disk", (19, 107)),
+    ("Partitions, clicked Next", (1133, 654)),
+    ("Summary, clicked Install", (1120, 654)),
+]
+# First-boot "hello" assistant of the installed system (same 1280x800 pixels).
+# Throwaway account that only exists inside the test VM.
+TEST_USER = {"full": "Tester", "name": "tester", "password": "pearos-test-1"}
+SETUP_CONTINUE = (983, 682)
+APPS = [  # (label, desktop-file id) -- launched with gtk-launch from Konsole
+    ("Seafari", "seafari"), ("Calculator", "calculator"), ("Notes", "pearos-notes"),
+    ("Finder", "org.gnome.Nautilus"), ("Kate", "org.kde.kate"),
+]
+KONSOLE_BOX = (188, 135, 1090, 640)
+FINISH_TAB = (1130, 684)  # turns blue when Calamares reaches Finish
 BEGIN, END = "<!-- boot-seq:begin -->", "<!-- boot-seq:end -->"
 
 
@@ -87,6 +108,43 @@ def read_png(path):
     raw = zlib.decompress(idat)
     stride = w * 3 + 1
     return w, h, b"".join(raw[y * stride + 1:(y + 1) * stride] for y in range(h))
+
+
+def pixel(rgb, w, x, y):
+    i = (y * w + x) * 3
+    return rgb[i], rgb[i + 1], rgb[i + 2]
+
+
+def crop_rgb(rgb, w, x0, y0, x1, y1):
+    return b"".join(rgb[(y * w + x0) * 3:(y * w + x1) * 3] for y in range(y0, y1))
+
+
+def ocr(rgb, w, box, scale=2):
+    """Text in a screen region via tesseract, or None when tesseract is not installed."""
+    if not shutil.which("tesseract"):
+        return None
+    x0, y0, x1, y1 = box
+    d = tempfile.mkdtemp()
+    try:
+        # Tesseract misreads small terminal text; upscale (nearest neighbour) first.
+        crop = crop_rgb(rgb, w, x0, y0, x1, y1)
+        cw = x1 - x0
+        rows = [crop[i * cw * 3:(i + 1) * cw * 3] for i in range(y1 - y0)]
+        big = []
+        for row in rows:
+            wide = b"".join(row[j:j + 3] * scale for j in range(0, len(row), 3))
+            big.extend([wide] * scale)
+        write_png(os.path.join(d, "c.png"), cw * scale, (y1 - y0) * scale, b"".join(big))
+        out = subprocess.run(
+            ["tesseract", os.path.join(d, "c.png"), "stdout", "--psm", "6"],
+            capture_output=True, text=True, timeout=120).stdout
+        return out
+    finally:
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def key_combo(qmp, combo):
+    qmp.cmd("send-key", keys=[{"type": "qcode", "data": k} for k in combo.split("+")])
 
 
 def strip_similarity(a, b, w, y0, y1, tol=16):
@@ -293,6 +351,32 @@ def click(qmp, x, y, w, h):
         time.sleep(0.15)
 
 
+# Characters the guest keyboard can type: char -> QMP qcodes (US layout).
+_KEYS = {" ": ["spc"], "-": ["minus"], "_": ["shift", "minus"], ".": ["dot"], "/": ["slash"],
+         ",": ["comma"], "=": ["equal"], ":": ["shift", "semicolon"], ";": ["semicolon"],
+         "|": ["shift", "backslash"], "\\": ["backslash"], "$": ["shift", "4"], "&": ["shift", "7"],
+         ">": ["shift", "dot"], "<": ["shift", "comma"], "'": ["apostrophe"], "*": ["shift", "8"],
+         "~": ["shift", "grave_accent"], "@": ["shift", "2"], "!": ["shift", "1"], "+": ["shift", "equal"],
+         "(": ["shift", "9"], ")": ["shift", "0"], '"': ["shift", "apostrophe"], "?": ["shift", "slash"],
+         "[": ["bracket_left"], "]": ["bracket_right"], "%": ["shift", "5"], "#": ["shift", "3"]}
+
+
+def type_text(qmp, text, delay=0.12, enter=False):
+    """Type text through the guest keyboard (QMP send-key), optionally ending with Enter."""
+    for ch in text:
+        if ch in _KEYS:
+            keys = _KEYS[ch]
+        elif ch.isalpha() or ch.isdigit():
+            keys = ["shift", ch.lower()] if ch.isupper() else [ch]
+        else:
+            raise ValueError(f"cannot type {ch!r}")
+        qmp.cmd("send-key", keys=[{"type": "qcode", "data": k} for k in keys])
+        time.sleep(delay)
+    if enter:
+        qmp.cmd("send-key", keys=[{"type": "qcode", "data": "ret"}])
+        time.sleep(delay)
+
+
 UI_BEGIN, UI_END = "<!-- ui-sanity:begin -->", "<!-- ui-sanity:end -->"
 
 
@@ -303,8 +387,20 @@ def replace_block(text, begin, end, body, heading):
     return text.replace("\n## Star History", f"\n## {heading} 📌\n{block}\n\n## Star History", 1)
 
 
-def update_readme(frames, interval, verdict, notes, ui, failure=None):
+def update_readme(frames, interval, verdict, notes, ui, failure=None, score=None):
     lines = [f"Result: **{verdict}**  "]
+    if score:
+        lines += ["", f"**Success score: {score['total']}/100**", "",
+                  "| Test | Score |", "|---|---|"]
+        for name, label in (("boot", "Boot"), ("ui", "UI sanity"), ("install", "Installable"),
+                            ("usability", "Usability")):
+            if score.get(name) is not None:
+                lines.append(f"| {label} | {score[name]}/100 |")
+        if score.get("checks"):
+            lines += ["", "Usability checks:", "", "| Check | Result |", "|---|---|"]
+            for k, v in score["checks"].items():
+                lines.append(f"| {k} | {'✅' if v['ok'] else '❌'} {v.get('detail', '')} |")
+        lines.append("")
     if failure:
         lines += ["", f"> **Why it failed:** {failure['reason']}", ""]
         if failure.get("evidence"):
@@ -343,6 +439,19 @@ def main():
     ap.add_argument("--ui-threshold", type=float, default=90.0)
     ap.add_argument("--diagnose-seconds", type=int, default=150,
                     help="how long to wait for graphical.target when diagnosing a failure")
+    ap.add_argument("--full-install", action="store_true",
+                    help="after Calamares opens, click through it, wait for \"installed\", "
+                         "then boot the installed disk (a pass then means pearOS really installs)")
+    ap.add_argument("--disk-dir", default=None,
+                    help="where to keep the 20 GB target disk (must be a real disk, not tmpfs)")
+    ap.add_argument("--install-timeout", type=int, default=5400,
+                    help="seconds to wait for the installation to finish")
+    ap.add_argument("--install-frame-every", type=int, default=120,
+                    help="save a frame this often (s) while the installation runs")
+    ap.add_argument("--pacman-timeout", type=int, default=900,
+                    help="seconds to wait for sudo pacman -Syyu --noconfirm in the installed system")
+    ap.add_argument("--reboot-wait", type=int, default=300,
+                    help="seconds to wait for the installed system to reach a login/desktop")
     ap.add_argument("--click", default="575,181",
                     help="x,y of the Install pearOS button in the Welcome app")
     a = ap.parse_args()
@@ -355,26 +464,46 @@ def main():
     vars_copy = os.path.join(tmp, "vars.fd")
     shutil.copy(first_existing(OVMF_VARS, "vars"), vars_copy)
     sock = os.path.join(tmp, "qmp.sock")
-    disk = os.path.join(tmp, "disk.img")
+    disk_dir = a.disk_dir or tmp
+    os.makedirs(disk_dir, exist_ok=True)
+    disk = os.path.join(disk_dir, "disk.img")
     with open(disk, "wb") as f:
         f.truncate(20 * 1024 ** 3)  # sparse
     accel = "kvm" if os.access("/dev/kvm", os.W_OK) else "tcg"
-    qemu = subprocess.Popen([
-        "qemu-system-x86_64", "-machine", f"q35,accel={accel}", "-m", a.memory,
-        "-smp", "2", "-display", "none", "-vga", "std",
-        "-device", "qemu-xhci", "-device", "usb-tablet",
-        "-drive", f"if=pflash,format=raw,readonly=on,file={first_existing(OVMF_CODE, 'code')}",
-        "-drive", f"if=pflash,format=raw,file={vars_copy}",
-        # Blank target disk, otherwise Calamares stops at "no partitions to install on".
-        "-drive", f"if=virtio,format=raw,file={disk}",
-        "-cdrom", a.iso, "-boot", "d", "-qmp", f"unix:{sock},server=on,wait=off",
-    ])
+
+    def launch(with_iso=True):
+        cmd = [
+            "qemu-system-x86_64", "-machine", f"q35,accel={accel}", "-m", a.memory,
+            "-smp", "2", "-display", "none", "-vga", "std",
+            "-device", "qemu-xhci", "-device", "usb-tablet",
+            "-drive", f"if=pflash,format=raw,readonly=on,file={first_existing(OVMF_CODE, 'code')}",
+            "-drive", f"if=pflash,format=raw,file={vars_copy}",
+            # Blank target disk, otherwise Calamares stops at "no partitions to install on".
+            "-drive", f"if=virtio,format=raw,cache=unsafe,file={disk}",
+            "-qmp", f"unix:{sock},server=on,wait=off",
+        ]
+        if with_iso:
+            cmd += ["-cdrom", a.iso, "-boot", "d"]
+        if os.path.exists(sock):
+            os.remove(sock)
+        return subprocess.Popen(cmd)
+
+    qemu = launch()
     print(f"QEMU started (accel={accel})")
 
     qmp = QMP(sock)
     cx, cy = (int(v) for v in a.click.split(","))
     hashes, notes, frames = [], {}, {}
     n, bright, desktop_at, click_at, continue_at, size = 0, 0.0, None, None, None, (1280, 800)
+    install = {"ran": False, "finished": False, "booted": False}
+    usability = {"ran": False, "checks": {}}
+    calamares_open = False
+
+    def peek():
+        """Screen contents without saving a frame."""
+        ppm = os.path.join(tmp, "p.ppm")
+        qmp.cmd("screendump", filename=ppm)
+        return read_ppm(ppm)[2]
 
     def shot():
         nonlocal n, bright, size
@@ -388,6 +517,140 @@ def main():
         frames[n] = rgb
         bright = sum(rgb[::97]) / len(rgb[::97])
         print(f"[{(n - 1) * a.interval + a.interval:>4}s] seq/{n}.png {w}x{h} brightness={bright:.1f}")
+
+    def run_usability():
+        """Installed system: first-boot assistant, login, desktop, Konsole, pacman, apps."""
+        u = usability
+        u["ran"] = True
+        w, h = size
+
+        def check(name, ok, detail=""):
+            u["checks"][name] = {"ok": bool(ok), "detail": detail}
+            print(f"  usability: {name}: {'ok' if ok else 'FAIL'} {detail}")
+
+        def frame(msg, wait=0):
+            time.sleep(wait)
+            shot()
+            notes[n] = msg
+
+        def page(msg, wait, *actions):
+            frame(msg, wait)
+            for a_ in actions:
+                a_()
+
+        c = lambda x, y: click(qmp, x, y, w, h)
+        cont = lambda: c(*SETUP_CONTINUE)
+        t = lambda text: type_text(qmp, text, enter=False)
+
+        # First-boot assistant ("hello"): language, keyboard, time zone, account, look, terms.
+        c(671, 654)
+        page("First boot: language", 5, lambda: c(650, 476), cont)
+        page("First boot: keyboard", 5, lambda: c(657, 376), cont)
+        page("First boot: time zone", 5, lambda: c(650, 396), cont)
+        frame("First boot: create account", 6)
+        c(611, 430); t(TEST_USER["full"])
+        c(611, 466); t(TEST_USER["name"])
+        c(567, 586); t(TEST_USER["password"])
+        c(800, 586); t(TEST_USER["password"])
+        frame("First boot: account filled in", 2)
+        cont()
+        page("First boot: look", 8, cont)
+        page("First boot: terms", 8, cont)
+        frame("First boot: applying settings", 10)
+        # Login screen: type the password with the keyboard only (clicking the
+        # avatar submits an empty password).
+        stable = 0
+        for _ in range(12):
+            time.sleep(10)
+            shot()
+            notes[n] = "Login screen"
+            stable = stable + 1 if (bright > 20 and hashes[-1] == hashes[-2]) else 0
+            if stable >= 2:
+                break
+        type_text(qmp, TEST_USER["password"], enter=True)
+        stable, desktop = 0, False
+        for _ in range(12):
+            time.sleep(10)
+            shot()
+            notes[n] = "Logging in"
+            stable = stable + 1 if (bright > 20 and hashes[-1] == hashes[-2] and
+                                    changed_fraction(frames[n], frames[n - 3] if n > 3 else frames[n]) < 0.05) else 0
+            if stable >= 2:
+                desktop = True
+                break
+        notes[n] = "Installed system: desktop"
+        check("login + desktop", desktop)
+
+        # Menu bar + dock of the installed desktop vs. the reference.
+        ref_path = os.path.join(ROOT, "tests", "ui-reference", "desktop.png")
+        if desktop and os.path.exists(ref_path):
+            rw, rh, ref = read_png(ref_path)
+            if (rw, rh) == (w, h):
+                top = strip_similarity(frames[n], ref, w, 0, 30)
+                dock = strip_similarity(frames[n], ref, w, h - 100, h)
+                u["ui_installed"] = {"top": top, "dock": dock}
+                check("UI sanity (installed)", top >= a.ui_threshold and dock >= a.ui_threshold,
+                      f"top {top:.0f}% / dock {dock:.0f}%")
+        if not desktop:
+            return
+
+        # Konsole + fastfetch.
+        before = peek()
+        key_combo(qmp, "ctrl+alt+t")
+        frame("Konsole opened", 6)
+        type_text(qmp, "fastfetch", enter=True)
+        frame("Konsole: fastfetch", 5)
+        rgb = peek()
+        text = ocr(rgb, w, KONSOLE_BOX)
+        opened = changed_fraction(crop_rgb(before, w, 0, 40, w, 690), crop_rgb(rgb, w, 0, 40, w, 690)) > 0.05
+        check("Konsole opens", opened)
+        if text is None:
+            check("fastfetch shows pearOS", False, "(tesseract not installed)")
+        else:
+            check("fastfetch shows pearOS", "pearos" in text.lower().replace("0", "o"))
+
+        # sudo pacman -Syyu --noconfirm
+        type_text(qmp, "clear", enter=True)
+        type_text(qmp, "sudo pacman -Syyu --noconfirm && echo PACMAN-OK || echo PACMAN-FAILED", enter=True)
+        time.sleep(4)
+        type_text(qmp, TEST_USER["password"], enter=True)
+        t0, result, last = time.time(), None, time.time()
+        while time.time() - t0 < a.pacman_timeout:
+            time.sleep(15)
+            key_combo(qmp, "shift")  # keep the screen from blanking while pacman runs
+            rgb = peek()
+            txt = ocr(rgb, w, KONSOLE_BOX) or ""
+            m = re.search(r"^\s*PACMAN-(OK|FAILED)\s*$", txt, re.M)
+            if m:
+                result = m.group(1)
+                break
+            if time.time() - last > 120:
+                last = time.time()
+                shot()
+                notes[n] = "Konsole: sudo pacman -Syyu --noconfirm (running)"
+        shot()
+        detail = {"OK": "", "FAILED": "pacman exited with an error", None: "timed out"}[result]
+        if result == "FAILED":
+            m = re.findall(r"^(?:error|::)\s.*$", ocr(peek(), w, KONSOLE_BOX) or "", re.M)
+            if m:
+                detail = m[-1][:90]
+        notes[n] = f"Konsole: pacman -Syyu {'succeeded' if result == 'OK' else 'FAILED'}"
+        check("sudo pacman -Syyu --noconfirm", result == "OK", detail)
+
+        # Basic apps: launch, see that a window appears, close it.
+        for label, desktop_id in APPS:
+            type_text(qmp, "clear", enter=True)
+            time.sleep(1)
+            before = peek()
+            type_text(qmp, f"gtk-launch {desktop_id}", enter=True)
+            time.sleep(14)
+            shot()
+            rgb = frames[n]
+            opened = changed_fraction(crop_rgb(before, w, 0, 40, w, 690), crop_rgb(rgb, w, 0, 40, w, 690)) > 0.05
+            notes[n] = f"App: {label} {'opened' if opened else 'did NOT open'}"
+            check(f"{label} opens", opened)
+            key_combo(qmp, "alt+f4")
+            time.sleep(3)
 
     try:
         # Phase 1: boot until the desktop is up. "Up" = bright and identical
@@ -434,6 +697,60 @@ def main():
                         continue_at = n
             if n > click_at:
                 notes[n] = "Calamares"
+        calamares_open = bool(
+            continue_at is not None and n > continue_at and bright > 2
+            and changed_fraction(frames[n], frames[continue_at]) > 0.4)
+
+        # Phase 3 (--full-install): click through Calamares, wait for it to
+        # finish, then boot the installed disk on its own.
+        if a.full_install and calamares_open:
+            install["ran"] = True
+            for what, pos in CALAMARES_STEPS:
+                time.sleep(4)
+                shot()
+                click(qmp, *pos, *size)
+                notes[n] = f"Calamares: {what}"
+            t0 = time.time()
+            last_saved = t0
+            while time.time() - t0 < a.install_timeout:
+                time.sleep(30)
+                if qemu.poll() is not None:
+                    install["error"] = "QEMU exited during the installation"
+                    break
+                rgb = peek()
+                if pixel(rgb, size[0], *FINISH_TAB)[2] > 200 and pixel(rgb, size[0], *FINISH_TAB)[0] < 80:
+                    shot()
+                    notes[n] = "Calamares: installation finished"
+                    install["finished"] = True
+                    break
+                if time.time() - last_saved >= a.install_frame_every:
+                    last_saved = time.time()
+                    shot()
+                    notes[n] = f"Calamares: installing ({int((time.time() - t0) / 60)} min)"
+            install["minutes"] = round((time.time() - t0) / 60, 1)
+            if install["finished"]:
+                time.sleep(5)
+                qmp.cmd("quit")
+                qemu.wait(timeout=60)
+                qemu = launch(with_iso=False)
+                qmp = QMP(sock)
+                stable = 0
+                for _ in range(a.reboot_wait // a.interval):
+                    time.sleep(a.interval)
+                    if qemu.poll() is not None:
+                        break
+                    shot()
+                    notes[n] = "Installed system: first boot"
+                    if bright > 20 and hashes[-1] == hashes[-2]:
+                        stable += 1
+                        if stable >= 2:
+                            notes[n] = "Installed system: reached the login screen / desktop"
+                            install["booted"] = True
+                            break
+                    else:
+                        stable = 0
+                if install["booted"]:
+                    run_usability()
     finally:
         qemu.kill()
         shutil.rmtree(tmp, ignore_errors=True)
@@ -443,9 +760,13 @@ def main():
     # since the click, not by brightness.
     # The last installer-flow frame is the one taken at the Continue click; if
     # Calamares really opened, the final frame is a different screen.
-    installer = (continue_at is not None and n > continue_at and bright > 2
-                 and changed_fraction(frames[n], frames[continue_at]) > 0.4)
-    if installer:
+    installer = calamares_open
+    full_ok = (not a.full_install) or bool(install["finished"] and install["booted"])
+    if installer and a.full_install and full_ok:
+        verdict = "booted, installed pearOS and booted it ✅"
+    elif installer and a.full_install:
+        verdict = "booted, installer opened, installation FAILED ❌"
+    elif installer:
         verdict = "booted, installer opened ✅"
     elif booted:
         verdict = "booted, installer did NOT open ❌"
@@ -477,11 +798,21 @@ def main():
                 print(f"UI Sanity: reference is {rw}x{rh}, screen is {w}x{h} -- skipped")
         else:
             print("UI Sanity: no reference yet (run with --update-reference)")
-    passed = bool(installer and (ui is None or ui["ok"]))
+    passed = bool(installer and full_ok and (ui is None or ui["ok"]))
     failure = None
     if not passed:
         verdict = "FAIL TEST ❌"
         stage, reason = classify_failure(hashes, frames, n, desktop_at, installer, ui, size)
+        if installer and not full_ok and (ui is None or ui["ok"]):
+            stage = "install"
+            if install.get("error"):
+                reason = install["error"] + "."
+            elif not install["finished"]:
+                reason = (f"Calamares did not reach the Finish page within {a.install_timeout // 60} min "
+                          f"(waited {install['minutes']} min); see the last frames.")
+            else:
+                reason = ("pearOS installed, but the installed system never reached a login screen/desktop "
+                          f"within {a.reboot_wait // 60} min.")
         evidence = []
         if stage in ("bootloader", "black-screen", "splash"):
             print("Failure before the desktop: booting the kernel directly with a serial console to find out why...")
@@ -503,16 +834,38 @@ def main():
         print(f"FAIL TEST at stage '{stage}': {reason}")
         for line in evidence:
             print("   |", line)
+    # Success score: boot, UI sanity, installable and usability, 25 points each
+    # (components that were not run are left out and the total is their mean).
+    score = {"boot": 100 if booted else 0,
+             "ui": None, "install": None, "usability": None, "checks": usability["checks"]}
+    ui_parts = [100 if ui["ok"] else 0] if ui else []
+    ui_inst = usability.get("ui_installed")
+    if ui_inst:
+        ui_parts.append(100 if min(ui_inst["top"], ui_inst["dock"]) >= a.ui_threshold else 0)
+    if ui_parts:
+        score["ui"] = round(sum(ui_parts) / len(ui_parts))
+    if a.full_install:
+        score["install"] = (60 if install["finished"] else 0) + (40 if install["booted"] else 0)
+    else:
+        score["install"] = 100 if installer else 0
+    if usability["checks"]:
+        ok_n = sum(1 for v in usability["checks"].values() if v["ok"])
+        score["usability"] = round(100 * ok_n / len(usability["checks"]))
+    parts = [score[k] for k in ("boot", "ui", "install", "usability") if score[k] is not None]
+    score["total"] = round(sum(parts) / len(parts)) if parts else 0
+    print("Success score:", score["total"], {k: score[k] for k in ("boot", "ui", "install", "usability")})
     with open(os.path.join(seq, "result.json"), "w") as f:
         json.dump({"passed": passed, "verdict": verdict, "iso": os.path.basename(a.iso),
                    "failure": failure, "ui": ui, "frames": n,
                    "booted": bool(booted), "installer": bool(installer),
+                   "install": install if a.full_install else None, "score": score,
                    "interval": a.interval, "desktop_frame": desktop_at,
                    "notes": {str(k): v.replace("**", "") for k, v in notes.items()},
                    "built": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())},
                   f, indent=2, ensure_ascii=False)
     if n:
-        update_readme(n, a.interval, verdict, notes, ui, failure)
+        update_readme(n, a.interval, verdict, notes, ui, failure, score)
     sys.exit(0 if passed else 1)
 
-main()
+if __name__ == "__main__":
+    main()

@@ -120,18 +120,64 @@ jobs:
           chmod +x ./kickstart.sh
           ./kickstart.sh
 
-      - name: Boot test (QEMU, screenshots, installer, UI sanity)
+      - name: Keep the ISO for the test job
+        uses: actions/upload-artifact@v4
+        with:
+          name: iso-under-test
+          path: |
+            out/*.iso
+            *.iso
+            sha.txt
+          retention-days: 1
+          compression-level: 0
+
+  # Boots the ISO, installs it onto a virtual disk, boots the installed system,
+  # uses it, and only then publishes. Runs on the plain runner (not the Arch
+  # container) because it needs KVM and ~10 GB of free disk for the target.
+  test-and-publish:
+    needs: build-iso
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - name: Checking out source code
+        uses: actions/checkout@v4
+
+      - name: Free disk space (the installed test system needs ~10 GB)
+        run: |
+          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/lib/android /opt/hostedtoolcache/CodeQL
+          df -h /
+
+      - name: Install QEMU, OVMF, OCR, rclone
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq qemu-system-x86 ovmf rclone tesseract-ocr ffmpeg
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+          ls -l /dev/kvm || true; nproc; free -g | sed -n 2p
+
+      - name: Download the ISO
+        uses: actions/download-artifact@v4
+        with:
+          name: iso-under-test
+
+      - name: Boot test + end-to-end install + usability (QEMU)
         id: boottest
         # Never abort here: a failed test must still upload its screenshots,
         # write the reason into README.md and quarantine the ISO (see below).
         # The run is failed explicitly by the last step.
         continue-on-error: true
         run: |
-          pacman -S --noconfirm qemu-system-x86 edk2-ovmf python
-          ISO_FILE=$(ls out/*.iso 2>/dev/null || ls *.iso 2>/dev/null | head -n 1)
-          # No KVM on some runners: falls back to TCG, so give it more time.
-          if [ -w /dev/kvm ]; then dur=240; else dur=600; fi
-          python3 tests/boot-test.py "$ISO_FILE" --duration "$dur" --interval 10 --memory 6G
+          ISO_FILE=$(find . -maxdepth 2 -name "*.iso" | head -n 1)
+          if [ -w /dev/kvm ]; then
+            # Install onto a 20 GB virtual disk, boot it, log in, run Konsole,
+            # pacman -Syyu and a few apps. Needs KVM (about 25 min).
+            extra="--full-install --disk-dir $RUNNER_TEMP/target-disk --install-timeout 3600 --duration 240"
+          else
+            echo "::warning::No /dev/kvm on this runner: skipping the end-to-end install."
+            extra="--duration 600"
+          fi
+          python3 tests/boot-test.py "$ISO_FILE" --interval 10 --memory 8G $extra
 
       - name: Upload boot screenshots
         if: always()
@@ -139,17 +185,6 @@ jobs:
         with:
           name: boot-sequence
           path: seq/
-
-      - name: Keep ISO as artifact (build-only mode)
-        if: always() && github.event_name == 'workflow_dispatch' && inputs.publish == false
-        uses: actions/upload-artifact@v4
-        with:
-          name: iso-under-test
-          path: |
-            out/*.iso
-            *.iso
-          retention-days: 1
-          compression-level: 0
 
       - name: Configure rclone (R2)
         if: github.event_name != 'workflow_dispatch' || inputs.publish
@@ -172,7 +207,7 @@ jobs:
       - name: Quarantine the ISO if the boot test failed (not published)
         if: steps.boottest.outcome == 'failure' && (github.event_name != 'workflow_dispatch' || inputs.publish)
         run: |
-          ISO_FILE=$(ls out/*.iso 2>/dev/null || ls *.iso 2>/dev/null | head -n 1)
+          ISO_FILE=$(find . -maxdepth 2 -name "*.iso" | head -n 1)
           NAME="$(basename "$ISO_FILE" .iso)-FAIL_TEST.iso"
           echo "Boot test FAILED. Saving $ISO_FILE as failed/$NAME (the public iso/ folder is untouched)."
           rclone copyto "$ISO_FILE" "r2-pearos:pearos-cdn/failed/$NAME" --progress
@@ -180,7 +215,7 @@ jobs:
       - name: Uploading to R2 (pearos-cdn/iso)
         if: steps.boottest.outcome == 'success' && (github.event_name != 'workflow_dispatch' || inputs.publish)
         run: |
-          ISO_FILE=$(ls out/*.iso 2>/dev/null || ls *.iso 2>/dev/null | head -n 1)
+          ISO_FILE=$(find . -maxdepth 2 -name "*.iso" | head -n 1)
 
           if [ -z "$ISO_FILE" ]; then
             echo "[ ERR ]: Could not find ISO file."
@@ -246,7 +281,7 @@ jobs:
             echo "Nothing to commit."
             exit 0
           fi
-          iso_name="$(basename "$(ls "$GITHUB_WORKSPACE"/*.iso 2>/dev/null | head -n1)")"
+          iso_name="$(basename "$(find "$GITHUB_WORKSPACE" -maxdepth 2 -name "*.iso" | head -n1)")"
           if [ "$BOOT_OUTCOME" = "success" ]; then
             git commit -m "Update sha.txt for $iso_name"
           else
