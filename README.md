@@ -106,12 +106,7 @@ cp -r pearos-bootloader/theme                  pear/efiboot/ploader/theme
 ## Boot Status sequence 📌
 <!-- boot-seq:begin -->
 
-Result: **FAIL TEST ❌**  
-
-> **Why it failed:** The desktop looks different from the reference: menu bar 88.8%, dock 67.7% similar (needs 90%).
-
-This ISO was **not published**; it was saved as a quarantined `FAIL_TEST` build.
-
+Result: **booted, installer opened ✅**  
 One screenshot every 10s.
 
 1. `10s` — ![boot 1](seq/1.png)
@@ -126,33 +121,35 @@ One screenshot every 10s.
 10. `100s` — ![boot 10](seq/10.png)
 11. `110s` — ![boot 11](seq/11.png)
 12. `120s` — ![boot 12](seq/12.png)
-13. `130s` — desktop ready, then clicked **Install pearOS** in Welcome — ![boot 13](seq/13.png)
-14. `140s` — pearOS installer loading — ![boot 14](seq/14.png)
-15. `150s` — Language screen, then selected English — ![boot 15](seq/15.png)
-16. `160s` — Language screen, then clicked Next — ![boot 16](seq/16.png)
-17. `170s` — Recovery screen, then selected **Install pearOS NiceC0re** (offline installer) — ![boot 17](seq/17.png)
-18. `180s` — Recovery screen, then clicked **Continue** — ![boot 18](seq/18.png)
-19. `190s` — ![boot 19](seq/19.png)
-20. `200s` — ![boot 20](seq/20.png)
+13. `130s` — ![boot 13](seq/13.png)
+14. `140s` — ![boot 14](seq/14.png)
+15. `150s` — desktop ready, then clicked **Install pearOS** in Welcome — ![boot 15](seq/15.png)
+16. `160s` — pearOS installer loading — ![boot 16](seq/16.png)
+17. `170s` — Language screen, then selected English — ![boot 17](seq/17.png)
+18. `180s` — Language screen, then clicked Next — ![boot 18](seq/18.png)
+19. `190s` — Recovery screen, then selected **Install pearOS NiceC0re** (offline installer) — ![boot 19](seq/19.png)
+20. `200s` — Recovery screen, then clicked **Continue** — ![boot 20](seq/20.png)
 21. `210s` — ![boot 21](seq/21.png)
 22. `220s` — ![boot 22](seq/22.png)
 23. `230s` — ![boot 23](seq/23.png)
-24. `240s` — Calamares — ![boot 24](seq/24.png)
+24. `240s` — ![boot 24](seq/24.png)
+25. `250s` — ![boot 25](seq/25.png)
+26. `260s` — Calamares — ![boot 26](seq/26.png)
 
 <!-- boot-seq:end -->
 
 ## UI Sanity Test 📌
 <!-- ui-sanity:begin -->
 
-Result: **menu bar or dock DIFFER from the reference ❌**  
+Result: **menu bar + dock look as expected ✅**  
 Compared against the reference [`tests/ui-reference/desktop.png`](tests/ui-reference/desktop.png) (% of pixels within ±16 per channel; pass ≥ 90%).
 
 | Area | Similarity |
 |---|---|
-| Top bar (first 30 px) | 88.8% |
-| Dock (last 100 px) | 67.7% |
+| Top bar (first 30 px) | 96.9% |
+| Dock (last 100 px) | 100.0% |
 
-Current frame: ![desktop](seq/13.png)
+Current frame: ![desktop](seq/15.png)
 
 <!-- ui-sanity:end -->
 

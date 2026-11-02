@@ -1,20 +1,16 @@
 {
-  "passed": false,
-  "verdict": "FAIL TEST ❌",
+  "passed": true,
+  "verdict": "booted, installer opened ✅",
   "iso": "pearOS-NiceC0re-2026.11-x86_64.iso",
-  "failure": {
-    "stage": "ui",
-    "reason": "The desktop looks different from the reference: menu bar 88.8%, dock 67.7% similar (needs 90%).",
-    "evidence": []
-  },
+  "failure": null,
   "ui": {
-    "top": 88.79427083333333,
-    "dock": 67.68671875,
+    "top": 96.94791666666667,
+    "dock": 100.0,
     "tol": 16,
     "threshold": 90.0,
-    "frame": 13,
-    "ok": false,
-    "verdict": "menu bar or dock DIFFER from the reference ❌"
+    "frame": 15,
+    "ok": true,
+    "verdict": "menu bar + dock look as expected ✅"
   },
-  "frames": 24
+  "frames": 26
 }
