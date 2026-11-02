@@ -108,12 +108,12 @@ cp -r pearos-bootloader/theme                  pear/efiboot/ploader/theme
 
 Result: **booted, installed pearOS and booted it ✅**  
 
-**Success score: 98/100**
+**Success score: 85/100**
 
 | Test | Score |
 |---|---|
 | Boot | 100/100 |
-| UI sanity | 100/100 |
+| UI sanity | 50/100 |
 | Installable | 100/100 |
 | Usability | 90/100 |
 
@@ -122,10 +122,10 @@ Usability checks:
 | Check | Result |
 |---|---|
 | login + desktop | ✅  |
-| UI sanity (installed) | ✅ top 97% / dock 100% |
+| UI sanity (installed) | ❌ top 14% / dock 26% |
 | Konsole opens | ✅  |
 | fastfetch shows pearOS | ✅  |
-| sudo pacman -Syyu --noconfirm | ❌ timed out |
+| sudo pacman -Syyu --noconfirm | ✅  |
 | Seafari opens | ✅  |
 | Calculator opens | ✅  |
 | Notes opens | ✅  |
@@ -197,19 +197,12 @@ One screenshot every 10s.
 61. `610s` — Installed system: desktop — ![boot 61](seq/61.png)
 62. `620s` — Konsole opened — ![boot 62](seq/62.png)
 63. `630s` — Konsole: fastfetch — ![boot 63](seq/63.png)
-64. `640s` — Konsole: sudo pacman -Syyu --noconfirm (running) — ![boot 64](seq/64.png)
-65. `650s` — Konsole: sudo pacman -Syyu --noconfirm (running) — ![boot 65](seq/65.png)
-66. `660s` — Konsole: sudo pacman -Syyu --noconfirm (running) — ![boot 66](seq/66.png)
-67. `670s` — Konsole: sudo pacman -Syyu --noconfirm (running) — ![boot 67](seq/67.png)
-68. `680s` — Konsole: sudo pacman -Syyu --noconfirm (running) — ![boot 68](seq/68.png)
-69. `690s` — Konsole: sudo pacman -Syyu --noconfirm (running) — ![boot 69](seq/69.png)
-70. `700s` — Konsole: sudo pacman -Syyu --noconfirm (running) — ![boot 70](seq/70.png)
-71. `710s` — Konsole: pacman -Syyu FAILED — ![boot 71](seq/71.png)
-72. `720s` — App: Seafari opened — ![boot 72](seq/72.png)
-73. `730s` — App: Calculator opened — ![boot 73](seq/73.png)
-74. `740s` — App: Notes opened — ![boot 74](seq/74.png)
-75. `750s` — App: Finder opened — ![boot 75](seq/75.png)
-76. `760s` — App: Kate opened — ![boot 76](seq/76.png)
+64. `640s` — Konsole: pacman -Syyu succeeded — ![boot 64](seq/64.png)
+65. `650s` — App: Seafari opened — ![boot 65](seq/65.png)
+66. `660s` — App: Calculator opened — ![boot 66](seq/66.png)
+67. `670s` — App: Notes opened — ![boot 67](seq/67.png)
+68. `680s` — App: Finder opened — ![boot 68](seq/68.png)
+69. `690s` — App: Kate opened — ![boot 69](seq/69.png)
 
 <!-- boot-seq:end -->
 
@@ -221,7 +214,7 @@ Compared against the reference [`tests/ui-reference/desktop.png`](tests/ui-refer
 
 | Area | Similarity |
 |---|---|
-| Top bar (first 30 px) | 97.0% |
+| Top bar (first 30 px) | 96.9% |
 | Dock (last 100 px) | 100.0% |
 
 Current frame: ![desktop](seq/13.png)

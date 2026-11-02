@@ -4,7 +4,7 @@
   "iso": "pearOS-NiceC0re-2026.11-x86_64.iso",
   "failure": null,
   "ui": {
-    "top": 96.95572916666667,
+    "top": 96.91927083333333,
     "dock": 100.0,
     "tol": 16,
     "threshold": 90.0,
@@ -12,7 +12,7 @@
     "ok": true,
     "verdict": "menu bar + dock look as expected ✅"
   },
-  "frames": 76,
+  "frames": 69,
   "booted": true,
   "installer": true,
   "install": {
@@ -23,7 +23,7 @@
   },
   "score": {
     "boot": 100,
-    "ui": 100,
+    "ui": 50,
     "install": 100,
     "usability": 90,
     "checks": {
@@ -32,8 +32,8 @@
         "detail": ""
       },
       "UI sanity (installed)": {
-        "ok": true,
-        "detail": "top 97% / dock 100%"
+        "ok": false,
+        "detail": "top 14% / dock 26%"
       },
       "Konsole opens": {
         "ok": true,
@@ -44,8 +44,8 @@
         "detail": ""
       },
       "sudo pacman -Syyu --noconfirm": {
-        "ok": false,
-        "detail": "timed out"
+        "ok": true,
+        "detail": ""
       },
       "Seafari opens": {
         "ok": true,
@@ -68,7 +68,7 @@
         "detail": ""
       }
     },
-    "total": 98
+    "total": 85
   },
   "interval": 10,
   "desktop_frame": 13,
@@ -119,19 +119,12 @@
     "61": "Installed system: desktop",
     "62": "Konsole opened",
     "63": "Konsole: fastfetch",
-    "64": "Konsole: sudo pacman -Syyu --noconfirm (running)",
-    "65": "Konsole: sudo pacman -Syyu --noconfirm (running)",
-    "66": "Konsole: sudo pacman -Syyu --noconfirm (running)",
-    "67": "Konsole: sudo pacman -Syyu --noconfirm (running)",
-    "68": "Konsole: sudo pacman -Syyu --noconfirm (running)",
-    "69": "Konsole: sudo pacman -Syyu --noconfirm (running)",
-    "70": "Konsole: sudo pacman -Syyu --noconfirm (running)",
-    "71": "Konsole: pacman -Syyu FAILED",
-    "72": "App: Seafari opened",
-    "73": "App: Calculator opened",
-    "74": "App: Notes opened",
-    "75": "App: Finder opened",
-    "76": "App: Kate opened"
+    "64": "Konsole: pacman -Syyu succeeded",
+    "65": "App: Seafari opened",
+    "66": "App: Calculator opened",
+    "67": "App: Notes opened",
+    "68": "App: Finder opened",
+    "69": "App: Kate opened"
   },
-  "built": "2026-11-02T17:09:53Z"
+  "built": "2026-11-02T18:10:59Z"
 }
