@@ -589,7 +589,14 @@ def main():
         check("login + desktop", desktop)
 
         # Menu bar + dock of the installed desktop vs. the reference.
-        ref_path = os.path.join(ROOT, "tests", "ui-reference", "desktop.png")
+        # The installed desktop has its own reference: after the first-boot
+        # assistant it is Light mode (light wallpaper), unlike the dark live desktop.
+        ref_path = os.path.join(ROOT, "tests", "ui-reference", "installed.png")
+        if a.update_reference and desktop:
+            write_png(ref_path, w, h, frames[n])
+            print(f"reference saved: {ref_path}")
+        if not os.path.exists(ref_path):
+            ref_path = os.path.join(ROOT, "tests", "ui-reference", "desktop.png")
         if desktop and os.path.exists(ref_path):
             rw, rh, ref = read_png(ref_path)
             if (rw, rh) == (w, h):
