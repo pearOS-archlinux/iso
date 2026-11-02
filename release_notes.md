@@ -1,6 +1,25 @@
-# `Last update: 09 Aug 2026, 11:22 A.M.`
+# `Last update: 02 Nov 2026, 07:30 P.M.`
 
 # Changelog
+
+# 02 Nov 2026
+## information
+https://pearos.xyz | https://nicec0re.pearos.xyz
+
+* **26.11 works again**: it boots, installs and starts the desktop. Every ISO is now booted, installed onto a virtual disk and used (login, Konsole, `pacman -Syyu`, Finder, Seafari, Calculator, Notes, Kate) before it is published; the result and screenshots are on the NiceC0re page
+* Fixed the black screen after `pacman -Syu` / on the first 26.11 builds: the old lock screen was not compatible with Plasma 6.8 and was replaced by the upstream KDE one
+* Fixed the Dock and the menu bar (app menu) not working after the Plasma 6.8 update
+* Fixed the slow / blocked start of the desktop on some boots (the mirrorlist refresh and firmware check no longer hold up the login screen)
+* Fixed `sudo pacman -Syu --noconfirm` failing on a fresh install with a zlib / zlib-ng-compat conflict
+* Fixed the first-login Light / Dark choice: choosing Light now also sets the light wallpaper
+* Liquid Gel rebuilt for KWin 6.8.0 - 6.8.2
+* New: older pearOS versions are kept on archive.org, with an "Old versions" list on every download page and their download counts on the Stats page
+
+### Known bugs:
+* Light mode only changes windows and apps, the menu bar, Dock and widgets stay dark
+* Some NVIDIA users report graphical glitches (investigating)
+* Other bugs: Please use the Issues tab in this repo. Thank you
+
 
 # 09 Aug 2026
 ## information
