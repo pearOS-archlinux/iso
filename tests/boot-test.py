@@ -54,12 +54,111 @@ CALAMARES_STEPS = [
 # Throwaway account that only exists inside the test VM.
 TEST_USER = {"full": "Tester", "name": "tester", "password": "pearos-test-1"}
 SETUP_CONTINUE = (983, 682)
-APPS = [  # (label, desktop-file id) -- launched with gtk-launch from Konsole
-    ("Seafari", "seafari"), ("Calculator", "calculator"), ("Notes", "pearos-notes"),
-    ("Finder", "org.gnome.Nautilus"), ("Kate", "org.kde.kate"),
+APPS = [  # (label, desktop-file id, words the menu bar shows while it has focus)
+    ("Seafari", "seafari", ("seafari",)), ("Calculator", "calculator", ("calculator",)),
+    ("Notes", "pearos-notes", ("notes",)), ("Finder", "org.gnome.Nautilus", ("files", "finder", "nautilus")),
+    ("Kate", "org.kde.kate", ("kate",)),
 ]
 KONSOLE_BOX = (188, 135, 1090, 640)
 FINISH_TAB = (1130, 684)  # turns blue when Calamares reaches Finish
+
+# Everything that differs between the pearOS builds. Pixels are for the 1280x800
+# guest screen, verified on the 2026.11 (arch) and Goldwing (debian) ISOs.
+_C = SETUP_CONTINUE
+_C2 = (968, 658)  # "Continue" of the Debian first-boot assistant
+PROFILES = {
+    "arch": {
+        "ref_dir": "",
+        # (what the frame shows, click done after it) -- one per --interval tick
+        "installer_ticks": [
+            ("pearOS installer loading", None, None),
+            ("Language screen", "selected English", (657, 385)),
+            ("Language screen", "clicked Next", (1022, 704)),
+            ("Recovery screen", "selected **Install pearOS NiceC0re** (offline installer)", (655, 353)),
+            ("Recovery screen", "clicked **Continue**", (858, 655)),
+        ],
+        "install_wait": 110,
+        "calamares_change": 0.4,
+        "calamares_steps": CALAMARES_STEPS,
+        "calamares_delay": 4,
+        "finish": ("tab", FINISH_TAB),
+        "first_boot": [
+            ("click", 671, 654),
+            ("page", "First boot: language", 5, [("click", 650, 476), ("click", *_C)]),
+            ("page", "First boot: keyboard", 5, [("click", 657, 376), ("click", *_C)]),
+            ("page", "First boot: time zone", 5, [("click", 650, 396), ("click", *_C)]),
+            ("frame", "First boot: create account", 6),
+            ("click", 611, 430), ("type", "full"), ("click", 611, 466), ("type", "name"),
+            ("click", 567, 586), ("type", "password"), ("click", 800, 586), ("type", "password"),
+            ("frame", "First boot: account filled in", 2),
+            ("click", *_C),
+            ("page", "First boot: look", 8, [("click", *_C)]),
+            ("page", "First boot: terms", 8, [("click", *_C)]),
+            ("frame", "First boot: applying settings", 10),
+        ],
+        "identity": ("fastfetch", "fastfetch shows pearOS"),
+        "update": {"cmd": "sudo pacman -Syyu --noconfirm", "marker": "PACMAN",
+                   "check": "sudo pacman -Syyu --noconfirm", "error": "pacman exited with an error",
+                   "label": "pacman -Syyu"},
+        "apps": APPS,
+    },
+    "debian": {
+        "ref_dir": "debian",
+        "installer_ticks": [
+            ("pearOS installer loading", None, None),
+            ("pearOS installer loading", None, None),
+            ("Language screen", "selected English", (640, 200)),
+            ("Language screen", "clicked Next", (992, 582)),
+            ("Recovery screen", "selected **Install pearOS Goldwing**", (640, 222)),
+            ("Recovery screen", "clicked **Continue**", (875, 537)),
+            ("Installer welcome", "clicked **Continue**", (639, 544)),
+            ("Terms and Conditions", "clicked **Continue**", (980, 576)),
+        ],
+        "install_wait": 160,
+        "calamares_change": 0.12,
+        "calamares_steps": [
+            ("Welcome, clicked Next", (1022, 669)),
+            ("Location, clicked Next", (1022, 669)),
+            ("Keyboard, clicked Next", (1022, 669)),
+            ("Partitions, selected Erase disk", (400, 240)),
+            ("Partitions, clicked Next", (1022, 669)),
+            ("Summary, clicked Install", (1018, 721)),
+        ],
+        "calamares_delay": 7,
+        # Calamares runs in a window here (no step tabs): the Finish page says "All done."
+        "finish": ("ocr", (140, 170, 1140, 700), "all done"),
+        "first_boot": [
+            ("click", 640, 730),
+            ("page", "First boot: country", 5, [("click", 968, 627)]),
+            ("page", "First boot: transfer", 5, [("click", *_C2)]),
+            ("page", "First boot: languages", 5, [("click", *_C2)]),
+            ("page", "First boot: accessibility", 5, [("click", *_C2)]),
+            ("page", "First boot: data & privacy", 5, [("click", *_C2)]),
+            ("page", "First boot: PearID", 5, [("click", 830, 659)]),
+            ("frame", "First boot: create account", 5),
+            ("click", 640, 330), ("type", "full"), ("click", 640, 368), ("type", "name"),
+            ("click", 520, 434), ("type", "password"), ("click", 760, 434), ("type", "password"),
+            ("page", "First boot: account filled in", 2, [("click", *_C2)]),
+            ("page", "First boot: terms", 6, [("click", *_C2)]),
+            ("page", "First boot: location services", 5, [("click", *_C2)]),
+            ("page", "First boot: time zone", 5, [("click", *_C2)]),
+            ("page", "First boot: analytics", 5, [("click", *_C2)]),
+            ("page", "First boot: screen time", 5, [("click", *_C2)]),
+            ("page", "First boot: Piri", 5, [("click", *_C2)]),
+            ("page", "First boot: look", 5, [("click", *_C2)]),
+            ("page", "First boot: updates", 5, [("click", *_C2)]),
+            ("page", "First boot: ready", 8, [("click", 640, 730)]),
+            ("frame", "First boot: applying settings", 25),
+        ],
+        "identity": ("cat /etc/os-release", "os-release says pearOS"),
+        "update": {"cmd": "sudo apt-get update && sudo DEBIAN_FRONTEND=noninteractive apt-get -y dist-upgrade",
+                   "marker": "APT", "check": "sudo apt-get dist-upgrade",
+                   "error": "apt-get exited with an error", "label": "apt-get dist-upgrade"},
+        "apps": [("Pafari", "org.gnome.Pafari", ("pafari",)), ("Calculator", "calculator", ("calculator",)),
+                 ("Notes", "pearos-notes", ("notes",)), ("Finder", "org.gnome.Nautilus", ("files", "finder", "nautilus")),
+                 ("Kate", "org.kde.kate", ("kate",))],
+    },
+}
 BEGIN, END = "<!-- boot-seq:begin -->", "<!-- boot-seq:end -->"
 
 
@@ -119,7 +218,7 @@ def crop_rgb(rgb, w, x0, y0, x1, y1):
     return b"".join(rgb[(y * w + x0) * 3:(y * w + x1) * 3] for y in range(y0, y1))
 
 
-def ocr(rgb, w, box, scale=2):
+def ocr(rgb, w, box, scale=2, both=False):
     """Text in a screen region via tesseract, or None when tesseract is not installed.
 
     Terminal text is light on dark with coloured progress bars, which different
@@ -132,22 +231,29 @@ def ocr(rgb, w, box, scale=2):
     cw, ch = x1 - x0, y1 - y0
     crop = crop_rgb(rgb, w, x0, y0, x1, y1)
     gray = [(r + g + b) // 3 for r, g, b in zip(crop[0::3], crop[1::3], crop[2::3])]
+
+    def run(pix, psm):
+        out = bytearray()
+        for y in range(ch):
+            row = bytes(v for v in pix[y * cw:(y + 1) * cw] for _ in range(scale))
+            out += row * scale
+        d = tempfile.mkdtemp()
+        try:
+            path = os.path.join(d, "c.pgm")
+            with open(path, "wb") as f:
+                f.write(b"P5\n%d %d\n255\n" % (cw * scale, ch * scale))
+                f.write(bytes(out))
+            return subprocess.run(["tesseract", path, "stdout", "--psm", psm],
+                                  capture_output=True, text=True, timeout=120).stdout
+        finally:
+            shutil.rmtree(d, ignore_errors=True)
+
+    if both:
+        # one line of text (menu bar), unknown polarity: read it both ways
+        return run(gray, "7") + "\n" + run([255 - v for v in gray], "7")
     if sum(gray) / len(gray) < 110:
         gray = [255 - v for v in gray]
-    out = bytearray()
-    for y in range(ch):
-        row = bytes(v for v in gray[y * cw:(y + 1) * cw] for _ in range(scale))
-        out += row * scale
-    d = tempfile.mkdtemp()
-    try:
-        path = os.path.join(d, "c.pgm")
-        with open(path, "wb") as f:
-            f.write(b"P5\n%d %d\n255\n" % (cw * scale, ch * scale))
-            f.write(bytes(out))
-        return subprocess.run(["tesseract", path, "stdout", "--psm", "6"],
-                              capture_output=True, text=True, timeout=120).stdout
-    finally:
-        shutil.rmtree(d, ignore_errors=True)
+    return run(gray, "6")
 
 
 def key_combo(qmp, combo):
@@ -391,10 +497,12 @@ def replace_block(text, begin, end, body, heading):
     block = "\n".join([begin, "", body, "", end])
     if begin in text and end in text:
         return re.sub(re.escape(begin) + r".*?" + re.escape(end), lambda _: block, text, flags=re.S)
-    return text.replace("\n## Star History", f"\n## {heading} 📌\n{block}\n\n## Star History", 1)
+    if "\n## Star History" in text:
+        return text.replace("\n## Star History", f"\n## {heading} 📌\n{block}\n\n## Star History", 1)
+    return text.rstrip("\n") + f"\n\n## {heading} 📌\n{block}\n"
 
 
-def update_readme(frames, interval, verdict, notes, ui, failure=None, score=None):
+def update_readme(frames, interval, verdict, notes, ui, failure=None, score=None, out_dir=None, ref_rel="tests/ui-reference/"):
     lines = [f"Result: **{verdict}**  "]
     if score:
         lines += ["", f"**Success score: {score['total']}/100**", "",
@@ -418,12 +526,14 @@ def update_readme(frames, interval, verdict, notes, ui, failure=None, score=None
     for i in range(1, frames + 1):
         note = f" — {notes[i]}" if i in notes else ""
         lines.append(f"{i}. `{i * interval}s`{note} — ![boot {i}](seq/{i}.png)")
-    path = os.path.join(ROOT, "README.md")
+    path = os.path.join(out_dir or ROOT, "README.md")
+    if not os.path.exists(path):
+        open(path, "w").write("")
     text = open(path).read()
     text = replace_block(text, BEGIN, END, "\n".join(lines), "Boot Status sequence")
     if ui:
         u = ["Result: **%s**  " % ui["verdict"],
-             f"Compared against the reference [`tests/ui-reference/desktop.png`](tests/ui-reference/desktop.png) "
+             f"Compared against the reference `{ref_rel}desktop.png` "
              f"(% of pixels within ±{ui['tol']} per channel; pass ≥ {ui['threshold']:.0f}%).", "",
              "| Area | Similarity |", "|---|---|",
              f"| Top bar (first 30 px) | {ui['top']:.1f}% |",
@@ -439,8 +549,12 @@ def main():
     ap.add_argument("--duration", type=int, default=180)
     ap.add_argument("--interval", type=int, default=10)
     ap.add_argument("--memory", default="16G")
-    ap.add_argument("--install-wait", type=int, default=110,
-                    help="seconds to keep capturing after clicking Install pearOS")
+    ap.add_argument("--distro", choices=sorted(PROFILES), default="arch",
+                    help="which pearOS build is being tested (installer clicks, update command, apps)")
+    ap.add_argument("--workdir", default=None,
+                    help="where seq/ and README.md are written (default: this repo)")
+    ap.add_argument("--install-wait", type=int, default=None,
+                    help="seconds to keep capturing after clicking Install pearOS (default: per distro)")
     ap.add_argument("--update-reference", action="store_true",
                     help="save the desktop-ready frame as the UI sanity reference")
     ap.add_argument("--ui-threshold", type=float, default=90.0)
@@ -470,7 +584,12 @@ def main():
                     help="x,y of the Install pearOS button in the Welcome app")
     a = ap.parse_args()
 
-    seq = os.path.join(ROOT, "seq")
+    P = PROFILES[a.distro]
+    if a.install_wait is None:
+        a.install_wait = P["install_wait"]
+    OUT = os.path.abspath(a.workdir) if a.workdir else ROOT
+    REFDIR = os.path.join(ROOT, "tests", "ui-reference", P["ref_dir"])
+    seq = os.path.join(OUT, "seq")
     shutil.rmtree(seq, ignore_errors=True)
     os.makedirs(seq)
 
@@ -553,24 +672,23 @@ def main():
                 a_()
 
         c = lambda x, y: click(qmp, x, y, w, h)
-        cont = lambda: c(*SETUP_CONTINUE)
         t = lambda text: type_text(qmp, text, enter=False)
 
-        # First-boot assistant ("hello"): language, keyboard, time zone, account, look, terms.
-        c(671, 654)
-        page("First boot: language", 5, lambda: c(650, 476), cont)
-        page("First boot: keyboard", 5, lambda: c(657, 376), cont)
-        page("First boot: time zone", 5, lambda: c(650, 396), cont)
-        frame("First boot: create account", 6)
-        c(611, 430); t(TEST_USER["full"])
-        c(611, 466); t(TEST_USER["name"])
-        c(567, 586); t(TEST_USER["password"])
-        c(800, 586); t(TEST_USER["password"])
-        frame("First boot: account filled in", 2)
-        cont()
-        page("First boot: look", 8, cont)
-        page("First boot: terms", 8, cont)
-        frame("First boot: applying settings", 10)
+        # First-boot assistant of the installed system, driven by the distro profile.
+        def run_steps(steps):
+            for st in steps:
+                kind = st[0]
+                if kind == "click":
+                    c(st[1], st[2])
+                elif kind == "type":
+                    t(TEST_USER[st[1]])
+                elif kind == "frame":
+                    frame(st[1], st[2])
+                elif kind == "page":
+                    frame(st[1], st[2])
+                    run_steps(st[3])
+
+        run_steps(P["first_boot"])
         # Login screen: type the password with the keyboard only (clicking the
         # avatar submits an empty password).
         stable = 0
@@ -598,12 +716,13 @@ def main():
         # Menu bar + dock of the installed desktop vs. the reference.
         # The installed desktop has its own reference: after the first-boot
         # assistant it is Light mode (light wallpaper), unlike the dark live desktop.
-        ref_path = os.path.join(ROOT, "tests", "ui-reference", "installed.png")
+        ref_path = os.path.join(REFDIR, "installed.png")
         if a.update_reference and desktop:
+            os.makedirs(REFDIR, exist_ok=True)
             write_png(ref_path, w, h, frames[n])
             print(f"reference saved: {ref_path}")
         if not os.path.exists(ref_path):
-            ref_path = os.path.join(ROOT, "tests", "ui-reference", "desktop.png")
+            ref_path = os.path.join(REFDIR, "desktop.png")
         if desktop and os.path.exists(ref_path):
             rw, rh, ref = read_png(ref_path)
             if (rw, rh) == (w, h):
@@ -615,24 +734,26 @@ def main():
         if not desktop:
             return
 
-        # Konsole + fastfetch.
+        # Konsole + the OS identity (fastfetch on Arch, /etc/os-release on Debian).
         before = peek()
         key_combo(qmp, "ctrl+alt+t")
         frame("Konsole opened", 6)
-        type_text(qmp, "fastfetch", enter=True)
-        frame("Konsole: fastfetch", 5)
+        id_cmd, id_label = P["identity"]
+        type_text(qmp, id_cmd, enter=True)
+        frame(f"Konsole: {id_cmd}", 5)
         rgb = peek()
         text = ocr(rgb, w, KONSOLE_BOX)
         opened = changed_fraction(crop_rgb(before, w, 0, 40, w, 690), crop_rgb(rgb, w, 0, 40, w, 690)) > 0.05
         check("Konsole opens", opened)
         if text is None:
-            check("fastfetch shows pearOS", False, "(tesseract not installed)")
+            check(id_label, False, "(tesseract not installed)")
         else:
-            check("fastfetch shows pearOS", "pearos" in text.lower().replace("0", "o"))
+            check(id_label, "pearos" in text.lower().replace("0", "o"))
 
-        # sudo pacman -Syyu --noconfirm
+        # The system update (sudo pacman -Syyu --noconfirm / apt-get dist-upgrade)
+        U = P["update"]
         type_text(qmp, "clear", enter=True)
-        type_text(qmp, "sudo pacman -Syyu --noconfirm && echo PACMAN-OK || echo PACMAN-FAILED", enter=True)
+        type_text(qmp, f"{U['cmd']} && echo {U['marker']}-OK || echo {U['marker']}-FAILED", enter=True)
         time.sleep(4)
         type_text(qmp, TEST_USER["password"], enter=True)
         t0, result, last = time.time(), None, time.time()
@@ -641,41 +762,64 @@ def main():
             key_combo(qmp, "shift")  # keep the screen from blanking while pacman runs
             rgb = peek()
             txt = ocr(rgb, w, KONSOLE_BOX) or ""
-            m = re.search(r"^\s*PACMAN\s*[-\u2013\u2014]\s*(OK|FAILED)\s*$", txt, re.M)
+            m = re.search(r"^\s*" + U["marker"] + r"\s*[-\u2013\u2014]\s*(OK|FAILED)\s*$", txt, re.M)
             if m:
                 result = m.group(1)
                 break
             if time.time() - last > 120:
                 last = time.time()
                 shot()
-                notes[n] = "Konsole: sudo pacman -Syyu --noconfirm (running)"
+                notes[n] = f"Konsole: {U['cmd']} (running)"
         shot()
-        detail = {"OK": "", "FAILED": "pacman exited with an error", None: "timed out"}[result]
+        detail = {"OK": "", "FAILED": U["error"], None: "timed out"}[result]
         if result == "FAILED":
             m = re.findall(r"^(?:error|::)\s.*$", ocr(peek(), w, KONSOLE_BOX) or "", re.M)
             if m:
                 detail = m[-1][:90]
-        notes[n] = f"Konsole: pacman -Syyu {'succeeded' if result == 'OK' else 'FAILED'}"
-        check("sudo pacman -Syyu --noconfirm", result == "OK", detail)
+        notes[n] = f"Konsole: {U['label']} {'succeeded' if result == 'OK' else 'FAILED'}"
+        check(U["check"], result == "OK", detail)
 
         # Basic apps: launch, see that a window appears, close it.
-        for label, desktop_id in APPS:
+        for label, desktop_id, words in P["apps"]:
             type_text(qmp, "clear", enter=True)
             time.sleep(1)
             before = peek()
-            type_text(qmp, f"gtk-launch {desktop_id}", enter=True)
-            time.sleep(14)
+            # gtk-launch is not installed on Debian; gio launch is the fallback.
+            type_text(qmp, f"gtk-launch {desktop_id} 2>/dev/null || gio launch /usr/share/applications/{desktop_id}.desktop",
+                      enter=True)
+            # First start can be slow (Nautilus on Debian took ~15 s): poll for up to ~28 s.
+            opened, changed, seen = False, False, ""
+            for _ in range(7):
+                time.sleep(4)
+                rgb = peek()
+                changed = changed_fraction(crop_rgb(before, w, 0, 40, w, 690), crop_rgb(rgb, w, 0, 40, w, 690)) > 0.05
+                # A window that really opened takes focus: the menu bar then shows its name.
+                title = ocr(rgb, w, (40, 0, 640, 32), both=True)
+                if title is None:
+                    titled, seen = True, ""
+                else:
+                    seen = " ".join(title.split())[:40]
+                    low = title.lower().replace("0", "o")
+                    # unreadable menu bar (< 3 letters) proves nothing: only a readable,
+                    # different name counts as "another app has focus"
+                    titled = any(wd in low for wd in words) or sum(ch.isalpha() for ch in low) < 3
+                if changed and titled:
+                    opened = True
+                    break
+            time.sleep(2)
             shot()
-            rgb = frames[n]
-            opened = changed_fraction(crop_rgb(before, w, 0, 40, w, 690), crop_rgb(rgb, w, 0, 40, w, 690)) > 0.05
             notes[n] = f"App: {label} {'opened' if opened else 'did NOT open'}"
-            check(f"{label} opens", opened)
-            key_combo(qmp, "alt+f4")
+            check(f"{label} opens", opened,
+                  "" if opened else (f"menu bar says '{seen}'" if changed else "the screen did not change"))
+            if opened:
+                key_combo(qmp, "alt+f4")  # close the app (never Konsole, if the app did not open)
             time.sleep(3)
 
         if a.upgrade_reboot or a.canary:
             # Reboot after the update. No login screen here is the failure
             # users reported after `pacman -Syu` (black screen).
+            key_combo(qmp, "ctrl+alt+t")  # make sure a terminal has focus, whatever happened before
+            time.sleep(5)
             type_text(qmp, "sudo systemctl reboot", enter=True)
             time.sleep(2)
             type_text(qmp, TEST_USER["password"], enter=True)  # in case sudo asks again
@@ -714,7 +858,7 @@ def main():
                 notes[n] = "After the update: desktop" if desk else "After the update: NO desktop"
                 check("after update: desktop", desk)
                 if desk:
-                    rp = os.path.join(ROOT, "tests", "ui-reference", "installed.png")
+                    rp = os.path.join(REFDIR, "installed.png")
                     if os.path.exists(rp):
                         rw, rh, ref = read_png(rp)
                         if (rw, rh) == (w, h):
@@ -742,13 +886,7 @@ def main():
         # tick, performed right after that tick's screenshot (so each frame
         # shows the screen *before* its click). Tick 1 just lets the installer
         # load.
-        steps = [  # (what the frame shows, click performed after it)
-            ("pearOS installer loading", None, None),
-            ("Language screen", "selected English", (657, 385)),
-            ("Language screen", "clicked Next", (1022, 704)),
-            ("Recovery screen", "selected **Install pearOS NiceC0re** (offline installer)", (655, 353)),
-            ("Recovery screen", "clicked **Continue**", (858, 655)),
-        ]
+        steps = P["installer_ticks"]
         if desktop_at:
             click(qmp, cx, cy, *size)
             click_at = n
@@ -770,14 +908,14 @@ def main():
                 notes[n] = "Calamares"
         calamares_open = bool(
             continue_at is not None and n > continue_at and bright > 2
-            and changed_fraction(frames[n], frames[continue_at]) > 0.4)
+            and changed_fraction(frames[n], frames[continue_at]) > P["calamares_change"])
 
         # Phase 3 (--full-install): click through Calamares, wait for it to
         # finish, then boot the installed disk on its own.
         if a.full_install and calamares_open:
             install["ran"] = True
-            for what, pos in CALAMARES_STEPS:
-                time.sleep(4)
+            for what, pos in P["calamares_steps"]:
+                time.sleep(P["calamares_delay"])
                 shot()
                 click(qmp, *pos, *size)
                 notes[n] = f"Calamares: {what}"
@@ -785,11 +923,18 @@ def main():
             last_saved = t0
             while time.time() - t0 < a.install_timeout:
                 time.sleep(30)
+                key_combo(qmp, "shift")  # the live session would blank the screen while we wait
                 if qemu.poll() is not None:
                     install["error"] = "QEMU exited during the installation"
                     break
                 rgb = peek()
-                if pixel(rgb, size[0], *FINISH_TAB)[2] > 200 and pixel(rgb, size[0], *FINISH_TAB)[0] < 80:
+                fin = P["finish"]
+                if fin[0] == "tab":
+                    done = pixel(rgb, size[0], *fin[1])[2] > 200 and pixel(rgb, size[0], *fin[1])[0] < 80
+                else:
+                    txt = ocr(rgb, size[0], fin[1]) or ""
+                    done = fin[2] in txt.lower()
+                if done:
                     shot()
                     notes[n] = "Calamares: installation finished"
                     install["finished"] = True
@@ -846,7 +991,7 @@ def main():
     print(verdict)
 
     ui = None
-    ref_path = os.path.join(ROOT, "tests", "ui-reference", "desktop.png")
+    ref_path = os.path.join(REFDIR, "desktop.png")
     if desktop_at:
         cur = frames[desktop_at]
         w, h = size
@@ -882,7 +1027,7 @@ def main():
     if a.canary:
         # Old ISO -> update from the live repo -> reboot. The look of an old ISO
         # differs from the references, so UI sanity does not gate here.
-        need = ("login + desktop", "sudo pacman -Syyu --noconfirm",
+        need = ("login + desktop", P["update"]["check"],
                 "after update: login screen", "after update: desktop")
         canary_fail = [k for k in need if not usability["checks"].get(k, {}).get("ok")]
         passed = bool(installer and full_ok and not canary_fail)
@@ -965,7 +1110,8 @@ def main():
                    "built": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())},
                   f, indent=2, ensure_ascii=False)
     if n:
-        update_readme(n, a.interval, verdict, notes, ui, failure, score)
+        update_readme(n, a.interval, verdict, notes, ui, failure, score, out_dir=OUT,
+                      ref_rel="tests/ui-reference/" + (P["ref_dir"] + "/" if P["ref_dir"] else ""))
     sys.exit(0 if passed else 1)
 
 if __name__ == "__main__":
