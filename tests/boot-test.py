@@ -812,7 +812,15 @@ def main():
                 print(f"UI Sanity: reference is {rw}x{rh}, screen is {w}x{h} -- skipped")
         else:
             print("UI Sanity: no reference yet (run with --update-reference)")
-    passed = bool(installer and full_ok and (ui is None or ui["ok"]))
+    # UI sanity gates publishing on BOTH desktops: the live one and, in a full
+    # install, the installed one. A full install that reached a booted system
+    # but could not be measured (no login/desktop, no matching reference) fails too.
+    live_ui_ok = ui is None or ui["ok"]
+    inst_ui_ok = True
+    if a.full_install and install["booted"]:
+        chk = usability["checks"].get("UI sanity (installed)")
+        inst_ui_ok = bool(chk and chk["ok"])
+    passed = bool(installer and full_ok and live_ui_ok and inst_ui_ok)
     failure = None
     if not passed:
         verdict = "FAIL TEST ❌"
@@ -827,6 +835,15 @@ def main():
             else:
                 reason = ("pearOS installed, but the installed system never reached a login screen/desktop "
                           f"within {a.reboot_wait // 60} min.")
+        if installer and full_ok and live_ui_ok and not inst_ui_ok:
+            stage = "ui"
+            m = usability.get("ui_installed")
+            if m:
+                reason = (f"The installed desktop looks different from the reference: menu bar {m['top']:.1f}%, "
+                          f"dock {m['dock']:.1f}% (each must be at least {a.ui_threshold:.0f}%).")
+            else:
+                reason = ("The installed desktop could not be checked (no login/desktop reached or no matching "
+                          "reference), so the UI sanity test cannot pass.")
         evidence = []
         if stage in ("bootloader", "black-screen", "splash"):
             print("Failure before the desktop: booting the kernel directly with a serial console to find out why...")
