@@ -289,6 +289,23 @@ jobs:
           fi
           git push origin "${GITHUB_REF_NAME}"
 
+      - name: Refresh the website (sha, size, download table)
+        # The site syncs sha.txt in its own repo once a day; kick that off now
+        # that a new ISO is live. Needs a token that may run workflows in
+        # Pear-Project/web (secret WEB_REPO_PAT); without it this is skipped
+        # and the daily sync picks the new sha up.
+        if: steps.boottest.outcome == 'success' && (github.event_name != 'workflow_dispatch' || inputs.publish)
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.WEB_REPO_PAT }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "::notice::WEB_REPO_PAT is not set for this repo; the site will pick up the new sha at its next daily sync."
+            exit 0
+          fi
+          gh workflow run update-sha.yml -R Pear-Project/web --ref main
+          echo "Triggered Pear-Project/web update-sha.yml"
+
       - name: Fail the run if the boot test failed
         if: always() && steps.boottest.outcome == 'failure'
         run: |
