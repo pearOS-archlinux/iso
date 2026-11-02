@@ -1,0 +1,20 @@
+{
+  "passed": false,
+  "verdict": "FAIL TEST ❌",
+  "iso": "pearOS-NiceC0re-2026.11-x86_64.iso",
+  "failure": {
+    "stage": "ui",
+    "reason": "The desktop looks different from the reference: menu bar 88.8%, dock 67.7% similar (needs 90%).",
+    "evidence": []
+  },
+  "ui": {
+    "top": 88.79427083333333,
+    "dock": 67.68671875,
+    "tol": 16,
+    "threshold": 90.0,
+    "frame": 13,
+    "ok": false,
+    "verdict": "menu bar or dock DIFFER from the reference ❌"
+  },
+  "frames": 24
+}
