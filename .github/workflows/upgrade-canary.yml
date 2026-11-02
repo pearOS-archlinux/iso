@@ -1,0 +1,92 @@
+name: Upgrade canary
+
+# Installs an OLD pearOS ISO (by default the oldest NiceC0re ISO still on R2),
+# updates it from the live package repo with `sudo pacman -Syyu --noconfirm`,
+# reboots, and checks that it still reaches the login screen and the desktop.
+# That is the "black screen after pacman -Syu" case users hit, caught right
+# after a bad package publish instead of after the users do. A failure only
+# fails this run (GitHub notifies you); nothing is announced publicly.
+on:
+  schedule:
+    - cron: "30 5 * * *"
+  workflow_dispatch:
+    inputs:
+      key:
+        description: "R2 key of the old ISO (empty = the oldest NiceC0re ISO in iso/)"
+        required: false
+        default: ""
+      memory:
+        description: "Guest RAM (the runner has 16 GB)"
+        required: true
+        default: "8G"
+
+jobs:
+  canary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    env:
+      RCLONE_CONFIG_R2_TYPE: s3
+      RCLONE_CONFIG_R2_PROVIDER: Cloudflare
+      RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+      RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      RCLONE_CONFIG_R2_ENDPOINT: ${{ secrets.R2_ENDPOINT_URL }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/lib/android /opt/hostedtoolcache/CodeQL
+          df -h /
+
+      - name: Install QEMU, OVMF, OCR, rclone
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq qemu-system-x86 ovmf rclone tesseract-ocr ffmpeg
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+          ls -l /dev/kvm
+
+      - name: Download the old ISO from R2
+        id: iso
+        run: |
+          key="${{ inputs.key }}"
+          if [ -z "$key" ]; then
+            name=$(rclone lsf R2:pearos-cdn/iso/ --include 'pearOS-NiceC0re-*.iso' | sort | head -n 1)
+            key="iso/$name"
+          fi
+          echo "Old ISO: $key"
+          echo "key=$key" >> "$GITHUB_OUTPUT"
+          rclone copyto "R2:pearos-cdn/$key" old.iso --progress
+          ls -lh old.iso
+
+      - name: Install, update, reboot (QEMU)
+        run: |
+          [ -w /dev/kvm ] || { echo "::error::No /dev/kvm on this runner"; exit 1; }
+          python3 tests/boot-test.py old.iso --canary --full-install --disk-dir "$RUNNER_TEMP/target-disk" \
+            --memory "${{ inputs.memory || '8G' }}" --install-timeout 3600 --pacman-timeout 2400 --duration 240
+
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: canary-sequence
+          path: seq/
+
+      - name: Summary
+        if: always()
+        run: |
+          python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY" || true
+          import json
+          try:
+              r = json.load(open("seq/result.json"))
+          except Exception:
+              print("No result.json (the test did not finish)."); raise SystemExit
+          print(f"### Upgrade canary: {r['verdict']}")
+          print(f"Old ISO: `${{ steps.iso.outputs.key }}`\n")
+          if r.get("failure"):
+              print(f"**Why:** {r['failure']['reason']}\n")
+          print("| Check | Result |\n|---|---|")
+          for k, v in (r.get("score", {}).get("checks") or {}).items():
+              print(f"| {k} | {'ok' if v['ok'] else 'FAIL'} {v.get('detail','')} |")
+          PY

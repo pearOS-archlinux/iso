@@ -455,6 +455,13 @@ def main():
                     help="seconds to wait for the installation to finish")
     ap.add_argument("--install-frame-every", type=int, default=120,
                     help="save a frame this often (s) while the installation runs")
+    ap.add_argument("--upgrade-reboot", action="store_true",
+                    help="after sudo pacman -Syyu, reboot the installed system and check that it still "
+                         "reaches the login screen and the desktop (the 'black screen after -Syu' case)")
+    ap.add_argument("--canary", action="store_true",
+                    help="upgrade canary: install an OLD ISO, update it from the live repo, reboot. "
+                         "Passes only if install, login, pacman and the post-update boot all work "
+                         "(UI sanity and the other usability checks do not gate)")
     ap.add_argument("--pacman-timeout", type=int, default=900,
                     help="seconds to wait for sudo pacman -Syyu --noconfirm in the installed system")
     ap.add_argument("--reboot-wait", type=int, default=300,
@@ -666,6 +673,56 @@ def main():
             key_combo(qmp, "alt+f4")
             time.sleep(3)
 
+        if a.upgrade_reboot or a.canary:
+            # Reboot after the update. No login screen here is the failure
+            # users reported after `pacman -Syu` (black screen).
+            type_text(qmp, "sudo systemctl reboot", enter=True)
+            time.sleep(2)
+            type_text(qmp, TEST_USER["password"], enter=True)  # in case sudo asks again
+            # With KVM the whole reboot can take under 20 s, so the dark frames in
+            # between are easy to miss. The login screen is: bright, unchanged
+            # for two frames, and clearly different from the desktop we left.
+            base = frames[n]
+            t0, stable, login_seen = time.time(), 0, False
+            while time.time() - t0 < a.reboot_wait:
+                time.sleep(5)
+                shot()
+                notes[n] = "After the update: rebooting"
+                if (bright > 20 and hashes[-1] == hashes[-2]
+                        and changed_fraction(frames[n], base) > 0.15):
+                    stable += 1
+                    if stable >= 2:
+                        login_seen = True
+                        break
+                else:
+                    stable = 0
+            notes[n] = "After the update: login screen" if login_seen else "After the update: NO login screen"
+            check("after update: login screen", login_seen,
+                  "" if login_seen else f"no login screen {a.reboot_wait}s after the reboot (black screen?)")
+            if login_seen:
+                type_text(qmp, TEST_USER["password"], enter=True)
+                stable, desk = 0, False
+                for _ in range(12):
+                    time.sleep(10)
+                    shot()
+                    notes[n] = "After the update: logging in"
+                    stable = stable + 1 if (bright > 20 and hashes[-1] == hashes[-2] and
+                                            changed_fraction(frames[n], frames[n - 3]) < 0.05) else 0
+                    if stable >= 2:
+                        desk = True
+                        break
+                notes[n] = "After the update: desktop" if desk else "After the update: NO desktop"
+                check("after update: desktop", desk)
+                if desk:
+                    rp = os.path.join(ROOT, "tests", "ui-reference", "installed.png")
+                    if os.path.exists(rp):
+                        rw, rh, ref = read_png(rp)
+                        if (rw, rh) == (w, h):
+                            top = strip_similarity(frames[n], ref, w, 0, 30)
+                            dock = strip_similarity(frames[n], ref, w, h - 100, h)
+                            check("UI sanity (after update)", top >= a.ui_threshold and dock >= a.ui_threshold,
+                                  f"top {top:.0f}% / dock {dock:.0f}%")
+
     try:
         # Phase 1: boot until the desktop is up. "Up" = bright and identical
         # to the previous frame (Plymouth and the login transition are dark or
@@ -821,6 +878,14 @@ def main():
         chk = usability["checks"].get("UI sanity (installed)")
         inst_ui_ok = bool(chk and chk["ok"])
     passed = bool(installer and full_ok and live_ui_ok and inst_ui_ok)
+    canary_fail = []
+    if a.canary:
+        # Old ISO -> update from the live repo -> reboot. The look of an old ISO
+        # differs from the references, so UI sanity does not gate here.
+        need = ("login + desktop", "sudo pacman -Syyu --noconfirm",
+                "after update: login screen", "after update: desktop")
+        canary_fail = [k for k in need if not usability["checks"].get(k, {}).get("ok")]
+        passed = bool(installer and full_ok and not canary_fail)
     failure = None
     if not passed:
         verdict = "FAIL TEST ❌"
@@ -835,7 +900,12 @@ def main():
             else:
                 reason = ("pearOS installed, but the installed system never reached a login screen/desktop "
                           f"within {a.reboot_wait // 60} min.")
-        if installer and full_ok and live_ui_ok and not inst_ui_ok:
+        if a.canary and installer and full_ok and canary_fail:
+            stage = "upgrade"
+            why = "; ".join(f"{k}: {usability['checks'].get(k, {}).get('detail') or 'failed / not reached'}"
+                            for k in canary_fail)
+            reason = f"Upgrade canary failed after updating an old install from the repo ({why})."
+        elif installer and full_ok and live_ui_ok and not inst_ui_ok:
             stage = "ui"
             m = usability.get("ui_installed")
             if m:
