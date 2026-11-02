@@ -120,25 +120,32 @@ def crop_rgb(rgb, w, x0, y0, x1, y1):
 
 
 def ocr(rgb, w, box, scale=2):
-    """Text in a screen region via tesseract, or None when tesseract is not installed."""
+    """Text in a screen region via tesseract, or None when tesseract is not installed.
+
+    Terminal text is light on dark with coloured progress bars, which different
+    tesseract versions read very differently, so the region is converted to
+    greyscale, inverted when it is mostly dark, and upscaled first.
+    """
     if not shutil.which("tesseract"):
         return None
     x0, y0, x1, y1 = box
+    cw, ch = x1 - x0, y1 - y0
+    crop = crop_rgb(rgb, w, x0, y0, x1, y1)
+    gray = [(r + g + b) // 3 for r, g, b in zip(crop[0::3], crop[1::3], crop[2::3])]
+    if sum(gray) / len(gray) < 110:
+        gray = [255 - v for v in gray]
+    out = bytearray()
+    for y in range(ch):
+        row = bytes(v for v in gray[y * cw:(y + 1) * cw] for _ in range(scale))
+        out += row * scale
     d = tempfile.mkdtemp()
     try:
-        # Tesseract misreads small terminal text; upscale (nearest neighbour) first.
-        crop = crop_rgb(rgb, w, x0, y0, x1, y1)
-        cw = x1 - x0
-        rows = [crop[i * cw * 3:(i + 1) * cw * 3] for i in range(y1 - y0)]
-        big = []
-        for row in rows:
-            wide = b"".join(row[j:j + 3] * scale for j in range(0, len(row), 3))
-            big.extend([wide] * scale)
-        write_png(os.path.join(d, "c.png"), cw * scale, (y1 - y0) * scale, b"".join(big))
-        out = subprocess.run(
-            ["tesseract", os.path.join(d, "c.png"), "stdout", "--psm", "6"],
-            capture_output=True, text=True, timeout=120).stdout
-        return out
+        path = os.path.join(d, "c.pgm")
+        with open(path, "wb") as f:
+            f.write(b"P5\n%d %d\n255\n" % (cw * scale, ch * scale))
+            f.write(bytes(out))
+        return subprocess.run(["tesseract", path, "stdout", "--psm", "6"],
+                              capture_output=True, text=True, timeout=120).stdout
     finally:
         shutil.rmtree(d, ignore_errors=True)
 
@@ -620,7 +627,7 @@ def main():
             key_combo(qmp, "shift")  # keep the screen from blanking while pacman runs
             rgb = peek()
             txt = ocr(rgb, w, KONSOLE_BOX) or ""
-            m = re.search(r"^\s*PACMAN-(OK|FAILED)\s*$", txt, re.M)
+            m = re.search(r"^\s*PACMAN\s*[-\u2013\u2014]\s*(OK|FAILED)\s*$", txt, re.M)
             if m:
                 result = m.group(1)
                 break
