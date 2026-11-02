@@ -15,6 +15,13 @@
 
 echo "Start alg-remove-nvidia"
 
+# The smart NVIDIA loader is a live-session mechanism only. Drop it here, before
+# Calamares' initcpio / chwd steps build the initramfs: otherwise the initramfs
+# keeps /etc/modprobe.d/nvidia-loader.conf (modconf hook), and on an NVIDIA
+# machine the early `nvidia` load from MODULES runs a script that is not in the
+# initramfs and fails. (alg-finalisation removes them again later, harmlessly.)
+rm -vf /etc/modprobe.d/nvidia-loader.conf /usr/local/bin/nvidia-module-loader
+
 while [ -e "/var/lib/pacman/db.lck" ]; do
     echo 'Pacman is not ready yet. Will try again in 10 seconds.'
     seconds=$((${seconds:-0} + 10))
