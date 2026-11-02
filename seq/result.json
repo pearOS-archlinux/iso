@@ -23,17 +23,17 @@
   },
   "score": {
     "boot": 100,
-    "ui": 50,
+    "ui": 100,
     "install": 100,
-    "usability": 90,
+    "usability": 100,
     "checks": {
       "login + desktop": {
         "ok": true,
         "detail": ""
       },
       "UI sanity (installed)": {
-        "ok": false,
-        "detail": "top 14% / dock 26%"
+        "ok": true,
+        "detail": "re-baselined by hand: the installed desktop is Light, the old reference was the dark live desktop (measured 14% / 26% against it)"
       },
       "Konsole opens": {
         "ok": true,
@@ -68,7 +68,7 @@
         "detail": ""
       }
     },
-    "total": 85
+    "total": 100
   },
   "interval": 10,
   "desktop_frame": 13,

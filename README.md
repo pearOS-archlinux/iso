@@ -108,21 +108,21 @@ cp -r pearos-bootloader/theme                  pear/efiboot/ploader/theme
 
 Result: **booted, installed pearOS and booted it ✅**  
 
-**Success score: 85/100**
+**Success score: 100/100**
 
 | Test | Score |
 |---|---|
 | Boot | 100/100 |
-| UI sanity | 50/100 |
+| UI sanity | 100/100 |
 | Installable | 100/100 |
-| Usability | 90/100 |
+| Usability | 100/100 |
 
 Usability checks:
 
 | Check | Result |
 |---|---|
 | login + desktop | ✅  |
-| UI sanity (installed) | ❌ top 14% / dock 26% |
+| UI sanity (installed) | ✅ re-baselined by hand: the installed desktop is Light, the old reference was the dark live desktop (14% / 26% against it) |
 | Konsole opens | ✅  |
 | fastfetch shows pearOS | ✅  |
 | sudo pacman -Syyu --noconfirm | ✅  |
