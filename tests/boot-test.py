@@ -771,7 +771,10 @@ def main():
             # cleanup) and only then returns to the login screen. Its log line sits at the bottom of
             # the screen; wait until that text is gone and the picture is steady.
             stable = 0
-            for _ in range(int(90 * a.slow)):
+            # post_setup is slow and its log line is not always readable: do not trust a couple of
+            # quiet frames, wait for a longer steady stretch (a typed password would otherwise land
+            # in the assistant that is still running).
+            for it in range(int(90 * a.slow)):
                 time.sleep(10)
                 key_combo(qmp, "shift")
                 shot()
@@ -779,7 +782,7 @@ def main():
                 txt = ocr(frames[n], w, (0, 730, w, h))
                 busy = txt is not None and sum(ch.isalpha() for ch in txt) > 12
                 stable = stable + 1 if (not busy and bright > 20 and hashes[-1] == hashes[-2]) else 0
-                if stable >= 2:
+                if stable >= 4 and it >= int(25 * a.slow / 4):
                     break
         # Login screen: type the password with the keyboard only (clicking the
         # avatar submits an empty password).
