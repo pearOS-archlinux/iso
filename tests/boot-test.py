@@ -698,8 +698,21 @@ def main():
             u["checks"][name] = {"ok": bool(ok), "detail": detail}
             print(f"  usability: {name}: {'ok' if ok else 'FAIL'} {detail}")
 
+        def settle(limit=18):
+            """Emulated CPUs take many seconds per page transition: wait until the picture
+            stops changing (never longer than limit x 10 s) before looking at it or clicking."""
+            prev = peek()
+            for _ in range(limit):
+                time.sleep(10)
+                cur = peek()
+                if changed_fraction(prev, cur) < 0.005:
+                    return
+                prev = cur
+
         def frame(msg, wait=0):
             time.sleep(wait * a.slow)
+            if P.get("image"):
+                settle()
             shot()
             notes[n] = msg
 
@@ -716,7 +729,11 @@ def main():
             for st in steps:
                 kind = st[0]
                 if kind == "click":
+                    if P.get("image"):
+                        settle()
                     c(st[1], st[2])
+                    if P.get("image"):
+                        time.sleep(3 * a.slow)
                 elif kind == "type":
                     t(TEST_USER[st[1]])
                 elif kind == "frame":
@@ -749,6 +766,13 @@ def main():
             if stable >= 2:
                 desktop = True
                 break
+        if desktop and P.get("image"):
+            # A steady picture is not enough on an image: the assistant itself is steady too.
+            # The real desktop has the Finder menu bar.
+            bar = ocr(frames[n], w, (40, 0, 640, 32), both=True)
+            if bar is not None and "finder" not in bar.lower():
+                desktop = False
+                print(f"  desktop check: menu bar says {' '.join(bar.split())[:40]!r}, not the desktop")
         notes[n] = "Installed system: desktop"
         check("login + desktop", desktop)
 
