@@ -771,7 +771,9 @@ def main():
                 break
         type_text(qmp, TEST_USER["password"], enter=True)
         stable, desktop = 0, False
-        for _ in range(int(12 * a.slow)):
+        # An image's first login starts Plasma from scratch on an emulated CPU (wallpaper and
+        # widgets show up minutes before the menu bar and dock): wait for the menu bar itself.
+        for _ in range(int((40 if P.get("image") else 12) * a.slow)):
             time.sleep(10)
             key_combo(qmp, "shift")
             shot()
@@ -779,6 +781,11 @@ def main():
             stable = stable + 1 if (bright > 20 and hashes[-1] == hashes[-2] and
                                     changed_fraction(frames[n], frames[n - 3] if n > 3 else frames[n]) < 0.05) else 0
             if stable >= 2:
+                if P.get("image"):
+                    bar = ocr(frames[n], w, (40, 0, 640, 32), both=True)
+                    if bar is not None and "finder" not in bar.lower():
+                        stable = 0
+                        continue
                 desktop = True
                 break
         if desktop and P.get("image"):
@@ -929,13 +936,19 @@ def main():
             if login_seen:
                 type_text(qmp, TEST_USER["password"], enter=True)
                 stable, desk = 0, False
-                for _ in range(int(12 * a.slow)):
+                for _ in range(int((40 if P.get("image") else 12) * a.slow)):
                     time.sleep(10)
+                    key_combo(qmp, "shift")
                     shot()
                     notes[n] = "After the update: logging in"
                     stable = stable + 1 if (bright > 20 and hashes[-1] == hashes[-2] and
                                             changed_fraction(frames[n], frames[n - 3]) < 0.05) else 0
                     if stable >= 2:
+                        if P.get("image"):
+                            bar = ocr(frames[n], w, (40, 0, 640, 32), both=True)
+                            if bar is not None and "finder" not in bar.lower():
+                                stable = 0
+                                continue
                         desk = True
                         break
                 notes[n] = "After the update: desktop" if desk else "After the update: NO desktop"
