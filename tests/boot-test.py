@@ -801,7 +801,10 @@ def main():
             key_combo(qmp, "shift")
             shot()
             notes[n] = "Logging in"
-            stable = stable + 1 if (bright > 20 and hashes[-1] == hashes[-2] and
+            # The Siri orb on the image's desktop is animated, so the picture is never
+            # byte-identical there: a small changed fraction is steady enough.
+            same = (hashes[-1] == hashes[-2]) or (P.get("image") and dock_visible(frames[n], w, h))
+            stable = stable + 1 if (bright > 20 and same and
                                     changed_fraction(frames[n], frames[n - 3] if n > 3 else frames[n]) < 0.05) else 0
             if stable >= 2:
                 if P.get("image") and not dock_visible(frames[n], w, h):
@@ -961,7 +964,8 @@ def main():
                     key_combo(qmp, "shift")
                     shot()
                     notes[n] = "After the update: logging in"
-                    stable = stable + 1 if (bright > 20 and hashes[-1] == hashes[-2] and
+                    same = (hashes[-1] == hashes[-2]) or (P.get("image") and dock_visible(frames[n], w, h))
+                    stable = stable + 1 if (bright > 20 and same and
                                             changed_fraction(frames[n], frames[n - 3]) < 0.05) else 0
                     if stable >= 2:
                         if P.get("image") and not dock_visible(frames[n], w, h):
