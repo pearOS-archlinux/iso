@@ -160,6 +160,16 @@ PROFILES = {
                  ("Kate", "org.kde.kate", ("kate",))],
     },
 }
+# Raspberry Pi image (arm64, Debian base): no live ISO and no Calamares. The disk image boots
+# straight into the first-boot assistant, which plays the role of the "installation"; every
+# check after that (login, UI sanity, os-release, apt, apps, reboot) is the Debian one.
+PROFILES["debian-pi"] = dict(PROFILES["debian"], ref_dir="debian-pi", arch="arm64", image=True,
+                             install_wait=0)
+AAVMF_CODE = [
+    "/usr/share/AAVMF/AAVMF_CODE.fd",
+    "/usr/share/qemu-efi-aarch64/QEMU_EFI.fd",
+    "/usr/share/edk2/aarch64/QEMU_EFI-pflash.raw",
+]
 BEGIN, END = "<!-- boot-seq:begin -->", "<!-- boot-seq:end -->"
 
 
@@ -552,6 +562,9 @@ def main():
     ap.add_argument("--memory", default="16G")
     ap.add_argument("--distro", choices=sorted(PROFILES), default="arch",
                     help="which pearOS build is being tested (installer clicks, update command, apps)")
+    ap.add_argument("--slow", type=float, default=1.0,
+                    help="multiply every wait inside the guest by this (emulated CPU, e.g. the Pi image on a "
+                         "runner without KVM: 4)")
     ap.add_argument("--workdir", default=None,
                     help="where seq/ and README.md are written (default: this repo)")
     ap.add_argument("--install-wait", type=int, default=None,
@@ -596,16 +609,39 @@ def main():
 
     tmp = tempfile.mkdtemp()
     vars_copy = os.path.join(tmp, "vars.fd")
-    shutil.copy(first_existing(OVMF_VARS, "vars"), vars_copy)
+    arm = P.get("arch") == "arm64"
+    if not arm:
+        shutil.copy(first_existing(OVMF_VARS, "vars"), vars_copy)
     sock = os.path.join(tmp, "qmp.sock")
     disk_dir = a.disk_dir or tmp
     os.makedirs(disk_dir, exist_ok=True)
     disk = os.path.join(disk_dir, "disk.img")
-    with open(disk, "wb") as f:
-        f.truncate(20 * 1024 ** 3)  # sparse
+    if P.get("image"):
+        # The "ISO" argument is the disk image itself (.img or .img.xz): the guest writes to
+        # it (first boot, updates, reboot), so it is a private copy.
+        if a.iso.endswith(".xz"):
+            with open(disk, "wb") as f:
+                subprocess.run(["xz", "-dc", a.iso], stdout=f, check=True)
+        else:
+            shutil.copyfile(a.iso, disk)
+    else:
+        with open(disk, "wb") as f:
+            f.truncate(20 * 1024 ** 3)  # sparse
     accel = "kvm" if os.access("/dev/kvm", os.W_OK) else "tcg"
 
     def launch(with_iso=True):
+        if arm:
+            cmd = ["qemu-system-aarch64", "-accel", accel, "-M", "virt",
+                   "-cpu", "host" if accel == "kvm" else "max", "-smp", "4", "-m", a.memory,
+                   "-bios", first_existing(AAVMF_CODE, "aarch64 firmware"),
+                   "-drive", f"if=none,id=hd,format=raw,cache=unsafe,file={disk}",
+                   "-device", "virtio-blk-pci,drive=hd", "-device", "virtio-gpu-pci",
+                   "-device", "qemu-xhci", "-device", "usb-kbd", "-device", "usb-tablet",
+                   "-display", "none", "-serial", f"file:{os.path.join(seq, 'serial.log')}",
+                   "-qmp", f"unix:{sock},server=on,wait=off"]
+            if os.path.exists(sock):
+                os.remove(sock)
+            return subprocess.Popen(cmd)
         cmd = [
             "qemu-system-x86_64", "-machine", f"q35,accel={accel}", "-m", a.memory,
             "-smp", "2", "-display", "none", "-vga", "std",
@@ -663,7 +699,7 @@ def main():
             print(f"  usability: {name}: {'ok' if ok else 'FAIL'} {detail}")
 
         def frame(msg, wait=0):
-            time.sleep(wait)
+            time.sleep(wait * a.slow)
             shot()
             notes[n] = msg
 
@@ -693,7 +729,7 @@ def main():
         # Login screen: type the password with the keyboard only (clicking the
         # avatar submits an empty password).
         stable = 0
-        for _ in range(12):
+        for _ in range(int(12 * a.slow)):
             time.sleep(10)
             shot()
             notes[n] = "Login screen"
@@ -702,7 +738,7 @@ def main():
                 break
         type_text(qmp, TEST_USER["password"], enter=True)
         stable, desktop = 0, False
-        for _ in range(12):
+        for _ in range(int(12 * a.slow)):
             time.sleep(10)
             shot()
             notes[n] = "Logging in"
@@ -755,7 +791,7 @@ def main():
         U = P["update"]
         type_text(qmp, "clear", enter=True)
         type_text(qmp, f"{U['cmd']} && echo {U['marker']}-OK || echo {U['marker']}-FAILED", enter=True)
-        time.sleep(4)
+        time.sleep(4 * a.slow)
         type_text(qmp, TEST_USER["password"], enter=True)
         t0, result, last = time.time(), None, time.time()
         while time.time() - t0 < a.pacman_timeout:
@@ -795,7 +831,7 @@ def main():
                           enter=True)
             # First start can be slow (Nautilus on Debian took ~15 s): poll for up to ~28 s.
             opened, changed, seen = False, False, ""
-            for _ in range(7):
+            for _ in range(int(7 * a.slow)):
                 time.sleep(4)
                 rgb = peek()
                 changed = changed_fraction(crop_rgb(before, w, 0, 40, w, 690), crop_rgb(rgb, w, 0, 40, w, 690)) > 0.05
@@ -825,7 +861,7 @@ def main():
             # Reboot after the update. No login screen here is the failure
             # users reported after `pacman -Syu` (black screen).
             key_combo(qmp, "ctrl+alt+t")  # make sure a terminal has focus, whatever happened before
-            time.sleep(5)
+            time.sleep(5 * a.slow)
             type_text(qmp, "sudo systemctl reboot", enter=True)
             time.sleep(2)
             type_text(qmp, TEST_USER["password"], enter=True)  # in case sudo asks again
@@ -852,7 +888,7 @@ def main():
             if login_seen:
                 type_text(qmp, TEST_USER["password"], enter=True)
                 stable, desk = 0, False
-                for _ in range(12):
+                for _ in range(int(12 * a.slow)):
                     time.sleep(10)
                     shot()
                     notes[n] = "After the update: logging in"
@@ -873,6 +909,7 @@ def main():
                             check("UI sanity (after update)", top >= a.ui_threshold and dock >= a.ui_threshold,
                                   f"top {top:.0f}% / dock {dock:.0f}%")
 
+    t_start = time.time()
     try:
         # Phase 1: boot until the desktop is up. "Up" = bright and identical
         # to the previous frame (Plymouth and the login transition are dark or
@@ -888,12 +925,22 @@ def main():
                 notes[n] = "desktop ready"
                 break
 
+        if P.get("image"):
+            # The image boots into the first-boot assistant: reaching it is the "install".
+            install["ran"] = True
+            install["finished"] = bool(desktop_at)
+            install["booted"] = bool(desktop_at)
+            install["minutes"] = round((time.time() - t_start) / 60, 1)
+            if desktop_at:
+                notes[n] = "First boot: setup assistant ready"
+                run_usability()
+            calamares_open = bool(desktop_at)
         # Phase 2: Welcome app -> pearOS installer -> Calamares. One action per
         # tick, performed right after that tick's screenshot (so each frame
         # shows the screen *before* its click). Tick 1 just lets the installer
         # load.
         steps = P["installer_ticks"]
-        if desktop_at:
+        if desktop_at and not P.get("image"):
             click(qmp, cx, cy, *size)
             click_at = n
             notes[n] = "desktop ready, then clicked **Install pearOS** in Welcome"
@@ -912,13 +959,14 @@ def main():
                         continue_at = n
             if n > click_at:
                 notes[n] = "Calamares"
-        calamares_open = bool(
-            continue_at is not None and n > continue_at and bright > 2
-            and changed_fraction(frames[n], frames[continue_at]) > P["calamares_change"])
+        if not P.get("image"):
+            calamares_open = bool(
+                continue_at is not None and n > continue_at and bright > 2
+                and changed_fraction(frames[n], frames[continue_at]) > P["calamares_change"])
 
         # Phase 3 (--full-install): click through Calamares, wait for it to
         # finish, then boot the installed disk on its own.
-        if a.full_install and calamares_open:
+        if a.full_install and calamares_open and not P.get("image"):
             install["ran"] = True
             for what, pos in P["calamares_steps"]:
                 time.sleep(P["calamares_delay"])
@@ -998,7 +1046,7 @@ def main():
 
     ui = None
     ref_path = os.path.join(REFDIR, "desktop.png")
-    if desktop_at:
+    if desktop_at and not P.get("image"):
         cur = frames[desktop_at]
         w, h = size
         if a.update_reference:
