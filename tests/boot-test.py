@@ -796,7 +796,7 @@ def main():
         stable, desktop = 0, False
         # An image's first login starts Plasma from scratch on an emulated CPU (wallpaper and
         # widgets show up minutes before the menu bar and dock): wait for the menu bar itself.
-        for _ in range(int((40 if P.get("image") else 12) * a.slow)):
+        for _ in range(int((80 if P.get("image") else 12) * a.slow)):
             time.sleep(10)
             key_combo(qmp, "shift")
             shot()
@@ -956,7 +956,7 @@ def main():
             if login_seen:
                 type_text(qmp, TEST_USER["password"], enter=True)
                 stable, desk = 0, False
-                for _ in range(int((40 if P.get("image") else 12) * a.slow)):
+                for _ in range(int((80 if P.get("image") else 12) * a.slow)):
                     time.sleep(10)
                     key_combo(qmp, "shift")
                     shot()
