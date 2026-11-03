@@ -648,10 +648,13 @@ def main():
         with open(disk, "wb") as f:
             f.truncate(20 * 1024 ** 3)  # sparse
     accel = "kvm" if os.access("/dev/kvm", os.W_OK) else "tcg"
+    if arm and os.uname().machine not in ("aarch64", "arm64"):
+        accel = "tcg"  # KVM only runs guests of the host's own architecture
 
     def launch(with_iso=True):
         if arm:
-            cmd = ["qemu-system-aarch64", "-accel", accel, "-M", "virt",
+            cmd = ["qemu-system-aarch64", "-accel", accel,
+                   "-M", "virt,gic-version=host" if accel == "kvm" else "virt",
                    "-cpu", "host" if accel == "kvm" else "max", "-smp", "4", "-m", a.memory,
                    "-bios", first_existing(AAVMF_CODE, "aarch64 firmware"),
                    "-drive", f"if=none,id=hd,format=raw,cache=unsafe,file={disk}",
