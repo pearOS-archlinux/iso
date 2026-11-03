@@ -155,7 +155,8 @@ PROFILES = {
                    "marker": "APT", "check": "sudo apt-get dist-upgrade",
                    "error": "apt-get exited with an error", "label": "apt-get dist-upgrade"},
         "apps": [("Pafari", "org.gnome.Pafari", ("pafari",)), ("Calculator", "calculator", ("calculator",)),
-                 ("Notes", "pearos-notes", ("notes",)), ("Finder", "org.gnome.Nautilus", ("files", "finder", "nautilus")),
+                 ("Notes", "pearos-notes", ("notes",)),
+                 ("Finder", "org.gnome.Nautilus", ("files", "finder", "nautilus"), "nautilus --new-window"),
                  ("Kate", "org.kde.kate", ("kate",))],
     },
 }
@@ -780,13 +781,18 @@ def main():
         check(U["check"], result == "OK", detail)
 
         # Basic apps: launch, see that a window appears, close it.
-        for label, desktop_id, words in P["apps"]:
+        for app in P["apps"]:
+            label, desktop_id, words = app[:3]
+            launch_cmd = app[3] if len(app) > 3 else None
             type_text(qmp, "clear", enter=True)
             time.sleep(1)
             before = peek()
             # gtk-launch is not installed on Debian; gio launch is the fallback.
-            type_text(qmp, f"gtk-launch {desktop_id} 2>/dev/null || gio launch /usr/share/applications/{desktop_id}.desktop",
-                      enter=True)
+            if launch_cmd:
+                type_text(qmp, f"{launch_cmd} >/dev/null 2>&1 &", enter=True)
+            else:
+                type_text(qmp, f"gtk-launch {desktop_id} 2>/dev/null || gio launch /usr/share/applications/{desktop_id}.desktop",
+                          enter=True)
             # First start can be slow (Nautilus on Debian took ~15 s): poll for up to ~28 s.
             opened, changed, seen = False, False, ""
             for _ in range(7):
