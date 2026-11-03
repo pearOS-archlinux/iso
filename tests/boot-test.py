@@ -743,6 +743,21 @@ def main():
                     run_steps(st[3])
 
         run_steps(P["first_boot"])
+        if P.get("image"):
+            # The assistant's last screen ("welcome") runs post_setup for a long time (apt, theme,
+            # cleanup) and only then returns to the login screen. Its log line sits at the bottom of
+            # the screen; wait until that text is gone and the picture is steady.
+            stable = 0
+            for _ in range(int(90 * a.slow)):
+                time.sleep(10)
+                key_combo(qmp, "shift")
+                shot()
+                notes[n] = "Setup assistant: applying settings"
+                txt = ocr(frames[n], w, (0, 730, w, h))
+                busy = txt is not None and sum(ch.isalpha() for ch in txt) > 12
+                stable = stable + 1 if (not busy and bright > 20 and hashes[-1] == hashes[-2]) else 0
+                if stable >= 2:
+                    break
         # Login screen: type the password with the keyboard only (clicking the
         # avatar submits an empty password).
         stable = 0
