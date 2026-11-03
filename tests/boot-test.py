@@ -934,6 +934,20 @@ def main():
             install["booted"] = bool(desktop_at)
             install["minutes"] = round((time.time() - t_start) / 60, 1)
             if desktop_at:
+                # The plasma desktop shows up first; the assistant then stops plasmashell and
+                # covers the screen (slow on emulated CPUs). Wait until the menu bar is gone and
+                # the picture is steady again before driving the assistant.
+                base = frames[n]
+                stable = 0
+                for _ in range(int(60 * a.slow)):
+                    time.sleep(10)
+                    key_combo(qmp, "shift")
+                    shot()
+                    notes[n] = "Waiting for the setup assistant"
+                    gone = strip_similarity(frames[n], base, size[0], 0, 30) < 60
+                    stable = stable + 1 if (gone and bright > 5 and hashes[-1] == hashes[-2]) else 0
+                    if stable >= 2:
+                        break
                 notes[n] = "First boot: setup assistant ready"
                 run_usability()
             calamares_open = bool(desktop_at)
