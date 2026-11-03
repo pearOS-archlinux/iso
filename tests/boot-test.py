@@ -731,6 +731,7 @@ def main():
         stable = 0
         for _ in range(int(12 * a.slow)):
             time.sleep(10)
+            key_combo(qmp, "shift")  # keep the display awake (slow emulated boots idle for minutes)
             shot()
             notes[n] = "Login screen"
             stable = stable + 1 if (bright > 20 and hashes[-1] == hashes[-2]) else 0
@@ -740,6 +741,7 @@ def main():
         stable, desktop = 0, False
         for _ in range(int(12 * a.slow)):
             time.sleep(10)
+            key_combo(qmp, "shift")
             shot()
             notes[n] = "Logging in"
             stable = stable + 1 if (bright > 20 and hashes[-1] == hashes[-2] and
