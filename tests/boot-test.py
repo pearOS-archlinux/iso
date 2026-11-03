@@ -783,16 +783,16 @@ def main():
             if stable >= 2:
                 if P.get("image"):
                     bar = ocr(frames[n], w, (40, 0, 640, 32), both=True)
-                    if bar is not None and "finder" not in bar.lower():
+                    if bar is not None and "inder" not in bar.lower():
                         stable = 0
                         continue
                 desktop = True
                 break
         if desktop and P.get("image"):
             # A steady picture is not enough on an image: the assistant itself is steady too.
-            # The real desktop has the Finder menu bar.
+            # The real desktop has the Finder menu bar (OCR reads it as "Finder" or "Pinder").
             bar = ocr(frames[n], w, (40, 0, 640, 32), both=True)
-            if bar is not None and "finder" not in bar.lower():
+            if bar is not None and "inder" not in bar.lower():
                 desktop = False
                 print(f"  desktop check: menu bar says {' '.join(bar.split())[:40]!r}, not the desktop")
         notes[n] = "Installed system: desktop"
@@ -946,7 +946,7 @@ def main():
                     if stable >= 2:
                         if P.get("image"):
                             bar = ocr(frames[n], w, (40, 0, 640, 32), both=True)
-                            if bar is not None and "finder" not in bar.lower():
+                            if bar is not None and "inder" not in bar.lower():
                                 stable = 0
                                 continue
                         desk = True
