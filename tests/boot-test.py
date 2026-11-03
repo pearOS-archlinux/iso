@@ -286,6 +286,26 @@ def changed_fraction(a, b, tol=16):
     return sum(1 for i in xs if abs(a[i] - b[i]) > tol) / len(xs)
 
 
+
+def dock_visible(rgb, w, h):
+    """True when the bottom band holds the dock: a modest number of saturated icon pixels.
+    (The login/assistant screens have none; a full-screen blue wallpaper has far too many; a
+    light wallpaper is not saturated enough to count.) OCR of the white menu bar on a light
+    wallpaper is unreliable, so this is the 'is this the desktop' signal on images."""
+    y0, y1 = int(h * 0.885), int(h * 0.99)
+    x0, x1 = int(w * 0.06), int(w * 0.94)
+    sat = total = 0
+    for y in range(y0, y1, 2):
+        row = (y * w + x0) * 3
+        for x in range(x0, x1, 2):
+            i = row + (x - x0) * 3
+            r, g, b = rgb[i], rgb[i + 1], rgb[i + 2]
+            total += 1
+            if max(r, g, b) - min(r, g, b) >= 70 and max(r, g, b) >= 90:
+                sat += 1
+    frac = sat / max(1, total)
+    return 0.01 <= frac <= 0.25
+
 SERIAL_PATTERNS = [
     r"Kernel panic[^\n]*", r"VFS: Unable to mount root[^\n]*", r"Cannot open root device[^\n]*",
     r"[^\n]*Dependency failed for[^\n]*", r"[^\n]*Failed to start[^\n]*",
@@ -781,20 +801,17 @@ def main():
             stable = stable + 1 if (bright > 20 and hashes[-1] == hashes[-2] and
                                     changed_fraction(frames[n], frames[n - 3] if n > 3 else frames[n]) < 0.05) else 0
             if stable >= 2:
-                if P.get("image"):
-                    bar = ocr(frames[n], w, (40, 0, 640, 32), both=True)
-                    if bar is not None and "inder" not in bar.lower():
-                        stable = 0
-                        continue
+                if P.get("image") and not dock_visible(frames[n], w, h):
+                    stable = 0
+                    continue
                 desktop = True
                 break
         if desktop and P.get("image"):
             # A steady picture is not enough on an image: the assistant itself is steady too.
-            # The real desktop has the Finder menu bar (OCR reads it as "Finder" or "Pinder").
-            bar = ocr(frames[n], w, (40, 0, 640, 32), both=True)
-            if bar is not None and "inder" not in bar.lower():
+            # The real desktop has the dock.
+            if not dock_visible(frames[n], w, h):
                 desktop = False
-                print(f"  desktop check: menu bar says {' '.join(bar.split())[:40]!r}, not the desktop")
+                print("  desktop check: no dock on screen, not the desktop")
         notes[n] = "Installed system: desktop"
         check("login + desktop", desktop)
 
@@ -944,11 +961,9 @@ def main():
                     stable = stable + 1 if (bright > 20 and hashes[-1] == hashes[-2] and
                                             changed_fraction(frames[n], frames[n - 3]) < 0.05) else 0
                     if stable >= 2:
-                        if P.get("image"):
-                            bar = ocr(frames[n], w, (40, 0, 640, 32), both=True)
-                            if bar is not None and "inder" not in bar.lower():
-                                stable = 0
-                                continue
+                        if P.get("image") and not dock_visible(frames[n], w, h):
+                            stable = 0
+                            continue
                         desk = True
                         break
                 notes[n] = "After the update: desktop" if desk else "After the update: NO desktop"
