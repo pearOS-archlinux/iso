@@ -913,7 +913,7 @@ def main():
             # gtk-launch is not installed on Debian; gio launch is the fallback.
             # On an image the app is closed by the shell itself after a fixed time (pkill): on an
             # emulated CPU windows appear minutes late and alt+f4 would hit whatever has focus.
-            hold = int(60 * a.slow)
+            hold = int((120 if label == "Finder" else 60) * a.slow)  # Nautilus is the slow one
             kill_pat = {"Pafari": "pafari", "Calculator": "calculator", "Notes": "notes",
                         "Finder": "nautilus", "Kate": "kate"}.get(label, desktop_id.split(".")[-1])
             t_launch = time.time()
@@ -927,7 +927,7 @@ def main():
                           enter=True)
             # First start can be slow (Nautilus on Debian took ~15 s): poll for up to ~28 s.
             opened, changed, seen = False, False, ""
-            for _ in range(int((20 if P.get("image") else 7) * a.slow)):
+            for _ in range(int((hold / 3 if P.get("image") else 7 * a.slow))):
                 time.sleep(4)
                 rgb = peek()
                 changed = changed_fraction(crop_rgb(before, w, 0, 40, w, 690), crop_rgb(rgb, w, 0, 40, w, 690)) > 0.05
