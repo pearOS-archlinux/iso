@@ -902,7 +902,9 @@ def main():
                 # A slow app can take focus late and the alt+f4 meant for it may close Konsole
                 # instead: make sure a terminal is in front before typing the next command.
                 title = ocr(peek(), w, (40, 0, 640, 32), both=True) or ""
-                if "konsole" not in title.lower():
+                # only a clearly readable bar that does not say Konsole counts (an unreadable one
+                # proved nothing and opened extra terminals)
+                if sum(ch.isalpha() for ch in title) >= 6 and "konsole" not in title.lower():
                     key_combo(qmp, "ctrl+alt+t")
                     time.sleep(10 * a.slow)
             type_text(qmp, "clear", enter=True)
@@ -940,7 +942,7 @@ def main():
                   "" if opened else (f"menu bar says '{seen}'" if changed else "the screen did not change"))
             if opened:
                 key_combo(qmp, "alt+f4")  # close the app (never Konsole, if the app did not open)
-            time.sleep(3)
+            time.sleep(3 * (a.slow if P.get("image") else 1))  # heavy apps need time to exit
 
         if a.upgrade_reboot or a.canary:
             # Reboot after the update. No login screen here is the failure
