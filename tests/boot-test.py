@@ -852,6 +852,10 @@ def main():
         id_cmd, id_label = P["identity"]
         type_text(qmp, id_cmd, enter=True)
         frame(f"Konsole: {id_cmd}", 5)
+        if P.get("image"):
+            # zsh and its first command are slow on an emulated CPU: let the output appear
+            time.sleep(15 * a.slow)
+            shot()
         rgb = peek()
         text = ocr(rgb, w, KONSOLE_BOX)
         opened = changed_fraction(crop_rgb(before, w, 0, 40, w, 690), crop_rgb(rgb, w, 0, 40, w, 690)) > 0.05
@@ -905,7 +909,7 @@ def main():
                           enter=True)
             # First start can be slow (Nautilus on Debian took ~15 s): poll for up to ~28 s.
             opened, changed, seen = False, False, ""
-            for _ in range(int(7 * a.slow)):
+            for _ in range(int((20 if P.get("image") else 7) * a.slow)):
                 time.sleep(4)
                 rgb = peek()
                 changed = changed_fraction(crop_rgb(before, w, 0, 40, w, 690), crop_rgb(rgb, w, 0, 40, w, 690)) > 0.05
