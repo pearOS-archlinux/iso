@@ -898,6 +898,13 @@ def main():
         for app in P["apps"]:
             label, desktop_id, words = app[:3]
             launch_cmd = app[3] if len(app) > 3 else None
+            if P.get("image"):
+                # A slow app can take focus late and the alt+f4 meant for it may close Konsole
+                # instead: make sure a terminal is in front before typing the next command.
+                title = ocr(peek(), w, (40, 0, 640, 32), both=True) or ""
+                if "konsole" not in title.lower():
+                    key_combo(qmp, "ctrl+alt+t")
+                    time.sleep(10 * a.slow)
             type_text(qmp, "clear", enter=True)
             time.sleep(1)
             before = peek()
