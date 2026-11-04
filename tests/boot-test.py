@@ -935,12 +935,6 @@ def main():
                 key_combo(qmp, "alt+f4")  # close the app (never Konsole, if the app did not open)
             time.sleep(3)
 
-        if P.get("image"):
-            # Konsole is still open here and session restore would bring it back after the
-            # reboot (window + dock icon), which the UI comparison counts as a difference.
-            key_combo(qmp, "alt+f4")
-            time.sleep(3 * a.slow)
-
         if a.upgrade_reboot or a.canary:
             # Reboot after the update. No login screen here is the failure
             # users reported after `pacman -Syu` (black screen).
@@ -988,6 +982,12 @@ def main():
                         break
                 notes[n] = "After the update: desktop" if desk else "After the update: NO desktop"
                 check("after update: desktop", desk)
+                if desk and P.get("image"):
+                    # The Konsole we rebooted from is restored with the session (window + dock
+                    # icon): close it so the desktop can be compared with the reference.
+                    key_combo(qmp, "alt+f4")
+                    time.sleep(6 * a.slow)
+                    shot()
                 if desk:
                     rp = os.path.join(REFDIR, "installed.png")
                     if os.path.exists(rp):
