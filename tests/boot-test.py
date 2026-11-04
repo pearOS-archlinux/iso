@@ -935,6 +935,12 @@ def main():
                 key_combo(qmp, "alt+f4")  # close the app (never Konsole, if the app did not open)
             time.sleep(3)
 
+        if P.get("image"):
+            # Konsole is still open here and session restore would bring it back after the
+            # reboot (window + dock icon), which the UI comparison counts as a difference.
+            key_combo(qmp, "alt+f4")
+            time.sleep(3 * a.slow)
+
         if a.upgrade_reboot or a.canary:
             # Reboot after the update. No login screen here is the failure
             # users reported after `pacman -Syu` (black screen).
