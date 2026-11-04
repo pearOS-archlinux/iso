@@ -911,7 +911,16 @@ def main():
             time.sleep(1)
             before = peek()
             # gtk-launch is not installed on Debian; gio launch is the fallback.
-            if launch_cmd:
+            # On an image the app is closed by the shell itself after a fixed time (pkill): on an
+            # emulated CPU windows appear minutes late and alt+f4 would hit whatever has focus.
+            hold = int(60 * a.slow)
+            kill_pat = {"Pafari": "pafari", "Calculator": "calculator", "Notes": "notes",
+                        "Finder": "nautilus", "Kate": "kate"}.get(label, desktop_id.split(".")[-1])
+            t_launch = time.time()
+            if P.get("image"):
+                inner = launch_cmd or f"gtk-launch {desktop_id} || gio launch /usr/share/applications/{desktop_id}.desktop"
+                type_text(qmp, f"( {inner} ) >/dev/null 2>&1 & sleep {hold}; pkill -f {kill_pat}", enter=True)
+            elif launch_cmd:
                 type_text(qmp, f"{launch_cmd} >/dev/null 2>&1 &", enter=True)
             else:
                 type_text(qmp, f"gtk-launch {desktop_id} 2>/dev/null || gio launch /usr/share/applications/{desktop_id}.desktop",
@@ -940,9 +949,13 @@ def main():
             notes[n] = f"App: {label} {'opened' if opened else 'did NOT open'}"
             check(f"{label} opens", opened,
                   "" if opened else (f"menu bar says '{seen}'" if changed else "the screen did not change"))
-            if opened:
-                key_combo(qmp, "alt+f4")  # close the app (never Konsole, if the app did not open)
-            time.sleep(3 * (a.slow if P.get("image") else 1))  # heavy apps need time to exit
+            if P.get("image"):
+                # wait for the shell's pkill, then for the app to be really gone
+                time.sleep(max(0, hold + 5 - (time.time() - t_launch)) + 10 * a.slow)
+            else:
+                if opened:
+                    key_combo(qmp, "alt+f4")  # close the app (never Konsole, if the app did not open)
+                time.sleep(3)
 
         if a.upgrade_reboot or a.canary:
             # Reboot after the update. No login screen here is the failure
